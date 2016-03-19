@@ -1,0 +1,16 @@
+###‘§∂®«Î«Û£∫
+R[1] Date, November 5, HeadCount, 50, City, Springfield, YuanPerHead, 25.0, HasSite, False
+		           
+R[2] Date, November 5, HeadCount, 20, City, Springfield, YuanPerHead, 25.0, HasSite, False
+
+R[3] Date, November 5, HeadCount, 40, City, Springfield, YuanPerHead, 20.0, HasSite, true	
+
+R[4] HeadCount, 50, City, Springfield, YuanPerHead, 25.0, HasSite, False	
+
+R[5] Date, November 5, HeadCount, 40, YuanPerHead, 30.0, HasSite, False   
+
+R[6] Date, November 5, City, Springfield, YuanPerHead, 20.0, HasSite, False   
+
+R[7] Date, November 5, HeadCount, 40, City, Springfield, HasSite, False   
+
+R[8] Date, November 5, City, Springfield, HasSite, False    		       

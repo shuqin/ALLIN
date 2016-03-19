@@ -1,0 +1,45 @@
+/*
+ * 桥接器模式【Bridge】:
+ * 实现抽象与抽象实现的分离，从而使两者分别独立变化。
+ *
+ * 假设已经有 FuseController 和 StarPressController 两个控制类，分别控制两类机器Fuse 和 StarPress。
+ *
+ * ①  要添加公有操作，对所有的机器对象都采取一致的操作。
+ * 现在，要添加一个方法 shutdown ，对两类机器均采取一致的处理步骤。
+ * 
+ * 注意到，FuseController 和 StarPressController 具有一样的行为特征，但命名不同。
+ * (start --- startMachine), (stop --- stopMachine), (startProcess --- begin),
+ * (stopProcess --- end), (transferIn --- conveyIn), (discharge --- conveyOut).
+ *
+ * 解决方案：
+ * 1. 可以定义一个抽象类【MachineManager】，将上述方法名规范化，shutdown 依赖于这个抽象类的方法。
+ * 2. 采用对象适配器模式， 创建 MachineManager 的子类 FuseManager 和 StarPressManager ，
+ *    委托 FuseController 和 StarPressController 对象 分别来管理两类机器。 
+ *
+ * 也可以将 MachineManager 声明为接口。
+ * 2. 采取类适配器模式，分别创建 FuseController 和 StarPressController 的子类，并实现 MachineManager 接口。
+ *
+ * ② 要添加针对特定机器的操作，并不一定对所有机器。
+ * 现在要添加方法 setTimeout ， 来获取机器的超时参数。
+ *
+ * 由于并不针对所有机器，所以，无法加入 MachineManager 中【因其是公有服务】。
+ * 同时，如果对于每个 XXXManager 都扩展子类添加 setTimeout， 那么，类的数量会增加很多，这通常会带来麻烦。
+ *
+ * 必须将公有服务和特定操作管理相分离。
+ * 
+ * 解决方案：
+ * 1. 创建公共服务接口 MachineManager；
+ * 2. 采取类适配器模式，分别创建 FuseController 和 StarPressController 的子类，并实现 MachineManager 接口；
+ * 3. 创建  MachineManager2， 通过委托的方式，获取公有服务，同时定义特定服务及提供默认实现。
+ * 4. 创建 MachineManager2 的子类来针对不同情况实现 setTimeout 操作。
+ *
+ *
+ *
+ * 桥接器模式应用于驱动程序：
+ * 在 bridge.diff 中， 
+ * 1. MachineManager 相当于 驱动程序接口；客户代码依赖于这个接口； 
+ * 2. FuseDriver 和 StarPressDriver 相当于驱动程序，针对专有产品（比如各种专有数据库）的驱动接口实现。 
+ * 3. FuseController 和 StarPressController 相当于各种专有产品实现。
+ *
+ */
+ 

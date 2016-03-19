@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.6.0_23" class="java.beans.XMLDecoder">
+    <object class="javatech.serialization.ColorPointBean">
+        <void property="color">
+            <object class="java.awt.Color">
+                <int>0</int>
+                <int>0</int>
+                <int>0</int>
+                <int>255</int>
+            </object>
+        </void>
+        <void property="x">
+            <double>7.0</double>
+        </void>
+        <void property="y">
+            <double>7.0</double>
+        </void>
+    </object>
+</java> 

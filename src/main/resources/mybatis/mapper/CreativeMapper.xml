@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.lovesq.dao.CreativeMapper">
+    <resultMap id="CreativeResult" type="cc.lovesq.model.CreativeDO">
+        <result column="creative_id" property="creativeId" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+        <result column="submitter" property="submitter" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="creativeColumns">
+        creative_id, title, content, submitter, comment, gmt_create, gmt_modified
+    </sql>
+
+    <insert id="insert" parameterType="cc.lovesq.model.CreativeDO">
+
+        INSERT INTO creative (title, content, submitter, comment, gmt_create, gmt_modified)
+        VALUES(#{title}, #{content}, #{submitter}, #{comment}, now(), now())
+        <selectKey resultType="int" keyProperty="creativeId">
+            <![CDATA[SELECT LAST_INSERT_ID() ]]>
+        </selectKey>
+    </insert>
+
+    <select id="findByCreativeId" resultMap="CreativeResult" parameterType="java.lang.Long">
+        SELECT
+        <include refid="creativeColumns"/>
+        FROM creative where creative_id=#{creativeId}
+    </select>
+
+    <select id="list" resultMap="CreativeResult" parameterType="cc.lovesq.query.CreativeQuery">
+        SELECT
+        <include refid="creativeColumns"/>
+        FROM creative
+        <include refid="dynamicConditionParams"/>
+        <include refid="BASE_SQL_SEGMENT.pagination"/>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="cc.lovesq.query.CreativeQuery">
+        SELECT count(creative_id) as TOTAL
+        FROM creative
+        <include refid="dynamicConditionParams"/>
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from creative where creative_id=#{creativeId}
+    </delete>
+
+    <update id="update" parameterType="cc.lovesq.model.CreativeDO">
+        update creative
+        <set>
+            <if test="title != null">
+                title = #{title, jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content, jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null">
+                comment = #{comment, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where creative_id = #{creativeId}
+    </update>
+
+    <sql id="dynamicConditionParams">
+        <where>
+            <if test="creativeId != null">and creative_id = #{creativeId}</if>
+            <if test="title != null">and title = #{title}</if>
+            <if test="submitter != null">and submitter = #{submitter}</if>
+            <if test="content != null">and content like concat('%',#content#, '%')</if>
+        </where>
+        order by gmt_create desc
+    </sql>
+
+</mapper>

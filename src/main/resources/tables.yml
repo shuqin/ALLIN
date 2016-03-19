@@ -1,0 +1,33 @@
+version: 1.0
+tables:
+  - tableName: process_event
+    columns:
+    - name: pid
+      type: integer
+    - name: pname
+      type: varchar
+    - name: cmd
+      type: varchar
+    - name: fname
+      type: varchar
+    - name: eventId
+      type: varchar
+
+  - tableName: file
+    columns:
+      - name: fname
+        type: varchar
+      - name: path
+        type: varchar
+      - name: content
+        type: varchar
+      - name: eventId
+        type: varchar
+      - name: hash
+        type: varchar
+
+  - tableName: hash
+    columns:
+      - name: hash
+        type: varchar
+

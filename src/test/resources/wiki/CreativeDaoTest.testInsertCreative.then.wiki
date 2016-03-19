@@ -1,0 +1,4 @@
+|connect|
+|query|select title, content, comment, submitter from creative|
+|title|content|comment|submitter|
+|Good|Good idea for education|oh|qinshu|

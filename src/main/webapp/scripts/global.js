@@ -1,0 +1,1 @@
+appPrefix = 'http://localhost:8080'

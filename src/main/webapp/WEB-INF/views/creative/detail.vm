@@ -1,0 +1,13 @@
+<style type="text/css">
+	#creativeImage {
+		margin: 10px 0px 10px 20px;
+	}
+</style>
+<div class="wrap">
+    <div class="aline"><div class="alabel">创意名称: </div>$!creative.title </div>
+    <div class="aline"><div class="alabel">支持尺寸：</div><span id="creativeSize">$!creative.size </span></div>
+    <div id="creativeImage"><a href="${creativeUtils.parseGraphUrl($!creative.content)}" target="_blank"> <img src="${creativeUtils.parseGraphUrl($!creative.content)}" id="viewImg"/> </a></div>
+    <div class="aline"><a title="编辑创意" href="/api/creatives/updateview/$!creative.id" class="mr5">[编辑]</a>
+    <a title="创意列表" href="/api/creatives/list" class="mr5">[回到创意列表]</a>       
+    </div>
+</div>

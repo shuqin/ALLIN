@@ -1,0 +1,41 @@
+<div class="wrap">
+    <div class="mb10">
+        <form action="/api/creatives/list" method="post" id="form-search">
+            <input type="text" name="title" value="$!creativeObj.title" id="titleInput"/>
+            <input type="submit" class="btn" title="查询" role="button"  value="查询">
+            <a class="btn" href="/api/creatives/addview" role="button"><span class="add"></span>新增创意</a>
+        </form>
+    </div>
+
+    <div class="table_list">
+        <table width="100%">
+            <colgroup>
+                <col width="120">
+                <col width="100">
+                <col width="120">
+                <col width="150">
+            </colgroup>
+            <thead>
+            <tr>
+                <td>创意名称</td>
+                <td>创意尺寸</td>
+                <td>所属创意组</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+                #foreach($creative in $creativeList)
+                <tr>
+                    <td><a class="creativedetail" title="创意详情" href="/api/creatives/get/$!creative.creativeId"> $!creative.title </a></td>
+                    <td>$!creative.size</td>
+                    <td><a title="创意组详情" href="/api/creativegroups/get/$!creative.creativeGroupId"> $!creative.cgroupTitle </a></td>
+                    <td>
+                        <a title="创意编辑" href="/api/creatives/updateview/$!creative.creativeId" class="mr5">[编辑]</a>
+                    </td>
+                </tr>
+                #end
+            </tbody>
+        </table>
+    </div>
+    #pagination_dynamicpagesize("form-search")
+</div>

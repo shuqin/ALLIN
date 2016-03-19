@@ -1,0 +1,16 @@
+@startuml
+
+start
+
+:agentSensor;
+:eventHandler;
+:BizAcceptFlow;
+:checkWhiteRules;
+:saveDetectEvent;
+:sendBizEvent;
+
+stop
+
+@enduml
+
+

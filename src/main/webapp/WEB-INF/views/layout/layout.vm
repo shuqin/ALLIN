@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>web应用模板</title>
+</head>
+<body $!bodyAttribute>
+
+    #macro (pagination_dynamicpagesize $formid)
+        #if(0 != $total)
+        <script>
+            function go() {
+                var gp = document.getElementById("goToPage").value;
+                if (gp > $totalPage) {
+                    gp = $totalPage;
+                } else if (gp < 1) {
+                    gp = 1;
+                }
+
+                var ps = document.getElementById("pageSize").value;
+                goToPage(gp,ps);
+            }
+            function goToPage(pageNo, pageSize){
+                var f = document.getElementById("$formid");
+                f.action = f.action + "?p=" + pageNo + "&ps=" + pageSize;
+                f.submit()
+            }
+        </script>
+        <div class="pages">
+            #if($total > $pageSize)
+                #if($page <= $totalPage)
+                    #set($pre_page = $page - 1)
+                    #set($next_page = $page + 1)
+                    #if($page > 3)
+                        #set($begin_idx = $page - 3)
+                    #else
+                        #set($begin_idx = 1)
+                    #end
+                    #set($end_idx = $begin_idx + 4)
+                    #if($end_idx > $totalPage)
+                        #set($end_idx = $totalPage)
+                    #end
+
+                    #if($page > 1)
+                        <a href="javascript:;" onclick="goToPage($!{pre_page},$!{pageSize})"
+                           class="pages_pre">上一页</a>
+                    #end
+                    #if($begin_idx > 1)
+                        <a href="javascript:;" onclick="goToPage(1,$!{pageSize})" >1</a><span>...</span>
+                    #end
+                    #foreach($idx in [$begin_idx..$end_idx])
+                        #if($idx != $page)
+                            <a href="javascript:;" onclick="goToPage($!{idx},$!{pageSize})" >$!{idx}</a>
+                        #else
+                            <strong>$!{idx}</strong>
+                        #end
+                    #end
+                    #if($end_idx < $totalPage)
+                        <span>...</span>
+                        <a href="javascript:;" onclick="goToPage($!{totalPage},$!{pageSize})" >$!{totalPage}</a>
+                    #end
+                    #if($page < $totalPage)
+                        #set($np=$page+1)
+                        <a href="javascript:;" onclick="goToPage($!{np},$!{pageSize})" class="pages_next">下一页</a>
+                    #end
+                    <span>共$!{totalPage}页</span>
+                    <span>每页<input  class="input length_1 mr20"  id="pageSize" value="$!pageSize">行</span>
+                    <span>第<input  class="input length_1 mr20"  id="goToPage">页<a id="goTo" href="javascript:;" onclick="go()">GO</a></span>
+                </div>
+                #end
+            #end
+        #end
+    #end
+
+</body>
+
+
+</html>
