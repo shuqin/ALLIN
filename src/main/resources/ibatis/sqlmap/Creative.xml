@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Creative" >
+	<typeAlias alias="CreativeDO" type="cc.lovesq.pojo.CreativeDO" />
+	<typeAlias alias="CreativeQuery" type="cc.lovesq.query.CreativeQuery" />
+	<resultMap id="CreativeResult" class="CreativeDO" >
+		<result column="creative_id" property="creativeId" jdbcType="Long" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="comment" property="comment" jdbcType="VARCHAR" />
+		<result column="submitter" property="submitter" jdbcType="VARCHAR" />
+		<result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+		<result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<insert id="insert" parameterClass="CreativeDO" >
+       
+       INSERT INTO creative (title, content, submitter, comment, gmt_create, gmt_modified)
+                     VALUES(#title#, #content#, #submitter#, #comment#, now(), now())
+       <selectKey resultClass="int" keyProperty="creativeId">  
+          <![CDATA[SELECT LAST_INSERT_ID() ]]>   
+       </selectKey>                       
+	</insert>
+	
+	<sql id="creative_columns">
+		creative_id, title, content, submitter, comment, gmt_create, gmt_modified
+	</sql>
+	
+	<sql id="creative_whereclause" >
+	    <dynamic prepend="WHERE" >
+	      <isNotNull property="creativeId" prepend="AND" >
+	        <![CDATA[  
+	        	creative_id = #creativeId#  
+	        ]]>  
+	      </isNotNull>
+	      <isNotNull property="title" prepend="AND" >
+	        <![CDATA[  
+	        	title = #title#  
+	        ]]>  
+	      </isNotNull>
+	      <isNotNull property="submitter" prepend="AND" >
+	        <![CDATA[  
+	           submitter = #submitter#  
+	        ]]>  
+	      </isNotNull>
+	      <isNotNull property="content" prepend="AND" >
+	        <![CDATA[  
+	          content like concat('%',#content#, '%')  
+	        ]]>  
+	      </isNotNull>
+	    </dynamic>
+    </sql>
+	
+	<select id="selectByCreativeId" resultMap="CreativeResult" parameterClass="java.lang.Long" >
+     SELECT 
+     <include refid="creative_columns" />
+      FROM creative where creative_id=#creativeId#
+	</select>
+	
+	<select id="listByQuery" resultMap="CreativeResult" parameterClass="CreativeQuery">
+      SELECT 
+      <include refid="creative_columns" />
+      FROM creative 
+      <include refid="creative_whereclause" />
+      <include refid="BASE_SQL_SEGMENT.pagination" />
+	</select>
+	
+	<select id="countByQuery" resultClass="java.lang.Integer" parameterClass="CreativeQuery">
+      SELECT count(creative_id) as TOTAL
+      FROM creative 
+      <include refid="creative_whereclause" />
+	</select>
+	
+	<delete id="delete" parameterClass="java.lang.Long" >
+    	delete from creative where creative_id=#creativeId#
+	</delete>
+	
+	<update id="update" parameterClass="CreativeDO" >
+    	update creative
+    		set  gmt_modified = now()
+			<dynamic>
+				<isNotNull prepend="," property="title" >
+	        		title = #title#
+				</isNotNull>
+				<isNotNull prepend="," property="content" >
+	        		content = #content#
+				</isNotNull>
+				<isNotNull prepend="," property="comment" >
+	        		comment = #comment#
+				</isNotNull>
+			</dynamic>
+    		where creative_id = #creativeId#
+	</update>
+	
+</sqlMap>

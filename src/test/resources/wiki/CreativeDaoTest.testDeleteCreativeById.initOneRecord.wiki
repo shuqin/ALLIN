@@ -1,0 +1,7 @@
+|connect|
+|clean table|creative|
+|insert|creative|
+|creative_id|gmt_create|gmt_modified|title|content|comment|submitter|
+|111|2014-09-25 10:56:40|2014-09-25 10:56:40|Good|Good Idea For Education|Oh|qinshu|
+
+|commit|

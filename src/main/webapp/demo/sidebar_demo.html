@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>左边栏布局</title>
+		
+        <link rel="stylesheet" type="text/css" href="../resources/css/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/css/global.css" />
+        <script src="../scripts/jsthirdbase/jquery-1.10.1.min.js"></script>
+        <script src="../scripts/jsthirdbase/jquery-ui-1.9.2-min.js"></script>
+		
+		<script type="text/javascript">
+		
+		    htmlSrc = {
+		    	'Taobao': 'http://taobao.com',
+		    	'Jingdong': 'http://jd.com',
+		    	'Amazon': 'http://z.cn',
+		    	'Ifeve': 'http://ifeve.com/',
+		    	'Bole': 'http://blog.jobbole.com/'
+		    };
+		    
+		    indicatorDesc = {
+		    	'Taobao': '国内最大在线购物网站',
+   	    	    'Jingdong': '国内第二在线购物网站',
+   	    	    'Amazon': '国外最大在线购物网站及云计算提供商',
+   	    	    'Ifeve': '一个非常出色的并发编程网站，由阿里工程师建立',
+   	    	    'Bole': '一个不错的IT网站, 话题比较广泛'
+		    };
+		    
+			$(document).ready(
+					
+				function() {
+					
+					// 简单提示框
+					$( document ).tooltip({track: true});
+					
+					$(function() {
+					    $( "#accordion" ).accordion({
+					    	collapsible: true
+					    });
+					});
+					
+					var docHeight = $(document).outerHeight();
+					var docWidth = $(document).width();
+				    var contentHeight = docHeight-18;
+				    
+				    $('.left').css('height', contentHeight + 'px');
+				    $('#accordion-resizer').css('height', '99%');
+				    $('#accordion').css('height', '99%');
+				    $('.ui-accordion-content-active').css('height', '650px');
+		       	    $('.verticalSeparator').css('height', contentHeight + 'px');
+		       	    $('.right').css('height', contentHeight + 'px');
+		       	    $('#maincontent').css('height', contentHeight + 'px');
+		       	    var rightWidth = docWidth - $('.verticalSeparator').width() - $('.left').width() - 45;
+		       	    $('.right').css('width', rightWidth);
+				    
+	       	    	$('.accordClass').click(function(event) {
+		       	    	$('.my-button-clicked').removeClass('my-button-clicked');
+		       	    	$(this).addClass('my-button-clicked');
+		       	    	
+		       	    	var funcType = $(this).val();
+		       	    	$('#maincontent').attr('src', htmlSrc[funcType]);
+		       	    });
+	       	    	
+	       	    	for (var indicator in indicatorDesc) {
+	       	    		$('#'+ indicator).attr('title', indicatorDesc[indicator]);
+	       	    	}
+	       	    	
+	       	    	$('#Taobao').trigger('click');
+			   }    
+			);
+		</script>
+		
+		<style type="text/css">
+		    .left {
+				margin: 0px -3px 0 1px;
+			}
+			
+			.right {
+			    margin: 0px -3px 0 0px;
+			    font-size: 10pt;
+			}
+		
+		    .verticalSeparator {
+		        margin: 0px -1px;
+		    }
+		    
+		    .accordClass {
+		        width: 133%;
+		        margin: -15px -32px 15px -32px;
+		    }
+		    
+		    .ui-accordion-content-active {
+		       height: 68%;
+		    }
+		    
+		    #accordion-resizer {
+		        width: 98%;
+		    }
+		    
+		    
+		</style>
+    </head>
+	<body>
+    <div id="content">
+        <div class="left">
+             <div id="accordion-resizer" class="ui-widget-content">
+				  <div id="accordion">
+				    <h4>常用购物网站</h4>
+				    <div>
+				        <button type="button" id="Taobao" value="Taobao" class="accordClass my-button-clicked">淘宝</button>
+				        <button type="button" id="Jingdong" value="Jingdong" class="accordClass">京东</button>
+				        <button type="button" id="Amazon" value="Amazon" class="accordClass">亚马逊</button>
+				    </div>
+				    <h4>常用开发网站</h4>
+				    <div>
+				        <button type="button" id="Ifeve" value="Ifeve" class="accordClass my-button-clicked">Ifeve</button>
+				        <button type="button" id="Bole" value="Bole" class="accordClass my-button-clicked">伯乐在线</button>
+				    </div>
+				  </div>
+		    </div>
+	    </div>
+	    
+	    <div class="verticalSeparator"></div>
+	    
+	    <div class="right">
+	        <iframe id="maincontent" frameborder="0" width="100%"></iframe>
+	    </div> 
+	</div>	
+    
+</body>
+</html>

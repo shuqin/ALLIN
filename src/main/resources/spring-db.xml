@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+     	http://www.springframework.org/schema/context 
+     	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+     	http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+       
+    <bean id="appDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="name" value="master"/>
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="${master.jdbcUrl}"/>
+        <property name="username" value="${master.user}"/>
+        <property name="password" value="${master.password}"/>
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+        <property name="minIdle" value="${jdbc.minIdle}"/>
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+        <property name="validationQuery" value="SELECT 1" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="testWhileIdle" value="true" />
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="60"/>
+        <property name="logAbandoned" value="true"/>
+        <property name="filters" value="stat" />
+    </bean>   
+        
+	<util:map id="dataSources">
+	    <entry key="app" value-ref="appDataSource" />
+	</util:map>
+
+	<bean id="dynamicDataSource" class="cc.lovesq.dao.util.DynamicDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+			   <entry key="app" value-ref="appDataSource" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="appDataSource" />
+	</bean>
+
+	<bean id="dataSourceInitializer"
+		class="cc.lovesq.dao.util.AdvancedDataSourceInitializer">
+		<property name="desiredEventClassName"
+			value="org.springframework.context.event.ContextRefreshedEvent" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref local="appDataSource" />
+		</property>
+	</bean>
+
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="count*" read-only="true" />
+			<tx:method name="is*" read-only="true" />
+			<tx:method name="has*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="serviceMethods" expression="execution(* *.service.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
+	</aop:config>
+
+
+</beans>

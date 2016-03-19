@@ -1,0 +1,38 @@
+UnforgivingBuilder: 
+---------------------------
+R[1] Date, November 5, HeadCount, 50, City, Springfield, YuanPerHead, 25.0, HasSite, False
+Date: November 5, 2010
+headcount: 50
+city: Springfield
+yuan/Head: 25.0
+HasSite: false
+
+
+R[2] Date, November 5, HeadCount, 20, City, Springfield, YuanPerHead, 25.0, HasSite, False
+订购人数太少, 至少应有 25 人.
+
+
+R[3] Date, November 5, HeadCount, 40, City, Springfield, YuanPerHead, 20.0, HasSite, true	
+订购总费用太少，至少应达 1000 RMB.
+
+
+R[4] HeadCount, 50, City, Springfield, YuanPerHead, 25.0, HasSite, False	
+没有指定日期，无效的预定申请！
+
+
+R[5] Date, November 5, HeadCount, 40, YuanPerHead, 30.0, HasSite, False   
+没有指定地点，无效的预定申请！
+
+
+R[6] Date, November 5, City, Springfield, YuanPerHead, 20.0, HasSite, False   
+没有指定总人数，无效的预定申请！
+
+
+R[7] Date, November 5, HeadCount, 40, City, Springfield, HasSite, False   
+没有指定单人费用，无效的预定申请！
+
+
+R[8] Date, November 5, City, Springfield, HasSite, False    		       
+没有指定总人数，无效的预定申请！
+
+

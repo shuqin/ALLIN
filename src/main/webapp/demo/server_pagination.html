@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Cache-Control" content="max-age=604800">
+        <link rel="stylesheet" type="text/css" href="../resources/css/global.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/css/jquery.dataTables.css" />
+        <script src="../scripts/jsthirdbase/jquery-1.10.1.min.js"></script>
+        <script src="../scripts/jsthirdbase/jquery-ui-1.9.2-min.js"></script>
+        <script src="../scripts/jsthirdbase/jquery.dataTables.min.js"></script>
+		<script src="../scripts/global.js"></script>
+        <script src="../scripts/commonUtils.js" type="text/javascript"></script>
+        <script src="../scripts/pager.js" type="text/javascript"></script>
+        <title>服务端分页实现</title>
+    </head>
+
+    <body>
+    
+    	<div id="pagerTable" style="margin: 30px;"></div>
+	         
+        <script type="text/javascript">
+ 	   
+	        $(document).ready(function() {
+	        	
+	        	 var gmtCreateFunc = function(rowData) {
+	        		 return timestamp2datetime(rowData['gmtCreate']);	 
+	        	 }
+	        	 
+	        	 var gmtModifiedFunc = function(rowData) {
+	        		 return timestamp2datetime(rowData['gmtModified']);	 
+	        	 }
+	        	
+				 var config = {  
+					  'requestOptions': {
+						  'url': appPrefix + '/api/creatives/list',
+						  'params': { }
+					  },
+					  'containerId': 'pagerTable',
+					  'tableConfig': {
+						  'columnNames' : ['创意名称', '创意内容', '创意提交者', '创意点评', '创建时间', '修改时间'],
+						  'columnFields': ['title', 'content', 'submitter', 'comment', 'gmtCreate', 'gmtModified'],
+						  'columnRenders': {'gmtCreate': gmtCreateFunc, 'gmtModified': gmtModifiedFunc},
+						  'dataTableConfig': tableConfigObj
+					  }
+				  }
+				  
+				  showPagingGrid(config);
+				  
+	        }); 
+ 			   
+        </script>
+        
+    </body>
+    
+</html>    

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" 
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<mvc:annotation-driven />
+    <context:component-scan base-package="cc.lovesq"/>
+    <context:property-placeholder ignore-resource-not-found="false" 
+    	ignore-unresolvable="false" location="classpath:app.properties"/>
+
+    <mvc:default-servlet-handler/>
+    
+    <import resource="classpath:spring-dao.xml"/>
+    <import resource="classpath:spring-db.xml"/>
+    <import resource="classpath:ibatis-config.xml"/>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+        <property name="fileEncodings" value="utf-8"/>
+        <property name="cacheSeconds" value="120"/>
+    </bean>
+    
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/*"/>
+            <bean id="loginInterceptor" class="cc.lovesq.interceptor.LoginInterceptor">
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- velocity配置 -->
+    <bean class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/views"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">utf-8</prop>
+                <prop key="output.encoding">utf-8</prop>
+                <prop key="runtime.log">velocity.log</prop>
+                <prop key="runtime.log.logsystem.class">org.apache.velocity.runtime.log.NullLogChute</prop>
+                <prop key="velocimacro.library.autoreload">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <property name="suffix" value=".vm"/>
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="layoutUrl" value="layout/layout.vm"/>
+    </bean>
+    <!-- velocity配置 -->
+    
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="contentNegotiationManager">
+            <bean class="org.springframework.web.accept.ContentNegotiationManager">
+                <constructor-arg>
+                    <bean class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">
+                        <constructor-arg>
+                            <map>
+                                <entry key="json">
+                                    <util:constant static-field="org.springframework.http.MediaType.APPLICATION_JSON_VALUE" />
+                                </entry>
+                            </map>
+                        </constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+
+        <property name="defaultViews">
+            <list>
+            </list>
+        </property>
+     </bean>   
+        
+        <!-- thread pool -->
+		<bean id="ioThreadPoolExecutor"
+			class="cc.lovesq.threading.MyThreadPoolExecutor"
+			factory-method="getInstance">
+			<constructor-arg index="0" type="int">
+				<value>60</value>
+			</constructor-arg>
+			<constructor-arg index="1" type="int">
+				<value>60</value>
+			</constructor-arg>
+			<constructor-arg index="2" type="long">
+				<value>60</value>
+			</constructor-arg>
+			<constructor-arg index="3" type="int">
+				<value>40</value>
+			</constructor-arg>
+			<constructor-arg index="4" type="java.lang.String">
+				<value>iointensive-execute-thread</value>
+			</constructor-arg>
+		</bean>
+		
+		<bean id="cpuThreadPoolExecutor"
+			class="cc.lovesq.threading.MyThreadPoolExecutor"
+			factory-method="getInstance">
+			<constructor-arg index="0" type="int">
+				<value>3</value>
+			</constructor-arg>
+			<constructor-arg index="1" type="int">
+				<value>3</value>
+			</constructor-arg>
+			<constructor-arg index="2" type="long">
+				<value>60</value>
+			</constructor-arg>
+			<constructor-arg index="3" type="int">
+				<value>120</value>
+			</constructor-arg>
+			<constructor-arg index="4" type="java.lang.String">
+				<value>cpuintensive-execute-thread</value>
+			</constructor-arg>
+		</bean>
+	
+</beans>
