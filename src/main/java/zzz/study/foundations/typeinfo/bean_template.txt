@@ -1,0 +1,17 @@
+package $packageName;
+
+public class $className {
+
+    private $type $propertyName;
+    
+    public void set$property1($type $propertyName)
+    {
+        this.$propertyName = $propertyName;
+    }
+
+    public $type get$property1()
+    {
+        return $propertyName;
+    }
+
+}

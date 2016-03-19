@@ -1,0 +1,32 @@
+.active {
+	border:1px dotted green;
+}
+.hover {
+	border:1px dotted red;
+}
+
+._jsPlumb_connector { z-index:4; }
+._jsPlumb_endpoint, .endpointTargetLabel, .endpointSourceLabel{ z-index:21;cursor:pointer; }
+
+.hl { border:3px solid red; }
+
+._jsPlumb_dragging { z-index:4000; }
+
+/*
+.aLabel {
+ 	background-color:white; 
+	padding:0.4em; 
+	font:12px sans-serif; 
+	color:#444;
+	z-index:21;
+	border:1px dotted gray;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	cursor: pointer;
+}
+*/
+.aLabel._jsPlumb_hover {
+	background-color:#5C96BC;
+	color:white;	
+	border:1px solid white;
+}

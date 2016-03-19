@@ -1,0 +1,199 @@
+<script src="/assets/apps/wo/js/jquery.ui.widget.js"></script>
+<script src="/assets/apps/wo/js/jquery.fileupload.js"></script>
+<script src="/assets/apps/wo/js/jquery.iframe-transport.js"></script>
+<style>
+	.sizeStyle {
+		border: 1px solid #E6E6E6;
+		background-color: #E6E6E6;
+		cursor: pointer;
+	}
+	
+	#clickSizeStyle {
+		border: 1px solid #F5BCA9;
+		background-color: #F5BCA9;
+	}
+	
+	.uploadinfo {
+		border: 1px solid #BDBDBD;
+	}
+	
+	#uploadRegion {
+		margin: 20px 10px 5px 20px;
+	}
+	
+	#addNewCreative {
+		margin-right: 15px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	#uploadImage {
+		margin: 10px 0px 10px 20px;
+	}
+	
+</style>
+<script type="text/javascript">
+
+    jQuery(document).ready(
+    	function() {
+    	
+    	  // 加载图片尺寸列表
+		  var setCreativeSizes = function (parentDivId, creativeSizes) {
+		      for (i=0; i<creativeSizes.length; i++) {
+		          var clickedId =  (i==0 ? 'id="clickSizeStyle"': '');
+		          jQuery('#'+parentDivId).append('<span ' + clickedId + ' class="sizeStyle">'+creativeSizes[i]+ '</span>&nbsp;');	
+		      }
+		  }
+		  
+		  var requestOptions = {
+		  	  'url': '/api/creatives/creativesize/list',
+		  	  'params': {}
+		  };
+		  var succTodo = function(result) {
+		      isOk = result.info.ok;
+		      if (isOk) {
+		      	  sizeObjlist = result.data.list;
+			      sizelist = []
+			      for (var i=0; i<sizeObjlist.length; i++) {
+			      	  sizelist.push(sizeObjlist[i]['adzoneSize']);
+			      }
+			      setCreativeSizes('sizelist', sizelist);
+			      
+			      jQuery('.sizeStyle').click(function() {
+			          _this = $(this);
+			          jQuery('.sizeStyle').each(function(){
+			          	  _that = $(this);
+			          	  if (_that.attr('id') == 'clickSizeStyle') {
+			          	     _that.removeAttr('id');
+			          	  }
+			          }); 
+			          _this.attr('id', 'clickSizeStyle');
+			      	  
+			      });  
+		      }
+		  }
+		  var failedTodo = function(result) {
+		   	   alert('加载尺寸列表失败，请重试!');		
+		  }  
+		  doAjaxRequest(requestOptions, succTodo, failedTodo);
+		      
+		  
+		  var creativeGraphUrl = null;
+		  
+		  // 上传图片的动作
+		  jQuery('#fileupload').fileupload({
+		      autoUpload: false,
+              url: '/api/creatives/upload/',
+              dataType: 'json',
+              formData:{
+              		uploadFile: ''
+              },
+              add: function(e, data) {
+                  var clickSizeObj = jQuery('#clickSizeStyle');
+                  if (clickSizeObj.length == 0) {
+                  	  alert('请先选择创意图片尺寸!');
+                  	  return ;
+                  }
+                  data.formData ={
+                  	  'uploadFile': data.files[0],
+                  	  'size': jQuery('#clickSizeStyle').text(),
+                  };
+              	  data.submit();
+              },
+              done: function (e, response) {
+                  isOk = response.result.info.ok;
+                  if (isOk) {
+                      var clickSizeObj = jQuery('#clickSizeStyle');
+                      var size = jQuery('#clickSizeStyle').text();
+                      creativeGraphUrl = response.result.data.creativeurl;
+                      var graphUrlStr = '<a href="' + creativeGraphUrl + '" target="_blank">' + creativeGraphUrl + '</a>'; 
+                      $('#opinfo').html('上传成功! 尺寸: ' + jQuery('#clickSizeStyle').text() +' , 图片地址: ' + graphUrlStr);
+                      jQuery('#uploadedImg').attr('src', creativeGraphUrl);
+                      jQuery('#originalGraph').attr('href', creativeGraphUrl);
+                  }
+                  else {
+                  	  $('#opinfo').html('上传失败，请检查图片尺寸！'); 
+                  }
+              }
+          });
+		  
+		  // 保存新增创意
+		  jQuery('#addNewCreative').click(function(e) {
+		      e.preventDefault();
+		      var creativeTitle = jQuery('#titleInput').val().trim();
+		      var creativeGraphUrl = jQuery('#uploadedImg').attr('src');
+			  if (creativeTitle == '') {
+			  	  warnInfo('titleInputError', '创意名称不能为空!');
+			  	  e.preventDefault();
+			  	  return ;
+			  }
+			  else {
+			  	  warnInfo('titleInputError', '');
+			  }
+			  
+			  if (creativeGraphUrl == null || creativeGraphUrl.trim() == '') {
+			  	  warnInfo('fileInputError', '创意图片不能为空!');
+			  	  e.preventDefault();
+			  	  return ;
+			  }
+			  else {
+			  	  warnInfo('fileInputError', '');
+			  }
+			  
+			  var requestOptions = {
+			      'url': '/api/creatives/save',
+			      'params': {
+			          'title': creativeTitle.trim(),
+			          'size': jQuery('#clickSizeStyle').text(),
+			          'content': JSON.stringify({
+			          	  'img': creativeGraphUrl,
+			          	  'click': "http://www.aliyun.com"
+			          }),
+			          'catId': 71909,
+			          'destinationUrl': 'http://www.aliyun.com',
+			          'level': 1,
+			          'type': 1,
+			          'templateId': 6629454
+			      }
+			  };
+			  var succTodo = function(resp) {
+			      isOk = resp.info.ok;
+			      if (isOk) {
+			          var msg = resp.info.message;
+			          alert(msg);
+			          document.location.href=$(e.currentTarget).attr('href');
+			      }
+			      else {
+			      	  alert(resp.info.message);
+			      }
+			  };
+			  var failedTodo = function() {};
+			  doAjaxRequest(requestOptions, succTodo, failedTodo);
+		  });
+		  
+      }
+    );
+</script>
+<div class="wrap"> 
+    <div class="aline"> <div class="alabel">创意名称：</div> <span class="must_red">*</span><input type="text" name="title" id="titleInput" value=""/>
+    	<span id="titleInputError" class="errorCls"></span>
+    </div>
+    <div class="aline"> <div class="alabel">支持尺寸：</div> <span class="must_red">*</span>
+      <span id="sizelist"></span> </div>   
+    <div id="uploadImage">
+          <input id="fileupload" type="file" name="fileupload" multiple> 
+          <span id="fileInputError" class="errorCls"></span>
+    </div>
+    <div class="uploadinfo" id="uploadRegion">
+    	<div class="uploadinfo">上传图片提示： 图片大小在30k以内</div>
+    	<div class="uploadinfo" id="opinfo"></div>
+    	<a id="originalGraph" target="_blank">
+    		<img id="uploadedImg" class="ThumbnailImg"/>
+    	</a>
+    </div> 
+    <div id="aline" style="color:green;margin: 0px 0px 0px 20px;">(提示：点击后显示原图)</div> 
+    <div class="aline">
+    <a class="btn" id="addNewCreative" role="button" href="/api/creatives/list">确定</a>             
+    <a class="mr5" id="cancelBtn" href="/api/creatives/list" style="cursor:pointer;" >取消</a> 
+    </div>
+</div>

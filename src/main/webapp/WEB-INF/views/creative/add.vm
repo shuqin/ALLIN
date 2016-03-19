@@ -1,0 +1,218 @@
+#set($bodyAttribute="style='width:800px;height:540px;' class='body_none'")
+#set($currentTag="creative")
+<link rel="stylesheet" type="text/css" href="/assets/libs/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/assets/libs/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="/assets/apps/wo/css/biz.css?t=2012"/>
+<script src="/assets/apps/wo/js/pages/admin/common/common.js?t=2012"></script>
+<script type="text/javascript" src="/assets/libs/easyui/jquery.easyui.min.js"></script>
+<style type="text/css">
+	#d_selected_creative {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		padding-top: 10px;
+		padding-left: 20px;
+		padding-bottom: 10px;
+		width: 420px;
+		height: 200px;
+		overflow-y: auto;
+		border: 2px inset #E0F2F7;
+		background-color: #E0F2F7;
+	}
+</style>
+<div class="wrap">
+    #parse("/block/step.vm")
+    <div style="padding:0 0 15px 15px;">
+        <div id="adgroupId" style="visibility:hidden">$!adgroupId</div>
+        <div class="aline"><div class="alabel">选择关联创意组: </div><span class="must_red">*</span>
+        	<a id="addCreatetiveSetting" type="mouse" href="#" title="选择创意"/>设置</a>
+        </div>
+        <div class="aline"><div class="alabel">已选择的创意组:</div><span class="must_red">*</span>
+        	<div id="creativeGroupInfo"></div>
+        </div>
+        <div class="aline"><div class="alabel">已选择的创意： </div><span class="must_red">*</span>
+        	<div id="d_selected_creative">
+                <div class="mb5 parent">
+                </div>
+            </div>
+        </div>
+        <div class="aline"><div class="alabel"></div>
+        	<a type="submit" id="completeBtn" href="/api/campaigns/complete/$!campaignId" class="btn btn_submit J_ajax_submit_btn mr10">下一步,设置推广组</a>
+            <a class="btn cancelopBtn" id="J_dialog_close" type="button" href="/api/campaigns/list">取消</a>
+        </div>  
+        <span id="creativesInputError" class="errorCls"></span>
+    </div>
+
+    <div id="addCreativeRegion">
+    <div id="addCreatetiveSettingDialogHtml">
+        <div class="admin_filter mb20" style="width: 450px;padding-left: 20px;">
+            <input type="text" class="class_input_keyword input length_3" /> <input type="submit" class="cls_search_creative btn btn_submit J_ajax_submit_btn mr10"></input>
+                <table class="creative-data-grid"></table>
+        </div>
+        <div class="pop_bottom">
+            <button class="btn fr" id="cancelCreativeBtn" type="button">取消</button>
+            <button type="submit" class="btn btn_submit J_creative_selected J_ajax_submit_btn fr mr10">
+                                  确定
+            </button>
+        </div>
+        <span id="creativesInputInPopwinError" class="errorCls"></span>
+    </div>
+    </div>
+</div>
+<script type="application/javascript">
+
+	// 为推广组关联创意组的表格展示
+    CreatePagedGrid($('.creative-data-grid'), creativeGroupGridSetting);
+
+    $(document).on('click', ".J_creative_selected", function(e){
+    
+        e.preventDefault();
+        var ul = $("#d_selected_creative");
+        ul.empty();
+        var rows = jQuery(".creative-data-grid").datagrid("getSelections");
+        if (rows.length==0) {
+		  	 warnInfo('creativesInputInPopwinError', '您还没有选择创意组！');
+		  	 e.preventDefault();
+		  	 return ;
+		}
+		else {
+		  	 warnInfo('creativesInputInPopwinError', '');
+		}
+        
+        creativeGroupId = rows[0].creativeGroupId;
+        
+        var creativeGroupInfo = "<div class='aline'>创意组名称: " + rows[0].title + "</div>" +
+                                "<div class='aline'> 创意组链接: <a target='_blank' href='" +  rows[0].clickUrl + "'> " + rows[0].clickUrl + "</a></div>";
+        $('#creativeGroupInfo').empty();
+        $('#creativeGroupInfo').html(creativeGroupInfo);
+        
+        var requestOptions = {
+        	'url': '/api/creativegroups/getCreatives/' + creativeGroupId,
+        	'params': {}
+        };
+        
+        var succTodo = function(result) {
+        	rows = result.rows;
+        	if (rows.length == 0) {
+			  	 warnInfo('creativesInputInPopwinError', '该创意组没有绑定创意， 请先为该创意组添加创意， 或选择其他创意组');
+			  	 e.preventDefault();
+			  	 return ;
+			}
+			else {
+			  	 warnInfo('creativesInputInPopwinError', '');
+			}
+			
+        	warnInfo('creativesInputError', '');
+        	
+        	for(var i=0; i<rows.length; i++){
+	            var row = rows[i];
+	            ul.append('<div class="mb5 parent">'+
+	            		'<input type="hidden" name="" value="' +  row.creativeId+ '" class="creativeIdCls"/>'+
+	            		'<a target="_blank" href="/api/creatives/get/' + row.creativeId + '">' + 
+	            		'<span class="creativeTitleCls">' + row.title +'</span></a>'+
+	            		'<span class="creativeSizeCls">' + row.size +'</span></div>');
+	            $('#addCreatetiveSettingDialogHtml').appendTo($('#addCreativeRegion'));
+		   		$('#mask').remove();
+		    	$('#maskTop').remove();
+		    	$('#addCreativeRegion').css('visibility', 'hidden');    
+	        }
+        };
+        
+        var failTodo = function(result) {
+        	alert('关联创意组失败!');
+        };
+        doAjaxRequest(requestOptions, succTodo, failTodo ); 
+    });
+
+    //删除一个选项
+    $('a.adelA').live('click',function(){//删除一个选项
+        if(confirm('真的要删除吗？')){
+            $(this).parentsUntil('#d_selected_creative').remove();
+        }
+    });
+
+    Wind.use('dialog', function () {
+        $('#addCreatetiveSetting').on('click', function (e) {
+
+            e.preventDefault();
+            var _this = $(this);
+
+            $('#addCreativeRegion').css('visibility', 'visible');
+            $('#addCreativeRegion').append('<div id="mask"></div>');
+            $('#addCreativeRegion').append('<div id="maskTop"><div id="maskTitle">为推广组关联创意组</div></div>');
+            $('#addCreatetiveSettingDialogHtml').appendTo($('#maskTop'));
+            $('#maskTop').css('width', '400px');
+        });
+    });
+    
+    $(document).ready(function() {
+    
+    	$('#completeBtn').click(function(e) {
+    		 e.preventDefault();
+             var _this = $(this);
+             
+             // 绑定创意
+             var creativeIds = [];
+             $('.creativeIdCls').each(function(index) {
+             	 creativeIds.push($(this).val());
+             });
+             
+             if (creativeIds.length == 0) {
+			  	 warnInfo('creativesInputError', '您没有选择要绑定的创意! 如果指定创意组没有创意，请先在该创意组里添加创意，或者选择其他创意组。');
+			  	 e.preventDefault();
+			  	 return ;
+			}
+			else {
+			  	 warnInfo('creativesInputError', '');
+			}
+             
+             creativeIdParam = creativeIds.join(',');
+             var requestOptions = {
+             	'url':'/api/adgroups/bind',
+             	'params': {
+             		'adgroupId': $('#adgroupId').text(),
+             		'creativeIds': creativeIdParam
+             	},
+             	'method': 'POST'
+             };
+             
+             var succTodo = function(resp) {
+             	 isOk = resp.info.ok;
+			      if (isOk) {
+			          var msg = resp.info.message;
+			          alert('绑定创意成功!');
+			          location.href = _this.attr('href');
+			      }
+			      else {
+			      	  alert('绑定创意失败，请重试！');
+			      }
+             };
+             
+             var failTodo = function(result) {
+             
+             };
+             doAjaxRequest(requestOptions, succTodo , failTodo);
+             
+    	});
+    
+    	$('#cancelCreativeBtn').click(function(e) {
+	    	$('#addCreatetiveSettingDialogHtml').appendTo($('#addCreativeRegion'));
+	    	$('#mask').remove();
+	    	$('#maskTop').remove();
+	    	$('#addCreativeRegion').css('visibility', 'hidden');
+	    });
+	    
+	    $('#J_dialog_close').on('click', function(e){
+			e.preventDefault();
+			
+			if(window.parent.Wind.dialog) {
+				window.parent.Wind.dialog.closeAll();
+			}
+			else {
+				document.location.href=$(e.currentTarget).attr('href');
+			}
+		});
+    
+    });
+    
+    
+</script>

@@ -1,0 +1,108 @@
+@startuml
+
+activate Front
+Front -> Gateway : 下发扫描请求
+
+activate Gateway
+Gateway -> ScanSrv : 转发请求
+
+activate ScanSrv
+Gateway <-- ScanSrv : 返回
+deactivate ScanSrv
+
+Front <-- Gateway : 返回
+deactivate Gateway
+deactivate Front
+
+Front -> Gateway : 轮询结果
+activate Gateway
+Gateway -> ScanSrv : 转发请求
+
+activate ScanSrv
+Gateway <-- ScanSrv : 返回
+deactivate ScanSrv
+Front <-- Gateway : 返回
+deactivate Gateway
+
+
+group 镜像属性检测
+activate ScanSrv
+ScanSrv -> ScanSrv : 基础镜像检测
+ScanSrv -> ScanSrv : 授信镜像检测
+end
+
+group 资产清点
+
+ScanSrv -> Worker : 请求仓库 repo 列表
+activate Worker
+ScanSrv <-- Worker : 返回仓库 repo 列表
+
+ScanSrv -> Worker : 请求仓库 repo 下 tag 列表
+ScanSrv <-- Worker : 返回仓库 repo 下 tag 列表
+
+ScanSrv -> Worker : 请求仓库 repoTag 下 manifest 和层构建信息
+ScanSrv <-- Worker : 返回仓库 repo 下 manifest 和层构建信息
+
+deactivate Worker
+end
+
+group 镜像扫描
+
+ScanSrv -> Worker : 拉取/解析层文件（analysis消息）
+activate Worker
+ScanSrv <-- Worker : 返回镜像元信息
+deactivate Worker
+
+ScanSrv -> ScanSrv : 发送镜像扫描事件
+
+ScanSrv -> DetectSrv : 病毒检测
+activate DetectSrv
+
+DetectSrv -> DetectSrv : 生成病毒检测任务
+
+DetectSrv -> UploadSrv : 请求文件上传
+activate UploadSrv
+
+DetectSrv <-- UploadSrv : 文件上传完成回调
+
+DetectSrv -> UploadSrv : 文件过病毒查杀引擎
+
+UploadSrv -> UploadSrv : 引擎检测
+
+DetectSrv <-- UploadSrv : 返回结果
+
+ScanSrv <-- DetectSrv : 返回结果
+
+ScanSrv -> DetectSrv : webshell 检测
+
+DetectSrv -> DetectSrv : 生成webshell检测任务
+
+DetectSrv -> UploadSrv : 请求文件上传
+
+DetectSrv <-- UploadSrv : 文件上传完成回调
+
+DetectSrv -> UploadSrv : 文件过雷火查杀引擎
+
+UploadSrv -> UploadSrv : 引擎检测
+deactivate UploadSrv
+
+DetectSrv <-- UploadSrv : 返回结果
+
+ScanSrv <-- DetectSrv : 返回结果
+deactivate DetectSrv
+
+ScanSrv -> ScanSrv : 敏感文件检测
+
+ScanSrv -> ScanSrv : 补丁检测
+
+ScanSrv -> ScanSrv : 漏洞检测
+
+deactivate ScanSrv
+end
+
+Gateway <-- ScanSrv : 返回
+
+Front <-- Gateway : 返回
+
+
+@enduml

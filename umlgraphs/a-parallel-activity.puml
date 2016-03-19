@@ -1,0 +1,22 @@
+@startuml
+
+start
+
+:bizEventHandler.dispatch;
+:detectEventProcessor.process;
+fork
+:sendSyslogNotification;
+fork again
+:sendToBigData;
+fork again
+:sendThreatIntelligence;
+fork again
+:autoProcessContainer;
+
+end fork
+
+stop
+
+@enduml
+
+

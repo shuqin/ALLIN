@@ -1,0 +1,4 @@
+name: studentName
+title: 学生姓名
+script: |
+  stu.getName()

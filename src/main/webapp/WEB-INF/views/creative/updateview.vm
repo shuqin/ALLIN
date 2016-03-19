@@ -1,0 +1,124 @@
+<style>
+	.sizeStyle {
+		border: 1px solid #E6E6E6;
+		background-color: #E6E6E6;
+	}
+	
+	#updateCreative {
+		margin-right: 15px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	#creativeImage {
+		margin: 10px 0px 10px 20px;
+	}
+	
+</style>
+<script type="text/javascript">
+
+    jQuery(document).ready(
+    	function() {
+    	
+		  var creativeSize = jQuery(':input[name="size"]').val();
+		  var setCreativeSizes = function (parentDivId, creativeSizes) {
+		      for (i=0; i<creativeSizes.length; i++) {
+		          jQuery('#'+parentDivId).append('<span ' + ' class="sizeStyle">'+creativeSizes[i]+ '</span>&nbsp;');
+		      }
+		      jQuery('.sizeStyle').each(function(){
+		      	  _this = $(this);
+		      	  if (_this.text() == creativeSize) {
+		      	  	 _this.css('border', '1px solid #F5BCA9');
+		      	  	 _this.css('background-color', '#F5BCA9');
+		      	  }
+		      }); 
+		  }
+		  
+		  var requestOptions = {
+		  	  'url': '/api/creatives/creativesize/list',
+		  	  'params': {}
+		  };
+		  var succTodo = function(result) {
+			  isOk = result.info.ok;
+		      if (isOk) {
+		      	  sizeObjlist = result.data.list;
+			      sizelist = []
+			      for (var i=0; i<sizeObjlist.length; i++) {
+			      	  sizelist.push(sizeObjlist[i]['adzoneSize']);
+			      }
+			      setCreativeSizes('sizelist', sizelist);
+			      
+			      jQuery('.sizeStyle').click(function() {
+			          _this = $(this);
+			          jQuery('.sizeStyle').each(function(){
+			          	  _that = $(this);
+			          	  if (_that.attr('id') == 'clickSizeStyle') {
+			          	     _that.removeAttr('id');
+			          	  }
+			          }); 
+			          _this.attr('id', 'clickSizeStyle');
+			      });  
+		      }
+		  };
+		  var failedTodo = function(result) {
+		      alert('加载尺寸列表失败，请重试!');
+		  };
+		  doAjaxRequest(requestOptions, succTodo, failedTodo);
+		  
+		  var creativeId = jQuery(':input[name="id"]').val();
+		  
+		  jQuery('#updateCreative').click(function(e) {
+		      e.preventDefault();
+		      var creativeTitle = jQuery(':input[name="title"]').val().trim();
+		      var creativeUrl = jQuery('#clickUrl').text().trim(); 
+		      var img = jQuery('#viewImg').attr('src');
+		  	  
+		  	  if (creativeTitle == '') {
+			  	  warnInfo('titleInputError', '创意组名称不能为空!');
+			  	  e.preventDefault();
+			  	  return ;
+			  }
+			  else {
+			  	  warnInfo('titleInputError', '');
+			  }
+		  	  
+			  var requestOptions = {
+			      'url': '/api/creatives/update',
+			      'params': {
+			          'id': creativeId,
+			          'title': creativeTitle,
+			          'destinationUrl': creativeUrl,
+			          'content': JSON.stringify({
+			          		'click': creativeUrl,
+			          		'img': img
+			          })
+			          
+			      }
+			  };
+			  var succTodo = function(result) {
+			      var msg = result.info.message;
+			      alert(msg);
+			      document.location.href=$(e.currentTarget).attr('href');
+			  };
+			  var failedTodo = function() {};
+			  doAjaxRequest(requestOptions, succTodo, failedTodo);
+		  });
+		  
+      }
+    );
+</script>
+<div class="wrap">
+    <input type="hidden" name="id" value="$!creative.id"/>  
+    <div class="aline"> <div class="alabel">创意名称：</div> <span class="must_red">*</span> <input type="text" name="title" value="$!creative.title"/>
+    	<span id="titleInputError" class="errorCls"></span>
+    </div>
+    <div class="aline"> <div class="alabel">点击链接： </div> <span class="must_red">*</span> <span id="clickUrl">${creativeUtils.parseClick($!creative.content)} </span> </div>
+    <input type="hidden" name="size" id="creativeSize" value="$!creative.size"/> 
+    <div class="aline"> <div class="alabel">支持尺寸：</div> <span class="must_red">*</span>
+       <span id="sizelist"></span> </div>   
+    <div id="creativeImage"><a href="${creativeUtils.parseGraphUrl($!creative.content)}" target="_blank"> <img src="${creativeUtils.parseGraphUrl($!creative.content)}" id="viewImg"/></a> </div>
+    <div class="aline">
+    <a class="btn" id="updateCreative" role="button" href="/api/creatives/list">确定</a>             
+    <a class="mr5" href="/api/creatives/list" style="cursor:pointer;" >取消</a>  
+    </div>
+</div>

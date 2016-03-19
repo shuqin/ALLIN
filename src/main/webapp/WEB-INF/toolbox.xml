@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<toolbox>
+    <tool>
+        <key>stringUtils</key>
+        <scope>application</scope>
+        <class>org.apache.commons.lang.StringUtils</class>
+    </tool>
+    <tool>
+        <key>dateFormatUtils</key>
+        <scope>application</scope>
+        <class>org.apache.commons.lang.time.DateFormatUtils</class>
+    </tool>
+
+</toolbox>
