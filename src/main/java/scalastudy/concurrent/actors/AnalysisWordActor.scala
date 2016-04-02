@@ -1,6 +1,6 @@
 package scalastudy.concurrent.actors
 
-import akka.actor.{Actor, ActorRef}
+import akka.actor.{PoisonPill, Actor, ActorRef}
 
 import scala.collection.immutable.List
 
@@ -19,6 +19,9 @@ class AnalysisWordActor(statWordActor: ActorRef) extends Actor {
     case content:String =>
       val words = analysisWords(content)
       statWordActor ! new WordListWrapper(words)
+    case PoisonPill =>
+      statWordActor ! PoisonPill
+      context.stop(self)
   }
 
   def analysisWords(content:String):List[String] = {

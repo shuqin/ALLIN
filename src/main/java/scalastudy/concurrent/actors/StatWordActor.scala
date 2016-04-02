@@ -1,6 +1,6 @@
 package scalastudy.concurrent.actors
 
-import akka.actor.Actor
+import akka.actor.{PoisonPill, Actor}
 
 import scala.collection.immutable.List
 import scala.collection.mutable.{HashMap, Map}
@@ -30,6 +30,8 @@ class StatWordActor extends Actor {
       println("received times: " + StatWordActor.count())
       val stat:Map[String,Int] = statWords(wordlist)
       StatWordActor.add(stat)
+    case PoisonPill =>
+      context.stop(self)
   }
 
   def statWords(words: List[String]):Map[String,Int] = {

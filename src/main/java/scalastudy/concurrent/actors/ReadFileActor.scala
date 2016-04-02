@@ -1,6 +1,6 @@
 package scalastudy.concurrent.actors
 
-import akka.actor.{Actor, ActorRef}
+import akka.actor.{PoisonPill, Actor, ActorRef}
 
 /**
  * Created by lovesqcc on 16-4-2.
@@ -23,6 +23,9 @@ class ReadFileActor(analysisWordActor: ActorRef) extends Actor {
 
       val content = readFile(filename)
       analysisWordActor ! content
+    case PoisonPill =>
+      analysisWordActor ! PoisonPill
+      context.stop(self)
   }
 
   def readFile(filename:String): String = {

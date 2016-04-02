@@ -2,7 +2,7 @@ package scalastudy.concurrent.actors
 
 import java.io.File
 
-import akka.actor.{Actor, ActorRef}
+import akka.actor.{PoisonPill, Actor, ActorRef}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -17,6 +17,8 @@ class FetchJavaFileActor(readFileActor: ActorRef) extends Actor {
       allJavaFiles.foreach {
         readFileActor ! _
       }
+      readFileActor ! PoisonPill
+      context.stop(self)
   }
 
   def fileJavaFile(filename:String, suffix:String): Boolean = {
