@@ -1,11 +1,12 @@
-package scalastudy.basic
+package scalastudy.utils
 
 import scala.io.Source
+import scalastudy.traits.LineHandler
 
 /**
  * Created by lovesqcc on 16-3-27.
  */
-trait FileAbility extends LineHandler {
+trait FileUtil extends LineHandler {
 
   def readFile(filename:String): String = {
     val fileSource =  Source.fromFile(filename)

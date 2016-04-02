@@ -1,4 +1,4 @@
-package scalastudy.basic
+package scalastudy.traits
 
 /**
  * Created by lovesqcc on 16-3-27.
