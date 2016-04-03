@@ -3,13 +3,18 @@ package scalastudy.concurrent.actors
 import java.io.File
 
 import akka.actor.{PoisonPill, Actor, ActorRef}
+import akka.event.Logging
 
 import scala.collection.mutable.ArrayBuffer
+import scalastudy.concurrent.ActorTerminationMsg
+import scalastudy.concurrent.HelloActorDemo.HelloActor
 
 /**
  * Created by lovesqcc on 16-4-2.
  */
 class FetchJavaFileActor(readFileActor: ActorRef) extends Actor {
+
+  val log = Logging(context.system, self)
 
   override def receive: Actor.Receive = {
     case path:String =>
@@ -17,8 +22,11 @@ class FetchJavaFileActor(readFileActor: ActorRef) extends Actor {
       allJavaFiles.foreach {
         readFileActor ! _
       }
-      readFileActor ! PoisonPill
+      readFileActor ! ActorTerminationMsg
       context.stop(self)
+
+    case _ =>
+      log.info("Unknown received.")
   }
 
   def fileJavaFile(filename:String, suffix:String): Boolean = {
@@ -33,7 +41,12 @@ class FetchJavaFileActor(readFileActor: ActorRef) extends Actor {
 
   def fetchJavaFiles(path:String, javafiles:ArrayBuffer[String]):Unit = {
     val dirAndfiles = new File(path).listFiles
-    if (dirAndfiles!=null && dirAndfiles.length > 0) {
+    if (dirAndfiles == null) {
+      log.info("{} not found.", path)
+      readFileActor ! PoisonPill
+      context.stop(self)
+    }
+    if (dirAndfiles != null && dirAndfiles.length > 0) {
       val files = dirAndfiles.filter(_.isFile)
       if (files.length > 0) {
         javafiles ++= files.map(_.getCanonicalPath).filter(fileJavaFile(_,".java"))

@@ -5,6 +5,7 @@ import akka.actor.{ActorSystem, Props}
 import scala.collection.mutable.Map
 import scalastudy.basic.WordStat
 import scalastudy.concurrent.actors.{AnalysisWordActor, FetchJavaFileActor, ReadFileActor, StatWordActor}
+import scalastudy.concurrent.config.ActorSystemFactory
 import scalastudy.utils.CollectionUtil
 
 /**
@@ -17,13 +18,14 @@ object ConcurrentWordStat extends App {
   def launch(): Unit = {
     val path = "/home/lovesqcc/work/java/ALLIN/src/main/java/"
 
-    val system = ActorSystem("actor-wordstat")
-    val statWordActor = system.actorOf(Props[StatWordActor])
-    val analysisWordActor = system.actorOf(Props(new AnalysisWordActor(statWordActor)))
-    val readFileActor = system.actorOf(Props(new ReadFileActor(analysisWordActor)))
-    val fetchFileActor = system.actorOf(Props(new FetchJavaFileActor(readFileActor)))
+    val system:ActorSystem = ActorSystemFactory.newInstance()
 
-    fetchFileActor ! path
+    val statWordActor = system.actorOf(Props[StatWordActor], name="statWordActor")
+    val analysisWordActor = system.actorOf(Props(new AnalysisWordActor(statWordActor)), name="analysisWordActor")
+    val readFileActor = system.actorOf(Props(new ReadFileActor(analysisWordActor)), name="readFileActor")
+    val fetchFileActor = system.actorOf(Props(new FetchJavaFileActor(readFileActor)), name="fetchFileActor")
+
+    fetchFileActor ! HelloActorDemo
 
     Thread.sleep(15000)
 
@@ -35,16 +37,16 @@ object ConcurrentWordStat extends App {
                            .map(WordStat.analysisWords(_)).flatten.toList
     val basicResult:Map[String,Int] = CollectionUtil.sortByValue(WordStat.statWords(allWords))
 
-    // Compare the results of serial version and actors version
-    concurrentResult.keySet.foreach { key =>
-      assert(concurrentResult(key) == basicResult(key))
+    try {
+      // Compare the results of serial version and actors version
+      basicResult.keySet.foreach { key =>
+        println(key + " => " + basicResult(key))
+        assert(concurrentResult(key) == basicResult(key))
+      }
+      println("All Passed. Yeah ~~ ")
     }
-    println("All Passed. Yeah ~~ ")
-
-    system.shutdown
-
+    finally {
+      system.shutdown
+    }
   }
-
-
-
 }

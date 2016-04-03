@@ -1,6 +1,9 @@
 package scalastudy.concurrent.actors
 
 import akka.actor.{PoisonPill, Actor, ActorRef}
+import akka.event.Logging
+
+import scalastudy.concurrent.ActorTerminationMsg
 
 /**
  * Created by lovesqcc on 16-4-2.
@@ -14,18 +17,23 @@ object ReadFileActor {
 
 class ReadFileActor(analysisWordActor: ActorRef) extends Actor {
 
+  val log = Logging(context.system, self)
+
   override def receive: Receive = {
     case filename:String =>
 
       ReadFileActor.inc()
-      println("File count: " + ReadFileActor.count())
-      println(filename)
+      log.info("file {} received.", filename)
 
       val content = readFile(filename)
       analysisWordActor ! content
-    case PoisonPill =>
-      analysisWordActor ! PoisonPill
-      context.stop(self)
+
+    case ActorTerminationMsg =>
+      log.info("File count: " + ReadFileActor.count())
+      analysisWordActor ! ActorTerminationMsg
+
+    case _ =>
+      log.info("Unknown received.")
   }
 
   def readFile(filename:String): String = {

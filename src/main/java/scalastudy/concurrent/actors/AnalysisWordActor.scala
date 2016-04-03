@@ -1,8 +1,10 @@
 package scalastudy.concurrent.actors
 
 import akka.actor.{PoisonPill, Actor, ActorRef}
+import akka.event.Logging
 
 import scala.collection.immutable.List
+import scalastudy.concurrent.ActorTerminationMsg
 
 /**
  * Created by lovesqcc on 16-4-2.
@@ -14,14 +16,20 @@ case class WordListWrapper(wordlist: List[String]) {
 class AnalysisWordActor(statWordActor: ActorRef) extends Actor {
 
   val seps = " -!\"#$%&()*,./:;?@[]^_`{|}~+<=>\\".toArray
+  val log = Logging(context.system, self)
 
   override def receive: Actor.Receive = {
     case content:String =>
       val words = analysisWords(content)
       statWordActor ! new WordListWrapper(words)
-    case PoisonPill =>
-      statWordActor ! PoisonPill
+
+    case ActorTerminationMsg =>
+      statWordActor ! ActorTerminationMsg
       context.stop(self)
+
+    case _ =>
+      log.info("Unknown received.")
+
   }
 
   def analysisWords(content:String):List[String] = {

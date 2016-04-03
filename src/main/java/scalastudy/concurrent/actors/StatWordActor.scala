@@ -1,9 +1,11 @@
 package scalastudy.concurrent.actors
 
 import akka.actor.{PoisonPill, Actor}
+import akka.event.Logging
 
 import scala.collection.immutable.List
 import scala.collection.mutable.{HashMap, Map}
+import scalastudy.concurrent.ActorTerminationMsg
 
 /**
  * Created by lovesqcc on 16-4-2.
@@ -24,14 +26,20 @@ object StatWordActor {
 
 class StatWordActor extends Actor {
 
+  val log = Logging(context.system, self)
+
   override def receive: Actor.Receive = {
     case WordListWrapper(wordlist: List[String]) =>
       StatWordActor.inc()
-      println("received times: " + StatWordActor.count())
       val stat:Map[String,Int] = statWords(wordlist)
       StatWordActor.add(stat)
-    case PoisonPill =>
+
+    case ActorTerminationMsg =>
+      log.info("received times: " + StatWordActor.count())
       context.stop(self)
+
+    case _ =>
+      log.info("Unknown received.")
   }
 
   def statWords(words: List[String]):Map[String,Int] = {

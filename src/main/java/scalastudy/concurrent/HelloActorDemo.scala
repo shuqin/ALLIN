@@ -13,13 +13,16 @@ object HelloActorDemo extends App {
 
   def launch(): Unit = {
     val system = ActorSystem("HelloSystem")
-    val helloActor = system.actorOf(Props[HelloActor])
+    val helloActor = system.actorOf(Props[HelloActor],name="helloActor")
     helloActor ! "hello"
   }
 
   class HelloActor extends Actor {
     override def receive: Receive = {
-      case msg => println(msg);
+      case msg =>
+        println(msg)
+        println(self)
+        println(this)
     }
   }
 
