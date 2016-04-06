@@ -25,7 +25,7 @@ object ConcurrentWordStat extends App {
     val readFileActor = system.actorOf(Props(new ReadFileActor(analysisWordActor)), name="readFileActor")
     val fetchFileActor = system.actorOf(Props(new FetchJavaFileActor(readFileActor)), name="fetchFileActor")
 
-    fetchFileActor ! HelloActorDemo
+    fetchFileActor ! path
 
     Thread.sleep(15000)
 
