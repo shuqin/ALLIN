@@ -1,7 +1,6 @@
 package scalastudy.concurrent
 
-import akka.actor.{Props, ActorSystem, Actor}
-import akka.actor.Actor.Receive
+import akka.actor.{Actor, ActorSystem, Props}
 
 /**
  * Created by lovesqcc on 16-3-21.
@@ -15,6 +14,9 @@ object HelloActorDemo extends App {
     val system = ActorSystem("HelloSystem")
     val helloActor = system.actorOf(Props[HelloActor],name="helloActor")
     helloActor ! "hello"
+
+    Thread.sleep(1000)
+    system.shutdown
   }
 
   class HelloActor extends Actor {

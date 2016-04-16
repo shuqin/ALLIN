@@ -8,6 +8,8 @@ import scalastudy.concurrent.actors.{AnalysisWordActor, FetchJavaFileActor, Read
 import scalastudy.concurrent.config.ActorSystemFactory
 import scalastudy.utils.CollectionUtil
 
+import scalastudy.utils.DefaultFileUtil._
+
 /**
  * Created by lovesqcc on 16-3-19.
  */
@@ -32,8 +34,8 @@ object ConcurrentWordStat extends App {
     val concurrentResult:Map[String,Int] = CollectionUtil.sortByValue(StatWordActor.finalResult())
 
     WordStat.init()
-    val allWords = WordStat.fetchAllJavaFiles(path)
-                           .map(WordStat.readFile(_))
+    val allWords = fetchAllFiles(path).filter((file:String) => file.endsWith("java"))
+                           .map(readFile(_))
                            .map(WordStat.analysisWords(_)).flatten.toList
     val basicResult:Map[String,Int] = CollectionUtil.sortByValue(WordStat.statWords(allWords))
 

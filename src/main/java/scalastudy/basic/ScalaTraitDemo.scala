@@ -1,7 +1,8 @@
-package scalastudy.concurrent
+package scalastudy.basic
 
-import scalastudy.traits.{LineSplitterHandler, LineNumberHandler, LinePrintHandler}
-import scalastudy.utils.FileUtil
+import traits.FileAbility
+
+import scalastudy.traits.{LineNumberHandler, LinePrintHandler, LineSplitterHandler}
 
 /**
  * Created by lovesqcc on 16-3-19.
@@ -16,10 +17,10 @@ object ScalaTraitDemo extends App {
 
   def handleFile(filename:String):Unit = {
 
-    val fileAbility = new FileUtil with LinePrintHandler
+    val fileAbility = new FileAbility with LinePrintHandler
     fileAbility.handleFile(filename)
 
-    val fileAbility2 = new FileUtil with LineNumberHandler with LineSplitterHandler
+    val fileAbility2 = new FileAbility with LineNumberHandler with LineSplitterHandler
     val result = fileAbility2.handleFile(filename)
     result.foreach { ref =>
       ref match {
