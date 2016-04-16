@@ -13,7 +13,13 @@ public class KnapsackTest {
 		};
 		int totalWeight = 12;
 		KnapsackProblem kp = new KnapsackProblem(bags, totalWeight);
-		
+
+		System.out.println("给定背包：");
+		for(Knapsack b: bags) {
+			System.out.println(b);
+		}
+		System.out.println("给定总承重: " + totalWeight);
+
 		kp.solve();
 		System.out.println(" -------- 该背包问题实例的解: --------- ");
 		System.out.println("最优值：" + kp.getBestValue());	

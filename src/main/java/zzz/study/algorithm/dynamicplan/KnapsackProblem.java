@@ -62,12 +62,6 @@ public class KnapsackProblem {
 	 */
 	public void solve() {
 		
-		System.out.println("给定背包：");
-		for(Knapsack b: bags) {
-			System.out.println(b);
-		}
-		System.out.println("给定总承重: " + totalWeight);
-		
 		// 求解最优值
 		for (int j = 0; j <= totalWeight; j++) {
 			for (int i = 0; i <= n; i++) {
