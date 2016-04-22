@@ -9,4 +9,8 @@ import scalastudy.traits.LinePrintHandler
  */
 object DefaultFileUtil extends FileAbility with LinePrintHandler {
 
+    def main (args: Array[String]){
+        testExtraFilename
+    }
+
 }

@@ -37,7 +37,8 @@ trait FileAbility extends LineHandler {
   }
 
   /* a simple frame for processing files */
-  def handleFiles(filePathHandler:(String) => List[String])
+  def
+  handleFiles(filePathHandler:(String) => List[String])
                  (fileFilterHandler: (String) => Boolean)
                  (fileHandlerList: List[(String)=>List[Any]])
                  (totalHandler: List[Any] => Any)
@@ -91,6 +92,32 @@ trait FileAbility extends LineHandler {
     readFileLines(filename).foreach { line =>
       lineHandler.handle(line)
     }
+  }
+
+  def extraFilename(filepath:String):String = {
+    val ind = filepath.lastIndexOf('/')
+    if (ind == -1) {
+      return filepath
+    }
+    else {
+      return filepath.substring(ind + 1);
+    }
+  }
+
+  def mkdir(path:String):Boolean = {
+    val file = new File(path)
+    if (!file.exists) {
+      return file.mkdirs
+    }
+    return true
+  }
+
+  def testExtraFilename(): Unit = {
+    val filepath = "/home/lovesqcc/work/java/ALLIN/src/main/java/cc/lovesq/dao/CreativeDAO.java"
+    assert(extraFilename(filepath) == "CreativeDAO.java")
+    val filepath2 = "CreativeDAO.java"
+    assert(extraFilename(filepath2) == "CreativeDAO.java")
+    println("test ExtraFilename passed.")
   }
 
 }
