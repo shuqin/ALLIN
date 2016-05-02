@@ -18,11 +18,19 @@ public class Position {
 	    col = 0;
 	    dir = 0;
 	}
-	
+
 	public Position(int row, int col, byte dir) {
 		this.row = row;
 		this.col = col;
 		this.dir = dir;
+	}
+
+	public Position(int row, int col) {
+		this(row, col, 0);
+	}
+
+	public Position(int row, int col, int dir) {
+		this(row, col, (byte)dir);
 	}
 
 	public int getRow() {

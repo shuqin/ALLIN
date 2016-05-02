@@ -28,10 +28,19 @@ public class Model implements ActionListener  {
 		if (rowStr.matches(regex) && colStr.matches(regex)) {
 		   int rows = Integer.parseInt(inputRow.getText());
 		   int cols = Integer.parseInt(inputCol.getText());
-		   Maze maze = new Maze(rows,cols);
+		   final Maze maze = new Maze(rows,cols);
 		   maze.addObserver((Observer) mazePanel);
-		   maze.solve();
-		   maze.change();
+
+		   new Thread(new Runnable() {
+			   public void run() {
+				   if (maze.isCreatedFinished()) {
+					   maze.reset();
+					   maze.change();
+				   }
+				   maze.createMaze();
+			   }
+		   }).start();
+
 		}
 		else {
 		   JOptionPane.showMessageDialog(null, "对不起，您的输入有误， 请输入 [1-99] 之间的任意数字！", "警告", JOptionPane.WARNING_MESSAGE);

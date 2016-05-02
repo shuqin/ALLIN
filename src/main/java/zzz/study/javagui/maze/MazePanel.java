@@ -5,9 +5,7 @@ import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -18,16 +16,17 @@ public class MazePanel extends JPanel implements Observer {
 	private String title;
 	private String text;
 	private JTextArea infoArea;
-	
-	public MazePanel(String title) {
+
+	public MazePanel(String title, Font font) {
 		this(title, "");
+		infoArea.setFont(font);
 	}
 	
 	public MazePanel(String title, String text) {
 		this.title = title;
 		this.text = text;	
 		infoArea = new JTextArea(text);
-		infoArea.setFont(new Font("Dialog",Font.PLAIN, 16));
+		//infoArea.setEnabled(false);
 		setLayout(new BorderLayout());
 		setBorder(new TitledBorder(title));
 	    add(infoArea, BorderLayout.CENTER);
@@ -51,12 +50,23 @@ public class MazePanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
+
 		Maze m = (Maze)o;
-		text = "" + m + "\n" + m.getSolution(); 	
+		if (m.isCreatedFinished()) {
+			m.solve();
+			text = "" + m + "\n" + m.getSolution();
+		}
+		else {
+			text = "" + m + "\n";
+		}
 		infoArea.setText(text);
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				updateUI();
+			}
+		});
+
 	}
-	
-	
-	
 
 }

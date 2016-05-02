@@ -4,15 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.Enumeration;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
 
 /**
  * 迷宫程序的主界面
@@ -25,19 +21,34 @@ public class MazeGUI extends JFrame  {
 	
 	private JPanel mazePanel;                  // 显示迷宫的面板
 	
-	public static final Font font = new Font("Dialog",Font.PLAIN, 16);
-	
 	public MazeGUI() {
 		super("程序演示：模拟走迷宫");
 	}
-	
+
+	private final Font font = new Font("Monospaced",Font.PLAIN, 14);
 	
 	public static void main(String[] args) {
-		
-		MazeGUI app = new MazeGUI();
-		app.launch();
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				MazeGUI app = new MazeGUI();
+				app.launch();
+			}
+		});
 	}
-	
+
+	private static void InitGlobalFont(Font font) {
+		FontUIResource fontRes = new FontUIResource(font);
+		for (Enumeration<Object> keys = UIManager.getDefaults().keys();
+			 keys.hasMoreElements(); ) {
+			Object key = keys.nextElement();
+			Object value = UIManager.get(key);
+			if (value instanceof FontUIResource) {
+				UIManager.put(key, fontRes);
+			}
+		}
+	}
+
 	/**
 	 * 启动应用程序
 	 */
@@ -47,14 +58,16 @@ public class MazeGUI extends JFrame  {
 		f.setBounds(100, 100, 800, 600);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		
+
+		InitGlobalFont(font);
+
 		Container contentPane = f.getContentPane();
 		contentPane.setLayout(new BorderLayout());
 			
 		JPanel inputPanel = createInputPanel();	
 		contentPane.add(inputPanel, BorderLayout.NORTH);	
 		
-		mazePanel = new MazePanel("显示迷宫和迷宫的解");
+		mazePanel = new MazePanel("显示迷宫和迷宫的解", font);
 		contentPane.add(mazePanel, BorderLayout.CENTER);
 	        		
 		f.setContentPane(contentPane);
@@ -69,8 +82,7 @@ public class MazeGUI extends JFrame  {
 		inputPanel.setBorder(new TitledBorder("用户输入信息提示"));
 		
 		JLabel labelInfo = new JLabel("请输入迷宫大小：",null,SwingConstants.LEFT);
-		labelInfo.setFont(font);
-		
+
 		JLabel labelRow = new JLabel("行");
 		JLabel labelCol = new JLabel("列");
 		JLabel labelSpace = new JLabel("  ");

@@ -9,10 +9,10 @@ public interface StackADT<T> {
 	public void push(T e);
 	
 	/* 出栈操作： 若栈非空，将栈顶元素弹出并返回；若栈空，则抛出异常  */
-	public T pop() throws Exception;
+	public T pop();
 	
 	/* 返回栈顶元素，但并不将其弹出  */
-	public T peek() throws Exception;
+	public T peek();
 	
 	/* 返回栈长度，即栈中元素的数目 */
 	public int size();
