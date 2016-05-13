@@ -36,6 +36,7 @@ public class ProducerConsumerProblem {
 		es.shutdownNow();
 		
 		System.out.println("Time to be over.");
+		System.out.println("CharBuffer RW count: " + sharedBuffer.getCount());
 		
 	}
 

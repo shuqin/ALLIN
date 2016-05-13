@@ -12,6 +12,8 @@ public class CharBuffer {
 	
 	private char[] charBuffer;   // 用来生产和消费的有限长度字符缓冲区
 	private int  index;
+
+	private int  count;          // 该缓冲区被读写的次数,可衡量性能
 	
 	public CharBuffer(int capacity) {
 		
@@ -49,7 +51,7 @@ public class CharBuffer {
 		
 	      charBuffer[index] = ch;
 	      index++;     
-	      
+	      count++;
 	}
 	
 	/**
@@ -70,6 +72,7 @@ public class CharBuffer {
 	public synchronized char fetch() {  
 
 		index--;
+		count++;
 		return charBuffer[index];	
 	}
 	
@@ -91,6 +94,10 @@ public class CharBuffer {
 		return bufferstr.toString();
 		}
 		
+	}
+
+	public int getCount() {
+		return count;
 	}
 
 }
