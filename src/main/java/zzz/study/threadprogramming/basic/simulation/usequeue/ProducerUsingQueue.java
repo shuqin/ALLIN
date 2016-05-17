@@ -1,5 +1,7 @@
 package zzz.study.threadprogramming.basic.simulation.usequeue;
 
+import org.apache.commons.logging.Log;
+import org.apache.log4j.Logger;
 import zzz.study.threadprogramming.basic.simulation.TimeIndicator;
 
 import java.util.Random;
@@ -15,6 +17,8 @@ public class ProducerUsingQueue extends Thread {
 	private final int id;
 	
 	BlockingQueue<Character> buffer;
+
+	private Logger log = Logger.getLogger("appInfo");
 	
 	public ProducerUsingQueue(int id, BlockingQueue<Character> buffer) {
 		this.id = id;
@@ -34,11 +38,11 @@ public class ProducerUsingQueue extends Thread {
 		while (!isCanceled()) {
 			try {
 				char ch = produce();
-				System.out.println(TimeIndicator.getcurrTime() + ":\t" + this + " 准备写缓冲区：" + ch);
+				log.info(TimeIndicator.getcurrTime() + ":\t" + this + " 准备写缓冲区：" + ch);
 				buffer.put(ch);
-				System.out.println(TimeIndicator.getcurrTime() + ":\t" + this + " :\t\t\t" + buffer);
+				log.info(TimeIndicator.getcurrTime() + ":\t" + this + " :\t\t\t" + buffer);
 			} catch (InterruptedException e) {
-				System.out.println(this + " Interrupted: " + e.getMessage());
+				log.error(this + " Interrupted: " + e.getMessage());
 			}
 		}
 	}

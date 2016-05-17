@@ -6,6 +6,7 @@
 
 package zzz.study.threadprogramming.basic.simulation.usequeue;
 
+import org.apache.log4j.Logger;
 import zzz.study.threadprogramming.basic.simulation.TimeIndicator;
 
 import java.util.concurrent.BlockingQueue;
@@ -17,6 +18,8 @@ public class ConsumerUsingQueue extends Thread {
 	private final int id;
 	
 	private BlockingQueue<Character> buffer;
+
+	private Logger log = Logger.getLogger("appInfo");
 	
 	public ConsumerUsingQueue(int id, BlockingQueue<Character> buffer) {
 		this.id = id;
@@ -49,10 +52,10 @@ public class ConsumerUsingQueue extends Thread {
 					
 		while (!isCanceled()) {
 			try {
-				System.out.println(TimeIndicator.getcurrTime() + ":\t" + this + " 取出字符: " + consume());
-				System.out.println(TimeIndicator.getcurrTime() + ":\t" + this + " :\t\t\t" + buffer);
+				log.info(TimeIndicator.getcurrTime() + ":\t" + this + " 取出字符: " + consume());
+				log.info(TimeIndicator.getcurrTime() + ":\t" + this + " :\t\t\t" + buffer);
 			} catch (InterruptedException e) {
-				System.out.println(this + " Interrupted: " + e.getMessage());
+				log.error(this + " Interrupted: " + e.getMessage());
 			}
 		}
 	}
