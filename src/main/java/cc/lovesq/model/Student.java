@@ -7,6 +7,8 @@ public class Student {
     private int age;
     private String name;
 
+    private Address address;
+
     public int getAge() {
         return age;
     }
@@ -28,6 +30,7 @@ public class Student {
         return "Student{" +
                 "age=" + age +
                 ", name='" + name + '\'' +
+                ", address=" + address +
                 '}';
     }
 }

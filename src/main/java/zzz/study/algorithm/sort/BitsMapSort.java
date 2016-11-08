@@ -33,7 +33,7 @@ public class BitsMapSort {
 			}
 			nBitsVector.setBit(arr[i]);		
 		}
-		int bitsLength = nBitsVector.getBitsLength();
+		long bitsLength = nBitsVector.getBitsLength();
 		int count = 0;
 		for (int i=0; i < bitsLength; i++) {
 			if (nBitsVector.testBit(i)) {			

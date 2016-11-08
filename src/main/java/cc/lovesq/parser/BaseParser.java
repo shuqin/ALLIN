@@ -88,18 +88,19 @@ public class BaseParser {
         try {
             return mapper.readValue(mapper.writeValueAsString(map), cls);
         } catch (Exception ex) {
+            System.out.println("Error Map to Object: " + ex.getMessage());
             return null;
         }
     }
 
     public static class BaseParserTester {
         public static void main(String[] args) {
-            String respStr = "{\"code\": 200, \"msg\": \"success\", \"data\": {\"age\": 32, \"name\": \"shuqin\"}}";
+            String respStr = "{\"code\": 200, \"msg\": \"success\", \"data\": {\"age\": 32, \"name\": \"shuqin\", \"address\": {\"detail\": \"中国湖北天门\"}}}";
             BaseResult<Student> result = BaseParser.parse(respStr, Student.class);
             System.out.println(result);
 
-            String respStr2 = "{\"code\": 200, \"msg\": \"success\", \"data\": [{\"age\": 32, \"name\": \"shuqin\"}, "
-                    + "{\"age\": 28, \"name\": \"ni\"}]}";
+            String respStr2 = "{\"code\": 200, \"msg\": \"success\", \"data\": [{\"age\": 32, \"name\": \"shuqin\", \"address\": {\"detail\": \"中国湖北天门\"}}, "
+                    + "{\"age\": 28, \"name\": \"ni\", \"address\": {\"detail\": \"中国湖北宜昌\"}}]}";
             BaseResult<List<Student>> listResult = BaseParser.parseComplex(respStr2, Student.class);
             if (result.isSuccess()) {
                 System.out.println(listResult.getData());

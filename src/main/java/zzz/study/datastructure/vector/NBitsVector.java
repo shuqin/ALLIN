@@ -13,12 +13,15 @@ public class NBitsVector {
 	 private int[] bitsVector;
 	 
 	 // 位向量的总位数
-	 private int bitsLength;
+	 private long bitsLength;
 	 
 	 public NBitsVector(int n) {
 		 int i = 1;
-		 while (i * BITS_PER_INT < n) { i++;}
-		 this.bitsLength = i * BITS_PER_INT;
+		 // 考虑到左移位可能导致溢出, 从而陷入死循环
+		 while ((i<<SHIFT) > 0 && (i<<SHIFT) < n) {
+			 i++;
+		 }
+		 this.bitsLength = i * (long)BITS_PER_INT;
 		 if (bitsVector == null) {
 			 bitsVector = new int[i];
 		 }
@@ -64,7 +67,7 @@ public class NBitsVector {
      /**
       * getBitsLength: 获取位向量的总位数
       */
-     public int getBitsLength() {
+     public long getBitsLength() {
 		return bitsLength;
 	}
 

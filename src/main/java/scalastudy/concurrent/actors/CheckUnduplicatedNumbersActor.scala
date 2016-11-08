@@ -3,10 +3,12 @@ package scalastudy.concurrent.actors
 import java.io.{File, PrintWriter}
 
 import akka.actor.{ActorRef, Actor}
+import zzz.study.datastructure.vector.NBitsVector
 
 import scala.io.Source
 import scala.collection.immutable.{List}
 import scala.collection.mutable.Set
+import scalastudy.concurrent.forkjoin.BillionNumberSort
 
 import scalastudy.utils.{PathConstants}
 
@@ -19,12 +21,13 @@ class CheckUnduplicatedNumbersActor(numbers:Int, bigfileSortActor: ActorRef) ext
     val filename = PathConstants.projPath + "/data/"+numbers+".txt"
     val fwResult = new PrintWriter(new File(filename))
 
-    var count = 0;
+    var count = 0
+    val useBigFileSort = false
 
     def checkUnduplicatedNumbers(): Unit = {
         println("Expected: " + numbers + " , Actual Received: " + count)
         assert(count == numbers)
-        assert(new OnceLoadStrategy().checkUnduplicatedNumbersInFile(filename) == true)
+        assert(new BitMapStrategy().checkUnduplicatedNumbersInFile(filename) == true)
         println("checkUnduplicatedNumbers passed.")
     }
 
@@ -34,12 +37,14 @@ class CheckUnduplicatedNumbersActor(numbers:Int, bigfileSortActor: ActorRef) ext
             fwResult.write(numberList.mkString(" ") + "\n");
             count += numberList.length
 
-        case (0, Integer.MAX_VALUE) =>
+        case (0, BillionNumberSort.rangeMaxNumber) =>
             println("Reach End.")
             fwResult.flush
             fwResult.close
             checkUnduplicatedNumbers
-            bigfileSortActor ! filename
+            if (useBigFileSort) {
+                bigfileSortActor ! filename
+            }
     }
 
     /**
@@ -60,6 +65,49 @@ class CheckUnduplicatedNumbersActor(numbers:Int, bigfileSortActor: ActorRef) ext
             println("Unduplicated numbers in File: " + unDupNumberSet.size)
             unDupNumberSet.size == numbers
         }
+    }
+
+    /**
+      * 使用位图技术来检测不重复的数, 实际上还能用于排序
+      * N个数只要 4(N/32+1) = N/8 + 4 个字节
+      * 十亿个数只要 125000004B = 125MB
+      * 反过来, 内存 1G 的机器可以对 80亿 的不重复数进行排序
+      */
+    class BitMapStrategy extends CheckUnduplicatedStrategy {
+
+        val nbitsVector = new NBitsVector(BillionNumberSort.rangeMaxNumber)
+
+        override def checkUnduplicatedNumbersInFile(filename: String): Boolean = {
+            Source.fromFile(filename).getLines.
+                foreach { line =>
+                    val numbersInLine = line.split("\\s+").map(Integer.parseInt(_)).toSet
+                    numbersInLine.foreach { num =>
+                        nbitsVector.setBit(num)
+                    }
+                }
+
+            val undupTotal = checkAndSort
+            println("undupTotal: " + undupTotal)
+            assert(undupTotal == numbers)
+            return true
+        }
+
+        def checkAndSort(): Integer = {
+            val fwRersult = new PrintWriter(new File(filename+".sorted.txt"))
+            val charArray = nbitsVector.toString.toCharArray
+            val arrlen = charArray.length
+            var undupTotal = 0
+            for (ind <- 0 to arrlen-1) {
+                if ("1".equals(charArray.charAt(ind).toString)) {
+                    fwResult.write(ind + "\n")
+                    undupTotal += 1
+                }
+            }
+            fwResult.flush()
+            fwResult.close()
+            return undupTotal
+        }
+
     }
 
     trait CheckUnduplicatedStrategy {
