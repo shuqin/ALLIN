@@ -87,7 +87,7 @@ public class NBitsVector {
      }
      
      public String toString() {
-    	 StringBuilder sb = new StringBuilder("Bits Vector: ");
+    	 StringBuilder sb = new StringBuilder("");
     	 for (int i = bitsVector.length-1; i >=0 ; i--) {
     		 sb.append(intToBinaryStringWithHighZero(bitsVector[i]));
     		 sb.append(" ");

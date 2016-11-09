@@ -93,18 +93,18 @@ class CheckUnduplicatedNumbersActor(numbers:Int, bigfileSortActor: ActorRef) ext
         }
 
         def checkAndSort(): Integer = {
-            val fwRersult = new PrintWriter(new File(filename+".sorted.txt"))
-            val charArray = nbitsVector.toString.toCharArray
-            val arrlen = charArray.length
+            val fwFinalResult = new PrintWriter(new File(filename+".sorted.txt"))
+            val charArrayStr = nbitsVector.toString
+            val arrlen = charArrayStr.length
             var undupTotal = 0
             for (ind <- 0 to arrlen-1) {
-                if ("1".equals(charArray.charAt(ind).toString)) {
+                if ("1".equals(charArrayStr.charAt(ind).toString)) {
                     fwResult.write(ind + "\n")
                     undupTotal += 1
                 }
             }
-            fwResult.flush()
-            fwResult.close()
+            fwFinalResult.flush()
+            fwFinalResult.close()
             return undupTotal
         }
 
