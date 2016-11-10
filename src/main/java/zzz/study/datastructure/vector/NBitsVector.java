@@ -97,7 +97,7 @@ public class NBitsVector {
      
      public static void main(String[] args) 
      {
-    	 NBitsVector nbitsVector = new NBitsVector(64);
+    	 NBitsVector nbitsVector = new NBitsVector((int)Math.pow(2,16));
     	 nbitsVector.setBit(2);
     	 System.out.println(nbitsVector);
     	 nbitsVector.setBit(7);
