@@ -3,7 +3,7 @@ package scalastudy.concurrent.actors
 import java.io.{File, PrintWriter}
 
 import akka.actor.{ActorRef, Actor}
-import zzz.study.datastructure.vector.NBitsVector
+import zzz.study.datastructure.vector.{EnhancedBigNBitsVector, NBitsVector}
 
 import scala.io.Source
 import scala.collection.immutable.{List}
@@ -75,7 +75,7 @@ class CheckUnduplicatedNumbersActor(numbers:Int, bigfileSortActor: ActorRef) ext
       */
     class BitMapStrategy extends CheckUnduplicatedStrategy {
 
-        val nbitsVector = new NBitsVector(BillionNumberSort.rangeMaxNumber)
+        val nbitsVector = new EnhancedBigNBitsVector(BillionNumberSort.rangeMaxNumber)
 
         override def checkUnduplicatedNumbersInFile(filename: String): Boolean = {
             Source.fromFile(filename).getLines.
@@ -94,15 +94,8 @@ class CheckUnduplicatedNumbersActor(numbers:Int, bigfileSortActor: ActorRef) ext
 
         def checkAndSort(): Integer = {
             val fwFinalResult = new PrintWriter(new File(filename+".sorted.txt"))
-            val charArrayStr = nbitsVector.toString
-            val arrlen = charArrayStr.length
-            var undupTotal = 0
-            for (ind <- 0 to arrlen-1) {
-                if ("1".equals(charArrayStr.charAt(ind).toString)) {
-                    fwResult.write(ind + "\n")
-                    undupTotal += 1
-                }
-            }
+            val sorted = nbitsVector.expr()
+            var undupTotal = sorted.size()
             fwFinalResult.flush()
             fwFinalResult.close()
             return undupTotal

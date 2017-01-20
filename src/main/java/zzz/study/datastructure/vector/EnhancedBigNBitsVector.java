@@ -38,9 +38,9 @@ public class EnhancedBigNBitsVector {
      *
      * @param i 要置位的位置
      */
-    public void setBit(int i) {
-        int arrIndex = i / BITS_PER_ARRAY;
-        int intBits = i - arrIndex * BITS_PER_ARRAY;
+    public void setBit(long i) {
+        int arrIndex = (int)(i / BITS_PER_ARRAY);
+        int intBits = (int)(i - arrIndex * BITS_PER_ARRAY);
         int intIndex = intBits / BITS_PER_INT;
         int[] arr = bitsVector.get(arrIndex);
         arr[intIndex] |= 1 << (intBits & 0x1f);
@@ -52,9 +52,9 @@ public class EnhancedBigNBitsVector {
      *
      * @param i 要清零的位置
      */
-    public void clrBit(int i) {
-        int arrIndex = i / BITS_PER_ARRAY;
-        int intBits = i - arrIndex * BITS_PER_ARRAY;
+    public void clrBit(long i) {
+        int arrIndex = (int)(i / BITS_PER_ARRAY);
+        int intBits = (int)(i - arrIndex * BITS_PER_ARRAY);
         int intIndex = intBits / BITS_PER_INT;
         int[] arr = bitsVector.get(arrIndex);
         arr[intIndex] &= ~(1 << (intBits & 0x1f));
@@ -66,9 +66,9 @@ public class EnhancedBigNBitsVector {
      * @param i 测试位的位置
      * @return 若位向量的第 i 位为 1, 则返回true, 否则返回 false
      */
-    public boolean testBit(int i) {
-        int arrIndex = i / BITS_PER_ARRAY;
-        int intBits = i - arrIndex * BITS_PER_ARRAY;
+    public boolean testBit(long i) {
+        int arrIndex = (int)(i / BITS_PER_ARRAY);
+        int intBits = (int)(i - arrIndex * BITS_PER_ARRAY);
         int intIndex = intBits / BITS_PER_INT;
         int[] arr = bitsVector.get(arrIndex);
         return (arr[intIndex] & 1 << (intBits & 0x1f)) != 0;
@@ -91,6 +91,20 @@ public class EnhancedBigNBitsVector {
      */
     public long getBitsLength() {
         return bitsLength;
+    }
+
+    /**
+     * 返回位向量的表示
+     * @return 一个整数数组, 里面每个整数表示位出现的位置
+     */
+    public List<Integer> expr() {
+        List<Integer> bitVectorExpr = new ArrayList<Integer>();
+        for (long i=0; i < bitsLength; i++) {
+            if (testBit((int)i)) {
+                bitVectorExpr.add((int)i);
+            }
+        }
+        return bitVectorExpr;
     }
 
     /**
@@ -123,7 +137,7 @@ public class EnhancedBigNBitsVector {
     public static void main(String[] args) {
         EnhancedBigNBitsVector nbitsVector = new EnhancedBigNBitsVector(Integer.MAX_VALUE);
         nbitsVector.setBit(2);
-        System.out.println(nbitsVector);
+        //System.out.println(nbitsVector);
         nbitsVector.setBit(7);
         nbitsVector.setBit(18);
         nbitsVector.setBit(25);
@@ -131,14 +145,16 @@ public class EnhancedBigNBitsVector {
         nbitsVector.setBit(49);
         nbitsVector.setBit(52);
         nbitsVector.setBit(63);
-        System.out.println(nbitsVector);
+        //System.out.println(nbitsVector);
         nbitsVector.clrBit(36);
         nbitsVector.clrBit(35);
-        System.out.println(nbitsVector);
+        //System.out.println(nbitsVector);
         System.out.println("52: " + nbitsVector.testBit(52));
         System.out.println("42: " + nbitsVector.testBit(42));
+        System.out.println(nbitsVector.expr());
         nbitsVector.clr();
-        System.out.println(nbitsVector);
+        //System.out.println(nbitsVector);
+        System.out.println(nbitsVector.expr());
     }
 
 }
