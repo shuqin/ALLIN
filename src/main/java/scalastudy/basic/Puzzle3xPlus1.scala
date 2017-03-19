@@ -7,9 +7,9 @@ package scalastudy.basic
  */
 object Puzzle3xPlus1 extends App {
 
-    println(new P3xPlus1Number(78).do3xplus1().do3xplus1().do3xplus1())
-    println(new P3xPlus1Number(78).solve())
-    1 to 1000 map { new P3xPlus1Number(_).solve() } map { t => (t._1, t._2) } foreach { println }
+    println(P3xPlus1Number(78).do3xplus1().do3xplus1().do3xplus1())
+    println(P3xPlus1Number(78).solve())
+    1 to 1000 map { P3xPlus1Number(_).solve() } map { t => (t._1, t._2) } foreach { println }
 }
 
 class P3xPlus1Number(init:Int) {
@@ -32,5 +32,11 @@ class P3xPlus1Number(init:Int) {
 
     override def toString():String = {
         "P3xPlus1Number["+innerNumber+"]"
+    }
+}
+
+object P3xPlus1Number {
+    def apply(init:Int): P3xPlus1Number = {
+        new P3xPlus1Number(init)
     }
 }
