@@ -13,12 +13,12 @@ public enum FieldConf {
 
     private String name;
     private String title;
-    private Function<Person, String> able;
+    private Function<Person, String> method;
 
-    FieldConf(String name, String title, Function<Person,String> able) {
+    FieldConf(String name, String title, Function<Person,String> method) {
         this.name = name;
         this.title = title;
-        this.able = able;
+        this.method = method;
     }
 
     public String getName() {
@@ -29,7 +29,7 @@ public enum FieldConf {
         return title;
     }
 
-    public Function<Person, String> getAble() {
-        return able;
+    public Function<Person, String> getMethod() {
+        return method;
     }
 }

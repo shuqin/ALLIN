@@ -23,7 +23,7 @@ public class Report {
         List<String> rows = persons.stream().map(
                 p -> {
                     List<String> row = fields.stream().map(
-                            field -> FieldConfAccompany.getInstance(field).getAble().apply(p)
+                            field -> FieldConfAccompany.getInstance(field).getMethod().apply(p)
                     ).collect(Collectors.toList());
                     return join(row, ",");
                 }
