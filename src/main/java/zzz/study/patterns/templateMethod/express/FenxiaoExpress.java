@@ -9,10 +9,13 @@ public class FenxiaoExpress extends AbstractExpress {
     return new Order(orderNo, 5);
   }
 
-  public void checkOrder(Order order) {
-    if (Integer.valueOf(5).equals(order.getOrderType())) {
-      throw new IllegalArgumentException("Fenxiao order can not express by own");
-    }
+  protected void checkOrder(Order order) {
+    // let order check pass
+  }
+
+  protected int execute(Order order, ExpressParam expressParam) {
+    System.out.println("success express for fenxiao order: " + expressParam);
+    return 1;
   }
 
 }
