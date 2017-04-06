@@ -9,11 +9,6 @@ import java.util.stream.Collectors;
  */
 public class Report {
 
-    public static void main(String[] args) {
-        report(Arrays.asList(new String[] {"Id", "Name"}), getPersons());
-        report(Arrays.asList(new String[] {"Name", "Able"}), getPersons());
-    }
-
     public static void report(List<String> fields, List<Person> persons) {
         List<String> titles = fields.stream().map(
                 field -> FieldConfAccompany.getInstance(field).getTitle()
@@ -43,14 +38,6 @@ public class Report {
             sb.append(sep); sb.append(strs.get(i));
         }
         return sb.toString();
-    }
-
-    private static List<Person> getPersons() {
-        Person s1 = new Student("s1", "liming", "Study");
-        Person s2 = new Student("s2", "xueying", "Piano");
-        Person t1 = new Teacher("t1", "Mr.Q", "Swim");
-        Person t2 = new Teacher("t2", "Mrs.L", "Dance");
-        return Arrays.asList(new Person[] {s1, s2, t1, t2});
     }
 
 }
