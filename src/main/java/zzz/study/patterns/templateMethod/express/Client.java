@@ -11,16 +11,20 @@ public class Client {
     normal.postExpress(expressParam);
 
     try {
-      expressParam.setOrderNo("F001");
-      normal.postExpress(expressParam);
+      ExpressParam expressParamInvalid = new ExpressParam("F201704062033123456", "1", "666888");
+      normal.postExpress(expressParamInvalid);
     } catch (Exception ex) {
       String exInfo = String.format("Failed to post express for %s , Reason: %s", expressParam, ex.getMessage());
       System.err.println(exInfo);
     }
 
     Express fenxiao = new FenxiaoExpress();
-    expressParam.setOrderNo("F201704062033123456");
-    fenxiao.postExpress(expressParam);
+    ExpressParam fenxiaoExpressParam = new ExpressParam("F201704062033123456", "1", "666888");
+    fenxiao.postExpress(fenxiaoExpressParam);
+
+    Express caigou = new CaigouExpress();
+    ExpressParam caigouExpressParam = new ExpressParam("201704062033113366", "1", "666888");
+    caigou.postExpress(caigouExpressParam);
 
   }
 
