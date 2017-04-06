@@ -11,13 +11,16 @@ public class Client {
     normal.postExpress(expressParam);
 
     try {
-      Express fenxiao = new FenxiaoExpress();
-      expressParam.setOrderNo("F201704062033123456");
-      fenxiao.postExpress(expressParam);
+      expressParam.setOrderNo("F001");
+      normal.postExpress(expressParam);
     } catch (Exception ex) {
       String exInfo = String.format("Failed to post express for %s , Reason: %s", expressParam, ex.getMessage());
       System.err.println(exInfo);
     }
+
+    Express fenxiao = new FenxiaoExpress();
+    expressParam.setOrderNo("F201704062033123456");
+    fenxiao.postExpress(expressParam);
 
   }
 

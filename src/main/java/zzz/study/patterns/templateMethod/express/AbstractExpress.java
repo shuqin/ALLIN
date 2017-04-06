@@ -19,8 +19,8 @@ public abstract class AbstractExpress implements Express {
 
   protected void checkOrder(Order order) {
     // check if order can express. may be overriden
-    if (Integer.valueOf(5).equals(order.getOrderType())) {
-      throw new IllegalArgumentException("Fenxiao order can not express by own");
+    if (Integer.valueOf(5).equals(order.getOrderType()) || order.getOrderNo().startsWith("F")) {
+      throw new IllegalArgumentException("Fenxiao order can not be expressed by own");
     }
   }
 
