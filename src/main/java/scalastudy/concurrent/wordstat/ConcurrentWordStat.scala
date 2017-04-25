@@ -1,13 +1,12 @@
-package scalastudy.concurrent
+package scalastudy.concurrent.wordstat
 
 import akka.actor.{ActorSystem, Props}
 
 import scala.collection.mutable.Map
 import scalastudy.basic.WordStat
-import scalastudy.concurrent.actors.{AnalysisWordActor, FetchJavaFileActor, ReadFileActor, StatWordActor}
+import scalastudy.concurrent.actors.AnalysisWordActor
 import scalastudy.concurrent.config.ActorSystemFactory
 import scalastudy.utils.CollectionUtil
-
 import scalastudy.utils.DefaultFileUtil._
 
 /**
@@ -18,7 +17,7 @@ object ConcurrentWordStat extends App {
   launch()
 
   def launch(): Unit = {
-    val path = "/home/lovesqcc/work/java/ALLIN/src/main/java/"
+    val path = "/Users/shuqin/Workspace/java/ALLIN/src/main/java/"
 
     val system:ActorSystem = ActorSystemFactory.newInstance()
 

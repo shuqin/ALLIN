@@ -1,13 +1,12 @@
-package scalastudy.concurrent.actors
+package scalastudy.concurrent.wordstat
 
 import java.io.File
 
-import akka.actor.{PoisonPill, Actor, ActorRef}
+import akka.actor.{Actor, ActorRef, PoisonPill}
 import akka.event.Logging
 
 import scala.collection.mutable.ArrayBuffer
 import scalastudy.concurrent.ActorTerminationMsg
-import scalastudy.concurrent.HelloActorDemo.HelloActor
 
 /**
  * Created by lovesqcc on 16-4-2.

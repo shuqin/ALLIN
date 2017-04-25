@@ -4,7 +4,7 @@ import java.util.concurrent.{TimeUnit, ForkJoinPool}
 
 import akka.actor.{Props, ActorSystem}
 
-import scalastudy.concurrent.actors.{BigFileSortActor, CheckUnduplicatedNumbersActor, StatWordActor}
+import scalastudy.concurrent.actors.{BigFileSortActor, CheckUnduplicatedNumbersActor}
 import scalastudy.concurrent.config.ActorSystemFactory
 
 /**

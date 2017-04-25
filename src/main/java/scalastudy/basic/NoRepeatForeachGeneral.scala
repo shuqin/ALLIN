@@ -7,12 +7,6 @@ trait FieldValue {
   def getValue(fieldName:String):Any = {}
 }
 
-object Sex extends Enumeration {
-  val Female = Value("Female")
-  val Male = Value("Male")
-  val Double = Value("Double")
-}
-
 class Person2(var name:String, var age:Int, var ables:List[String], val sex:Sex.Value) extends FieldValue {
 
   def setAge(age:Int):Unit = {
