@@ -6,7 +6,6 @@ import akka.event.Logging
 import scala.collection.immutable.List
 import scala.collection.mutable.{HashMap, Map}
 import scalastudy.concurrent.ActorTerminationMsg
-import scalastudy.concurrent.actors.WordListWrapper
 
 /**
  * Created by lovesqcc on 16-4-2.

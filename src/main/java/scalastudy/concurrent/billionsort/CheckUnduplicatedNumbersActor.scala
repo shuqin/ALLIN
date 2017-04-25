@@ -1,16 +1,14 @@
-package scalastudy.concurrent.actors
+package scalastudy.concurrent.billionsort
 
 import java.io.{File, PrintWriter}
 
-import akka.actor.{ActorRef, Actor}
-import zzz.study.datastructure.vector.{EnhancedBigNBitsVector, NBitsVector}
+import akka.actor.{Actor, ActorRef}
+import zzz.study.datastructure.vector.EnhancedBigNBitsVector
 
-import scala.io.Source
-import scala.collection.immutable.{List}
+import scala.collection.immutable.List
 import scala.collection.mutable.Set
-import scalastudy.concurrent.forkjoin.BillionNumberSort
-
-import scalastudy.utils.{PathConstants}
+import scala.io.Source
+import scalastudy.utils.PathConstants
 
 
 /**
@@ -22,7 +20,7 @@ class CheckUnduplicatedNumbersActor(numbers:Int, bigfileSortActor: ActorRef) ext
     val fwResult = new PrintWriter(new File(filename))
 
     var count = 0
-    val useBigFileSort = false
+    val useBigFileSort = true
 
     def checkUnduplicatedNumbers(): Unit = {
         println("Expected: " + numbers + " , Actual Received: " + count)

@@ -1,6 +1,6 @@
-package scalastudy.concurrent.actors
+package scalastudy.concurrent.wordstat
 
-import akka.actor.{PoisonPill, Actor, ActorRef}
+import akka.actor.{Actor, ActorRef}
 import akka.event.Logging
 
 import scala.collection.immutable.List

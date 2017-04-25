@@ -1,18 +1,15 @@
-package scalastudy.concurrent.actors
+package scalastudy.concurrent.billionsort
 
 import java.io.{File, PrintWriter}
-import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.{TimeUnit, Callable, Executors}
+import java.util.concurrent.TimeUnit
 
-import akka.actor.{Props, ActorSystem, Actor}
-import akka.dispatch.Futures
+import akka.actor.{Actor, ActorSystem, Props}
 
-import scala.collection.mutable.ListBuffer
-import scala.concurrent.{Future}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.io.Source
 import scala.util.{Failure, Success}
-import scalastudy.utils.{CollectionUtil, PathConstants, DefaultFileUtil}
-import scala.concurrent.ExecutionContext.Implicits.global
+import scalastudy.utils.{CollectionUtil, DefaultFileUtil, PathConstants}
 
 
 /**

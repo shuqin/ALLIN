@@ -1,4 +1,4 @@
-package scalastudy.concurrent.forkjoin
+package scalastudy.concurrent.billionsort
 
 import java.util.concurrent.RecursiveAction
 

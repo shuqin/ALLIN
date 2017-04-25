@@ -4,7 +4,6 @@ import akka.actor.{ActorSystem, Props}
 
 import scala.collection.mutable.Map
 import scalastudy.basic.WordStat
-import scalastudy.concurrent.actors.AnalysisWordActor
 import scalastudy.concurrent.config.ActorSystemFactory
 import scalastudy.utils.CollectionUtil
 import scalastudy.utils.DefaultFileUtil._
