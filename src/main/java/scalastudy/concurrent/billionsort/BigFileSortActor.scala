@@ -7,7 +7,6 @@ import akka.actor.{Actor, ActorSystem, Props}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.io.Source
 import scala.util.{Failure, Success}
 import scalastudy.utils.{CollectionUtil, DefaultFileUtil, PathConstants}
 
@@ -15,7 +14,7 @@ import scalastudy.utils.{CollectionUtil, DefaultFileUtil, PathConstants}
 /**
   * Created by shuqin on 16/5/20.
   */
-class BigFileSortActor(numbers: Int) extends Actor {
+class BigFileSortActor(numbers: Int) extends Actor with SortChecker {
 
     override def receive: Receive = {
 
@@ -44,20 +43,6 @@ class BigFileSortActor(numbers: Int) extends Actor {
         }
     }
 
-    def checkSorted(filename:String): Unit = {
-        var last = 0
-        var count = 0
-        Source.fromFile(filename + ".sorted.txt").getLines().toList.foreach {
-            line =>
-                val number = Integer.parseInt(line.trim)
-                assert(number > last)
-                count += 1
-                last = number
-        }
-        assert(count == numbers)
-        println("test sorted passed.")
-    }
-
     def sortFile(filename:String):Unit = {
 
         val futureTasks = DefaultFileUtil.readFileLines(filename).map(produceFuture(_))
@@ -69,7 +54,7 @@ class BigFileSortActor(numbers: Int) extends Actor {
             case Success(value:List[Int]) =>
                 println("sort finished.")
                 writeSorted(value, filename)
-                checkSorted(filename)
+                checkSorted(filename, numbers)
             case Failure(ex) =>
                 println("Sort failed: " + ex.getMessage)
         }
