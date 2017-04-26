@@ -131,7 +131,7 @@ object CollectionUtil {
   def mergeKOrderedList(klists: List[List[Int]]): List[Int] = {
     if (klists.isEmpty) { return List[Int]() }
     if (klists.size == 1) { return klists.head }
-    klists.reduce(mergeIneffective)
+    klists.reduce(merge)
   }
 
   def mergeKOrderedListIneffective(klists: List[List[Int]]): List[Int] = {
