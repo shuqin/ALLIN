@@ -10,7 +10,7 @@ import scala.io.Source
 /**
   * Created by shuqin on 17/4/26.
   */
-class CheckUnduplicatedNumbers {
+trait CheckUnduplicatedNumbers {
 
   def checkUnduplicatedNumbers(filename:String, numbers:Int): Unit = {
 

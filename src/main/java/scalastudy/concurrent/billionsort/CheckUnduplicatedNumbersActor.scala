@@ -11,7 +11,8 @@ import scalastudy.utils.PathConstants
 /**
   * Created by shuqin on 16/5/19.
   */
-class CheckUnduplicatedNumbersActor(val numbers:Int, bigfileSortActor: ActorRef) extends Actor {
+class CheckUnduplicatedNumbersActor(val numbers:Int, bigfileSortActor: ActorRef) extends Actor
+    with CheckUnduplicatedNumbers {
 
     val filename = PathConstants.projPath + "/data/"+numbers+".txt"
     val fwResult = new PrintWriter(new File(filename))
@@ -32,7 +33,7 @@ class CheckUnduplicatedNumbersActor(val numbers:Int, bigfileSortActor: ActorRef)
             fwResult.flush
             fwResult.close
 
-            new CheckUnduplicatedNumbers().checkUnduplicatedNumbers(filename, numbers)
+            checkUnduplicatedNumbers(filename, numbers)
             if (useBigFileSort) {
                 bigfileSortActor ! filename
             }
