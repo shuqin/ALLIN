@@ -4,58 +4,98 @@ import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map}
 
 /**
- * Created by lovesqcc on 16-4-2.
- */
+  * Created by lovesqcc on 16-4-2.
+  */
 object CollectionUtil {
 
   def main(args: Array[String]): Unit = {
 
-    testMerge
-    val map = Map("shuqin" -> 31, "fanfan" -> 26, "yanni" -> 28)
+    testAllMerge
+    val map = Map("shuqin" -> 31, "yanni" -> 28)
     sortByValue(map).foreach { println }
   }
 
-  def testMerge(): Unit = {
-    assert(CollectionUtil.merge(Nil, Nil) == List())
-    assert(CollectionUtil.merge(List(), Nil) == List())
-    assert(CollectionUtil.merge(List(), List()) == List())
-    assert(CollectionUtil.merge(List(), List(1,3)) == List(1,3))
-    assert(CollectionUtil.merge(List(4,2), List()) == List(4,2))
-    assert(CollectionUtil.merge(List(4,2), Nil) == List(4,2))
-    assert(CollectionUtil.merge(List(2,4), List(1,3)) == List(1,2,3,4))
-    assert(CollectionUtil.merge(List(2,4), List(1,3,5)) == List(1,2,3,4,5))
-    assert(CollectionUtil.merge(List(2,4,6), List(1,3)) == List(1,2,3,4,6))
+  def testAllMerge(): Unit = {
+    testMerge(merge)
+    testMerge(mergeIneffective)
 
-    assert(CollectionUtil.mergeKOrderedList(Nil) == List())
-    assert(CollectionUtil.mergeKOrderedList(List()) == List())
-    assert(CollectionUtil.mergeKOrderedList(List(List())) == List())
-    assert(CollectionUtil.mergeKOrderedList(List(List(1,2))) == List(1,2))
-    assert(CollectionUtil.mergeKOrderedList(List(List(), List())) == List())
-    assert(CollectionUtil.mergeKOrderedList(List(List(), List(1,3))) == List(1,3))
-    assert(CollectionUtil.mergeKOrderedList(List(List(2,4), List())) == List(2,4))
-    assert(CollectionUtil.mergeKOrderedList(List(List(2,4), List(1,3))) == List(1,2,3,4))
-    assert(CollectionUtil.mergeKOrderedList(List(List(2,4), List(1,3,5))) == List(1,2,3,4,5))
-    assert(CollectionUtil.mergeKOrderedList(List(List(2,4,6), List(1,3))) == List(1,2,3,4,6))
-    assert(CollectionUtil.mergeKOrderedList(List(List(2,4,7), List(1,6), List(3,5))) == List(1,2,3,4,5,6,7))
-    assert(CollectionUtil.mergeKOrderedList(List(List(2,4,9), List(1,7), List(3,6), List(5,8))) == List(1,2,3,4,5,6,7,8,9))
+    testMergeKOrderedList(mergeKOrderedList)
+    testMergeKOrderedList(mergeKOrderedListIneffective)
+  }
+
+  def testMerge(merge: (List[Int], List[Int]) => List[Int]):Unit = {
+    assert(merge(Nil, Nil) == List())
+    assert(merge(List(), Nil) == List())
+    assert(merge(List(), List()) == List())
+    assert(merge(List(), List(1,3)) == List(1,3))
+    assert(merge(List(4,2), List()) == List(4,2))
+    assert(merge(List(4,2), Nil) == List(4,2))
+    assert(merge(List(2,4), List(1,3)) == List(1,2,3,4))
+    assert(merge(List(2,4), List(1,3,5)) == List(1,2,3,4,5))
+    assert(merge(List(2,4,6), List(1,3)) == List(1,2,3,4,6))
     println("test merge list passed.")
   }
 
+  def testMergeKOrderedList(mergeKOrderedList: List[List[Int]] => List[Int]):Unit = {
+    assert(mergeKOrderedList(Nil) == List())
+    assert(mergeKOrderedList(List()) == List())
+    assert(mergeKOrderedList(List(List())) == List())
+    assert(mergeKOrderedList(List(List(1,2))) == List(1,2))
+    assert(mergeKOrderedList(List(List(), List())) == List())
+    assert(mergeKOrderedList(List(List(), List(1,3))) == List(1,3))
+    assert(mergeKOrderedList(List(List(2,4), List())) == List(2,4))
+    assert(mergeKOrderedList(List(List(2,4), List(1,3))) == List(1,2,3,4))
+    assert(mergeKOrderedList(List(List(2,4), List(1,3,5))) == List(1,2,3,4,5))
+    assert(mergeKOrderedList(List(List(2,4,6), List(1,3))) == List(1,2,3,4,6))
+    assert(mergeKOrderedList(List(List(2,4,7), List(1,6), List(3,5))) == List(1,2,3,4,5,6,7))
+    assert(mergeKOrderedList(List(List(2,4,9), List(1,7), List(3,6), List(5,8))) == List(1,2,3,4,5,6,7,8,9))
+    println("test mergeKOrderedList passed.")
+  }
+
   /**
-   * 对指定 Map 按值排序
-   */
+    * 对指定 Map 按值排序
+    */
   def sortByValue(m: Map[String,Int]): Map[String,Int] = {
     val sortedm = new mutable.LinkedHashMap[String,Int]
     m.toList.sortWith{case(kv1,kv2) => kv1._2 > kv2._2}.foreach { t =>
       sortedm(t._1) = t._2
-    }
+                                                                }
     return sortedm
   }
 
   /**
-   * 合并两个有序列表
-   */
+    * 合并两个有序列表
+    */
   def merge(xList: List[Int], yList: List[Int]): List[Int] = {
+    (xList, yList) match {
+      case (Nil, Nil) => List[Int]()
+      case (Nil, _) => yList
+      case (_, Nil) => xList
+      case (hx :: xtail, hy :: ytail) =>
+        yList.foldLeft(xList)(insert)
+    }
+  }
+
+  def insert(xList:List[Int], y:Int): List[Int] = {
+    (xList, y) match {
+      case (Nil, _) => y :: Nil
+      case (hx :: xtail, _) =>
+        if (hx > y) {
+          y :: xList
+        }
+        else {
+          var result = hx :: Nil
+          var pCurr = xtail
+          while (pCurr != Nil && pCurr.head < y) {
+            result = result :+ pCurr.head
+            pCurr = pCurr.tail
+          }
+          (result :+ y) ::: pCurr
+        }
+    }
+  }
+
+  def mergeIneffective(xList: List[Int], yList: List[Int]): List[Int] = {
     if (xList.isEmpty) {
       return yList
     }
@@ -86,30 +126,36 @@ object CollectionUtil {
   }
 
   /**
-   * 合并k个有序列表
-   */
+    * 合并k个有序列表
+    */
   def mergeKOrderedList(klists: List[List[Int]]): List[Int] = {
-      if (klists.isEmpty) {
-        return List[Int]()
-      }
-      var nlist = klists.size
-      if (nlist == 1) {
-        return klists.head
-      }
-      var klistp = klists;
-      val kbuf = ListBuffer[List[Int]]()
-      while (nlist > 1) {
-        for (i <- 0 to nlist/2-1) {
-          kbuf.insert(i, merge(klistp(2*i), klistp(2*i+1)))
-          if (nlist%2 == 1) {
-            kbuf.append(klistp(nlist-1))
-          }
-        }
-        nlist = nlist - nlist/2
-        klistp = kbuf.toList
-      }
+    if (klists.isEmpty) { return List[Int]() }
+    if (klists.size == 1) { return klists.head }
+    klists.reduce(mergeIneffective)
+  }
 
-      kbuf.toList.head
+  def mergeKOrderedListIneffective(klists: List[List[Int]]): List[Int] = {
+    if (klists.isEmpty) {
+      return List[Int]()
+    }
+    var nlist = klists.size
+    if (nlist == 1) {
+      return klists.head
+    }
+    var klistp = klists;
+    val kbuf = ListBuffer[List[Int]]()
+    while (nlist > 1) {
+      for (i <- 0 to nlist/2-1) {
+        kbuf.insert(i, mergeIneffective(klistp(2*i), klistp(2*i+1)))
+        if (nlist%2 == 1) {
+          kbuf.append(klistp(nlist-1))
+        }
+      }
+      nlist = nlist - nlist/2
+      klistp = kbuf.toList
+    }
+
+    kbuf.toList.head
   }
 
 }
