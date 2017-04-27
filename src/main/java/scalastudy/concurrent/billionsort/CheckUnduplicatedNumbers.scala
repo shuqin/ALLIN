@@ -55,8 +55,8 @@ trait CheckUnduplicatedNumbers {
           val numbersInLine = line.split("\\s+").map(Integer.parseInt(_)).toSet
           numbersInLine.foreach { num =>
             nbitsVector.setBit(num)
-                                }
-                }
+          }
+        }
 
       val undupTotal = checkAndSort(filename)
       println("undupTotal: " + undupTotal)

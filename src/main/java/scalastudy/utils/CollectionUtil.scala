@@ -17,9 +17,11 @@ object CollectionUtil {
 
   def testAllMerge(): Unit = {
     testMerge(merge)
+    testMerge(mergeFunctional)
     testMerge(mergeIneffective)
 
     testMergeKOrderedList(mergeKOrderedList)
+    testMergeKOrderedList(mergeKOrderedListFunctional)
     testMergeKOrderedList(mergeKOrderedListIneffective)
   }
 
@@ -33,6 +35,7 @@ object CollectionUtil {
     assert(merge(List(2,4), List(1,3)) == List(1,2,3,4))
     assert(merge(List(2,4), List(1,3,5)) == List(1,2,3,4,5))
     assert(merge(List(2,4,6), List(1,3)) == List(1,2,3,4,6))
+    assert(merge(List(2,4,6), List(8,10)) == List(2,4,6,8,10))
     println("test merge list passed.")
   }
 
@@ -65,8 +68,55 @@ object CollectionUtil {
 
   /**
     * 合并两个有序列表
+    * 将 yList 合并到 xList 上
+    * 结合了 mergeFunctional 和 mergeIneffective 的优势
+    * 没有空间开销，时间复杂度为 O(n+m), n,m 分别是 xList, yList 的列表长度
     */
   def merge(xList: List[Int], yList: List[Int]): List[Int] = {
+    (xList, yList) match {
+      case (Nil, Nil) => List[Int]()
+      case (Nil, _) => yList
+      case (_, Nil) => xList
+      case (hx :: xtail, hy :: ytail) =>
+        var result = List[Int]()
+        var xListP = List[Int]()
+        var yListP = List[Int]()
+        if (hx > hy) {
+          result = hy :: Nil
+          xListP = xList
+          yListP = ytail
+        }
+        else {
+          result = hx:: Nil
+          yListP = yList
+          xListP = xtail
+        }
+        while (xListP != Nil && yListP != Nil) {
+          if (xListP.head > yListP.head) {
+            result = result :+ yListP.head
+            yListP = yListP.tail
+          }
+          else {
+            result = result :+ xListP.head
+            xListP = xListP.tail
+          }
+        }
+        if (xListP == Nil) {
+          result = result ::: yListP
+        }
+        if (yListP == Nil) {
+          result = result ::: xListP
+        }
+        result
+    }
+  }
+
+  /**
+    * 合并两个有序列表
+    * 将 yList 合并到 xList 上，没有列表复制操作，没有额外空间开销
+    * 但由于每次插入 yList 元素到 xList 都要从头遍历，因此算法时间复杂度是 O(n*m)
+    */
+  def mergeFunctional(xList: List[Int], yList: List[Int]): List[Int] = {
     (xList, yList) match {
       case (Nil, Nil) => List[Int]()
       case (Nil, _) => yList
@@ -95,6 +145,11 @@ object CollectionUtil {
     }
   }
 
+  /**
+    * 合并两个有序列表
+    * 将 yList 与 xList 合并到一个全新的链表上，有列表复制操作和额外空间开销
+    * 由于使用指针是渐进地合并，因此算法时间复杂度是 O(n+m) n,m 分别是 xList, yList 的列表长度
+    */
   def mergeIneffective(xList: List[Int], yList: List[Int]): List[Int] = {
     if (xList.isEmpty) {
       return yList
@@ -127,13 +182,28 @@ object CollectionUtil {
 
   /**
     * 合并k个有序列表
+    * 转化为并行容器进行并行地合并，有空间开销
     */
   def mergeKOrderedList(klists: List[List[Int]]): List[Int] = {
+    if (klists.isEmpty) { return List[Int]() }
+    if (klists.size == 1) { return klists.head }
+    klists.par.reduce(merge)
+  }
+
+  /**
+    * 合并k个有序列表
+    * 使用函数式逐个地合并,无空间开销
+    */
+  def mergeKOrderedListFunctional(klists: List[List[Int]]): List[Int] = {
     if (klists.isEmpty) { return List[Int]() }
     if (klists.size == 1) { return klists.head }
     klists.reduce(merge)
   }
 
+  /**
+    * 合并k个有序列表
+    * 使用插入逐个地合并，空间开销很大
+    */
   def mergeKOrderedListIneffective(klists: List[List[Int]]): List[Int] = {
     if (klists.isEmpty) {
       return List[Int]()
