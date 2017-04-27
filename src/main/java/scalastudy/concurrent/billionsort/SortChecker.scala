@@ -12,24 +12,39 @@ trait SortChecker {
     * NOTE: 使用迭代器模式
     */
   def checkSorted(filename:String, numbers:Int): Unit = {
-    var last = 0
-    var count = 0
     val numIterator = Source.fromFile(filename + ".sorted.txt").getLines().map(line => Integer.parseInt(line.trim))
     checkSort(numIterator, numbers)
     println("test sorted passed.")
   }
 
-  def checkSort(numIterator: Iterator[Int], numbers:Int): Unit = {
-    assert(numIterator.size == numbers)
+  /**
+    * 函数式实现
+    */
+  def checkSort(numIterator: Iterator[Int], numbers:Int):Unit = {
+    var count = 1
+    numIterator.reduceLeft((prev,next) => {
+      assert(prev <= next); count += 1 ; next;
+    } )
+    assert(count == numbers)
+  }
+
+  /**
+    * 过程式实现
+    */
+  def checkSortProcedural(numIterator: Iterator[Int], numbers:Int): Unit = {
     var last = 0
+    var count = 0
     numIterator.foreach {
       num =>
         assert(num >= last)
         last = num
+        count += 1
     }
+    assert(count == numbers)
   }
 
   def checkSort(numList: List[Int], numbers:Int): Unit = {
     checkSort(numList.iterator, numbers)
   }
+
 }
