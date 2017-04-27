@@ -107,6 +107,7 @@ object CollectionUtil {
         if (yListP == Nil) {
           result = result ::: xListP
         }
+        // println("xsize=" + xList.size + ", ysize= " + yList.size + ", merged=" + result.size)
         result
     }
   }
