@@ -4,19 +4,17 @@ import akka.actor.{ActorSystem, Props}
 
 import scalastudy.concurrent.ForkJoinPoolStartup
 import scalastudy.concurrent.config.ActorSystemFactory
+import scalastudy.concurrent.billionsort.Constants._
 
 /**
   * Created by shuqin on 16/5/18.
   */
 object BillionNumberSort extends App {
 
-    val rangeMaxNumber = 100000000  // 生成的整数中不超过的最大数
-    val numbers = 10000          // 在 [0, rangeMaxNumber] 生成 numbers 个不重复的整数
-
     launch()
 
     def launch(): Unit = {
-        ForkJoinPoolStartup.start(createActors(), 15)
+        ForkJoinPoolStartup.start(createActors(), poolWaitSecs)
     }
 
     def createActors():NumberGeneratorTask = {

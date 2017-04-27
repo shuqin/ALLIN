@@ -7,6 +7,8 @@ import zzz.study.datastructure.vector.EnhancedBigNBitsVector
 import scala.collection.mutable.Set
 import scala.io.Source
 
+import scalastudy.concurrent.billionsort.Constants.rangeMaxNumber
+
 /**
   * Created by shuqin on 17/4/26.
   */
@@ -33,7 +35,7 @@ trait CheckUnduplicatedNumbers {
           numbersInFile += numbersInLine.size;
           unDupNumberSet ++= numbersInLine
                 }
-      println("Expected: " + numbers + " , Actual In File: " + numbersInFile)
+      println(s"Expected: ${numbers} , Actual In File: ${numbersInFile} ")
       println("Unduplicated numbers in File: " + unDupNumberSet.size)
       unDupNumberSet.size == numbers
     }
@@ -47,7 +49,7 @@ trait CheckUnduplicatedNumbers {
     */
   class BitMapStrategy extends CheckUnduplicatedStrategy {
 
-    val nbitsVector = new EnhancedBigNBitsVector(BillionNumberSort.rangeMaxNumber)
+    val nbitsVector = new EnhancedBigNBitsVector(rangeMaxNumber)
 
     override def checkUnduplicatedNumbersInFile(filename: String, numbers:Int): Boolean = {
       Source.fromFile(filename).getLines.
@@ -59,13 +61,13 @@ trait CheckUnduplicatedNumbers {
         }
 
       val undupTotal = checkAndSort(filename)
-      println("undupTotal: " + undupTotal)
+      println(s"undupTotal: ${undupTotal}")
       assert(undupTotal == numbers)
       return true
     }
 
     def checkAndSort(filename: String): Integer = {
-      val fwFinalResult = new PrintWriter(new File(filename+".sorted.txt"))
+      val fwFinalResult = new PrintWriter(new File(s"${filename}.sorted.txt"))
       val sorted = nbitsVector.expr()
       var undupTotal = sorted.size()
       fwFinalResult.flush()

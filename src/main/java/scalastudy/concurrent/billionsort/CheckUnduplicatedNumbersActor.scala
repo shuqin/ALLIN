@@ -5,8 +5,7 @@ import java.io.{File, PrintWriter}
 import akka.actor.{Actor, ActorRef}
 
 import scala.collection.immutable.List
-import scalastudy.utils.PathConstants
-
+import scalastudy.concurrent.billionsort.Constants.filename
 
 /**
   * Created by shuqin on 16/5/19.
@@ -14,7 +13,7 @@ import scalastudy.utils.PathConstants
 class CheckUnduplicatedNumbersActor(val numbers:Int, bigfileSortActor: ActorRef) extends Actor
     with CheckUnduplicatedNumbers {
 
-    val filename = PathConstants.projPath + "/data/"+numbers+".txt"
+
     val fwResult = new PrintWriter(new File(filename))
 
     var count = 0
@@ -26,7 +25,7 @@ class CheckUnduplicatedNumbersActor(val numbers:Int, bigfileSortActor: ActorRef)
             fwResult.write(numberList.mkString(" ") + "\n");
             count += numberList.length
 
-        case (0, BillionNumberSort.rangeMaxNumber) =>
+        case (0, Constants.rangeMaxNumber) =>
             println("Reach End.")
             println("Expected: " + numbers + " , Actual Received: " + count)
             assert(count == numbers)
