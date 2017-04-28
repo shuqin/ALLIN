@@ -8,7 +8,7 @@ import scalastudy.utils.PathConstants
 object Constants {
 
   // 生成的整数中不超过的最大数
-  val rangeMaxNumber = 100000000
+  val rangeMaxNumber = 1000000000
 
   // 在 [0, rangeMaxNumber] 生成 numbers 个不重复的整数
   val numbers = 10000000
