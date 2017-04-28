@@ -3,6 +3,8 @@ package scalastudy.utils
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map}
 
+import scala.math.pow
+
 /**
   * Created by lovesqcc on 16-4-2.
   */
@@ -10,15 +12,23 @@ object CollectionUtil {
 
   def main(args: Array[String]): Unit = {
 
-    testAllMerge
+    testSortByValue
+    testAllMergeIsRight
+
+    testPerf(merge)
+    testPerf(mergeInplace)
+    // testPerf(mergeFunctional)
+  }
+
+  def testSortByValue():Unit = {
     val map = Map("shuqin" -> 31, "yanni" -> 28)
     sortByValue(map).foreach { println }
   }
 
-  def testAllMerge(): Unit = {
+  def testAllMergeIsRight(): Unit = {
     testMerge(merge)
     testMerge(mergeFunctional)
-    testMerge(mergeIneffective)
+    testMerge(mergeInplace)
 
     testMergeKOrderedList(mergeKOrderedList)
     testMergeKOrderedList(mergeKOrderedListFunctional)
@@ -55,6 +65,24 @@ object CollectionUtil {
     println("test mergeKOrderedList passed.")
   }
 
+  def testPerf(merge: (List[Int], List[Int]) => List[Int]):Unit = {
+    val n = 10
+    val numbers = (1 to 7).map(pow(n,_).intValue)
+    println(numbers)
+    numbers.foreach {
+      num =>
+        val methodName = merge.toString()
+        val start = System.currentTimeMillis
+        val xList = (1 to num).filter(_ % 2 == 0).toList
+        val yList = (1 to num).filter(_ % 2 == 1).toList
+        val merged = merge(xList, yList)
+        val mergedSize = merged.size
+        val end = System.currentTimeMillis
+        val cost = end - start
+        println(s"method=${methodName}, numbers=${num}, merged size: ${mergedSize}, merge cost: ${cost} ms")
+    }
+  }
+
   /**
     * 对指定 Map 按值排序
     */
@@ -71,8 +99,9 @@ object CollectionUtil {
     * 将 yList 合并到 xList 上
     * 结合了 mergeFunctional 和 mergeIneffective 的优势
     * 没有空间开销，时间复杂度为 O(n+m), n,m 分别是 xList, yList 的列表长度
+    * TODO not inplace
     */
-  def merge(xList: List[Int], yList: List[Int]): List[Int] = {
+  def mergeInplace(xList: List[Int], yList: List[Int]): List[Int] = {
     (xList, yList) match {
       case (Nil, Nil) => List[Int]()
       case (Nil, _) => yList
@@ -107,7 +136,7 @@ object CollectionUtil {
         if (yListP == Nil) {
           result = result ::: xListP
         }
-        println("xsize=" + xList.size + ", ysize= " + yList.size + ", merged=" + result.size)
+        // println("xsize=" + xList.size + ", ysize= " + yList.size + ", merged=" + result.size)
         result
     }
   }
@@ -148,10 +177,11 @@ object CollectionUtil {
 
   /**
     * 合并两个有序列表
-    * 将 yList 与 xList 合并到一个全新的链表上，有列表复制操作和额外空间开销
+    * 将 yList 与 xList 合并到一个全新的链表上
     * 由于使用指针是渐进地合并，因此算法时间复杂度是 O(n+m) n,m 分别是 xList, yList 的列表长度
+    * 由于有列表复制操作，且是渐进地合并，因此算法空间复杂度也是 O(n+m)
     */
-  def mergeIneffective(xList: List[Int], yList: List[Int]): List[Int] = {
+  def merge(xList: List[Int], yList: List[Int]): List[Int] = {
     if (xList.isEmpty) {
       return yList
     }
@@ -177,7 +207,7 @@ object CollectionUtil {
     if (yListC.isEmpty) {
       result.appendAll(xListC)
     }
-
+    // println("xsize=" + xList.size + ", ysize= " + yList.size + ", merged=" + result.size)
     result.toList
   }
 
@@ -217,7 +247,7 @@ object CollectionUtil {
     val kbuf = ListBuffer[List[Int]]()
     while (nlist > 1) {
       for (i <- 0 to nlist/2-1) {
-        kbuf.insert(i, mergeIneffective(klistp(2*i), klistp(2*i+1)))
+        kbuf.insert(i, merge(klistp(2*i), klistp(2*i+1)))
         if (nlist%2 == 1) {
           kbuf.append(klistp(nlist-1))
         }
