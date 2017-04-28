@@ -22,7 +22,6 @@ class NumberGeneratorTask(num:Int, start:Int, end:Int, checkNumberActor: ActorRe
             println("Select: " + num  + " unduplicated numbers from [" + start + " " + end + ")");
         }
 
-        // TODO bug if numbers <= threshold that all need sort, cannot generate numbers
         if (num <= threshold) {
 
             if (num > end - start+1) {
