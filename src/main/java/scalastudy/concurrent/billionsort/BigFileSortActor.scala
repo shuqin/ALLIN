@@ -14,7 +14,7 @@ import scalastudy.utils.{CollectionUtil, DefaultFileUtil, PathConstants}
 /**
   * Created by shuqin on 16/5/20.
   */
-class BigFileSortActor(numbers: Int) extends Actor with SortChecker {
+class BigFileSortActor(numbers: Int, actorSystem: ActorSystem) extends Actor with SortChecker {
 
     override def receive: Receive = {
 
@@ -55,6 +55,10 @@ class BigFileSortActor(numbers: Int) extends Actor with SortChecker {
                 println("sort finished.")
                 writeSorted(value, filename)
                 checkSorted(filename, numbers)
+
+                println("sleep 3s and then begin to stop all.")
+                TimeUnit.SECONDS.sleep(3)
+                actorSystem.shutdown
             case Failure(ex) =>
                 println("Sort failed: " + ex.getMessage)
         }
@@ -74,7 +78,7 @@ object BigFileSortActorTest {
 
         val numbers = 10000000
         val system = ActorSystem("BigFileSortActorTest")
-        val bigFileSortActor = system.actorOf(Props(new BigFileSortActor(numbers)),name="bigFileSortActor")
+        val bigFileSortActor = system.actorOf(Props(new BigFileSortActor(numbers, system)),name="bigFileSortActor")
         bigFileSortActor ! PathConstants.projPath + "/data/" + numbers +".txt"
 
         TimeUnit.SECONDS.sleep(640)

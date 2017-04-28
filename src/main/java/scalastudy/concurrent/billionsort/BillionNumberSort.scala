@@ -19,7 +19,7 @@ object BillionNumberSort extends App {
 
     def createActors():NumberGeneratorTask = {
         val system:ActorSystem = ActorSystemFactory.newInstance()
-        val bigfileSortActor = system.actorOf(Props(new BigFileSortActor(numbers)))
+        val bigfileSortActor = system.actorOf(Props(new BigFileSortActor(numbers, system)))
         val checkNumberActor = system.actorOf(Props(new CheckUnduplicatedNumbersActor(numbers, bigfileSortActor)), name="checkNumberActor")
         val numGenTask = new NumberGeneratorTask(numbers, 0, rangeMaxNumber, checkNumberActor)
         return numGenTask

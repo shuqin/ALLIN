@@ -36,6 +36,8 @@ class CheckUnduplicatedNumbersActor(val numbers:Int, bigfileSortActor: ActorRef)
             if (useBigFileSort) {
                 bigfileSortActor ! filename
             }
+
+        case _ => println("未知消息，请检查原因 ！")
     }
 
 }

@@ -17,6 +17,7 @@ trait CheckUnduplicatedNumbers {
   def checkUnduplicatedNumbers(filename:String, numbers:Int): Unit = {
 
     assert(new OnceLoadStrategy().checkUnduplicatedNumbersInFile(filename, numbers) == true)
+    assert(new BitMapStrategy().checkUnduplicatedNumbersInFile(filename,numbers) == true)
     println("checkUnduplicatedNumbers passed.")
   }
 
