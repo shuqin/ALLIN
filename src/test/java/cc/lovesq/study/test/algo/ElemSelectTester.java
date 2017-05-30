@@ -1,9 +1,12 @@
-package zzz.study.algorithm.select;
+package cc.lovesq.study.test.algo;
 
 import java.util.Arrays;
-import static zzz.study.algorithm.select.ElementSelection.*;
 
-import static junit.framework.Assert.*;
+import zzz.study.algorithm.select.RandomSelector;
+
+import static junit.framework.Assert.assertEquals;
+import static zzz.study.algorithm.select.ElementSelection.getPosition;
+import static zzz.study.algorithm.select.ElementSelection.kthMinSelect;
 
 public class ElemSelectTester {
 		

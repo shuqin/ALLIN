@@ -11,7 +11,7 @@ object Constants {
   val rangeMaxNumber = 1000000000
 
   // 在 [0, rangeMaxNumber] 生成 numbers 个不重复的整数
-  val numbers = 10000000
+  val numbers = 1000000
 
   // 每次生成不超过 threshold 个不重复的整数数组;　
   // 该值不能过小, 否则会因递归层次过深导致内存不足.

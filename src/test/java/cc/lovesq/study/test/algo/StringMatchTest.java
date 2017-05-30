@@ -1,7 +1,8 @@
-package zzz.study.algorithm.problems;
+package cc.lovesq.study.test.algo;
 
 import junit.framework.TestCase;
-import static zzz.study.algorithm.problems.StringMatcher.*;
+
+import static zzz.study.algorithm.problems.StringMatcher.simpleMatch;
 
 public class StringMatchTest extends TestCase {
 	

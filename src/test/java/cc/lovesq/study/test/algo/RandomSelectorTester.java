@@ -1,10 +1,17 @@
-package zzz.study.algorithm.select;
+package cc.lovesq.study.test.algo;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import static zzz.study.algorithm.select.RandomSelector.*;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertTrue;
+import static zzz.study.algorithm.select.RandomSelector.bigRandInt;
+import static zzz.study.algorithm.select.RandomSelector.printArray;
+import static zzz.study.algorithm.select.RandomSelector.randRange;
+import static zzz.study.algorithm.select.RandomSelector.selectMDisorderedRandInts2;
+import static zzz.study.algorithm.select.RandomSelector.selectMDisorderedRandInts3;
+import static zzz.study.algorithm.select.RandomSelector.selectMOrderedRandInts;
+import static zzz.study.algorithm.select.RandomSelector.selectMOrderedRandInts2;
+import static zzz.study.algorithm.select.RandomSelector.selectMOrderedRandInts3;
 
 public class RandomSelectorTester {
 	

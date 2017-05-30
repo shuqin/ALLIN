@@ -1,4 +1,4 @@
-package zzz.study.junitest3.test.sort;
+package cc.lovesq.study.test.sort;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

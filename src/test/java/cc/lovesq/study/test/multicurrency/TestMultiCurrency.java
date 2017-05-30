@@ -1,4 +1,4 @@
-package zzz.study.junitest3.test.multicurrency;
+package cc.lovesq.study.test.multicurrency;
 
 import junit.framework.TestCase;
 import zzz.study.junitest3.multicurrency.Bank;

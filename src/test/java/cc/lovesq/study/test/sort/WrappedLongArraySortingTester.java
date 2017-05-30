@@ -1,19 +1,19 @@
-package zzz.study.junitest3.test.sort;
+package cc.lovesq.study.test.sort;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class LongArraySortingTester extends TestCase {
+public class WrappedLongArraySortingTester extends TestCase {
 	
-	public LongArraySortingTester(String name) {
+	public WrappedLongArraySortingTester(String name) {
 		super(name);
 	}
 	
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite();
-		suite.addTestSuite(LongArraySortingTester.class);
+		suite.addTestSuite(WrappedLongArraySortingTester.class);
 		return suite;
 	}
 

@@ -1,10 +1,13 @@
-package zzz.study.algorithm.search;
-
-import java.util.Arrays;
+package cc.lovesq.study.test.algo;
 
 import junit.framework.TestCase;
 
-import static zzz.study.algorithm.search.BinarySearch.*;
+import java.util.Arrays;
+
+import static zzz.study.algorithm.search.BinarySearch.indexOfInserting;
+import static zzz.study.algorithm.search.BinarySearch.rangeSearch;
+import static zzz.study.algorithm.search.BinarySearch.recSearch;
+import static zzz.study.algorithm.search.BinarySearch.search;
 
 public class BinarySearchTest extends TestCase {
 	

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import javax.annotation.Resource;
 
@@ -116,16 +117,33 @@ public class CreativeController extends BaseController {
     public Map<String, Object> searchForSelect(@RequestParam(value = "k", required = false) String title,
                                                @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                @RequestParam(value = "rows", defaultValue = "10") Integer pageSize) {
-        CreativeQuery query = new CreativeQuery();
-        query.setTitle(title);
-        query.setPageNum(page);
-        query.setPageSize(pageSize);
-        List<CreativeDO> creativeDTOs = creativeService.search(query);
-        Integer total = creativeService.count(query);
+        CreativeQuery query = buildCreativeQuery(title, page, pageSize);
+        return searchForSelect2(query,
+                               (q) -> creativeService.search(q),
+                               (q) -> creativeService.count(q));
+    }
+
+    public Map<String, Object> searchForSelect2(CreativeQuery query,
+                                               Function<CreativeQuery, List<CreativeDO>> getListFunc,
+                                               Function<CreativeQuery, Integer> getTotalFunc) {
+        List<CreativeDO> creativeDTOs = getListFunc.apply(query);
+        Integer total = getTotalFunc.apply(query);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("rows", (null == creativeDTOs) ? new ArrayList<CreativeDO>() : creativeDTOs);
         map.put("total", (null == total) ? 0 : total);
         return map;
+    }
+
+
+    /*
+     * NOTE: can be placed in class QueryBuilder
+     */
+    public CreativeQuery buildCreativeQuery(String title, Integer page, Integer pageSize) {
+        CreativeQuery query = new CreativeQuery();
+        query.setTitle(title);
+        query.setPageNum(page);
+        query.setPageSize(pageSize);
+        return query;
     }
 
 }

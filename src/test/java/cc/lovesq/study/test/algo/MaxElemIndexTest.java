@@ -1,7 +1,8 @@
-package zzz.study.algorithm.problems;
+package cc.lovesq.study.test.algo;
 
 import junit.framework.TestCase;
-import static zzz.study.algorithm.problems.MaxElemIndex.*;
+
+import static zzz.study.algorithm.problems.MaxElemIndex.maxElemIndex;
 
 public class MaxElemIndexTest extends TestCase {
 	

@@ -1,4 +1,4 @@
-package zzz.study.junitest3.test.basic;
+package cc.lovesq.study.test.basic;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

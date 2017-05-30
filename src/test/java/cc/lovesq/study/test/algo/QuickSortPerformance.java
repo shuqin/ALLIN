@@ -1,9 +1,12 @@
-package zzz.study.algorithm.sort;
+package cc.lovesq.study.test.algo;
 
-import static junit.framework.Assert.*;
+import zzz.study.algorithm.sort.IntCmp;
+import zzz.study.algorithm.sort.QuickSort;
 import zzz.study.patterns.strategy.SortingStrategy;
 import zzz.study.testdata.generator.ArrayGenerator;
 import zzz.study.testdata.generator.ArrayGeneratorFactory;
+
+import static junit.framework.Assert.assertEquals;
 
 public class QuickSortPerformance {
 	
