@@ -1,9 +1,7 @@
 package zzz.study.function.extend;
 
-import zzz.study.function.Person;
-import zzz.study.function.Report;
-import zzz.study.function.Student;
-import zzz.study.function.Teacher;
+import zzz.study.function.basic.Person;
+import zzz.study.function.basic.Report;
 
 import java.util.Arrays;
 import java.util.List;

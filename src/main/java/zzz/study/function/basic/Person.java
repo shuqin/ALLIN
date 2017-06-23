@@ -1,4 +1,4 @@
-package zzz.study.function;
+package zzz.study.function.basic;
 
 /**
  * Created by shuqin on 17/3/30.

@@ -1,6 +1,5 @@
-package zzz.study.function;
+package zzz.study.function.basic;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,4 +1,4 @@
-package zzz.study.function;
+package zzz.study.function.basic;
 
 import java.util.*;
 
