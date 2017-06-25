@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -16,8 +17,10 @@ public class ExecutorUtil {
 
   private ExecutorUtil() {}
 
-  // a throol pool may be managed by spring
   private static final int CORE_CPUS = Runtime.getRuntime().availableProcessors();
+  private static final int TASK_SIZE = 1000;
+
+  // a throol pool may be managed by spring
   private static ExecutorService executor = new ThreadPoolExecutor(
       CORE_CPUS, 10, 60L, TimeUnit.SECONDS,
       new ArrayBlockingQueue<>(60));
@@ -33,7 +36,7 @@ public class ExecutorUtil {
    * NOTE: 类似实现了 stream.par.map 的功能，不带延迟计算
    */
   public static <T,R> List<R> exec(List<T> allKeys, Function<List<T>, List<R>> handleBizDataFunc) {
-    List<String> parts = TaskUtil.divide(allKeys.size(), 1000);
+    List<String> parts = TaskUtil.divide(allKeys.size(), TASK_SIZE);
     //System.out.println(parts);
 
     CompletionService<List<R>>
@@ -48,6 +51,25 @@ public class ExecutorUtil {
     // foreach code refining
     List<R> result = ForeachUtil.foreachAddWithReturn(parts.size(), (ind) -> get(ind, completionService));
     return result;
+  }
+
+  /**
+   * 根据指定的列表关键数据及列表数据处理器，并发地处理
+   * @param allKeys 列表关键数据
+   * @param handleBizDataFunc 列表数据处理器
+   * @param <T> 待处理的数据参数类型
+   *
+   * NOTE: foreachDone 的并发版
+   */
+  public static <T> void exec(List<T> allKeys, Consumer<List<T>> handleBizDataFunc) {
+    List<String> parts = TaskUtil.divide(allKeys.size(), TASK_SIZE);
+    //System.out.println(parts);
+
+    ForeachUtil.foreachDone(parts, (part) -> {
+      final List<T> tmpRowkeyList = TaskUtil.getSubList(allKeys, part);
+      executor.execute(
+          () -> handleBizDataFunc.accept(tmpRowkeyList));  // lambda replace inner class
+    });
   }
 
   public static <T> List<T> get(int ind, CompletionService<List<T>> completionService) {
