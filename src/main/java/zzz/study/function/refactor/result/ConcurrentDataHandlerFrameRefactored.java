@@ -19,6 +19,7 @@ public class ConcurrentDataHandlerFrameRefactored {
   public static void main(String[] args) {
     List<Integer> allData = getAllData(DataSupplier::getKeys, GetTradeData::getData);
     consumer(allData, System.out::println);
+    consumer(allData, (s) -> System.out.println(s*3));
 
     List<Double> handledData = handleAllData(allData,
          (numbers) -> StreamUtil.map(numbers, (num) -> Math.sqrt(num)) );
@@ -41,7 +42,7 @@ public class ConcurrentDataHandlerFrameRefactored {
    * 回调的替换
    */
   public static <T> List<T> getAllData(Supplier<List<String>> getAllKeysFunc, Function<List<String>, List<T>> iGetBizDataFunc) {
-    return getAllData(getAllKeysFunc.get(), iGetBizDataFunc);
+    return handleAllData(getAllKeysFunc, iGetBizDataFunc);
   }
 
   public static <T> List<T> getAllData(List<String> allKeys, Function<List<String>, List<T>> iGetBizDataFunc) {
