@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import zzz.study.function.refactor.result.CatchUtil;
-
 /**
  * Created by shuqin on 17/6/24.
  *

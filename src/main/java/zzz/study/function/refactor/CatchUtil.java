@@ -1,4 +1,4 @@
-package zzz.study.function.refactor.result;
+package zzz.study.function.refactor;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

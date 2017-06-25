@@ -34,7 +34,7 @@ public class TaskUtil {
     return parts;
   }
 
-  public static List<String> getSubList(List<String> allKeys, String part) {
+  public static <T> List<T> getSubList(List<T> allKeys, String part) {
     int start = Integer.parseInt(part.split(":")[0]);
     int end = Integer.parseInt(part.split(":")[1]);
     if (end > allKeys.size()) {

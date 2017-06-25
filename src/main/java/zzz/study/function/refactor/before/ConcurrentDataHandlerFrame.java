@@ -51,7 +51,6 @@ public class ConcurrentDataHandlerFrame {
       });
     }
 
-    // 这里是先完成先加入, 不保证报表行顺序, 因此在获取所有的报表行后要进行排序便于商家查看
     List<T> result = new ArrayList<T>();
     for (int i=0; i< parts.size(); i++) {
       try {
@@ -75,6 +74,7 @@ interface IGetBizData<T> {
 class GetTradeData implements IGetBizData<Integer> {
 
   public List<Integer> getData(List<String> keys) {
+    // maybe xxxService.getData(keys);
     List<Integer> result = new ArrayList<Integer>();
     for (String key: keys) {
       result.add(Integer.valueOf(key) % 1000000000);
