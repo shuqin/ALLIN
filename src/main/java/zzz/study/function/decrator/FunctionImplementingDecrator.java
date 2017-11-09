@@ -65,7 +65,8 @@ public class FunctionImplementingDecrator {
   }
 
   public static <T> Function<BiFunction<T,T,T>, Function<T,T>> op(Function<T,T> funcx, Function<T,T> funcy) {
-    return opFunc -> (Function<T, T>) aT -> opFunc.apply(funcx.apply(aT), funcy.apply(aT));
+    //return opFunc -> { return aT -> opFunc.apply(funcx.apply(aT), funcy.apply(aT)); };
+    return opFunc -> aT -> opFunc.apply(funcx.apply(aT), funcy.apply(aT));
 
 /*   Equivalent to
     return new Function<BiFunction<T, T, T>, Function<T, T>>() {
