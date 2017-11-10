@@ -120,12 +120,17 @@ public class ItemUtil {
       }
     }
 
-    Map<String, Map<String,Object>> newItemIndexMap = buildNewIndexMapAll(itemIndexMap, new2oldItemIdMap);
+    Map<String, Map<String,Object>> newItemIndexMap = aggregationAllInfoOfEachItem(itemIndexMap, new2oldItemIdMap);
     return buildFinalOrderItemMap(newItemIndexMap, old2newItemIdMap, orderNo, kdtId);
 
   }
 
-  private static Map<String, Map<String,Object>> buildNewIndexMapAll(Map<String, Map<String,String>> itemIndexMap, Map<String,String> new2oldItemIdMap) {
+  /*
+   * 聚合每个商品的所有信息
+   *
+   * Map[item:id, Map[table:field, value]]
+   */
+  private static Map<String, Map<String,Object>> aggregationAllInfoOfEachItem(Map<String, Map<String,String>> itemIndexMap, Map<String,String> new2oldItemIdMap) {
 
     Map<String, Map<String,Object>> newItemIndexMap = new HashMap<>();
 
