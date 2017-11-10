@@ -3,7 +3,6 @@ package cc.lovesq.study.test;
 import org.junit.Assert;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import static org.junit.Assert.assertEquals;
 
