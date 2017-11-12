@@ -95,11 +95,16 @@ public class JsonUtil {
 
   }
 
-  public static Object readValUsingJsonPath(String json, String path) {
+  public static String readValUsingJsonPath(String json, String path) {
     if (json == null || path == null) {
       return null;
     }
-    return JsonPath.read(json, path);
+    try {
+      Object val = JsonPath.read(json, "$." + path);
+      return val == null ? null : val.toString();
+    } catch (Exception ex) {
+      return null;
+    }
   }
 
 }

@@ -29,13 +29,19 @@ public class JsonUtilTest extends CommonForTest {
     eq(null, JsonUtil.readVal("invalid json", "code"));
     eq(null,JsonUtil.readVal(json, "metainfo.extra.feature"));
 
-    eq(null, JsonUtil.readValUsingJsonPath(null, "$.code"));
+    eq(null, JsonUtil.readValUsingJsonPath(null, "code"));
     eq(null, JsonUtil.readValUsingJsonPath(json, null));
+    eq("200", JsonUtil.readValUsingJsonPath(json, "code"));
+    eq("20", JsonUtil.readValUsingJsonPath(json, "metainfo.total"));
+    eq("qinshu", JsonUtil.readValUsingJsonPath(json, "metainfo.info.owner"));
+    eq(null, JsonUtil.readValUsingJsonPath("invalid json", "code"));
+    eq(null,JsonUtil.readValUsingJsonPath(json, "metainfo.extra.feature"));
+
     eq(200, codePath.read(json));
     eq(20, totalPath.read(json));
-    eq("qinshu", JsonUtil.readValUsingJsonPath(json, "$.metainfo.info.owner"));
-    eq("n1", JsonUtil.readValUsingJsonPath(json, "$.list[0].items[0].name"));
-    eq(13, JsonUtil.readValUsingJsonPath(json, "$.metainfo.info.parts[0].count"));
+    eq("qinshu", JsonPath.read(json, "$.metainfo.info.owner"));
+    eq("n1", JsonPath.read(json, "$.list[0].items[0].name"));
+    eq(13, JsonPath.read(json, "$.metainfo.info.parts[0].count"));
 
   }
 
