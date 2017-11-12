@@ -53,16 +53,27 @@ public class JsonUtil {
     return toObject(json, HashMap.class);
   }
 
+  /**
+   * 对于正确JSON及存在的Path下获取到最终指定值并转成字符串，其他情况一律返回 null
+   * @param json JSON串
+   * @param path 点分隔的字段路径
+   * @return 相应字段的字符串值
+   */
   public static String readVal(String json, String path) {
     if (json == null || path == null) {
       return null;
     }
     Map<String,Object> map = readMap(json);
     if (map == null) {
-      throw new IllegalArgumentException("parse json failed: " + json);
+      // log.warn("parse json failed: " + json);
+      return null;
     }
     String[] subpaths = path.split("\\.");
     return readVal(map, subpaths);
+  }
+
+  private static String readVal(Map<String, Object> map, String path) {
+    return readVal(map, path.split("\\."));
   }
 
   private static String readVal(Map<String, Object> map, String[] subpaths) {
@@ -73,7 +84,8 @@ public class JsonUtil {
           val = ((Map)val).get(subpath);
         }
         else {
-          throw new IllegalArgumentException("subpath may not exists in " + map);
+          // log.warn("subpath may not exists in " + map);
+          return null;
         }
       }
       return val == null ? null: val.toString();

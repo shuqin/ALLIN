@@ -26,14 +26,7 @@ public class JsonUtilTest extends CommonForTest {
     eq("200", JsonUtil.readVal(json, "code"));
     eq("20", JsonUtil.readVal(json, "metainfo.total"));
     eq("qinshu", JsonUtil.readVal(json, "metainfo.info.owner"));
-
-    try {
-      JsonUtil.readVal("invalid json", "code");
-      fail(NOT_THROW_EXCEPTION);
-    } catch (Exception ex) {
-      eq("parse json failed: invalid json", ex.getMessage());
-    }
-
+    eq(null, JsonUtil.readVal("invalid json", "code"));
     eq(null,JsonUtil.readVal(json, "metainfo.extra.feature"));
 
     eq(null, JsonUtil.readValUsingJsonPath(null, "$.code"));
