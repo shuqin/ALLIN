@@ -1,5 +1,7 @@
 package zzz.study.utils;
 
+import com.jayway.jsonpath.JsonPath;
+
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -49,6 +51,43 @@ public class JsonUtil {
   @SuppressWarnings("unchecked")
   public static Map<String, Object> readMap(String json) {
     return toObject(json, HashMap.class);
+  }
+
+  public static String readVal(String json, String path) {
+    if (json == null || path == null) {
+      return null;
+    }
+    Map<String,Object> map = readMap(json);
+    if (map == null) {
+      throw new IllegalArgumentException("parse json failed: " + json);
+    }
+    String[] subpaths = path.split("\\.");
+    return readVal(map, subpaths);
+  }
+
+  private static String readVal(Map<String, Object> map, String[] subpaths) {
+    Object val = map;
+    try {
+      for (String subpath: subpaths) {
+        if (val != null && val instanceof Map) {
+          val = ((Map)val).get(subpath);
+        }
+        else {
+          throw new IllegalArgumentException("subpath may not exists in " + map);
+        }
+      }
+      return val == null ? null: val.toString();
+    } catch (Exception ex) {
+      return null;
+    }
+
+  }
+
+  public static Object readValUsingJsonPath(String json, String path) {
+    if (json == null || path == null) {
+      return null;
+    }
+    return JsonPath.read(json, path);
   }
 
 }

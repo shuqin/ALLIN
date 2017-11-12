@@ -82,11 +82,18 @@ public class ItemUtil {
   private static List<String>
       itemBaseDataConf = Arrays.asList("item:", "item:item_core_id",
                                        "item:order_no", "item:s_id");
-  private static List<String> itemCoreDataConf = Arrays.asList("item_core:");
-  private static List<String> itemPriceDataConf = Arrays.asList("item_price:", "item_price:item_id");
-  private static List<String> itemPriceChangelogDataConf = Arrays.asList("item_price_change_log:", "item_price_change_log:item_id");
+
+  private static Map<String,String> itemIdConf = new HashMap() {
+    {
+      put("item", "item:item_core_id");
+      put("item_core", "item_core:id");
+      put("item_price", "item_price:item_id");
+      put("item_price_change_log", "item_price_change_log:item_id");
+    }
+  };
 
   /**
+
    * 聚合一个订单下的所有商品信息
    * @param itemIndexMap 一个订单所有商品的信息映射
    * @return 一个订单下的所有商品信息
@@ -137,30 +144,12 @@ public class ItemUtil {
     itemIndexMap.forEach(
         (indexKey, value) -> {
 
-          if (indexKey.startsWith(itemBaseDataConf.get(0))) {
-            putNewIndexMap(newItemIndexMap, indexKey, value, key -> key);
-          }
-          else if (indexKey.startsWith(itemCoreDataConf.get(0))) {
+          String table = indexKey.split(":")[0];
+          if (itemIdConf.containsKey(table)) {
+            String itemCoreIdField = itemIdConf.get(table);
+            String itemCoreId = itemIndexMap.get(indexKey).get(itemCoreIdField);
             putNewIndexMap(newItemIndexMap, indexKey, value,
-                           key -> new2oldItemIdMap.get(key.split(":")[1]));
-          }
-          else if (indexKey.startsWith(itemPriceDataConf.get(0))) {
-            // 与 item_id 一对一关系的表的扩展信息
-            putNewIndexMap(newItemIndexMap, indexKey, value,
-                           key -> {
-                             String itemCoreId = itemIndexMap.get(indexKey).get(itemPriceDataConf.get(1));
-                             return new2oldItemIdMap.get(itemCoreId);
-                           } );
-          }
-          else if (indexKey.startsWith(itemPriceChangelogDataConf.get(0))) {
-            //  与 item_id 多对一关系的表的扩展信息
-            String tcOrderItemId = itemIndexMap.get(indexKey).get(itemPriceChangelogDataConf.get(1));
-            String oldItemId = new2oldItemIdMap.get(tcOrderItemId);
-            if (newItemIndexMap.get(oldItemId) == null) {
-              newItemIndexMap.put(oldItemId, new HashMap<>());
-            }
-            Map<String,Object> srcMap = newItemIndexMap.get(oldItemId);
-            newItemIndexMap.get(oldItemId).putAll(merge(srcMap, value));
+                           key -> new2oldItemIdMap.get(itemCoreId));
           }
         }
     );
@@ -178,7 +167,8 @@ public class ItemUtil {
     if (newItemIndexMap.get(originItemId) == null) {
       newItemIndexMap.put(originItemId, new HashMap<>());
     }
-    newItemIndexMap.get(originItemId).putAll(value);
+    Map<String,Object> srcMap = newItemIndexMap.get(originItemId);
+    newItemIndexMap.get(originItemId).putAll(merge(srcMap, value));
   }
 
 
