@@ -14,7 +14,6 @@ public class FieldsConfigLoader {
 
   private static Logger logger = LoggerFactory.getLogger(FieldsConfigLoader.class);
 
-
   private static Map<String, ReportFieldConfig> fieldConfigMap = new HashMap<>();
   static {
     try {

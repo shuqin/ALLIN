@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import zzz.study.function.basic.Person;
 import zzz.study.function.basic.Student;
-import zzz.study.function.basic.Teacher;
 
 /**
  * Created by shuqin on 17/11/23.

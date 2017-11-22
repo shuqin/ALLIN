@@ -6,8 +6,6 @@ import com.esotericsoftware.yamlbeans.YamlReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Created by yuankui on 17/6/13.
  */
@@ -24,8 +22,6 @@ public class YamlConfigLoader {
   }
 
   public static List<ReportFieldConfig> loadConfigs(List<String> contents) {
-
     return contents.stream().map(YamlConfigLoader::loadConfig).collect(Collectors.toList());
-
   }
 }
