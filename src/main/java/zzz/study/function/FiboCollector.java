@@ -33,12 +33,13 @@ public class FiboCollector implements Collector<Integer, List<Integer>, List<Int
 
   @Override
   public BinaryOperator<List<Integer>> combiner() {
-    return (left, right) -> { left.addAll(right); return left; };
+    return null;
+    //return (left, right) -> { left.addAll(right); return left; };
   }
 
   @Override
   public Function<List<Integer>, List<Integer>> finisher() {
-    return res -> res;
+    return res -> { res.remove(0); res.remove(1); return res; };
   }
 
   @Override
