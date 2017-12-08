@@ -27,11 +27,9 @@ public class FunctionUtil {
     return mergeList(srcList, destList, keyFunc, keyFunc, mergeFunc);
   }
 
-  public static <S,K,R> List<R> mergeList(List<S> srcList, List<R> destList ,
-                                          Function<S,K> skeyFunc, Function<R,K> dkeyFunc,
-                                          BiFunction<S,R,R> mergeFunc) {
-    if (CollectionUtils.isEmpty(srcList)) { return destList; }
-    if (CollectionUtils.isEmpty(destList)) { return new ArrayList<>(); }
+  public static <T,S,K,R> List<R> mergeList(List<S> srcList, List<T> destList ,
+                                          Function<S,K> skeyFunc, Function<T,K> dkeyFunc,
+                                          BiFunction<S,T,R> mergeFunc) {
 
     Map<K,S> srcMap = srcList.stream().collect(Collectors.toMap(skeyFunc, s -> s, (k1,k2) -> k1));
     return destList.stream().map(
