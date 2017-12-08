@@ -1,8 +1,13 @@
 package zzz.study.function;
 
+import org.apache.commons.collections.CollectionUtils;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -15,6 +20,29 @@ public class FunctionUtil {
    public static <T,R> List<R> multiGetResult(List<Function<List<T>, R>> functions, List<T> list) {
      return functions.stream().map(f -> f.apply(list)).collect(Collectors.toList());
    }
+
+  public static <K,R> List<R> mergeList(List<R> srcList, List<R> destList ,
+                                        Function<R,K> keyFunc,
+                                        BinaryOperator<R> mergeFunc) {
+    return mergeList(srcList, destList, keyFunc, keyFunc, mergeFunc);
+  }
+
+  public static <S,K,R> List<R> mergeList(List<S> srcList, List<R> destList ,
+                                          Function<S,K> skeyFunc, Function<R,K> dkeyFunc,
+                                          BiFunction<S,R,R> mergeFunc) {
+    if (CollectionUtils.isEmpty(srcList)) { return destList; }
+    if (CollectionUtils.isEmpty(destList)) { return new ArrayList<>(); }
+
+    Map<K,S> srcMap = srcList.stream().collect(Collectors.toMap(skeyFunc, s -> s, (k1,k2) -> k1));
+    return destList.stream().map(
+        dest -> {
+          K key = dkeyFunc.apply(dest);
+          S src = srcMap.get(key);
+          return mergeFunc.apply(src, dest);
+        }
+    ).collect(Collectors.toList());
+
+  }
 
    public static void main(String[] args) {
      System.out.println(multiGetResult(
