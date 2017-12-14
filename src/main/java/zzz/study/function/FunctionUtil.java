@@ -27,16 +27,21 @@ public class FunctionUtil {
   public static <T,S,K,R> List<R> mergeList(List<S> srcList, List<T> destList ,
                                           Function<S,K> skeyFunc, Function<T,K> dkeyFunc,
                                           BiFunction<S,T,R> mergeFunc) {
+    return join(destList, mapKey(srcList, skeyFunc)).apply(dkeyFunc, (BiFunction) mergeFunc);
 
-    Map<K,S> srcMap = srcList.stream().collect(Collectors.toMap(skeyFunc, s -> s, (k1,k2) -> k1));
-    return destList.stream().map(
+  }
+
+  public static <T,K> Map<K,T> mapKey(List<T> list, Function<T,K> keyFunc) {
+    return list.stream().collect(Collectors.toMap(keyFunc, t -> t, (k1,k2) -> k1));
+  }
+
+  public static <T,S,K,R> BiFunction<Function<T,K>, BiFunction<S,T,R>, List<R>> join(List<T> destList, Map<K,S> srcMap) {
+    return (dkeyFunc,mergeFunc) -> destList.stream().map(
         dest -> {
           K key = dkeyFunc.apply(dest);
           S src = srcMap.get(key);
           return mergeFunc.apply(src, dest);
-        }
-    ).collect(Collectors.toList());
-
+        }).collect(Collectors.toList());
   }
 
   /** 对给定的值 x,y 应用指定的二元操作函数 */
@@ -94,6 +99,11 @@ public class FunctionUtil {
      System.out.println(op(x-> x.length(), y-> y+",world", "hello").apply((x,y) -> x+" " +y));
 
      System.out.println(op(x-> x, y-> y+",world").apply((x,y) -> x+" " +y).apply("hello"));
+
+     System.out.println(op(x-> x.toString().length(), y-> y+",world").apply((x,y) -> x+" " +y).apply("hello"));
+
+     System.out.println(mergeList(Arrays.asList(1,2), Arrays.asList("an", "a"),
+                                  s-> s, t-> t.toString().length(), (s,t) -> s+t));
 
    }
 
