@@ -29,4 +29,13 @@ public class Student implements Person {
     public String able() {
         return able;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+               "studentId='" + studentId + '\'' +
+               ", name='" + name + '\'' +
+               ", able='" + able + '\'' +
+               '}';
+    }
 }

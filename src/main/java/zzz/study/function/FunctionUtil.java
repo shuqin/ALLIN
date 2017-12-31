@@ -1,6 +1,8 @@
 package zzz.study.function;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -8,6 +10,9 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import zzz.study.function.basic.Person;
+import zzz.study.function.basic.Student;
 
 /**
  * Created by shuqin on 17/12/3.
@@ -105,6 +110,19 @@ public class FunctionUtil {
      System.out.println(mergeList(Arrays.asList(1,2), Arrays.asList("an", "a"),
                                   s-> s, t-> t.toString().length(), (s,t) -> s+t));
 
+     List<Student> studentList = Arrays.asList(new Student("222", "qin", "reading,writing"),
+                                              new Student("111", "ni", "flowers"));
+
+     sort(studentList, (s1,s2) -> s1.getId().compareTo(s2.getId()));
+     System.out.println(studentList);
+
+     sort(studentList, (s1,s2) -> s1.getName().compareTo(s2.getName()));
+     System.out.println(studentList);
+
+   }
+
+   public static <T> void sort(List<T> unsorted, BiFunction<T,T, Integer> cmp) {
+     Collections.sort(unsorted, (o1, o2) -> cmp.apply(o1, o2));
    }
 
 }
