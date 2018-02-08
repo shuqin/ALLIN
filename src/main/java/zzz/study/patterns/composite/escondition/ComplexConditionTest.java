@@ -29,6 +29,9 @@ public class ComplexConditionTest {
     //System.out.println("( c2 or c3 ) must ( c4 or c5 ) json:\n" + c2orc3mustc4orc5.json());
     System.out.println("\n( c2 or c3 ) must ( c1 or c4 or c5 ) expr:\n" + c2orc3mustc1orc4orc5.expr());
 
+    Condition complexCond = ((c1.and(c2)).or(c3.and(c4), 1)).and(c5.or(Lists.newArrayList(c2,c3), 2));
+    System.out.println("\n(( c1 must c2 ) or ( c3 must c4 )) must (c5 or c2 or c3) expr:\n" + complexCond.expr());
+
   }
 
 }
