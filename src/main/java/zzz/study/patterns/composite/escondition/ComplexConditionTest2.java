@@ -1,6 +1,7 @@
 package zzz.study.patterns.composite.escondition;
 
 import com.google.common.collect.Lists;
+import static zzz.study.patterns.composite.escondition.ConditionFactory.*;
 
 /**
  * Created by shuqin on 18/2/8.
@@ -8,11 +9,11 @@ import com.google.common.collect.Lists;
 public class ComplexConditionTest2 {
 
   public static void main(String[] args) {
-    Condition c1 = ConditionFactory.eq("shop_id", "55");
-    Condition c2 = ConditionFactory.eq("order_no", "E2001");
-    Condition c3 = ConditionFactory.range("book_time", new Range(15100000000L, 15200000000L));
-    Condition c4 = ConditionFactory.in("state", Lists.newArrayList(5, 6));
-    Condition c5 = ConditionFactory.match("goods_title", new Match("商品标题的一部分", "90%"));
+    Condition c1 = eq("shop_id", "55");
+    Condition c2 = eq("order_no", "E2001");
+    Condition c3 = range("book_time", new Range(15100000000L, 15200000000L));
+    Condition c4 = in("state", Lists.newArrayList(5, 6));
+    Condition c5 = match("goods_title", new Match("商品标题的一部分", "90%"));
 
     Condition c1mustc2mustc3 = c1.and(c2).and(c3);
 

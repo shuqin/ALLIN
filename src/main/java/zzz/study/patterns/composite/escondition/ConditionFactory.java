@@ -7,11 +7,11 @@ import java.util.List;
  */
 public class ConditionFactory {
 
-  public static Condition eq(String fieldName, String value) {
+  public static Condition eq(String fieldName, Object value) {
     return new EsCondition(fieldName, Op.eq, value);
   }
 
-  public static Condition neq(String fieldName, String value) {
+  public static Condition neq(String fieldName, Object value) {
     return new EsCondition(fieldName, Op.neq, value);
   }
 
