@@ -22,7 +22,7 @@ import zzz.study.function.refactor.StreamUtil;
 /**
  * Created by shuqin on 18/3/12.
  *
- * 批量调用HTTP-Rest接口
+ * 批量获取第三方业务信息
  */
 @Component("batchGetInfoService")
 public class BatchGetInfoService {
@@ -35,45 +35,43 @@ public class BatchGetInfoService {
   @Resource
   private MultiTaskExecutor multiTaskExecutor;
 
-  public <T> Map<String,Object> batchGetAllInfo(WrapperHttpRestParam<T> wrapperHttpRestParam,
-                                           Function<List<Map>, Map<String,Object>> buildResultMapFunc, int taskSize) {
-    Map<String,Object> resultMap = new HashMap<>();
+  public <T> List<Map> batchGetAllInfo(BatchHttpRestParam<T> BatchHttpRestParam, int taskSize) {
     try {
-      if (wrapperHttpRestParam == null || CollectionUtils.isEmpty(wrapperHttpRestParam.getKeys())
-          || StringUtils.isBlank(wrapperHttpRestParam.getUrl()) || wrapperHttpRestParam.getParamBuilderFunc() == null) {
-        return new HashMap();
+      if (BatchHttpRestParam == null || CollectionUtils.isEmpty(BatchHttpRestParam.getKeys())
+          || StringUtils.isBlank(BatchHttpRestParam.getUrl()) || BatchHttpRestParam.getParamBuilderFunc() == null) {
+        return new ArrayList();
       }
 
       Function<WrapperListHandlerParam<T,Map>, List<Map>> handleBizDataFunc =
-          (wrapperListHanderParam) -> batchGetInfo(wrapperHttpRestParam);
+          (wrapperListHanderParam) -> batchGetInfo(BatchHttpRestParam);
 
-      WrapperListHandlerParam listHandlerParam = new WrapperListHandlerParam(wrapperHttpRestParam.getKeys(), handleBizDataFunc);
-      List allInfo = multiTaskExecutor.exec(listHandlerParam, handleBizDataFunc, taskSize);
+      WrapperListHandlerParam listHandlerParam = new WrapperListHandlerParam(BatchHttpRestParam.getKeys(), handleBizDataFunc);
+      List<Map> allInfo = multiTaskExecutor.exec(listHandlerParam, handleBizDataFunc, taskSize);
       if (CollectionUtils.isEmpty(allInfo)) {
-        return new HashMap<>();
+        return new ArrayList();
       }
-      resultMap = buildResultMapFunc.apply(StreamUtil.map(allInfo, x -> (Map)x));
+      return allInfo;
     } catch (Exception ex) {
-      logger.error("failed to batchgetAllInfo for " + wrapperHttpRestParam, ex);
+      logger.error("failed to batchgetAllInfo for " + BatchHttpRestParam, ex);
+      return new ArrayList();
     }
-    return resultMap;
   }
 
-  public <T,R> List<R> batchGetInfo(WrapperHttpRestParam<T> wrapperCallThirdParam) {
+  public <T,R> List<R> batchGetInfo(BatchHttpRestParam<T> BatchHttpRestParam) {
     try {
-      if (CollectionUtils.isEmpty(wrapperCallThirdParam.getKeys())) {
+      if (CollectionUtils.isEmpty(BatchHttpRestParam.getKeys())) {
         return new ArrayList<>();
       }
-      List<T> bizParam = wrapperCallThirdParam.getKeys();
-      Map callParam = wrapperCallThirdParam.getParamBuilderFunc().apply(bizParam);
-      String url = wrapperCallThirdParam.getUrl();
+      List<T> bizParam = BatchHttpRestParam.getKeys();
+      Map callParam = BatchHttpRestParam.getParamBuilderFunc().apply(bizParam);
+      String url = BatchHttpRestParam.getUrl();
       String query = JSON.toJSONString(callParam);
 
       logger.info("begin to getBatchInfo for {} {}", url, callParam);
       JSONObject result = httpClient.query(query, url);
       return parseResult(result);
     } catch (Exception ex) {
-      logger.error("failed to getBatchInfo for " + wrapperCallThirdParam, ex);
+      logger.error("failed to getBatchInfo for " + BatchHttpRestParam, ex);
       return new ArrayList<>();
     }
   }
