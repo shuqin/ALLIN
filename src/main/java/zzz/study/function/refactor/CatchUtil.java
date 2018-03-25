@@ -21,8 +21,7 @@ public class CatchUtil {
     try {
       func.accept(t);
     } catch (Exception e) {
-      e.printStackTrace();  // for log
-      throw new RuntimeException(e.getCause());
+      throw new RuntimeException(e);
     }
   }
 
