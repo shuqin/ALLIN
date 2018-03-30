@@ -11,12 +11,7 @@ import lombok.Data;
  */
 public class OrderExportService extends AbstractExportService {
 
-  ExecutorService es = Executors.newFixedThreadPool(10);
-
-  public static void main(String[] args) {
-    new OrderExportService().export(new OrderExportRequest());
-  }
-
+  ExecutorService es = Executors.newCachedThreadPool();
 
   @Override
   public void checkBizParam(IExportRequest exportRequest) {

@@ -12,10 +12,6 @@ public class GeneralExportService extends AbstractExportService {
 
   ExecutorService es = Executors.newFixedThreadPool(10);
 
-  public static void main(String[] args) {
-    new GeneralExportService().export(new GeneralExportRequest());
-  }
-
   @Override
   public void checkBizParam(IExportRequest exportRequest) {
     System.out.println("check general export request");
