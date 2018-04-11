@@ -10,6 +10,10 @@ import lombok.Data;
 @Data
 public class CustomerDomain implements DomainSearch {
 
+  /** 店铺ID */
+  @EsField(name="shop_id", required = true)
+  private Long shopId;
+
   /** 订单编号 */
   @EsField(name="order_no")
   private String orderNo;

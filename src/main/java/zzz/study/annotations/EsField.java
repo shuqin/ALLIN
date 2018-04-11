@@ -29,4 +29,9 @@ public @interface EsField {
    */
   String type() default "";
 
+  /**
+   * 是否必传
+   */
+  boolean required() default false;
+
 }

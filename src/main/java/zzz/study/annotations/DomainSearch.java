@@ -28,13 +28,18 @@ public interface DomainSearch {
         f.setAccessible(true);
 
         Object value = f.get(customerDomain);
-        if (isNeedOmitted(value)) {
-          f.setAccessible(false);
-          continue;
-        }
 
         if (f.getAnnotation(EsField.class) != null) {
           EsField field = f.getAnnotation(EsField.class);
+
+          if (field.required() && value == null) {
+            throw new RuntimeException("field '" + field + "' is required. value is null");
+          }
+
+          if (isNeedOmitted(value)) {
+            f.setAccessible(false);
+            continue;
+          }
 
           if ((value instanceof List) && ((List)value).size() == 1) {
             // 针对 List 中单个值做优化查询
