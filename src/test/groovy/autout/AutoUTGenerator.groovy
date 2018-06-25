@@ -78,9 +78,10 @@ class AutoUTGenerator {
                                                 .join("\n\n")
 
         def engine = new SimpleTemplateEngine()
+        println(allInfo.methodInfos.collect { it.classNamesToImported }.flatten())
         def imports = allInfo.methodInfos.collect { it.classNamesToImported }
                 .flatten().toSet()
-                .findAll { !it.contains("java") }
+                .findAll { isNeedImport(it) }
                 .collect { "import " + it } .join("\n")
         def binding = [
                 "packageName": allInfo.packageName,
@@ -93,6 +94,13 @@ class AutoUTGenerator {
         return spockTestContent
     }
 
+    static Set<String> basicTypes = new HashSet<>(["int", "long", "char", "byte", "float", "double", "short"])
+
+    static boolean isNeedImport(String importStr) {
+        def notToImport = importStr.startsWith('[') || importStr.contains("java") || (importStr in basicTypes)
+        return !notToImport
+    }
+
     /**
      * 根据测试方法模板文件 method.tpl 生成测试方法的内容
      */
@@ -102,12 +110,17 @@ class AutoUTGenerator {
         def paramValues = m.paramTypes.collect { getDefaultValueOfType(firstLowerCase(it)) }.join(" | ")
         def returnValue = getDefaultValueOfType(firstLowerCase(m.returnType))
 
+        def paramTypeList = []
+        m.paramTypes.eachWithIndex {
+            def entry, int ind -> paramTypeList.add(mapType(firstLowerCase(entry), false) + ind)
+        }
+
         def binding = [
                 "method": m.methodName,
-                "Method": firstUpperCase(m.methodName),
+                "Method": firstUpperCase(m.methodName) + "(" + m.paramTypes.join(",") + ")",
                 "inst": className.toLowerCase(),
-                "paramListInMethodCall": m.paramTypes.collect { mapType(firstLowerCase(it), false) }.join(","),
-                "paramListInDataProvider": m.paramTypes.collect { mapType(firstLowerCase(it), false) }.join(" | "),
+                "paramListInMethodCall": paramTypeList.join(","),
+                "paramListInDataProvider": paramTypeList.join(" | "),
                 "result": mapType(firstLowerCase(m.returnType), true),
                 "paramValues": paramValues,
                 "resultValue": returnValue
@@ -168,7 +181,9 @@ class AutoUTGenerator {
 
     def static typeMap = [
             "string": "str", "boolean": "bval", "long": "longval", "Integer": "intval",
-            "float": "fval", "double": "dval", "int": "intval", "object[]": "objectlist"
+            "float": "fval", "double": "dval", "int": "intval", "object[]": "objectlist",
+            "int[]": "intlist", "long[]": "longlist", "char[]": "chars",
+            "byte[]": "bytes", "short[]": "shortlist", "double[]": "dlist", "float[]": "flist"
     ]
 
     def static typeDefaultValues = [
