@@ -1,7 +1,7 @@
 package autout
 
 import groovy.text.SimpleTemplateEngine
-import zzz.study.algorithm.dividing.Partition
+import zzz.study.X
 
 import java.lang.reflect.Method
 
@@ -13,7 +13,7 @@ class AutoUTGenerator {
     def static projectRoot = System.getProperty("user.dir")
 
     static void main(String[] args) {
-        ut Partition.class
+        ut X.class
         // ut("com.youzan.ebiz.trade.biz")
     }
 
@@ -41,7 +41,6 @@ class AutoUTGenerator {
         def content = buildUTContent allInfo
 
         def path = getTestFileParentPath(testClass)
-        println(path)
         def dir = new File(path)
         if (!dir.exists()) {
             dir.mkdirs()
@@ -72,13 +71,11 @@ class AutoUTGenerator {
      * 根据单测模板文件生成待测试类的单测类模板
      */
     static buildUTContent(AllInfoForAutoGeneratingUT allInfo) {
-        println(projectRoot)
         def spockTestFile = new File("${projectRoot}/templates/spocktest.tpl")
         def methodContents = allInfo.methodInfos.collect { generateTestMethod(it, allInfo.className) }
                                                 .join("\n\n")
 
         def engine = new SimpleTemplateEngine()
-        println(allInfo.methodInfos.collect { it.classNamesToImported }.flatten())
         def imports = allInfo.methodInfos.collect { it.classNamesToImported }
                 .flatten().toSet()
                 .findAll { isNeedImport(it) }
@@ -176,7 +173,7 @@ class AutoUTGenerator {
 
     static String getDefaultValueOfType(String type) {
         def customerType = firstUpperCase(type)
-        typeDefaultValues[type] == null ? "toObject([:], ${customerType}.class)" : typeDefaultValues[type]
+        typeDefaultValues[type] == null ? "new ${customerType}([:])" : typeDefaultValues[type]
     }
 
     def static typeMap = [

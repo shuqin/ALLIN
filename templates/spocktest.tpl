@@ -3,8 +3,6 @@ package ${packageName}
 import org.junit.Test
 import spock.lang.Specification
 
-import static autout.GroovyUtil.toObject
-
 ${BizClassNameImports}
 
 /**
