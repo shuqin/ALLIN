@@ -1,4 +1,4 @@
-package zzz.study.patterns.observer.realconfig;
+package zzz.study.patterns.observer.realconfig.simple;
 
 import java.util.Observable;
 import java.util.Observer;

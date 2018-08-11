@@ -1,7 +1,9 @@
-package zzz.study.patterns.observer.realconfig;
+package zzz.study.patterns.observer.realconfig.more;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import zzz.study.patterns.observer.realconfig.simple.Config;
 
 public abstract class AbstractApplication implements Observer {
 

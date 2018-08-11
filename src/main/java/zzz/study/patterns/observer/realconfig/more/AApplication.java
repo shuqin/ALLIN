@@ -1,4 +1,4 @@
-package zzz.study.patterns.observer.realconfig;
+package zzz.study.patterns.observer.realconfig.more;
 
 public class AApplication extends AbstractApplication {
 
