@@ -10,7 +10,7 @@ public class Config<T> extends Observable {
     this.conf = conf;
   }
 
-  public Object getConf() {
+  public T getConf() {
     return conf;
   }
 
@@ -18,4 +18,5 @@ public class Config<T> extends Observable {
     this.conf = config;
     setChanged();
   }
+
 }

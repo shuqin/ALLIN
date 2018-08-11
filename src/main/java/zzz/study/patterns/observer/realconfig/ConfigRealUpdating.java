@@ -11,6 +11,17 @@ public class ConfigRealUpdating {
     config.update(6);
     config.notifyObservers();
 
+    Config aConfig = new AConfig("Haha");
+    Config bConfig = new BConfig(-1L);
+    AbstractApplication aApp = new AApplication();
+    AbstractApplication bApp = new BApplication();
+    aConfig.addObserver(aApp);
+    bConfig.addObserver(bApp);
+
+    aConfig.update("I am changed");
+    aConfig.notifyObservers();
+    bConfig.update(9L);
+    bConfig.notifyObservers();
   }
 
 }
