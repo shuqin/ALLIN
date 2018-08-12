@@ -1,0 +1,46 @@
+package zzz.study.algorithm.object;
+
+public class MapToObject {
+
+  String s = "{\n"
+             + "    \"item:s_id:18006666\": \"1024\",\n"
+             + "    \"item:s_id:18008888\": \"1024\",\n"
+             + "    \"item:g_id:18006666\": \"6666\",\n"
+             + "    \"item:g_id:18008888\": \"8888\",\n"
+             + "    \"item:num:18008888\": \"8\",\n"
+             + "    \"item:num:18006666\": \"6\",\n"
+             + "    \"item:item_core_id:18006666\": \"9876666\",\n"
+             + "    \"item:item_core_id:18008888\": \"9878888\",\n"
+             + "    \"item:order_no:18006666\": \"E20171013174712025\",\n"
+             + "    \"item:order_no:18008888\": \"E20171013174712025\",\n"
+             + "    \"item:id:18008888\": \"18008888\",\n"
+             + "    \"item:id:18006666\": \"18006666\",\n"
+             + "    \n"
+             + "    \"item_core:num:9878888\": \"8\",\n"
+             + "    \"item_core:num:9876666\": \"6\",\n"
+             + "    \"item_core:id:9876666\": \"9876666\",\n"
+             + "    \"item_core:id:9878888\": \"9878888\",\n"
+             + "\n"
+             + "    \"item_price:item_id:1000\": \"9876666\",\n"
+             + "    \"item_price:item_id:2000\": \"9878888\",\n"
+             + "    \"item_price:price:1000\": \"100\",\n"
+             + "    \"item_price:price:2000\": \"200\",\n"
+             + "    \"item_price:id:2000\": \"2000\",\n"
+             + "    \"item_price:id:1000\": \"1000\",\n"
+             + "\n"
+             + "    \"item_price_change_log:id:1111\": \"1111\",\n"
+             + "    \"item_price_change_log:id:2222\": \"2222\",\n"
+             + "    \"item_price_change_log:item_id:1111\": \"9876666\",\n"
+             + "    \"item_price_change_log:item_id:2222\": \"9878888\",\n"
+             + "    \"item_price_change_log:detail:1111\": \"haha1111\",\n"
+             + "    \"item_price_change_log:detail:2222\": \"haha2222\",\n"
+             + "    \"item_price_change_log:id:3333\": \"3333\",\n"
+             + "    \"item_price_change_log:id:4444\": \"4444\",\n"
+             + "    \"item_price_change_log:item_id:3333\": \"9876666\",\n"
+             + "    \"item_price_change_log:item_id:4444\": \"9878888\",\n"
+             + "    \"item_price_change_log:detail:3333\": \"haha3333\",\n"
+             + "    \"item_price_change_log:detail:4444\": \"haha4444\"\n"
+             + "}";
+
+
+}
