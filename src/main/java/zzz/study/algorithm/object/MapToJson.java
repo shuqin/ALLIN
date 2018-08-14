@@ -11,32 +11,32 @@ public class MapToJson {
 
     ItemPriceChangeLog itemPriceChangeLog1111 = new ItemPriceChangeLog();
     itemPriceChangeLog1111.setId("1111");
-    itemPriceChangeLog1111.setItem_id("9876666");
+    itemPriceChangeLog1111.setItemId("9876666");
     itemPriceChangeLog1111.setDetail("haha1111");
 
     ItemPriceChangeLog itemPriceChangeLog2222 = new ItemPriceChangeLog();
     itemPriceChangeLog2222.setId("2222");
-    itemPriceChangeLog2222.setItem_id("9878888");
+    itemPriceChangeLog2222.setItemId("9878888");
     itemPriceChangeLog2222.setDetail("haha2222");
 
     ItemPriceChangeLog itemPriceChangeLog3333 = new ItemPriceChangeLog();
     itemPriceChangeLog3333.setId("3333");
-    itemPriceChangeLog3333.setItem_id("9876666");
+    itemPriceChangeLog3333.setItemId("9876666");
     itemPriceChangeLog3333.setDetail("haha3333");
 
     ItemPriceChangeLog itemPriceChangeLog4444 = new ItemPriceChangeLog();
     itemPriceChangeLog4444.setId("4444");
-    itemPriceChangeLog4444.setItem_id("9878888");
+    itemPriceChangeLog4444.setItemId("9878888");
     itemPriceChangeLog4444.setDetail("haha4444");
 
     ItemPrice itemPrice1000 = new ItemPrice();
     itemPrice1000.setId("1000");
-    itemPrice1000.setItem_id("9876666");
+    itemPrice1000.setItemId("9876666");
     itemPrice1000.setPrice("100");
 
     ItemPrice itemPrice2000 = new ItemPrice();
     itemPrice2000.setId("2000");
-    itemPrice2000.setItem_id("9878888");
+    itemPrice2000.setItemId("9878888");
     itemPrice2000.setPrice("200");
 
     ItemCore itemCore9876666 = new ItemCore();
@@ -49,19 +49,19 @@ public class MapToJson {
 
     Item item18006666 = new Item();
     item18006666.setId("18006666");
-    item18006666.setItem_core_id("9876666");
-    item18006666.setS_id("1024");
-    item18006666.setG_id("6666");
+    item18006666.setItemCoreId("9876666");
+    item18006666.setSId("1024");
+    item18006666.setGId("6666");
     item18006666.setNum("6");
-    item18006666.setOrder_no("E20171013174712025");
+    item18006666.setOrderNo("E20171013174712025");
 
     Item item18008888 = new Item();
     item18008888.setId("18008888");
-    item18008888.setItem_core_id("9878888");
-    item18008888.setS_id("1024");
-    item18008888.setG_id("8888");
+    item18008888.setItemCoreId("9878888");
+    item18008888.setSId("1024");
+    item18008888.setGId("8888");
     item18008888.setNum("8");
-    item18008888.setOrder_no("E20171013174712025");
+    item18008888.setOrderNo("E20171013174712025");
 
     itemCore9876666.setItem(item18006666);
     itemCore9876666.setItemPrice(itemPrice1000);

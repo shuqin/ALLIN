@@ -6,11 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Item {
-  private String s_id;
-  private String g_id;
+  private String sId;
+  private String gId;
   private String num;
-  private String order_no;
+  private String orderNo;
   private String id;
-  private String item_core_id;
+  private String itemCoreId;
 
 }
