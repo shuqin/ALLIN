@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import zzz.study.datastructure.map.TransferUtil;
@@ -63,16 +64,7 @@ public class MapToObject {
   }
 
   public static Order transferOrder(String json) {
-    Map<String, Map<String,Object>> groupedMaps = group(json);
-    Map<String, Map<String,Object>> groupedMapsCamel = new HashMap<>();
-    Set<String> ignoreSets = new HashSet();
-    groupedMaps.forEach(
-        (key, mapForKey) -> {
-          Map<String,Object> keytoCamel = TransferUtil.generalMapProcess(mapForKey, TransferUtil::underlineToCamel, ignoreSets);
-          groupedMapsCamel.put(key, keytoCamel);
-        }
-    );
-    return relate(groupedMapsCamel);
+    return relate2(underline2camelForMap(group(json)));
   }
 
   /**
@@ -91,6 +83,18 @@ public class MapToObject {
         }
     );
     return groupedMaps;
+  }
+
+  public static Map<String, Map<String,Object>> underline2camelForMap(Map<String, Map<String,Object>> underlined) {
+    Map<String, Map<String,Object>> groupedMapsCamel = new HashMap<>();
+    Set<String> ignoreSets = new HashSet();
+    underlined.forEach(
+        (key, mapForKey) -> {
+          Map<String,Object> keytoCamel = TransferUtil.generalMapProcess(mapForKey, TransferUtil::underlineToCamel, ignoreSets);
+          groupedMapsCamel.put(key, keytoCamel);
+        }
+    );
+    return groupedMapsCamel;
   }
 
   /**
@@ -118,15 +122,10 @@ public class MapToObject {
         }
     );
 
-    Map<String ,List<Item>> itemMap = items.stream().collect(Collectors.groupingBy(
-        Item::getItemCoreId
-    ));
-    Map<String ,List<ItemPrice>> itemPriceMap = itemPrices.stream().collect(Collectors.groupingBy(
-        ItemPrice::getItemId
-    ));
-    Map<String ,List<ItemPriceChangeLog>> itemPriceChangeLogMap = itemPriceChangeLogs.stream().collect(Collectors.groupingBy(
-        ItemPriceChangeLog::getItemId
-    ));
+    Map<String ,List<Item>> itemMap = buildObjMap(items, Item::getItemCoreId);
+    Map<String ,List<ItemPrice>> itemPriceMap = buildObjMap(itemPrices, ItemPrice::getItemId);
+    Map<String ,List<ItemPriceChangeLog>> itemPriceChangeLogMap = buildObjMap(itemPriceChangeLogs, ItemPriceChangeLog::getItemId);
+
     itemCores.forEach(
         itemCore -> {
           String itemId = itemCore.getId();
@@ -138,6 +137,44 @@ public class MapToObject {
     Order order = new Order();
     order.setItemCores(itemCores);
     return order;
+  }
+
+  public static Order relate2(Map<String, Map<String,Object>> groupedMaps) {
+    Map<String, BizObjects> objMapping = new HashMap() {
+      {
+        put("item", new BizObjects<Item,String>(Item.class, new HashMap<>(), Item::getItemCoreId));
+        put("item_core", new BizObjects<ItemCore,String>(ItemCore.class, new HashMap<>(), ItemCore::getId));
+        put("item_price", new BizObjects<ItemPrice,String>(ItemPrice.class, new HashMap<>(), ItemPrice::getItemId));
+        put("item_price_change_log", new BizObjects<ItemPriceChangeLog,String>(ItemPriceChangeLog.class, new HashMap<>(), ItemPriceChangeLog::getItemId));
+      }
+    };
+    groupedMaps.forEach(
+        (key, mapForKey) -> {
+          String prefixOfKey = key.split(":")[0];
+          BizObjects bizObjects = objMapping.get(prefixOfKey);
+          bizObjects.add(map2Bean(mapForKey, bizObjects.getObjectClass()));
+        }
+    );
+
+    Map<String, List<ItemCore>> itemCores = objMapping.get("item_core").getObjects();
+
+    List<ItemCore> finalItemCoreList = new ArrayList<>();
+    itemCores.forEach(
+        (itemCoreId, itemCoreList) -> {
+          ItemCore itemCore = itemCoreList.get(0);
+          itemCore.setItem((Item) objMapping.get("item").getSingle(itemCoreId));
+          itemCore.setItemPrice((ItemPrice) objMapping.get("item_price").getSingle(itemCoreId));
+          itemCore.setItemPriceChangeLogs(objMapping.get("item_price_change_log").get(itemCoreId));
+          finalItemCoreList.add(itemCore);
+        }
+    );
+    Order order = new Order();
+    order.setItemCores(finalItemCoreList);
+    return order;
+  }
+
+  public static <T> Map<String,List<T>> buildObjMap(List<T> objList, Function<T, String> idFunc) {
+    return objList.stream().collect(Collectors.groupingBy(idFunc));
   }
 
   public static <T> T map2Bean(Map map, Class<T> c) {
