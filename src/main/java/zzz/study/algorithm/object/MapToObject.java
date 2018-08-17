@@ -2,8 +2,6 @@ package zzz.study.algorithm.object;
 
 import com.alibaba.fastjson.JSON;
 
-import org.apache.commons.beanutils.BeanUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +12,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import zzz.study.datastructure.map.TransferUtil;
+
+import static zzz.study.utils.BeanUtil.map2Bean;
 
 public class MapToObject {
 
@@ -140,34 +140,9 @@ public class MapToObject {
   }
 
   public static Order relate2(Map<String, Map<String,Object>> groupedMaps) {
-    Map<String, BizObjects> objMapping = new HashMap() {
-      {
-        put("item", new BizObjects<Item,String>(Item.class, new HashMap<>(), Item::getItemCoreId));
-        put("item_core", new BizObjects<ItemCore,String>(ItemCore.class, new HashMap<>(), ItemCore::getId));
-        put("item_price", new BizObjects<ItemPrice,String>(ItemPrice.class, new HashMap<>(), ItemPrice::getItemId));
-        put("item_price_change_log", new BizObjects<ItemPriceChangeLog,String>(ItemPriceChangeLog.class, new HashMap<>(), ItemPriceChangeLog::getItemId));
-      }
-    };
-    groupedMaps.forEach(
-        (key, mapForKey) -> {
-          String prefixOfKey = key.split(":")[0];
-          BizObjects bizObjects = objMapping.get(prefixOfKey);
-          bizObjects.add(map2Bean(mapForKey, bizObjects.getObjectClass()));
-        }
-    );
-
-    Map<String, List<ItemCore>> itemCores = objMapping.get("item_core").getObjects();
-
-    List<ItemCore> finalItemCoreList = new ArrayList<>();
-    itemCores.forEach(
-        (itemCoreId, itemCoreList) -> {
-          ItemCore itemCore = itemCoreList.get(0);
-          itemCore.setItem((Item) objMapping.get("item").getSingle(itemCoreId));
-          itemCore.setItemPrice((ItemPrice) objMapping.get("item_price").getSingle(itemCoreId));
-          itemCore.setItemPriceChangeLogs(objMapping.get("item_price_change_log").get(itemCoreId));
-          finalItemCoreList.add(itemCore);
-        }
-    );
+    ObjectMapping objectMapping = new ObjectMapping();
+    objectMapping = objectMapping.FillFrom(groupedMaps);
+    List<ItemCore> finalItemCoreList = objectMapping.buildFinalList();
     Order order = new Order();
     order.setItemCores(finalItemCoreList);
     return order;
@@ -177,14 +152,6 @@ public class MapToObject {
     return objList.stream().collect(Collectors.groupingBy(idFunc));
   }
 
-  public static <T> T map2Bean(Map map, Class<T> c) {
-    try {
-      T t = c.newInstance();
-      BeanUtils.populate(t, map);
-      return t;
-    } catch (Exception ex) {
-      throw new RuntimeException(ex.getCause());
-    }
-  }
+
 
 }
