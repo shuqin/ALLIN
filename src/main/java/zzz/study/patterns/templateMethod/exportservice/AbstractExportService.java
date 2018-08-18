@@ -1,4 +1,4 @@
-package zzz.study.inf;
+package zzz.study.patterns.templateMethod.exportservice;
 
 import com.alibaba.fastjson.JSON;
 

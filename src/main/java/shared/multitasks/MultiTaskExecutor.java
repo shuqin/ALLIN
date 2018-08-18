@@ -13,9 +13,9 @@ import java.util.function.Function;
 
 import javax.annotation.Resource;
 
+import shared.rpc.batchcall.WrapperListHandlerParam;
 import zzz.study.function.refactor.ForeachUtil;
 import zzz.study.function.refactor.TaskUtil;
-import zzz.study.tech.batchcall.WrapperListHandlerParam;
 
 /**
  * Created by shuqin on 18/3/13.

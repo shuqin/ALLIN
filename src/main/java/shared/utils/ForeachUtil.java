@@ -1,4 +1,4 @@
-package zzz.study.utils;
+package shared.utils;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import shared.utils.ExceptionUtil;
 
 /**
  * Created by shuqin on 18/3/13.

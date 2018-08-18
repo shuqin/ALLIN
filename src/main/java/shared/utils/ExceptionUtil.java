@@ -1,4 +1,4 @@
-package zzz.study.utils;
+package shared.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ public class ExceptionUtil {
 
   private static Logger logger = LoggerFactory.getLogger(ExceptionUtil.class);
 
-  public static <T,R> R doWithRobust(Function<T, R> producer, T param) {
+  public static <T, R> R doWithRobust(Function<T, R> producer, T param) {
     try {
       return producer.apply(param);
     } catch (Exception ex) {
@@ -31,11 +31,12 @@ public class ExceptionUtil {
     }
   }
 
-  public static <T,R> void doWithRobust(BiConsumer<T,R> consumer, T t, R r) {
+  public static <T, R> void doWithRobust(BiConsumer<T, R> consumer, T t, R r) {
     try {
-      consumer.accept(t,r);
+      consumer.accept(t, r);
     } catch (Exception ex) {
-      logger.error("failed to execute consumer" + consumer.getClass().getName() + " " + t + " " + r, ex);
+      logger.error("failed to execute consumer" + consumer.getClass().getName() + " " + t + " " + r,
+                   ex);
     }
   }
 

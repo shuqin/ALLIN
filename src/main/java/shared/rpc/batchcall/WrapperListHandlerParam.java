@@ -1,4 +1,4 @@
-package zzz.study.tech.batchcall;
+package shared.rpc.batchcall;
 
 import java.util.List;
 import java.util.function.Function;

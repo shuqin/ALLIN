@@ -1,4 +1,4 @@
-package zzz.study.tech.batchcall;
+package shared.rpc;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -18,8 +17,8 @@ import java.util.function.Function;
 import javax.annotation.Resource;
 
 import shared.multitasks.MultiTaskExecutor;
-import shared.rpc.HttpClient;
-import zzz.study.function.refactor.StreamUtil;
+import shared.rpc.batchcall.BatchHttpRestParam;
+import shared.rpc.batchcall.WrapperListHandlerParam;
 
 /**
  * Created by shuqin on 18/3/12.
@@ -29,7 +28,8 @@ import zzz.study.function.refactor.StreamUtil;
 @Component("batchGetInfoService")
 public class BatchGetInfoService {
 
-  private static Logger logger = LoggerFactory.getLogger(BatchGetInfoService.class);
+  private static Logger logger = LoggerFactory.getLogger(
+      BatchGetInfoService.class);
 
   @Resource
   private HttpClient httpClient;
@@ -47,7 +47,8 @@ public class BatchGetInfoService {
       Function<WrapperListHandlerParam<T,Map>, List<Map>> handleBizDataFunc =
           (wrapperListHanderParam) -> batchGetInfo(BatchHttpRestParam);
 
-      WrapperListHandlerParam listHandlerParam = new WrapperListHandlerParam(BatchHttpRestParam.getKeys(), handleBizDataFunc);
+      WrapperListHandlerParam
+          listHandlerParam = new WrapperListHandlerParam(BatchHttpRestParam.getKeys(), handleBizDataFunc);
       List<Map> allInfo = multiTaskExecutor.exec(listHandlerParam, handleBizDataFunc, taskSize);
       if (CollectionUtils.isEmpty(allInfo)) {
         return new ArrayList();

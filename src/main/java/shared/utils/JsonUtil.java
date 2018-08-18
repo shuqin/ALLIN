@@ -1,4 +1,4 @@
-package zzz.study.utils;
+package shared.utils;
 
 import com.jayway.jsonpath.JsonPath;
 

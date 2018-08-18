@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import zzz.study.datastructure.map.TransferUtil;
 
-import static zzz.study.utils.BeanUtil.map2Bean;
+import static shared.utils.BeanUtil.map2Bean;
 
 public class MapToObject {
 

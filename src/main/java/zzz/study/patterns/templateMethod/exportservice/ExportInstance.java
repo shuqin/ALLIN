@@ -1,4 +1,4 @@
-package zzz.study.inf;
+package zzz.study.patterns.templateMethod.exportservice;
 
 /**
  * Created by shuqin on 18/3/30.

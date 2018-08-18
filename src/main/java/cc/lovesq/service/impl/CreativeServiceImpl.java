@@ -14,31 +14,31 @@ import cc.lovesq.service.CreativeService;
 @Service("creativeService")
 public class CreativeServiceImpl implements CreativeService {
 
-	@Resource
-	private CreativeDAO creativeDAO;
-	
-	public CreativeDO get(Long creativeId) {
-		return creativeDAO.findByCreativeId(creativeId);
-	}
+  @Resource
+  private CreativeDAO creativeDAO;
 
-	public void save(CreativeDO creative) {
-		creativeDAO.save(creative);
-	}
+  public CreativeDO get(Long creativeId) {
+    return creativeDAO.findByCreativeId(creativeId);
+  }
 
-	public void update(CreativeDO creative) {
-		creativeDAO.update(creative);
-	}
+  public void save(CreativeDO creative) {
+    creativeDAO.save(creative);
+  }
 
-	public void delete(Long creativeId) {
-		creativeDAO.delete(creativeId);
-	}
+  public void update(CreativeDO creative) {
+    creativeDAO.update(creative);
+  }
 
-	public List<CreativeDO> search(CreativeQuery query) {
-		return creativeDAO.list(query);
-	}
+  public void delete(Long creativeId) {
+    creativeDAO.delete(creativeId);
+  }
 
-	public Integer count(CreativeQuery query) {
-		return creativeDAO.count(query);
-	}
+  public List<CreativeDO> search(CreativeQuery query) {
+    return creativeDAO.list(query);
+  }
+
+  public Integer count(CreativeQuery query) {
+    return creativeDAO.count(query);
+  }
 
 }

@@ -5,7 +5,7 @@ import com.jayway.jsonpath.JsonPath;
 import org.junit.Test;
 
 import cc.lovesq.study.test.CommonForTest;
-import zzz.study.utils.JsonUtil;
+import shared.utils.JsonUtil;
 
 /**
  * Created by shuqin on 17/11/12.

@@ -1,4 +1,4 @@
-package zzz.study.tech.batchcall;
+package shared.rpc.batchcall;
 
 import java.util.ArrayList;
 import java.util.List;
