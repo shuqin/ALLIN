@@ -1,7 +1,5 @@
 package zzz.study.utils;
 
-import cc.lovesq.dao.CreativeDAO;
-
 import java.util.List;
 import static zzz.study.utils.BaseTool.*;
 
@@ -9,7 +7,6 @@ public class AutoGenerateCoreService {
 
     public static void main(String[] args) {
         testParseMethod();
-        generateCoreServiceFile(CreativeDAO.class);
 
     }
 

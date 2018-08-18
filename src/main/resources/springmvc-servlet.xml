@@ -8,11 +8,6 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-    <context:component-scan base-package="cc.lovesq"/>
-
-    <import resource="classpath:spring-dao.xml"/>
-    <import resource="classpath:spring-db.xml"/>
-
     <!-- velocity配置 -->
     <bean class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
         <property name="resourceLoaderPath" value="/WEB-INF/views"/>

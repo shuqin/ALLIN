@@ -1,12 +1,13 @@
 ## executed using root account
 ## mysql -uroot -p < /path/to/project.sql
 
-drop database if exists code;
+drop database if exists test;
 
-create database code ;
-grant all privileges on code.* to 'test'@'localhost' identified by 'test';
+CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';
+create database test ;
+grant all privileges on test.* to 'test'@'localhost' identified by 'test';
 
-use code
+use test
 
 drop table if exists creative;
 

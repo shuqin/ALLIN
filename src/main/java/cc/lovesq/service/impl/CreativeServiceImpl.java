@@ -4,17 +4,18 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import cc.lovesq.dao.CreativeMapper;
 import cc.lovesq.pojo.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 import cc.lovesq.service.CreativeService;
 
-@Service("creativeService")
+@Component("creativeService")
 public class CreativeServiceImpl implements CreativeService {
 
-  @Resource
+  @Autowired
   private CreativeMapper creativeMapper;
 
   public CreativeDO get(Long creativeId) {

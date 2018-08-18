@@ -5,7 +5,7 @@
 	<sql id="pagination">
 		<if test="firstRow != null">
 			<if test="pageSize != null">
-				<![CDATA[ limit #firstRow:INTEGER# , #pageSize:INTEGER# ]]>
+				<![CDATA[ limit #{firstRow:INTEGER} , #{pageSize:INTEGER} ]]>
 			</if>
 		</if>
 	</sql>

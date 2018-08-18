@@ -19,6 +19,6 @@
 		</property>
 	</bean>
 	
-	<import resource="classpath:spring-db.xml" />
+	<import resource="classpath:mybatis/spring-db.xml" />
 	<import resource="classpath:spring-dao.xml" />
 </beans>

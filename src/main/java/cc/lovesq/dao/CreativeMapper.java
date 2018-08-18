@@ -1,5 +1,6 @@
 package cc.lovesq.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 import cc.lovesq.pojo.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 
-@Component
+@Mapper
 public interface CreativeMapper {
 
   CreativeDO findByCreativeId(Long creativeId);

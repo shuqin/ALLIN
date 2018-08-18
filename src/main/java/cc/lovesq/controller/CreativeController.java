@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ import cc.lovesq.result.BaseResult;
 import cc.lovesq.result.PagerJsonResult;
 import cc.lovesq.service.CreativeService;
 
-@Controller
+@RestController
 @Scope("prototype")
 @RequestMapping("/api/creatives")
 public class CreativeController extends BaseController {
