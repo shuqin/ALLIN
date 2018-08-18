@@ -71,6 +71,7 @@
 			<if test="submitter != null">and submitter = #{submitter}</if>
 			<if test="content != null">and content like concat('%',#content#, '%') </if>
 		</where>
+		order by gmt_create desc
 	</sql>
 	
 </mapper>

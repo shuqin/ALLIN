@@ -1,4 +1,4 @@
-package cc.lovesq.measure;
+package zzz.study.patterns.command.measure;
 
 public class TimeMeasurer implements TimeMeasurerIF {
 

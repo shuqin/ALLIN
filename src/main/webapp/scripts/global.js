@@ -1,1 +1,1 @@
-appPrefix = 'http://localhost:8082'
+appPrefix = 'http://localhost:8080'

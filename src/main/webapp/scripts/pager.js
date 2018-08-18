@@ -157,7 +157,7 @@ var showPagingGrid = function(config) {
 		container = $(document.body);
 	}
 	
-	var pageSize = config['pageSize'] || 20;
+	var pageSize = config['pageSize'] || 10;
 	
 	$('#tableRegion').remove();
 	$('#paginationBar').remove();

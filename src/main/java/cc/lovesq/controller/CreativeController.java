@@ -5,7 +5,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,14 +21,15 @@ import java.util.function.Function;
 
 import javax.annotation.Resource;
 
+import cc.lovesq.model.Creative;
 import cc.lovesq.pojo.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 import cc.lovesq.result.BaseResult;
+import cc.lovesq.result.JsonResult;
 import cc.lovesq.result.PagerJsonResult;
 import cc.lovesq.service.CreativeService;
 
 @RestController
-@Scope("prototype")
 @RequestMapping("/api/creatives")
 public class CreativeController extends BaseController {
 
@@ -74,6 +74,16 @@ public class CreativeController extends BaseController {
     int total = creativeService.count(query);
     this.initPages(query, total);
     return new PagerJsonResult(this, creativeService.search(query));
+
+  }
+
+  @RequestMapping(value = "/listAll")
+  @ResponseBody
+  public JsonResult listAll(CreativeQuery query) {
+    query.setPageSize(null);
+    query.setFirstRow(null);
+    List<CreativeDO> data = creativeService.search(query);
+    return new JsonResult(data);
 
   }
 
@@ -131,6 +141,7 @@ public class CreativeController extends BaseController {
     query.setTitle(title);
     query.setPageNum(page);
     query.setPageSize(pageSize);
+    query.setFirstRow((page-1)*pageSize);
     return query;
   }
 
