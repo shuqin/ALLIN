@@ -1,7 +1,6 @@
 package autout
 
 import groovy.text.SimpleTemplateEngine
-import zzz.study.X
 
 import java.lang.reflect.Method
 
@@ -13,7 +12,6 @@ class AutoUTGenerator {
     def static projectRoot = System.getProperty("user.dir")
 
     static void main(String[] args) {
-        ut X.class
         // ut("com.youzan.ebiz.trade.biz")
     }
 

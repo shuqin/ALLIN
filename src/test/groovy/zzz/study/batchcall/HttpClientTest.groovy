@@ -7,8 +7,8 @@ import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.execchain.HttpResponseProxy
 import org.apache.http.message.BasicHttpResponse
 import org.apache.http.message.BasicStatusLine
+import shared.rpc.HttpClient
 import spock.lang.Specification
-import zzz.study.tech.batchcall.HttpClient
 
 /**
  * Created by shuqin on 18/3/12.

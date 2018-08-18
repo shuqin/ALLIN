@@ -2,11 +2,11 @@ package zzz.study.batchcall
 
 import com.alibaba.fastjson.JSONObject
 import org.junit.Test
+import shared.multitasks.MultiTaskExecutor
+import shared.rpc.BatchGetInfoService
+import shared.rpc.HttpClient
+import shared.rpc.batchcall.BatchHttpRestParam
 import spock.lang.Specification
-import zzz.study.tech.batchcall.BatchGetInfoService
-import zzz.study.tech.batchcall.BatchHttpRestParam
-import zzz.study.tech.batchcall.HttpClient
-import zzz.study.tech.batchcall.MultiTaskExecutor
 
 import java.util.function.Function
 

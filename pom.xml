@@ -81,15 +81,6 @@
             <version>2.4.2</version>
         </dependency>
 
-
-
-        <!-- network for api call -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>0.2.6</version>
-        </dependency>
-
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
