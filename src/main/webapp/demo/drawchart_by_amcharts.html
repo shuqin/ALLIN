@@ -23,7 +23,7 @@
             	};
             	
             	var succTodo = function(resp) {
-            		var ok = resp.info.ok;
+            		var ok = resp.code == 200;
             		if (ok) {
             			var chartData = resp.data.list;
             			// 后台最好返回 timestamp 字段的时间戳， 避免前端转换
