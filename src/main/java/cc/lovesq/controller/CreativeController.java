@@ -1,14 +1,6 @@
 package cc.lovesq.controller;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import javax.annotation.Resource;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,10 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cc.lovesq.base.AjaxResult;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
+import javax.annotation.Resource;
+
 import cc.lovesq.pojo.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
-import cc.lovesq.query.PagerQuery;
+import cc.lovesq.result.BaseResult;
 import cc.lovesq.result.JsonResult;
 import cc.lovesq.result.PagerJsonResult;
 import cc.lovesq.service.CreativeService;
@@ -60,12 +59,12 @@ public class CreativeController extends BaseController {
      */
     @RequestMapping(value = "/save")
     @ResponseBody
-    public AjaxResult save(CreativeDO creative) {
+    public BaseResult save(CreativeDO creative) {
         Assert.notNull(creative, "创意对象不能为空");
         Assert.isTrue(StringUtils.isNotBlank(creative.getTitle()), "创意标题不能为空");
 
         creativeService.save(creative);
-        return AjaxResult.succResult("创意新增成功");
+        return BaseResult.succ("创意新增成功");
     }
 
     @RequestMapping(value = "/list")
@@ -105,11 +104,11 @@ public class CreativeController extends BaseController {
      */
     @RequestMapping(value = "/update")
     @ResponseBody
-    public AjaxResult update(CreativeDO creative) {
+    public BaseResult update(CreativeDO creative) {
         Assert.notNull(creative, "对象不能为空");
         Assert.notNull(creative.getCreativeId(), "创意ID不能为空");
         creativeService.update(creative);
-        return AjaxResult.succResult("创意更新成功");
+        return BaseResult.succ("创意更新成功");
     }
 
     @RequestMapping(value = "/searchForSelect")

@@ -1,4 +1,4 @@
-package zzz.study.tech.batchcall;
+package shared.multitasks;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 
 import zzz.study.function.refactor.ForeachUtil;
 import zzz.study.function.refactor.TaskUtil;
+import zzz.study.tech.batchcall.WrapperListHandlerParam;
 
 /**
  * Created by shuqin on 18/3/13.

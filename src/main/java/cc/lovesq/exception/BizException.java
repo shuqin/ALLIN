@@ -1,51 +1,31 @@
 package cc.lovesq.exception;
 
 /**
- * 业务系统异常类,需要进行捕获处理
+ * 业务系统异常类
  */
-public class BizException extends Exception {
+public class BizException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	protected Integer code;
+  protected Integer code;
+  protected String message;
 
-	protected String message;
-	
-	private IErrorCode errorCode;
+  public BizException(IError error) {
+    this(error, null);
+  }
 
-	public BizException(IErrorCode resultMessage, String message, Throwable e) {
-		this.code = resultMessage.getCode();
-		this.message = (message != null ? message : resultMessage.getMessage());
-		this.errorCode=resultMessage;
-	}
+  public BizException(IError error, String message) {
+    this.code = error.getCode();
+    String errInfo = error.getMessage();
+    this.message = (message != null ? String.format(errInfo, message) : errInfo);
+  }
 
-	public BizException(IErrorCode resultMessage) {
-		this(resultMessage, null, null);
-	}
+  public Integer getCode() {
+    return code;
+  }
 
-	public BizException(IErrorCode resultMessage, String message) {
-		this(resultMessage, message, null);
-	}
+  public String getMessage() {
+    return message;
+  }
 
-	public BizException(IErrorCode resultMessage, Throwable e) {
-		this(resultMessage, null, e);
-	}
-	
-	public Integer getCode() {
-		return code;
-	}
-	@Override
-    public String getMessage() {
-		return message;
-	}
-
-	public IErrorCode getErrorCode() {
-		return errorCode;
-	}
-
-	public void setErrorCode(IErrorCode errorCode) {
-		this.errorCode = errorCode;
-	}
-
-	
 }

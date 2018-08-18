@@ -6,32 +6,32 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-import cc.lovesq.threading.customized.TaskInfo;
+import shared.multitasks.customized.TaskInfo;
 
 public class FileMatchCallable implements Callable<List<File>>, TaskInfo {
 
-	private File directory;   // 要匹配的非目录文件
-	private Pattern pattern;   // 要匹配的文件名模式
-	
-	public FileMatchCallable(File directory, Pattern pattern) {
-		this.directory = directory;
-		this.pattern = pattern;
-	}
+  private File directory;   // 要匹配的非目录文件
+  private Pattern pattern;   // 要匹配的文件名模式
 
-	public String desc() {
-		return "[FileSearchTask](" + "dir: " + directory.getAbsolutePath() + ", "
-				                   + "pattern: " + pattern + ")";
-	}
+  public FileMatchCallable(File directory, Pattern pattern) {
+    this.directory = directory;
+    this.pattern = pattern;
+  }
 
-	public List<File> call() throws Exception {
-		List<File> result = new ArrayList<File>();
-		if (directory.isFile()) {
-			boolean matched = pattern.matcher(directory.getName()).matches();
-			if (matched) {
-				result.add(directory);
-			}
-		}
-		return result;
-	}
+  public String desc() {
+    return "[FileSearchTask](" + "dir: " + directory.getAbsolutePath() + ", "
+           + "pattern: " + pattern + ")";
+  }
+
+  public List<File> call() throws Exception {
+    List<File> result = new ArrayList<File>();
+    if (directory.isFile()) {
+      boolean matched = pattern.matcher(directory.getName()).matches();
+      if (matched) {
+        result.add(directory);
+      }
+    }
+    return result;
+  }
 
 }

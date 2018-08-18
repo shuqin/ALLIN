@@ -1,4 +1,4 @@
-package zzz.study.tech.batchcall;
+package shared.rpc;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -16,9 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.Charset;
 
-/**
- * Created by shuqin on 18/3/12.
- */
 @Component("httpClient")
 public class HttpClient {
 

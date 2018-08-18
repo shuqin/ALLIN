@@ -7,15 +7,14 @@ import java.text.DecimalFormat;
  */
 public class FloatUtil {
 
-    private FloatUtil(){}
+  private FloatUtil() {}
 
-    private static DecimalFormat df   =new   java.text.DecimalFormat("#.00");
+  private static DecimalFormat df = new java.text.DecimalFormat("#.00");
 
-    /**
-     * 保留2位小数点
-     * @param d
-     */
-    public static double retainNpoints(double d) {
-        return Double.parseDouble(df.format(d));
-    }
+  /**
+   * 保留2位小数点
+   */
+  public static double retainNpoints(double d) {
+    return Double.parseDouble(df.format(d));
+  }
 }
