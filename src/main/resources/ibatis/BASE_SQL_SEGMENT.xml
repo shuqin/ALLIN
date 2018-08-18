@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
-<sqlMap namespace="BASE_SQL_SEGMENT">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BASE_SQL_SEGMENT">
 	<sql id="pagination">
-		<dynamic>
-			<isPropertyAvailable property="firstRow">
-				<isPropertyAvailable property="pageSize">
-					<isNotNull property="firstRow">
-						<isNotNull property="pageSize">
-						<![CDATA[ limit #firstRow:INTEGER# , #pageSize:INTEGER# ]]>
-						</isNotNull>
-					</isNotNull>
-				</isPropertyAvailable>
-			</isPropertyAvailable>
-		</dynamic>
+		<if test="firstRow != null">
+			<if test="pageSize != null">
+				<![CDATA[ limit #firstRow:INTEGER# , #pageSize:INTEGER# ]]>
+			</if>
+		</if>
 	</sql>
-</sqlMap>
+</mapper>

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <toolbox>
     <tool>
-        <key>securityUtil</key>
-        <scope>application</scope>
-        <class>com.taobao.security.util.SecurityUtil</class>
-    </tool>
-    <tool>
         <key>stringUtils</key>
         <scope>application</scope>
         <class>org.apache.commons.lang.StringUtils</class>
@@ -16,20 +11,4 @@
         <class>org.apache.commons.lang.time.DateFormatUtils</class>
     </tool>
     
-    <tool>
-        <key>unitUtils</key>
-        <scope>application</scope>
-        <class>com.alibaba.aliyun.dsp.web.util.UnitConvertUtil</class>
-    </tool>
-    
-    <tool>
-        <key>creativeUtils</key>
-        <scope>application</scope>
-        <class>com.alibaba.aliyun.dsp.web.util.WebCreativeUtil</class>
-    </tool>
-    <!-- <tool>
-        <key>csrfToken</key>
-        <scope>request</scope>
-        <class>com.taobao.security.token.spring.CsrfTokenForOther</class>
-    </tool> -->
 </toolbox>

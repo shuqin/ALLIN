@@ -8,31 +8,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-	<mvc:annotation-driven />
     <context:component-scan base-package="cc.lovesq"/>
-    <context:property-placeholder ignore-resource-not-found="false" 
-    	ignore-unresolvable="false" location="classpath:app.properties"/>
 
-    <mvc:default-servlet-handler/>
-    
     <import resource="classpath:spring-dao.xml"/>
     <import resource="classpath:spring-db.xml"/>
-    <import resource="classpath:ibatis-config.xml"/>
-
-    <bean id="messageSource"
-          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages"/>
-        <property name="fileEncodings" value="utf-8"/>
-        <property name="cacheSeconds" value="120"/>
-    </bean>
-    
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/*"/>
-            <bean id="loginInterceptor" class="cc.lovesq.interceptor.LoginInterceptor">
-            </bean>
-        </mvc:interceptor>
-    </mvc:interceptors>
 
     <!-- velocity配置 -->
     <bean class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">

@@ -1,12 +1,12 @@
 ## executed using root account
 ## mysql -uroot -p < /path/to/project.sql
 
-drop database if exists goodcode;
+drop database if exists code;
 
-create database goodcode ;
-grant all privileges on goodcode.* to 'test'@'localhost' identified by 'test';
+create database code ;
+grant all privileges on code.* to 'test'@'localhost' identified by 'test';
 
-use goodcode
+use code
 
 drop table if exists creative;
 

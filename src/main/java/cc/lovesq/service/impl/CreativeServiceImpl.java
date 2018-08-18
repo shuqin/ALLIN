@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import cc.lovesq.dao.CreativeDAO;
+import cc.lovesq.dao.CreativeMapper;
 import cc.lovesq.pojo.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 import cc.lovesq.service.CreativeService;
@@ -15,30 +15,30 @@ import cc.lovesq.service.CreativeService;
 public class CreativeServiceImpl implements CreativeService {
 
   @Resource
-  private CreativeDAO creativeDAO;
+  private CreativeMapper creativeMapper;
 
   public CreativeDO get(Long creativeId) {
-    return creativeDAO.findByCreativeId(creativeId);
+    return creativeMapper.findByCreativeId(creativeId);
   }
 
   public void save(CreativeDO creative) {
-    creativeDAO.save(creative);
+    creativeMapper.insert(creative);
   }
 
   public void update(CreativeDO creative) {
-    creativeDAO.update(creative);
+    creativeMapper.update(creative);
   }
 
   public void delete(Long creativeId) {
-    creativeDAO.delete(creativeId);
+    creativeMapper.delete(creativeId);
   }
 
   public List<CreativeDO> search(CreativeQuery query) {
-    return creativeDAO.list(query);
+    return creativeMapper.list(query);
   }
 
   public Integer count(CreativeQuery query) {
-    return creativeDAO.count(query);
+    return creativeMapper.count(query);
   }
 
 }

@@ -2,78 +2,23 @@ package cc.lovesq.pojo;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class CreativeDO {
-    
-	private Long creativeId;
 
-	private String title;
+  private Long creativeId;
 
-    private String content;
-    
-    private String comment;
-    
-    private String submitter;
+  private String title;
 
-    private Date gmtCreate;
+  private String content;
 
-    private Date gmtModified;
+  private String comment;
 
-    public Long getCreativeId() {
-        return creativeId;
-    }
+  private String submitter;
 
-    public void setCreativeId(Long creativeId) {
-        this.creativeId = creativeId;
-    }
+  private Date gmtCreate;
 
-    public String getTitle() {
-        return title;
-    }
+  private Date gmtModified;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
-	public String getSubmitter() {
-		return submitter;
-	}
-
-	public void setSubmitter(String submitter) {
-		this.submitter = submitter;
-	}
-
-	public Date getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-    
-    
-    
 }

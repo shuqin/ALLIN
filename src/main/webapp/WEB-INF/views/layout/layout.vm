@@ -73,10 +73,6 @@
         #end
     #end
 
-<!--START-->
-	$!securityUtil.unescapeHtml($!screen_content)
-<!--END-->
-
 </body>
 
 
