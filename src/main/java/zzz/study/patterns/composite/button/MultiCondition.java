@@ -24,10 +24,6 @@ public class MultiCondition implements ICondition {
     this.result = result;
   }
 
-  public static MultiCondition getInstance(String configJson) {
-    return JSON.parseObject(configJson, MultiCondition.class);
-  }
-
   @Override
   public boolean satisfiedBy(Map<String, Object> valueMap) {
     for (BaseCondition bc: conditions) {

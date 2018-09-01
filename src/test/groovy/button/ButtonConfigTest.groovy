@@ -7,6 +7,8 @@ import shared.script.ScriptExecutor
 import spock.lang.Specification
 import spock.lang.Unroll
 import zzz.study.patterns.composite.button.*
+import zzz.study.patterns.composite.button.strategy.ConditionParserStrategy
+import zzz.study.patterns.composite.button.strategy.ParserStrategyFactory
 
 class ButtonConfigTest extends Specification {
 
@@ -33,21 +35,22 @@ class ButtonConfigTest extends Specification {
     @Test
     def "testConditions"() {
         expect:
+        ConditionParserStrategy parserStrategy = new ParserStrategyFactory().getParser("json")
         def singleCondJson = '{"cond":{"field": "activity_type", "op":"eq", "value": 13}, "result": true}'
-        def singleButtonCondition = SingleCondition.getInstance(singleCondJson)
+        def singleButtonCondition = parserStrategy.parseSingle(singleCondJson)
         def valueMap = ["activity_type": 13]
         singleButtonCondition.satisfiedBy(valueMap) == true
         singleButtonCondition.getResult() == true
 
         def multiCondJson = '{"conditions": [{"field": "activity_type", "op":"eq", "value": 13}, {"field": "feedback", "op":"gt", "value": 201}], "result": false}'
-        def multiButtonCondition = MultiCondition.getInstance(multiCondJson)
+        def multiButtonCondition = parserStrategy.parseMulti(multiCondJson)
         def valueMap2 = ["activity_type": 13, "feedback": 250]
         multiButtonCondition.satisfiedBy(valueMap2) == true
         multiButtonCondition.getResult() == false
 
         def buttonConfigJson = '{"buttonRules": [{"cond":{"field": "activity_type", "op":"eq", "value": 63}, "result": false}, {"cond":{"field": "order_type", "op":"eq", "value": 75}, "result": false}, ' +
                                '{"conditions": [{"field": "state", "op":"neq", "value": 10}, {"field": "order_type", "op":"eq", "value": 0}, {"field": "activity_type", "op":"neq", "value": 13}], "result": true}], "defaultResult": false}'
-        def combinedCondition = ButtonCondition.getInstance(buttonConfigJson)
+        def combinedCondition = parserStrategy.parse(buttonConfigJson)
         def giftValueMap = ["activity_type": 63]
         def giftResult = combinedCondition.satisfiedBy(giftValueMap)
         assert giftResult == false

@@ -1,7 +1,5 @@
 package zzz.study.patterns.composite.button;
 
-import com.alibaba.fastjson.JSON;
-
 import java.util.Map;
 
 import lombok.Data;
@@ -18,10 +16,6 @@ public class SingleCondition implements ICondition {
   public SingleCondition(String field, CondOp condOp, Object value, boolean result) {
     this.cond = new BaseCondition(field, condOp, value);
     this.result = result;
-  }
-
-  public static SingleCondition getInstance(String configJson) {
-    return JSON.parseObject(configJson, SingleCondition.class);
   }
 
   /**
