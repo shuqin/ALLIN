@@ -7,17 +7,16 @@ import java.util.Map;
 import lombok.Data;
 
 @Data
-public class SingleCondition extends BaseCondition implements ICondition {
+public class SingleCondition implements ICondition {
 
+  private BaseCondition cond;
   private Boolean result;
 
   public SingleCondition() {
-    super();
-    this.result = false;
   }
 
   public SingleCondition(String field, CondOp condOp, Object value, boolean result) {
-    super(field, condOp, value);
+    this.cond = new BaseCondition(field, condOp, value);
     this.result = result;
   }
 
@@ -31,7 +30,7 @@ public class SingleCondition extends BaseCondition implements ICondition {
    */
   @Override
   public boolean satisfiedBy(Map<String, Object> valueMap) {
-    return this.test(valueMap);
+    return this.cond.test(valueMap);
   }
 
 }

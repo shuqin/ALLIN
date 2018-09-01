@@ -15,8 +15,8 @@ public class MultiCondition implements ICondition {
   private Boolean result;
 
   public MultiCondition() {
-    conditions = new ArrayList<>();
-    result = false;
+    this.conditions = new ArrayList<>();
+    this.result = false;
   }
 
   public MultiCondition(List<BaseCondition> conditions, Boolean result) {
