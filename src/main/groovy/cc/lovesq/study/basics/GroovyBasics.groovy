@@ -1,6 +1,6 @@
 package cc.lovesq.study.basics
 
-import java.lang.reflect.Modifier
+import groovy.io.FileType
 
 class GroovyBasics {
 
@@ -14,6 +14,8 @@ class GroovyBasics {
 
     static void main(args) {
 
+        // dynamic definition
+
         def chameleon = 0
         println "i am a ${chameleon.getClass().name}"
 
@@ -24,10 +26,13 @@ class GroovyBasics {
         println "now i have changed to ${chameleon.getClass().name}"
         println "power(2,10) = ${chameleon(2,10, {bg,p->Math.pow(bg,p)})}"
 
+        // dynamic function call
+
         ['swim', 'football'].each {
             "${it}"()
         }
 
+        // string about
 
         def name = 'qin'
         def intro = "i am $name"
@@ -56,6 +61,8 @@ class GroovyBasics {
             println "matchedCaptured: $it"
         }
 
+        // map
+
         def map = ["me":["name": 'qin', "age": 28], "lover":["name": 'ni', "age": 25]]
         map.each {
             key, value -> println(key+"="+value)
@@ -66,6 +73,8 @@ class GroovyBasics {
 
         println map.collect { it.value['name'] }
         println map.findAll { it.value.age <=25 }
+
+        // list
 
         def alist = [1,3,5,7,9]
         alist.each {
@@ -100,6 +109,8 @@ class GroovyBasics {
             key, value -> println(key.toString()+"="+value)
         }
 
+        // object
+
         def persons = [new Person(["name": 'qin', "age": 28, "address": new Address(["detail": "Hangzhou"])]), new Person(["name": 'ni', "age": 25])]
         println persons.collect { "${it.name} live in ${it.address?.getDetail()}" }
         println persons.find { it.age >=28 }.name
@@ -109,6 +120,47 @@ class GroovyBasics {
         }.each {
             println "method = ${it.name}, callValue = ${persons[0]."${it.name}"()}"
         }
+
+        // file
+
+        File file = new File("README.md")
+        println file.text
+        file.eachLine("UTF-8") {
+            println it
+        }
+
+        println file.readLines()
+
+        new File("/tmp/result.txt").withPrintWriter { printWriter ->
+            printWriter.println('The first content of file')
+        }
+
+        def printWriter = new File("/tmp/result2.txt").newPrintWriter()
+        printWriter.write('The first content of file')
+        printWriter.flush()
+        printWriter.close()
+
+        File path = new File(System.getProperty("user.dir"))
+        println "absolutePath: ${path.getCanonicalPath()}, isDirectory:  ${path.isDirectory()}"
+
+        path.eachFileRecurse(FileType.FILES) {
+            def filename = it.name
+            if (filename =~ ~/.*\.groovy$/) {
+                println filename
+            }
+        }
+
+        path.eachFileMatch(~/.*\..*/) {
+            println it.name
+        }
+
+        path.eachDirRecurse {
+            def filename = it.canonicalPath
+            if (filename =~ ~/.*groovy$/) {
+                println filename
+            }
+        }
+
 
     }
 }
