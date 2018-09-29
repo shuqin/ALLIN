@@ -12,6 +12,10 @@ class GroovyBasics {
         println "football"
     }
 
+    def static funcWithClosure(int num, final Closure closure) {
+        (1..num).collect { closure(it) }
+    }
+
     static void main(args) {
 
         // dynamic definition
@@ -31,6 +35,37 @@ class GroovyBasics {
         ['swim', 'football'].each {
             "${it}"()
         }
+
+        println funcWithClosure(5, {x -> x*x})
+        println funcWithClosure(5) { x -> x * 2 }
+
+        // sum(n, m) = 1^m + 2^m + ... + n^m
+        def sumPower = {
+            power, num ->
+                def sum = 0
+                1.upto(num) {
+                    sum += Math.pow(it, power)
+                }
+                sum
+        }
+        def sumPower_2 = sumPower.curry(2)
+        println "1^2 + 2^2 + 3^2 = ${sumPower_2(3)}"
+        println "1^2 + 2^2 + 3^2 + 4^2 = ${sumPower_2(4)}"
+
+        def sumPower_3 = sumPower.curry(3)
+        println "1^3 + 2^3 + 3^3 = ${sumPower_3(3)}"
+        println "1^3 + 2^3 + 3^3 + 4^3 = ${sumPower_3(4)}"
+
+        def sumPower_2Explict = {
+            num ->
+                def sum = 0
+                1.upto(num) {
+                    sum += Math.pow(it, 2)
+                }
+                sum
+        }
+        println sumPower_2Explict(3)
+        println sumPower_2Explict(4)
 
         // string about
 
@@ -54,7 +89,6 @@ class GroovyBasics {
 
         def isAllMatched = multilines ==~ /(?m)^(([a-zA-z]+\s+)+([a-zA-z]+[.\n]+)\s*)+$/
         println isAllMatched ? 'All matched' : 'not matched'
-
 
         def matchedCaptured = multilines =~ /(?:[a-zA-z]+\s+)+(?:[a-zA-z]+[.\n]+)/
         matchedCaptured.each {
@@ -102,6 +136,8 @@ class GroovyBasics {
         println alist.inject(1) { n1, n2 -> n1 * n2 }
         println ([[1,2,4], [1,3,9], [1,4,16]].flatten())
         println ([[[1,5,10], [1,6,12]], []].flatten())
+
+        println "range: ${(1..10)}"
 
         (1..10).each { println(it) }
 
@@ -161,7 +197,52 @@ class GroovyBasics {
             }
         }
 
+        def propertiesInPerson = Person.metaClass.properties.collect { it.name }
+        println "propertiesInPerson=${propertiesInPerson}"
 
+        persons.each {
+            person ->
+                def personName = person.invokeMethod("getName", null)
+                def personAge = person.metaClass.invokeMethod(person, "getAge", null)
+                println "${personName} ages ${personAge} "
+        }
+
+        // diff between function and closure
+        println "one call: ${add(5)}"  // one call: 5
+        println "two call: ${add(5)}"  // two call: 5
+
+        def addClosure = addByClosure(0)
+        println "one call: ${addClosure(5)}"  // one call: 5
+        println "two call: ${addClosure(5)}"  // two call: 10
+
+        def common1 = { list -> list.sort() }
+        def common2 = { println it }
+        def diff1 = { list -> list.unique() }
+        def diff2 = { list -> list }
+        templateMethod([2,6,1,9,8,2,4,5], common1, diff1, diff2, common2)
+
+    }
+
+    def static templateMethod(list, common1, diff1, diff2, common2) {
+        common1 list
+        diff1 list
+        diff2 list
+        common2 list
+    }
+
+    def static add(num) {
+        def sum = 0
+        sum += num
+        return sum
+    }
+
+    def static addByClosure(init) {
+        def addInner = {
+            inc ->
+                init += inc
+                init
+        }
+        return addInner
     }
 }
 
