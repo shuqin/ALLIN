@@ -20,6 +20,9 @@ class GroovyBasics {
 
         // dynamic definition
 
+        def (x,y,z) = [1,2,3]
+        println "($x,$y,$z)"
+
         def chameleon = 0
         println "i am a ${chameleon.getClass().name}"
 
@@ -32,12 +35,22 @@ class GroovyBasics {
 
         // dynamic function call
 
-        ['swim', 'football'].each {
-            "${it}"()
+        def anoList = [3,7,2,3,1,4,6,5,9,2,8,12,6,7,1]
+        ['unique', 'sort'].each {
+            println "${it} list:" + anoList."${it}"()
         }
 
-        println funcWithClosure(5, {x -> x*x})
-        println funcWithClosure(5) { x -> x * 2 }
+        println funcWithClosure(5, {e -> e*e})
+        println funcWithClosure(5) { e -> e * 2 }
+
+        println "isAllTrue(true,true): ${isAllTrue (true , true)}"
+        println "isAllTrue(true, false, true): ${isAllTrue(true, false, true)}"
+        println "isAllTrue([true, false, true]): ${isAllTrue([true, false, true])}"
+        println "isAllTrue([true, true, true]): ${isAllTrue([true, true, true])}"
+        println "isAllTrue([true, true, true], true,false): ${isAllTrue([true, true, true], true,false)}"
+        println "isAllTrue([true, true, false], true,true): ${isAllTrue([true, true, false], true,true)}"
+        println "isAllTrue([true, true, true], true,true): ${isAllTrue([true, true, true], true,true)}"
+
 
         // sum(n, m) = 1^m + 2^m + ... + n^m
         def sumPower = {
@@ -244,6 +257,18 @@ class GroovyBasics {
         }
         return addInner
     }
+
+    def static isAllTrue(List<Boolean> bList=[], boolean... bools) {
+        def anyContainFalse = bList?.contains(false)
+        if (anyContainFalse) { return false }
+        for (b in bools) {
+            if (!b) {
+                return false
+            }
+        }
+        return true
+
+    }
 }
 
 class Person {
@@ -255,3 +280,4 @@ class Person {
 class Address {
     def detail
 }
+
