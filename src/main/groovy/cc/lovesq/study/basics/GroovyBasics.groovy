@@ -51,6 +51,7 @@ class GroovyBasics {
         println "isAllTrue([true, true, false], true,true): ${isAllTrue([true, true, false], true,true)}"
         println "isAllTrue([true, true, true], true,true): ${isAllTrue([true, true, true], true,true)}"
 
+        println "isAllTrue:"(true, false, true)
 
         // sum(n, m) = 1^m + 2^m + ... + n^m
         def sumPower = {
@@ -256,6 +257,10 @@ class GroovyBasics {
                 init
         }
         return addInner
+    }
+
+    def static "isAllTrue:"(List<Boolean> bList=[], boolean... bools) {
+        isAllTrue(bList, bools)
     }
 
     def static isAllTrue(List<Boolean> bList=[], boolean... bools) {

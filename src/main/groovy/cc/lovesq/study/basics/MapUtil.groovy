@@ -6,8 +6,9 @@ class MapUtil {
         def groupedMap = [:]
         originMap.each {
             key, value ->
-                groupedMap.getOrDefault(value, []).add(key)
-                groupedMap.put(value, groupedMap.get(value))
+                def valueList = groupedMap.getOrDefault(value, [])
+                valueList.add(key)
+                groupedMap.put(value, valueList)
         }
         groupedMap
     }
