@@ -10,8 +10,9 @@ class DetailTestCases {
     @Case
     def get() {
         return [
+           'name': 'testSingleOrderDetail',
            'param': ['kdtId': 55, 'orderNo': 'E20180507200552032000001', 'app':'service-test', 'bizGroup': 'trade'],
-           'validations': { data ->
+           'check': { data ->
                data.mainOrderInfo.orderNo == 'E20180507200552032000001'
            }
         ]

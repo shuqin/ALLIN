@@ -10,8 +10,9 @@ class SearchTestCases {
     @Case
     def get() {
         return [
+           'name': 'testSearchOrderNo',
            'param': ['kdtId': 55, 'orderNo': 'E20180507200552032000001', 'sourceName':'service-test'],
-           'validations': { data ->
+           'check': { data ->
                data.list.each {
                    order ->
                        order.orderNo == 'E20180507200552032000001'
