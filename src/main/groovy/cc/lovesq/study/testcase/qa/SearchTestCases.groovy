@@ -8,8 +8,8 @@ class SearchTestCases {
     def path = '/trade-manage/order/search'
 
     @Case
-    def get() {
-        return [
+    def getOrderNoSearchCase() {
+        [
            'name': 'testSearchOrderNo',
            'param': ['kdtId': 55, 'orderNo': 'E20180507200552032000001', 'sourceName':'service-test'],
            'check': { data ->

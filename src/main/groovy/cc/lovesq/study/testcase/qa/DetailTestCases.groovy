@@ -8,8 +8,8 @@ class DetailTestCases {
     def path = '/trade_detail/orderInfo/byOrderNo'
 
     @Case
-    def get() {
-        return [
+    def getDetailCase() {
+        [
            'name': 'testSingleOrderDetail',
            'param': ['kdtId': 55, 'orderNo': 'E20180507200552032000001', 'app':'service-test', 'bizGroup': 'trade'],
            'check': { data ->
