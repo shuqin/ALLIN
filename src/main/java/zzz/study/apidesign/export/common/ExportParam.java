@@ -1,12 +1,16 @@
 package zzz.study.apidesign.export.common;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
-import zzz.study.patterns.composite.escondition.Condition;
+import zzz.study.patterns.composite.escondition.Match;
+import zzz.study.patterns.composite.escondition.Op;
+import zzz.study.patterns.composite.escondition.Range;
 
 @Data
-public class ExportParam {
+public class ExportParam implements Serializable {
 
   /** 调用方，必传 */
   private String source;
@@ -36,7 +40,7 @@ public class ExportParam {
 }
 
 @Data
-class SearchParam {
+class SearchParam implements Serializable {
 
   /** 业务归属ID，必传 */
   private Long bizId;
@@ -46,8 +50,39 @@ class SearchParam {
   private Long endTime;
 
   /** 扩展搜索入参，可选 */
-  private Condition condition;
+  private List<Condition> conditions;
 
-  /** 扩展搜索入参，供 REST 调用，DSL查询构建见 ... */
-  private String restCondition;
 }
+
+@Data
+class Condition implements Serializable {
+
+  private static final long serialVersionUID = 7375091182172384776L;
+
+  /** ES 字段 */
+  private String fieldName;
+
+  /** 操作符 */
+  private Op op;
+
+  /** 参数值 */
+  private Object value;
+
+  /** 范围对象传参 */
+  private Range range;
+
+  /** 匹配对象传参 */
+  private Match match;
+
+  // 为了让JsonMap 能走通，必须有一个默认构造器
+  public Condition() {}
+
+  public Condition(String fieldName, Op op, Object value) {
+    this.fieldName = fieldName;
+    this.op = op;
+    this.value = value;
+  }
+
+}
+
+
