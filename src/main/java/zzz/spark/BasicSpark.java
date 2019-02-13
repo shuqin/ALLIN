@@ -29,17 +29,29 @@ public class BasicSpark {
     // 持久化，避免前面多次 RDD 重复解析和转换
     refundInfos.persist(StorageLevel.MEMORY_ONLY());
 
+    // count 计数
     System.out.println("refund info number: " + refundInfos.count());
 
+    // filter & map 过滤和映射转换
     JavaRDD<RefundInfo> filtered = refundInfos.filter(refundInfo -> refundInfo.getRealPrice() >=10 );
-    System.out.println("realPrice > 10: " + filtered.collect().stream().map(RefundInfo::getOrderNo).collect(Collectors.joining()));
+    System.out.println("realPrice > 10: " + filtered.collect().stream().map(RefundInfo::getOrderNo).collect(Collectors.joining(",")));
 
+    // 最好在 RDD 里直接做完过滤和映射转换，在 collect 中进行收集和展示
+    JavaRDD<String> filterAndMapped = refundInfos.filter(refundInfo -> refundInfo.getRealPrice() >=10).map(RefundInfo::getOrderNo);
+    System.out.println("realPrice > 10 222: " + String.join(",", filterAndMapped.collect()));
+
+    // groupBy 分组
     JavaPairRDD<String, Iterable<RefundInfo>> grouped = refundInfos.groupBy(RefundInfo::getType);
 
+    // 持久化，避免前面多次 RDD 重复解析和转换
+    grouped.persist(StorageLevel.MEMORY_ONLY());
+
+    // 对 Map 的每个 value 进行转换 （分组的退款总金额）
     JavaPairRDD<String, Double> groupedRealPaySumRDD = grouped.mapValues(info -> StreamSupport.stream(info.spliterator(),false).mapToDouble(RefundInfo::getRealPrice).sum());
 
     System.out.println("groupedRealPaySum: " + groupedRealPaySumRDD.collectAsMap());
 
+    // 对 Map 的每个 value 进行转换 （分组的退款计数）
     JavaPairRDD<String, Long> groupedNumberRDD = grouped.mapValues(info -> StreamSupport.stream(info.spliterator(),false).count());
 
     System.out.println("groupedNumber: " + groupedNumberRDD.collectAsMap());
