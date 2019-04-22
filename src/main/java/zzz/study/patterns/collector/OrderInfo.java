@@ -1,6 +1,5 @@
 package zzz.study.patterns.collector;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
