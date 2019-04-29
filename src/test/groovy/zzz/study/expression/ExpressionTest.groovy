@@ -48,7 +48,7 @@ class ExpressionTest extends Specification {
         expect:
         String combinedOrderStateExpress = '''
             {"conditions": [{"field": "activity_type", "op":"eq", "value":13},{"field": "state", "op":"eq", "value":50}, 
-                      {"field": "tcExtra", "op":"get", "key":"EXT_ORDER_STATUS", "value":"40"}], "result":"待开奖"} 
+                      {"field": "tcExtra.EXT_ORDER_STATUS", "op":"get",  "value":"40"}], "result":"待开奖"} 
                 '''
         CombinedExpression combinedExpression = CombinedExpression.getInstance(combinedOrderStateExpress.trim())
         combinedExpression.getResult(["state":50, "activity_type":13, "tcExtra":['EXT_ORDER_STATUS':'40']]) == "待开奖"
@@ -56,16 +56,16 @@ class ExpressionTest extends Specification {
 
     @Test
     def "testWholeExpressions"() {
-       expect:
-       String wholeExpressionStr = '''
+        expect:
+        String wholeExpressionStr = '''
             [{"cond": {"field": "state", "op":"eq", "value":5}, "result":"待发货"},
              {"conditions": [{"field": "activity_type", "op":"eq", "value":13},{"field": "state", "op":"eq", "value":50}], "result":"待开奖"}]
                 '''
 
-       WholeExpressions wholeExpressions = WholeExpressions.getInstance(wholeExpressionStr)
-       wholeExpressions.getResult(["state":5]) == "待发货"
-       wholeExpressions.getResult(["state":50, "activity_type":13]) == "待开奖"
-       wholeExpressions.getResult(["state":99]) == ""
+        WholeExpressions wholeExpressions = WholeExpressions.getInstance(wholeExpressionStr)
+        wholeExpressions.getResult(["state":5]) == "待发货"
+        wholeExpressions.getResult(["state":50, "activity_type":13]) == "待开奖"
+        wholeExpressions.getResult(["state":99]) == ""
 
     }
 }

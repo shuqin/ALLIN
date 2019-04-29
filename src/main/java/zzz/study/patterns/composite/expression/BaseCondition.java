@@ -1,6 +1,7 @@
 package zzz.study.patterns.composite.expression;
 
 import lombok.Data;
+import zzz.study.utils.MapUtil;
 
 import java.util.Collection;
 import java.util.Map;
@@ -13,8 +14,6 @@ public class BaseCondition implements Condition {
   private Op op;
   private Object value;
 
-  private String key;
-
   public BaseCondition() {}
 
   public BaseCondition(String field, Op op, Object value) {
@@ -23,13 +22,11 @@ public class BaseCondition implements Condition {
     this.value = value;
   }
 
-  public BaseCondition(String field, Op op, Object value, String key) {
-    this(field, op, value);
-    this.key = key;
-  }
-
   public boolean satisfiedBy(Map<String, Object> valueMap) {
     try {
+      if (valueMap == null || valueMap.size() == 0) {
+        return false;
+      }
       Object passedValue = valueMap.get(field);
       switch (this.getOp()) {
         case isnull:
@@ -56,10 +53,7 @@ public class BaseCondition implements Condition {
           }
           return !((Map)passedValue).containsKey(value);
           case get:
-            if (passedValue == null || !(passedValue instanceof Map)) {
-              return false;
-            }
-            return Objects.equals(((Map)passedValue).get(key), value);
+            return Objects.equals(MapUtil.readVal(valueMap, field), value);
         default:
           return false;
       }

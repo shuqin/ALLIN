@@ -82,5 +82,28 @@ public class MapUtil {
     System.out.println("]");
   }
 
+  public static String readVal(Map<String, Object> map, String path) {
+    if (map == null || map.isEmpty()) { return  null; }
+    return readVal(map, path.split("\\."));
+  }
+
+  private static String readVal(Map<String, Object> map, String[] subpaths) {
+    Object val = map;
+    try {
+      for (String subpath: subpaths) {
+        if (val != null && val instanceof Map) {
+          val = ((Map)val).get(subpath);
+        }
+        else {
+          return null;
+        }
+      }
+      return val == null ? null: val.toString();
+    } catch (Exception ex) {
+      return null;
+    }
+
+  }
+
 }
 
