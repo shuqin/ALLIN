@@ -1,15 +1,11 @@
 package zzz.study.patterns.composite.expression;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Data
 public class WholeExpressions implements Expression {
@@ -42,22 +38,4 @@ public class WholeExpressions implements Expression {
     return "";
   }
 
-  public static WholeExpressions getInstance(String configJson) {
-    JSONArray jsonArray = JSON.parseArray(configJson);
-    List<Expression> expressions = new ArrayList<>();
-    if (jsonArray != null && jsonArray.size() > 0) {
-      expressions = jsonArray.stream().map(cond -> convertFrom((JSONObject)cond)).collect(Collectors.toList());
-    }
-    return new WholeExpressions(expressions);
-  }
-
-  private static Expression convertFrom(JSONObject expressionObj) {
-    if (expressionObj.containsKey("cond")) {
-      return JSONObject.toJavaObject(expressionObj, SingleExpression.class);
-    }
-    if (expressionObj.containsKey("conditions")) {
-      return CombinedExpression.getInstance(expressionObj.toJSONString());
-    }
-    return null;
-  }
 }

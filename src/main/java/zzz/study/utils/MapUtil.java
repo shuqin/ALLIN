@@ -82,12 +82,12 @@ public class MapUtil {
     System.out.println("]");
   }
 
-  public static String readVal(Map<String, Object> map, String path) {
+  public static Object readVal(Map<String, Object> map, String path) {
     if (map == null || map.isEmpty()) { return  null; }
     return readVal(map, path.split("\\."));
   }
 
-  private static String readVal(Map<String, Object> map, String[] subpaths) {
+  private static Object readVal(Map<String, Object> map, String[] subpaths) {
     Object val = map;
     try {
       for (String subpath: subpaths) {
@@ -98,7 +98,7 @@ public class MapUtil {
           return null;
         }
       }
-      return val == null ? null: val.toString();
+      return val == null ? null: val;
     } catch (Exception ex) {
       return null;
     }

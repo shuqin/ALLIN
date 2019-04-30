@@ -1,6 +1,5 @@
 package zzz.study.patterns.composite.expression;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -27,15 +26,11 @@ public class CombinedCondition implements Condition {
       return true;
     }
     for (BaseCondition condition: conditions) {
-      if (!condition.satisfiedBy(valueMap)) {
+       if (!condition.satisfiedBy(valueMap)) {
         return false;
       }
     }
     return true;
   }
 
-  public static CombinedCondition getInstance(String configJson) {
-    List<BaseCondition> conditions = JSON.parseArray(configJson, BaseCondition.class);
-    return new CombinedCondition(conditions);
-  }
 }

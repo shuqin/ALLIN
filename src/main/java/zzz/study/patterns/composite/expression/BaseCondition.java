@@ -27,7 +27,7 @@ public class BaseCondition implements Condition {
       if (valueMap == null || valueMap.size() == 0) {
         return false;
       }
-      Object passedValue = valueMap.get(field);
+      Object passedValue = MapUtil.readVal(valueMap, field);
       switch (this.getOp()) {
         case isnull:
           return passedValue == null;
@@ -52,8 +52,6 @@ public class BaseCondition implements Condition {
             return true;
           }
           return !((Map)passedValue).containsKey(value);
-          case get:
-            return Objects.equals(MapUtil.readVal(valueMap, field), value);
         default:
           return false;
       }
