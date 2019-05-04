@@ -19,19 +19,17 @@ class ExpressionJsonTest extends Specification {
 
         where:
         singleOrderStateExpression  | value | result
-        '{"cond": {"field": "state", "op":"eq", "value":5}, "result":"待发货"}' | 5 | '待发货'
-        '{"cond": {"field": "state", "op":"eq", "value":6}, "result":"已发货"}' | 6 | '已发货'
-        '{"cond": {"field": "state", "op":"eq", "value":99}, "result":"已关闭"}' | 99 | '已关闭'
+        '{"cond": {"field": "state", "op":"eq", "value":"PAID"}, "result":"待发货"}' | "PAID" | '待发货'
     }
 
     @Test
     def "testOrderStateCombinedExpression"() {
         expect:
         String combinedOrderStateExpress = '''
-            {"conditions": [{"field": "activity_type", "op":"eq", "value":13},{"field": "state", "op":"eq", "value":5}, {"field": "tcExtra", "op":"isnull"}], "result":"待开奖"} 
+            {"conditions": [{"field": "activity", "op":"eq", "value":"LOTTERY"},{"field": "state", "op":"eq", "value":"PAID"}, {"field": "extra", "op":"isnull"}], "result":"待开奖"} 
                 '''
         CombinedExpression combinedExpression = expressionJsonParser.parseCombined(combinedOrderStateExpress.trim())
-        combinedExpression.getResult(["state":5, "activity_type":13]) == "待开奖"
+        combinedExpression.getResult(["state":"PAID", "activity":"LOTTERY"]) == "待开奖"
 
     }
 
@@ -39,36 +37,35 @@ class ExpressionJsonTest extends Specification {
     def "testOrderStateCombinedExpression2"() {
         expect:
         String combinedOrderStateExpress = '''
-            {"conditions": [{"field": "activity_type", "op":"eq", "value":13},{"field": "state", "op":"eq", "value":5}, 
-                      {"field": "tcExtra", "op":"notcontains", "value":"LOTTERY"}], "result":"待开奖"} 
+            {"conditions": [{"field": "activity", "op":"eq", "value":"LOTTERY"},{"field": "state", "op":"eq", "value":"PAID"}, 
+                      {"field": "extra", "op":"notcontains", "value":"LOTTERY"}], "result":"待开奖"} 
                 '''
         CombinedExpression combinedExpression = expressionJsonParser.parseCombined(combinedOrderStateExpress.trim())
-        combinedExpression.getResult(["state":5, "activity_type":13, "tcExtra":[:]]) == "待开奖"
+        combinedExpression.getResult(["state":"PAID", "activity":"LOTTERY", "extra":[:]]) == "待开奖"
     }
 
     @Test
     def "testOrderStateCombinedExpression3"() {
         expect:
         String combinedOrderStateExpress = '''
-            {"conditions": [{"field": "activity_type", "op":"eq", "value":13},{"field": "state", "op":"eq", "value":50}, 
-                      {"field": "tcExtra.EXT_ORDER_STATUS", "op":"eq",  "value":"40"}], "result":"待开奖"} 
+            {"conditions": [{"field": "activity", "op":"eq", "value":"LOTTERY"},{"field": "state", "op":"eq", "value":"CONFIRM"}, 
+                      {"field": "extra.EXT_STATUS", "op":"eq",  "value":"prize"}], "result":"待开奖"} 
                 '''
         CombinedExpression combinedExpression = expressionJsonParser.parseCombined(combinedOrderStateExpress.trim())
-        combinedExpression.getResult(["state":50, "activity_type":13, "tcExtra":['EXT_ORDER_STATUS':'40']]) == "待开奖"
+        combinedExpression.getResult(["state":"CONFIRM", "activity":"LOTTERY", "extra":['EXT_STATUS':'prize']]) == "待开奖"
     }
 
     @Test
     def "testWholeExpressions"() {
        expect:
        String wholeExpressionStr = '''
-            [{"cond": {"field": "state", "op":"eq", "value":5}, "result":"待发货"},
-             {"conditions": [{"field": "activity_type", "op":"eq", "value":13},{"field": "state", "op":"eq", "value":50}], "result":"待开奖"}]
+            [{"cond": {"field": "state", "op":"eq", "value":"PAID"}, "result":"待发货"},
+             {"conditions": [{"field": "activity", "op":"eq", "value":"LOTTERY"},{"field": "state", "op":"eq", "value":"CONFIRM"}], "result":"待开奖"}]
                 '''
 
        WholeExpressions wholeExpressions = expressionJsonParser.parseWhole(wholeExpressionStr)
-       wholeExpressions.getResult(["state":5]) == "待发货"
-       wholeExpressions.getResult(["state":50, "activity_type":13]) == "待开奖"
-       wholeExpressions.getResult(["state":99]) == ""
+       wholeExpressions.getResult(["state":"PAID"]) == "待发货"
+       wholeExpressions.getResult(["state":"CONFIRM", "activity":"LOTTERY"]) == "待开奖"
 
     }
 }
