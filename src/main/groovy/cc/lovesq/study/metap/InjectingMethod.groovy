@@ -12,8 +12,8 @@ class InjectingMethod {
             def map = [id:123, name:'qin', 'skills':'good']
             println map.pretty()
         }
-
     }
+
 }
 
 @Category(Map)

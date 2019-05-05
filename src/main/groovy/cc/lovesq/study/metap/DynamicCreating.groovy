@@ -7,7 +7,6 @@ class DynamicCreating {
         inner: {
             "EXP[$field $op $value]"
         })
-        println(exp.metaClass.toString())
 
         exp.match = { map ->
             map[field] == value
