@@ -1,9 +1,11 @@
 package cc.lovesq.study.metap
 
-class StrUtil {
+class SingleExpUtil {
 
-    Expression convertFrom(expstr) {
+    Expression from(expstr) {
         def (field, op, value) = expstr.split(" ")
         new Expression(field: field, op: op, value: value)
     }
+
 }
+
