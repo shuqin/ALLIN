@@ -21,6 +21,8 @@ class SubExpression extends Expression implements GroovyInterceptable {
         println exp.match([id: 123])
         println exp.match([id: 111])
         println exp.nonexist()
+
+        println exp.invokeMethod('inner', null)
     }
 }
 
