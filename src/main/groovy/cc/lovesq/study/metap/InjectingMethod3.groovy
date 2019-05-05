@@ -24,12 +24,12 @@ class InjectingMethod3 {
             }
 
             methodMissing = { name, margs ->
-                println "Unknown method=$name, args=$margs"
+                "Unknown method=$name, args=$margs"
             }
 
             'static' {
-                pretty = {
-                    "[" + delegate.collect { it }.join(",") + "]"
+                pretty = { map ->
+                    "[" + map.collect { it }.join(",") + "]"
                 }
             }
 

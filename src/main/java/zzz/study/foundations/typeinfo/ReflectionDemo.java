@@ -29,6 +29,7 @@ public class ReflectionDemo {
 	public void runAllTestMethods()  
 	{
 		try {
+
 			Method[] allMethods = getClass().getMethods();
 			for (Method method: allMethods) {
 				if (method != null && method.getName().matches("test\\w+")) {
