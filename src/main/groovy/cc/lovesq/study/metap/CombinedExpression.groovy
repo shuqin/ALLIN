@@ -5,7 +5,7 @@ class CombinedExpression {
     List<Expression> expressions
 
     def desc() {
-        "[" + expressions.collect { it.invokeMethod('inner', null) }.join(",") + "]"
+        "[" + expressions?.collect { it.invokeMethod('inner', null) }?.join(",") + "]"
     }
 
     static void main(args) {
@@ -14,6 +14,8 @@ class CombinedExpression {
         CombinedExpression.mixin CombinedExpressionUtil
         def ce = new CombinedExpression().from("state = 6 && type = 1")
         println ce.desc()
+
+        println new CombinedExpression().desc()
 
     }
 }
