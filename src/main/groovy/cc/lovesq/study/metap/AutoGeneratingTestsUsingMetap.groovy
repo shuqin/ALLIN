@@ -6,9 +6,15 @@ import groovy.util.logging.Log
 @Log
 class AutoGeneratingTestsUsingMetap {
 
-    def static generateTest(testData) {
+    def static generateTests(testCases) {
+        testCases.each {
+            generateTest(it)
+        }
+    }
 
-        def testMethodName = "test${testData.params.collect { "$it.key = $it.value" }.join('_')}"
+    def static generateTest(testCase) {
+
+        def testMethodName = "test${testCase.params.collect { "$it.key = $it.value" }.join('_')}"
 
         AutoGeneratingTestsUsingMetap.metaClass."$testMethodName" = { tdata ->
 
@@ -26,7 +32,7 @@ class AutoGeneratingTestsUsingMetap {
                 }
             }
             log.info("test passed.")
-        }(testData)
+        }(testCase)
 
         println(AutoGeneratingTestsUsingMetap.metaClass.methods.collect{ it.name })
     }

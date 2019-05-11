@@ -6,10 +6,10 @@ import groovy.util.logging.Log
 @Log
 class AutoGeneratingTestsPlain {
 
-    def static generateTest(testData) {
+    def static generateTest(testCase) {
 
         def orderSearchParam = new OrderSearchParam()
-        testData.params.each { pprop, pvalue ->
+        testCase.params.each { pprop, pvalue ->
             orderSearchParam."$pprop" = pvalue
         }
         log.info(JSON.toJSONString(orderSearchParam))
@@ -17,7 +17,7 @@ class AutoGeneratingTestsPlain {
         assert result.code == 200
         assert result.msg == 'success'
         result.orders.each { order ->
-            testData.validations.each { vdField, vdValue ->
+            testCase.validations.each { vdField, vdValue ->
                 assert order."$vdField" == vdValue
             }
         }
