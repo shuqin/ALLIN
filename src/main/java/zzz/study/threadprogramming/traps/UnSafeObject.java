@@ -13,19 +13,17 @@ public class UnSafeObject {
 
   public static void main(String[] args) {
     UnSafeObject unSafeObject = new UnSafeObject();
-    for (int t=0; t<5; t++) {
-      int finalT = t;
-      new Thread(() -> {
-        for (int i= 1; i < 1000000; i++) {
-          unSafeObject.setI(finalT);
+
+    ThreadStarter.startMultiThreads(
+        (ti) -> {
+          unSafeObject.setI(ti);
           try {
             TimeUnit.MILLISECONDS.sleep(200);
           } catch (InterruptedException e) {
           }
-          System.out.println("Thread" + finalT + ":" + unSafeObject.getI());
+          System.out.println("Thread" + ti + ":" + unSafeObject.getI());
         }
-      }).start();
-    }
+    );
   }
 }
 

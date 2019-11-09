@@ -1,7 +1,5 @@
 package zzz.study.threadprogramming.traps;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,25 +25,14 @@ public class UnatomicOperation {
     return map.get(key);
   }
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) {
     UnatomicOperation unatomicOperation = new UnatomicOperation();
-    List<Thread> threadList = new ArrayList<>();
-    for (int t=0; t<3; t++) {
-      int finalT = t;
-      Thread th = new Thread(() -> {
-        for (int i=0; i<100000; i++) {
+    ThreadStarter.startMultiThreads(
+        (ti) -> {
           unatomicOperation.nonSafeAdd("key");
-          System.out.println(finalT + ":" + unatomicOperation.get("key"));
+          System.out.println(ti + ":" + unatomicOperation.get("key"));
         }
-      });
-      threadList.add(th);
-    }
-    for (Thread t: threadList) {
-      t.start();
-    }
-    for (Thread t: threadList) {
-      t.join();
-    }
+    );
     System.out.println("final: " + unatomicOperation.get("key"));
   }
 }
