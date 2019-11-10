@@ -1,6 +1,7 @@
 package zzz.study.threadprogramming.traps;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EscapedObject {
@@ -17,12 +18,16 @@ public class EscapedObject {
     return nums;
   }
 
+  public List<Integer> getImmutableNums() {
+    return Collections.unmodifiableList(nums);
+  }
+
   static class EscapedObjectTester {
     public static void main(String[] args) throws InterruptedException {
       EscapedObject escapedObject = new EscapedObject();
       escapedObject.add(5);
       List<Integer> escaped = escapedObject.getNums();
-      ThreadStarter.startMultiThreads(3, 3,
+      ThreadStarter.startMultiThreads(10, 3,
           (ti) -> {
             escaped.add(ti*ti);
             System.out.println(ti + ":" + escaped);
