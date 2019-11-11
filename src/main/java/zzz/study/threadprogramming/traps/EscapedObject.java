@@ -26,6 +26,8 @@ public class EscapedObject {
     public static void main(String[] args) throws InterruptedException {
       EscapedObject escapedObject = new EscapedObject();
       escapedObject.add(5);
+
+      /*
       List<Integer> escaped = escapedObject.getNums();
       ThreadStarter.startMultiThreads(10, 3,
           (ti) -> {
@@ -33,6 +35,17 @@ public class EscapedObject {
             System.out.println(ti + ":" + escaped);
           }
       );
+      */
+
+      List<Integer> escaped = escapedObject.getImmutableNums();
+      ThreadStarter.startMultiThreads(10, 3,
+          (ti) -> {
+            Integer i = escaped.get(0);
+            i = i.intValue() + 1;
+            System.out.println(ti + ":" + i);
+          }
+      );
+
     }
   }
 }
