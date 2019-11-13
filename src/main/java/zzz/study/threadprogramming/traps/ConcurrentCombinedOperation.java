@@ -24,6 +24,22 @@ public class ConcurrentCombinedOperation {
     return map.get(key).incrementAndGet();
   }
 
+  public long addAndGetEffective(String key) {
+    init(key);
+    return map.get(key).incrementAndGet();
+  }
+
+  private void init(String key) {
+    AtomicLong lval = map.get(key);
+    if (lval == null) {
+      synchronized (key) {
+        if (lval == null) {
+          map.put(key, new AtomicLong());
+        }
+      }
+    }
+  }
+
   public long get(String key) {
     return map.get(key).get();
   }
@@ -32,7 +48,7 @@ public class ConcurrentCombinedOperation {
     ConcurrentCombinedOperation concurrentCombinedOperation = new ConcurrentCombinedOperation();
     ThreadStarter.startMultiThreads(
         (ti) -> {
-          System.out.println(ti + ":" + concurrentCombinedOperation.addAndGet("key"));
+          System.out.println(ti + ":" + concurrentCombinedOperation.addAndGetEffective("key"));
         }
     );
     TimeUnit.SECONDS.sleep(3);
