@@ -30,10 +30,9 @@ public class ConcurrentCombinedOperation {
   }
 
   private void init(String key) {
-    AtomicLong lval = map.get(key);
-    if (lval == null) {
+    if (map.get(key) == null) {
       synchronized (key) {
-        if (lval == null) {
+        if (map.get(key) == null) {
           map.put(key, new AtomicLong());
         }
       }
