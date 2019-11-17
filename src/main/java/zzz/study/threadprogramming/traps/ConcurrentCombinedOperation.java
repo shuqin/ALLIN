@@ -50,7 +50,6 @@ public class ConcurrentCombinedOperation {
           System.out.println(ti + ":" + concurrentCombinedOperation.addAndGetEffective("key"));
         }
     );
-    TimeUnit.SECONDS.sleep(3);
     System.out.println("final: " + concurrentCombinedOperation.get("key"));
   }
 }
