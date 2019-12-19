@@ -10,7 +10,9 @@ public class Condition {
   public static void main(String[]args) {
     System.out.println(String.format("%d, %d, %d", plainIfElse(8), plainIfElse(-10), plainIfElse(0)));
 
-    System.out.println(String.format("%d, %d, %d", mapFunc(8), mapFunc(-10), mapFunc(0)));
+    System.out.println(String.format("%d, %d, %d", mapFunc(8).get(), mapFunc(-10).get(), mapFunc(0).get()));
+
+    System.out.println(String.format("%d, %d, %d", ifElseWithFunctional(8).get(), ifElseWithFunctional(-10).get(), ifElseWithFunctional(0).get()));
 
   }
 
@@ -26,6 +28,12 @@ public class Condition {
     }
   }
 
+  public static Supplier<Integer> ifElseWithFunctional(int x) {
+    return CommonIF.ifElseReturnSupplier(Condition::ifPositive, x,
+                                         Condition::positiveUnit,
+                                         CommonIF.ifElseReturnSupplier(Condition::ifNegative, x, Condition::negativeUnit, Condition::zero ) );
+  }
+
   public static boolean ifPositive(int x) {
     return x > 0;
   }
@@ -38,27 +46,33 @@ public class Condition {
     return x == 0;
   }
 
+  public static Integer positiveUnit() {
+    return 1;
+  }
 
-  public static Integer mapFunc(int x) {
+  public static Integer negativeUnit() {
+    return -1;
+  }
+
+  public static Integer zero() {
+    return 0;
+  }
+
+
+  public static Supplier<Integer> mapFunc(int x) {
     Map<Predicate<Integer>, Supplier<Integer>> condMap = new HashMap<>();
-    condMap.put(Condition::ifPositive, () -> 1);
-    condMap.put(Condition::ifNegative, () -> -1);
-    condMap.put(Condition::ifZero, () -> 0);
-    return travel(condMap, x, () -> 0);
+    condMap.put(Condition::ifPositive, Condition::positiveUnit);
+    condMap.put(Condition::ifNegative, Condition::negativeUnit);
+    condMap.put(Condition::ifZero, Condition::zero);
+    return travelWithGeneric(condMap, x);
   }
 
-  public static Integer travel(Map<Predicate<Integer>, Supplier<Integer>> map, Integer x, Supplier<Integer> defaultSupplier) {
-    final Integer[] result = new Integer[] { defaultSupplier.get() };
-
-    map.forEach(
-        (keyFunc, valueFunc) -> {
-          if (keyFunc.test(x)) {
-            result[0] = valueFunc.get();
-          }
-        }
-    );
-    return result[0];
+  public static Supplier<Integer> travel(Map<Predicate<Integer>, Supplier<Integer>> map, Integer x) {
+    return map.entrySet().stream().filter((k) -> k.getKey().test(x)).findFirst().map((k) -> k.getValue()).get();
   }
 
+  public static <T,R> Supplier<R> travelWithGeneric(Map<Predicate<T>, Supplier<R>> map, T x) {
+    return map.entrySet().stream().filter((k) -> k.getKey().test(x)).findFirst().map((k) -> k.getValue()).get();
+  }
 
 }
