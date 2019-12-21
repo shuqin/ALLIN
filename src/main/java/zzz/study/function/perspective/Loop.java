@@ -2,7 +2,7 @@ package zzz.study.function.perspective;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BinaryOperator;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public class Loop {
@@ -22,12 +22,16 @@ public class Loop {
     System.out.println(multiply);
 
 
-    System.out.println("func sum:" + loop(list, (x,y) -> x+y, () -> 0));
-    System.out.println("func multiply: " + loop(list, (x,y) -> x*y, () -> 1));
+    System.out.println("func sum:" + reduce(list, (x,y) -> x+y, () -> 0));
+    System.out.println("func multiply: " + reduce(list, (x,y) -> x*y, () -> 1));
 
   }
 
-  public static <T> T loop(List<T> list, BinaryOperator<T> bifunc, Supplier<T> init) {
-    return list.stream().reduce(init.get(), bifunc);
+  public static <E,T> T reduce(List<E> list, BiFunction<E,T,T> biFunc, Supplier<T> init) {
+    T result = init.get();
+    for (E e: list) {
+      result = biFunc.apply(e, result);
+    }
+    return result;
   }
 }

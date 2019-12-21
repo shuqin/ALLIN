@@ -1,5 +1,8 @@
 package zzz.study.function.decrator;
 
+import zzz.study.function.perspective.Loop;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -34,6 +37,9 @@ public class FunctionImplementingDecrator {
 
     Function<Double,Double> third = compose(d->d*d, d->d+1, d->d*2, d->d*d*d);  // (2x^3+1)^2
     System.out.println(third.apply(3d));
+
+    Function<Integer, Integer> sumSquareForList = n -> Loop.reduce(createList(n), (s,t) -> s*s+t, ()->0);
+    System.out.println(sumSquareForList.apply(10));
   }
 
   /** 将指定函数的值封装幂次函数 pow(f, n) = (f(x))^n */
@@ -82,6 +88,14 @@ public class FunctionImplementingDecrator {
         };
       }
     };*/
+  }
+
+  public static List<Integer> createList(int n) {
+    List<Integer> intList = new ArrayList<>();
+    for (int i=1; i <= n; i++) {
+      intList.add(i);
+    }
+    return intList;
   }
 
 }
