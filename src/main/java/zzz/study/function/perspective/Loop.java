@@ -27,6 +27,10 @@ public class Loop {
 
   }
 
+  public static <E,T> T reduce(Supplier<List<E>> listSupplier, BiFunction<E,T,T> biFunc, Supplier<T> init) {
+    return reduce(listSupplier.get(), biFunc, init);
+  }
+
   public static <E,T> T reduce(List<E> list, BiFunction<E,T,T> biFunc, Supplier<T> init) {
     T result = init.get();
     for (E e: list) {
