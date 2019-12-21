@@ -36,7 +36,7 @@ public class PipeLine {
 
   public static List<String> format(List<String> list) {
     return list.stream().map(
-        (s) -> s + " " + s.substring(1,5) + " " + s.substring(6,8) + ":" + s.substring(9,11) + ":" + s.substring(12,14)
+        (s) -> s + " " + s.substring(1,5) + " " + s.substring(5,7) + ":" + s.substring(7,9) + ":" + s.substring(9,11)
     ).collect(Collectors.toList());
   }
 }
