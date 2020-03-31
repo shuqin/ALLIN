@@ -9,10 +9,10 @@ class JsonParser {
     def parse(json) {
         def obj = jsonSlurper.parseText(json)
         Map map = (Map) obj
-        parseMap(map, 'Domain')
+        parseMap(map, 'Domain', this.&underscoreToCamelCase)
     }
 
-    def parseMap(Map map, String namespace) {
+    def parseMap(Map map, String namespace, keyConverter) {
         def classTpl = classTpl()
         def fields = ""
         map.each {
@@ -25,7 +25,7 @@ class JsonParser {
                     if (v instanceof Map) {
                         def className = getClsName(k)
                         fields += "${indent()}private $className $k;\n"
-                        parseMap(v, className)
+                        parseMap(v, convert(className, keyConverter), keyConverter)
                     }
 
                     if (v instanceof List) {
@@ -36,8 +36,11 @@ class JsonParser {
                         }
                         if (obj instanceof Map) {
                             def cls = getClsName(k)
-                            fields += "${indent()}private List<$cls> ${cls}s;\n"
-                            parseMap(obj, cls)
+                            if (cls.endsWith('s')) {
+                                cls = cls[0..-2]
+                            }
+                            fields += "${indent()}private List<${convert(cls,keyConverter)}> ${cls}s;\n"
+                            parseMap(obj, convert(cls, keyConverter), keyConverter)
                         }
                     }
                 }
@@ -89,5 +92,18 @@ $fieldsContent
     def getString(tplText, binding) {
         def engine = new groovy.text.SimpleTemplateEngine()
         return engine.createTemplate(tplText).make(binding)
+    }
+
+    def convert(key, convertFunc) {
+        convertFunc == null ? key : convertFunc(key)
+    }
+
+    def underscoreToCamelCase(String underscore){
+        String[] ss = underscore.split("_")
+        if(ss.length ==1){
+            return underscore
+        }
+
+        return ss[0] +  ss.collect { capitalize(it) }.join("")
     }
 }
