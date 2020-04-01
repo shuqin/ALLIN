@@ -1,5 +1,7 @@
 package cc.lovesq.study.json
 
+import org.apache.commons.collections.CollectionUtils
+
 import static cc.lovesq.study.json.Common.*
 
 class ClassNode implements Node {
@@ -8,21 +10,40 @@ class ClassNode implements Node {
     List<LeafNode> leafNodes
     List<ClassNode> classNodes
 
+    ClassNode() {
+        this('')
+    }
+
+    ClassNode(name) {
+        className = name
+        leafNodes = []
+        classNodes = []
+    }
+
     @Override
     String desc() {
         def clsTpl = Common.classTpl()
+
         def fields = ""
-        fields += leafNodes.collect { it.desc() }.join("")
-        fields += classNodes.each { convert(it.className, Common.&underscoreToCamelCase) + " " + uncapitalize(it.className) }.join("")
+        fields += leafNodes.collect { indent() + it.desc() }.join("\n")
         def classDef = getString(clsTpl, ["Namespace": className, "fieldsContent" : fields])
-
-        def resultstr = classDef
-
-        classNodes.each {
-            resultstr += it.desc()
+        if (CollectionUtils.isEmpty(classNodes)) {
+            return classDef
         }
+
+        fields += "\n" + classNodes.collect { "${indent()}private ${it.className} ${uncapitalize(it.className)}" }.join("\n")
+        def resultstr = getString(clsTpl, ["Namespace": className, "fieldsContent" : fields])
+        resultstr += classNodes.collect { it.desc() }.join("\n")
         return resultstr
     }
 
+    boolean addNode(LeafNode node) {
+        leafNodes.add(node)
+        true
+    }
 
+    boolean addNode(ClassNode classNode) {
+        classNodes.add(classNode)
+        true
+    }
 }

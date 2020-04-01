@@ -36,9 +36,10 @@ class Common {
 
     def static classTpl() {
         '''
-class $Namespace implements Serializable {
+public class $Namespace implements Serializable {
 $fieldsContent
 }
+
         '''
     }
 
@@ -48,7 +49,7 @@ $fieldsContent
 
     def static getString(tplText, binding) {
         def engine = new groovy.text.SimpleTemplateEngine()
-        return engine.createTemplate(tplText).make(binding)
+        return engine.createTemplate(tplText).make(binding).toString()
     }
 
     def static convert(key, convertFunc) {
