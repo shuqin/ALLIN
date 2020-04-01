@@ -1,6 +1,7 @@
 package cc.lovesq.study.json
 
 import groovy.json.JsonSlurper
+import static cc.lovesq.study.json.Common.*
 
 class JsonParser {
 
@@ -9,7 +10,7 @@ class JsonParser {
     def parse(json) {
         def obj = jsonSlurper.parseText(json)
         Map map = (Map) obj
-        parseMap(map, 'Domain', this.&underscoreToCamelCase)
+        parseMap(map, 'Domain', Common.&underscoreToCamelCase)
     }
 
     def parseMap(Map map, String namespace, keyConverter) {
@@ -49,61 +50,5 @@ class JsonParser {
 
     }
 
-    def getType(v) {
-        if (v instanceof String) {
-            return "String"
-        }
-        if (v instanceof Integer) {
-            return "Integer"
-        }
-        if (v instanceof Boolean) {
-            return "Boolean"
-        }
-        if (v instanceof Long) {
-            return "Long"
-        }
-        if (v instanceof BigDecimal) {
-            return "Double"
-        }
 
-        "String"
-    }
-
-    def getClsName(String str) {
-        capitalize(str)
-    }
-
-    def capitalize(String str) {
-        str[0].toUpperCase() + (str.length() >= 2 ? str[1..-1] : "")
-    }
-
-    def classTpl() {
-        '''
-class $Namespace implements Serializable {
-$fieldsContent
-}
-        '''
-    }
-
-    def indent() {
-        '    '
-    }
-
-    def getString(tplText, binding) {
-        def engine = new groovy.text.SimpleTemplateEngine()
-        return engine.createTemplate(tplText).make(binding)
-    }
-
-    def convert(key, convertFunc) {
-        convertFunc == null ? key : convertFunc(key)
-    }
-
-    def underscoreToCamelCase(String underscore){
-        String[] ss = underscore.split("_")
-        if(ss.length ==1){
-            return underscore
-        }
-
-        return ss[0] +  ss.collect { capitalize(it) }.join("")
-    }
 }
