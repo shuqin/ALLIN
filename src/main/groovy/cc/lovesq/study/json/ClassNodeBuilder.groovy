@@ -14,44 +14,75 @@ class ClassNodeBuilder {
         return parseMap(map, 'Domain')
     }
 
-    def parseMap(Map map, String namespace) {
+    def static parseMap(Map map, String namespace) {
         ClassNode classNode = new ClassNode()
         classNode.className = namespace
         map.each {
             k, v ->
-                if (!(v instanceof Map) && !(v instanceof List)) {
-                    classNode.addNode(new LeafNode(getType(v), k))
-                }
-                else {
-
-                    if (v instanceof Map) {
-                        def className = getClsName(k)
-                        //classNode.addNode(new LeafNode(className, k))
-                        classNode.addNode(parseMap(v, className))
-                    }
-
-                    if (v instanceof List) {
-                        def obj = v.get(0)
-                        if (!(obj instanceof Map) && !(obj instanceof List)) {
-                            def type = getType(obj)
-                            classNode.addNode(new LeafNode("$type", "${type}s", true))
-                        }
-                        if (obj instanceof Map) {
-                            def cls = getClsName(k)
-                            if (cls.endsWith('s')) {
-                                cls = cls[0..-2]
-                            }
-                            classNode.addNode(new LeafNode("${cls}", "${cls}s", true))
-
-                            def subClassNode = parseMap(obj, cls)
-                            subClassNode.isInList = true
-                            classNode.addNode(subClassNode)
-                        }
-                    }
-                }
-
+                getStratgey(v).add(classNode, k, v)
         }
-        return classNode
+        classNode
+    }
+
+    def static plainStrategy = new AddLeafNodeStrategy()
+    def static mapStrategy = new AddMapNodeStrategy()
+    def static listStrategy = new AddListNodeStrategy()
+
+    def static getStratgey(Object v) {
+        if (v instanceof Map) {
+            return mapStrategy
+        }
+
+        if (v instanceof List) {
+            return listStrategy
+        }
+        return plainStrategy
+    }
+
+    interface AddNodeStrategy {
+        def add(ClassNode classNode, k, v)
+    }
+
+    static class AddLeafNodeStrategy implements AddNodeStrategy {
+
+        @Override
+        def add(ClassNode classNode, Object k, Object v) {
+            classNode.addNode(new LeafNode(getType(v), k))
+        }
+    }
+
+    static class AddMapNodeStrategy implements AddNodeStrategy {
+
+        @Override
+        def add(ClassNode classNode, Object k, Object v) {
+            v = (Map)v
+            def className = getClsName(k)
+            classNode.addNode(parseMap(v, className))
+        }
+    }
+
+    static class AddListNodeStrategy implements AddNodeStrategy {
+
+        @Override
+        def add(ClassNode classNode, Object k, Object v) {
+            v = (List)v
+            def obj = v.get(0)
+            if (!(obj instanceof Map) && !(obj instanceof List)) {
+                def type = getType(obj)
+                classNode.addNode(new LeafNode("$type", "${type}s", true))
+            }
+            if (obj instanceof Map) {
+                def cls = getClsName(k)
+                if (cls.endsWith('s')) {
+                    cls = cls[0..-2]
+                }
+                classNode.addNode(new LeafNode("${cls}", "${cls}s", true))
+
+                def subClassNode = parseMap(obj, cls)
+                subClassNode.isInList = true
+                classNode.addNode(subClassNode)
+            }
+        }
     }
 
 }
