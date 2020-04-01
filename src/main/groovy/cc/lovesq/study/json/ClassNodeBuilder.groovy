@@ -42,7 +42,10 @@ class ClassNodeBuilder {
                                 cls = cls[0..-2]
                             }
                             classNode.addNode(new LeafNode("${cls}", "${cls}s", true))
-                            classNode.addNode(parseMap(obj, cls))
+
+                            def subClassNode = parseMap(obj, cls)
+                            subClassNode.isInList = true
+                            classNode.addNode(subClassNode)
                         }
                     }
                 }
