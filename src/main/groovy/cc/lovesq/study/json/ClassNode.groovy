@@ -6,20 +6,10 @@ import static cc.lovesq.study.json.Common.*
 
 class ClassNode implements Node {
 
-    String className
-    List<LeafNode> leafNodes
-    List<ClassNode> classNodes
+    String className = ""
+    List<LeafNode> leafNodes = []
+    List<ClassNode> classNodes = []
     Boolean isInList = false
-
-    ClassNode() {
-        this('')
-    }
-
-    ClassNode(name) {
-        className = name
-        leafNodes = []
-        classNodes = []
-    }
 
     @Override
     String desc() {

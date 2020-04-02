@@ -15,8 +15,7 @@ class ClassNodeBuilder {
     }
 
     def static parseMap(Map map, String namespace) {
-        ClassNode classNode = new ClassNode()
-        classNode.className = namespace
+        ClassNode classNode = new ClassNode(className: namespace)
         map.each {
             k, v ->
                 getStratgey(v).add(classNode, k, v)
@@ -47,7 +46,7 @@ class ClassNodeBuilder {
 
         @Override
         def add(ClassNode classNode, Object k, Object v) {
-            classNode.addNode(new LeafNode(getType(v), k))
+            classNode.addNode(new LeafNode(type: getType(v), name: k))
         }
     }
 
@@ -69,14 +68,14 @@ class ClassNodeBuilder {
             def obj = v.get(0)
             if (!(obj instanceof Map) && !(obj instanceof List)) {
                 def type = getType(obj)
-                classNode.addNode(new LeafNode("$type", "${type}s", true))
+                classNode.addNode(new LeafNode(type: "$type", name: "${type}s", isList: true))
             }
             if (obj instanceof Map) {
                 def cls = getClsName(k)
                 if (cls.endsWith('s')) {
                     cls = cls[0..-2]
                 }
-                classNode.addNode(new LeafNode("${cls}", "${cls}s", true))
+                classNode.addNode(new LeafNode(type: "${cls}", name: "${cls}s", isList:  true))
 
                 def subClassNode = parseMap(obj, cls)
                 subClassNode.isInList = true
