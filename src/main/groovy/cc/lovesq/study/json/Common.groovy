@@ -36,6 +36,7 @@ class Common {
 
     def static classTpl() {
         '''
+@Data
 public class $Namespace implements Serializable {
 $fieldsContent
 }
@@ -62,6 +63,6 @@ $fieldsContent
             return underscore
         }
 
-        return ss[0] +  ss.collect { capitalize(it) }.join("")
+        return ss.collect { capitalize(it) }.join("")
     }
 }

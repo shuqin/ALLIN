@@ -22,7 +22,7 @@ class ClassNode implements Node {
             return classDef
         }
 
-        fields += "\n" + classNodes.find { it.isInList == false }.collect { "${indent()}private ${it.className} ${uncapitalize(it.className)}" }.join("\n")
+        fields += "\n" + classNodes.findAll { it.isInList == false }.collect { "${indent()}private ${it.className} ${uncapitalize(it.className)};" }.join("\n")
         def resultstr = getString(clsTpl, ["Namespace": className, "fieldsContent" : fields])
         resultstr += classNodes.collect { it.desc() }.join("\n")
         return resultstr

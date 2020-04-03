@@ -40,8 +40,9 @@ class JsonParser {
                             if (cls.endsWith('s')) {
                                 cls = cls[0..-2]
                             }
-                            fields += "${indent()}private List<${convert(cls,keyConverter)}> ${cls}s;\n"
-                            parseMap(obj, convert(cls, keyConverter), keyConverter)
+                            def convertedClsName = convert(cls,keyConverter)
+                            fields += "${indent()}private List<${convertedClsName}> ${uncapitalize(convertedClsName)}s;\n"
+                            parseMap(obj, convertedClsName, keyConverter)
                         }
                     }
                 }
