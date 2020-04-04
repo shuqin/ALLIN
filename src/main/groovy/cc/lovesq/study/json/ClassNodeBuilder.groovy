@@ -84,7 +84,7 @@ class ClassNodeBuilder {
                 if (cls.endsWith('s')) {
                     cls = cls[0..-2]
                 }
-                classNode.addNode(new LeafNode(type: "${cls}", name: "${cls}s", isList:  true))
+                classNode.addNode(new LeafNode(type: "${cls}", name: "${uncapitalize(cls)}s", isList:  true))
 
                 addSubClassNode(classNode, obj, v, cls)
 
@@ -134,7 +134,7 @@ class ClassNodeBuilder {
 
             // Map : 两个 map size 不一样, 则 key 一定有不一样的 ， 合并两个 map
             if (exist instanceof Map && subv != null && exist.size() != (Map)subv.size()) {
-                return mergeToFull(exist, subv)
+                return mergeToFull([exist, subv])
             }
             else {
                 return exist
