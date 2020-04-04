@@ -1,6 +1,8 @@
 package cc.lovesq.study.json
 
 import groovy.json.JsonSlurper
+import org.apache.commons.collections.CollectionUtils
+
 import static cc.lovesq.study.json.Common.*
 
 class JsonParser {
@@ -29,7 +31,7 @@ class JsonParser {
                         parseMap(v, convert(className, keyConverter), keyConverter)
                     }
 
-                    if (v instanceof List) {
+                    if (v instanceof List && CollectionUtils.isNotEmpty(v)) {
                         def obj = v.get(0)
                         if (!(obj instanceof Map) && !(obj instanceof List)) {
                             def type = getType(obj)
