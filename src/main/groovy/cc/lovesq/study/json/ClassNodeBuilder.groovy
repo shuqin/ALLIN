@@ -86,14 +86,14 @@ class ClassNodeBuilder {
                 }
                 classNode.addNode(new LeafNode(type: "${cls}", name: "${uncapitalize(cls)}s", isList:  true))
 
-                addSubClassNode(classNode, obj, v, cls)
+                addSubClassNode(classNode, v, cls)
 
             }
 
         }
 
-        private void addSubClassNode(ClassNode classNode, obj, v, cls) {
-            def subObj = obj
+        private void addSubClassNode(ClassNode classNode, v, cls) {
+            def subObj = v.get(0)
 
             if (isTravelFull) {
                 subObj = mergeToFull(v)
@@ -112,9 +112,10 @@ class ClassNodeBuilder {
                         k, subv ->
                             if (full.get(k) == null) {
                                 full.put(k, subv)
+                            } else {
+                                def exist = full.get(k)
+                                full.put(k, merge(exist, subv))
                             }
-                            def exist = full.get(k)
-                            full.put(k, merge(exist, subv))
                     }
             }
             return full
