@@ -10,6 +10,10 @@ public class LinkedListOperation {
         ListNode h2 = construct(3,4,5,6);
         ListNode reversed2 = reverse(h2);
         desc(reversed2);
+
+        ListNode s1 = construct(1,2,4,6,8);
+        ListNode s2 = construct(3,7,9,10,12);
+        desc(mergeSorted(s1, s2));
     }
 
     public static ListNode reverse(ListNode h) {
@@ -46,9 +50,39 @@ public class LinkedListOperation {
                 p = p.next;
                 continue;
             }
-            System.out.print(p.val);
+            System.out.print(p.val+"-");
             p = p.next;
         }
+    }
+
+    public static ListNode mergeSorted(ListNode s1, ListNode s2) {
+        if (s1 == null) {
+            return s2;
+        }
+        if (s2 == null) {
+            return s1;
+        }
+        ListNode res = new ListNode(-1);
+        ListNode cur = res;
+        while (s1 != null && s2!=null) {
+            if (s1.val < s2.val) {
+                cur.next = s1;
+                s1 = s1.next;
+            }
+            else {
+                cur.next = s2;
+                s2 = s2.next;
+            }
+            cur = cur.next;
+        }
+        if (s1 == null) {
+            cur.next = s2;
+        }
+        if (s2 == null) {
+            cur.next = s1;
+        }
+        return res;
+
     }
 
     public static ListNode addTwoNum(ListNode h1, ListNode h2) {
