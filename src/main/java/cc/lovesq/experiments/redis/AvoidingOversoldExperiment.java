@@ -1,7 +1,7 @@
 package cc.lovesq.experiments.redis;
 
-import cc.lovesq.components.DistributedLock;
 import cc.lovesq.experiments.IExperiment;
+import cc.lovesq.model.AvoidingOversold;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -13,21 +13,20 @@ public class AvoidingOversoldExperiment implements IExperiment {
 
     ExecutorService threadPoolExecutor = Executors.newFixedThreadPool(30);
 
-    @Resource(name="redissonLock")
-    private DistributedLock distributedLock;
+    // 这里需要静态注入的方式，才能让 AOP 注解生效, 否则, 必须使用显式代理方式
+    @Resource
+    AvoidingOversold avoidingOversold;
 
     @Override
     public void test() {
-
-        AvoidingOversold avoidingOversold = new AvoidingOversold("Algorithm Course", 100, distributedLock);
-
         int i = 10000;
         while (i > 0) {
-            threadPoolExecutor.submit(
-                    avoidingOversold::sold
-            );
+            threadPoolExecutor.submit(this::buy);
             i--;
         }
+    }
 
+    public boolean buy() {
+        return avoidingOversold.sell(avoidingOversold.getGoods());
     }
 }

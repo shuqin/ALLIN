@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -14,6 +13,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(value=METHOD)
 public @interface RemotingLock {
 
-    long time();
-    TimeUnit timeUnit();
+    long time() default 1;
+    TimeUnit timeUnit() default TimeUnit.SECONDS;
 }

@@ -2,7 +2,11 @@ package cc.lovesq.exception;
 
 public enum Errors implements IError {
 
-  ServerError(500, "internal error")
+  ServerError(500, "internal error"),
+
+  NoGoodsError(100000011, "No goods"),
+
+  ;
 
   ;
 
