@@ -1,6 +1,9 @@
 package zzz.study.datastructure.stack;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * DyStack implements the services of a stack specified by the
@@ -58,10 +61,10 @@ public class DyStack<T> implements Stack<T> {
      * @return the element in the top of stack
      *
      */
-    public T pop() throws Exception	{
+    public T pop()	{
 
         if (ds.isEmpty())
-            throw new Exception("栈空！");
+            throw new RuntimeException("栈空！");
         return ds.pop();
 
     }
@@ -98,6 +101,10 @@ public class DyStack<T> implements Stack<T> {
     public String toString() {
 
         return ds.toString();
+    }
+
+    public List<T> unmodifiedList() {
+        return Collections.unmodifiableList(ds);
     }
 
 

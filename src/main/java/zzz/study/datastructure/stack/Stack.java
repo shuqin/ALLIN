@@ -1,5 +1,7 @@
 package zzz.study.datastructure.stack;
 
+import java.util.List;
+
 /** a definition of the services a stack would provides */
 public interface Stack<T> {
 	
@@ -25,7 +27,7 @@ public interface Stack<T> {
 	 * @return the element in the top of stack ; if the stack is empty , throws exception.
 	 * 
 	 */
-	public T pop() throws Exception;
+	public T pop();
 	
 	/** 
 	 * peek: get the element in the top of stack
@@ -50,5 +52,10 @@ public interface Stack<T> {
 	 * 
 	 */
 	public String toString();
+
+	/**
+	 * unmodifiedList: get unmodified list of stack data
+	 */
+	public List<T> unmodifiedList();
 	
 }
