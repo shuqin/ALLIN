@@ -1,12 +1,14 @@
 package zzz.study.datastructure.tree;
 
+import org.apache.commons.lang.StringUtils;
+import org.htrace.Trace;
 import zzz.study.datastructure.stack.DyStack;
 import zzz.study.datastructure.stack.Stack;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class TreePathSum {
@@ -41,39 +43,55 @@ public class TreePathSum {
         Long sum2 = paths2.stream().collect(Collectors.summarizingLong(Path::getValue)).getSum();
         System.out.println(paths2);
         System.out.println(sum2);
+
+        assert sum == sum2;
     }
 
     @TreeBuilder
     public TreeNode buildTreeOnlyRoot() {
-        TreeNode tree = new TreeNode(5);
+        TreeNode tree = new TreeNode(9);
         return tree;
     }
 
     @TreeBuilder
     public TreeNode buildTreeWithL() {
-        TreeNode tree = new TreeNode(5);
-        TreeNode left = new TreeNode(1);
+        return buildTreeWithL(5, 1);
+    }
+
+    public TreeNode buildTreeWithL(int rootVal, int leftVal) {
+        TreeNode tree = new TreeNode(rootVal);
+        TreeNode left = new TreeNode(leftVal);
         tree.left = left;
         return tree;
     }
 
     @TreeBuilder
     public TreeNode buildTreeWithR() {
-        TreeNode tree = new TreeNode(5);
-        TreeNode right = new TreeNode(2);
+        return buildTreeWithR(5,2);
+    }
+
+    public TreeNode buildTreeWithR(int rootVal, int rightVal) {
+        TreeNode tree = new TreeNode(rootVal);
+        TreeNode right = new TreeNode(rightVal);
         tree.right = right;
         return tree;
     }
 
     @TreeBuilder
     public TreeNode buildTreeWithLR() {
-        TreeNode tree = new TreeNode(5);
-        TreeNode left = new TreeNode(1);
-        TreeNode right = new TreeNode(2);
+        return buildTreeWithLR(5,1,2);
+    }
+
+    public TreeNode buildTreeWithLR(int rootVal, int leftVal, int rightVal) {
+        TreeNode tree = new TreeNode(rootVal);
+        TreeNode left = new TreeNode(leftVal);
+        TreeNode right = new TreeNode(rightVal);
         tree.right = right;
         tree.left = left;
         return tree;
     }
+
+    Random rand = new Random(47);
 
     @TreeBuilder
     public TreeNode buildTreeWithMore() {
@@ -89,6 +107,62 @@ public class TreePathSum {
         return tree;
     }
 
+    @TreeBuilder
+    public TreeNode buildTreeWithMore2() {
+        TreeNode tree = new TreeNode(5);
+        TreeNode left = new TreeNode(1);
+        TreeNode right = new TreeNode(2);
+        TreeNode left2 = new TreeNode(3);
+        TreeNode right2 = new TreeNode(4);
+        tree.right = right;
+        tree.left = left;
+        right.left = left2;
+        right.right = right2;
+        return tree;
+    }
+
+    public TreeNode treeWithRandom() {
+        int c = rand.nextInt(3);
+        switch (c) {
+            case 0: return buildTreeWithL(rand.nextInt(9), rand.nextInt(9));
+            case 1: return buildTreeWithR(rand.nextInt(9), rand.nextInt(9));
+            case 2: return buildTreeWithLR(rand.nextInt(9), rand.nextInt(9), rand.nextInt(9));
+            default: return buildTreeOnlyRoot();
+        }
+    }
+
+    public TreeNode linkRandom(TreeNode t1, TreeNode t2) {
+        if (t2.left == null) {
+            t2.left = t1;
+        }
+        else if (t2.right == null) {
+            t2.right = t1;
+        }
+        else {
+            int c = rand.nextInt(4);
+            switch (c) {
+                case 0: t2.left.left = t1;
+                case 1: t2.left.right = t1;
+                case 2: t2.right.left = t1;
+                case 3: t2.right.right = t1;
+                default: t2.left.left = t1;
+            }
+        }
+        return t2;
+    }
+
+    @TreeBuilder
+    public TreeNode buildTreeWithRandom() {
+        TreeNode root = treeWithRandom();
+        int i = 8;
+        while (i > 0) {
+            TreeNode t = treeWithRandom();
+            root = linkRandom(root, t);
+            i--;
+        }
+        return root;
+    }
+
     public List<Path> findAllPaths(TreeNode root) {
         List<Path> le = new ArrayList<>();
         List<Path> ri = new ArrayList<>();
@@ -96,7 +170,7 @@ public class TreePathSum {
 
             if (root.left == null && root.right == null) {
                 List<Path> single = new ArrayList<>();
-                single.add(new Path(root.val));
+                single.add(new ListPath(root.val));
                 return single;
             }
 
@@ -131,7 +205,7 @@ public class TreePathSum {
             if (p.left == null && p.right == null) {
                 // 叶子节点的情形，需要记录路径，并回溯到父节点
                 treeData.push(p.val);
-                allPaths.add(new Path(treeData.unmodifiedList()));
+                allPaths.add(new ListPath(treeData.unmodifiedList()));
                 treeData.pop();
                 if (treeData.isEmpty()) {
                     break;
@@ -148,12 +222,21 @@ public class TreePathSum {
             }
             else if (traceNode.needAccessRight()) {
                 // 需要访问右子树的情形
+                if (traceNode.hasNoLeft()) {
+                    treeData.push(p.val);
+                }
                 if (!traceNode.hasAccessedLeft()) {
                     // 访问左节点时已经入栈过，这里不重复入栈
                     treeData.push(p.val);
                 }
                 trace.push(TraceNode.getRightAccessedNode(p));
                 p = p.right;
+                if (p.left != null) {
+                    traceNode = TraceNode.getNoAccessedNode(p);
+                }
+                else if (p.right != null) {
+                    traceNode = TraceNode.getLeftAccessedNode(p);
+                }
             }
             else if (traceNode.hasAllAccessed()) {
                 // 左右子树都已经访问了，需要回溯到父节点
@@ -177,7 +260,7 @@ public class TreePathSum {
         while(p != null) {
             s.push(p.val);
             if (p.left == null && p.right == null) {
-                allPaths.add(new Path(s.unmodifiedList()));
+                allPaths.add(new ListPath(s.unmodifiedList()));
                 s.pop();
                 if (s.isEmpty()) {
                     break;
@@ -196,31 +279,65 @@ public class TreePathSum {
 }
 
 
+interface Path {
+    void append(Integer i);
+    Long getValue();
+}
 
-class Path {
-    StringBuilder s = new StringBuilder();
+class ListPath implements Path {
+    List<Integer> path = new ArrayList<>();
 
-    public Path() {
+    public ListPath(int i) {
+        this.path.add(i);
     }
 
-    public Path(Integer i) {
+    public ListPath(List list) {
+        this.path.addAll(list);
+    }
+
+    @Override
+    public void append(Integer i) {
+        path.add(i);
+    }
+
+    @Override
+    public Long getValue() {
+        StringBuilder s = new StringBuilder();
+        path.forEach( e-> {
+            s.append(e);
+        });
+        return Long.parseLong(s.reverse().toString());
+    }
+
+    public String toString() {
+        return StringUtils.join(path.toArray(), "");
+    }
+}
+
+class StringPath implements Path {
+    StringBuilder s = new StringBuilder();
+
+    public StringPath() {
+    }
+
+    public StringPath(Integer i) {
         s.append(i);
     }
 
-    public Path(List list) {
+    public StringPath(List list) {
         list.forEach( e-> {
             s.append(e);
         });
     }
 
-    public Path(String str) { this.s = new StringBuilder(str); }
+    public StringPath(String str) { this.s = new StringBuilder(str); }
 
     public Long getValue() {
         return Long.parseLong(s.reverse().toString());
     }
 
-    public StringBuilder append(Integer i) {
-        return s.append(i);
+    public void append(Integer i) {
+        s.append(i);
     }
 
     public String toString() {

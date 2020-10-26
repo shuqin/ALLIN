@@ -31,7 +31,11 @@ class TraceNode {
     }
 
     public boolean hasAccessedLeft() {
-        return parent.left != null && accessed == 1;
+        return parent.left == null || (parent.left != null && accessed == 1);
+    }
+
+    public boolean hasNoLeft() {
+        return parent.left == null;
     }
 
     public boolean hasAllAccessed() {
