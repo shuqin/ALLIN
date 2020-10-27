@@ -1,17 +1,13 @@
 package zzz.study.datastructure.tree;
 
-import org.apache.commons.lang.StringUtils;
-import zzz.study.datastructure.stack.DyStack;
-import zzz.study.datastructure.stack.Stack;
-
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static java.lang.Integer.max;
+import static zzz.study.datastructure.tree.TreeUtil.findAllPaths;
+import static zzz.study.datastructure.tree.TreeUtil.findAllPathsNonRec;
 
 public class TreePathSum {
 
@@ -31,7 +27,7 @@ public class TreePathSum {
                 try {
                     TreeNode t = (TreeNode) m.invoke(treePathSum, null);
                     System.out.println("height: " + t.height());
-                    //treePathSum.test2(t);
+                    treePathSum.test2(t);
                     treePathSum.testNonRec(t);
                 } catch (Exception ex) {
                     System.err.println(ex.getMessage());
@@ -232,203 +228,6 @@ public class TreePathSum {
         return root;
     }
 
-    public List<Path> findAllPaths(TreeNode root) {
-        List<Path> le = new ArrayList<>();
-        List<Path> ri = new ArrayList<>();
-        if (root != null) {
-
-            if (root.left == null && root.right == null) {
-                List<Path> single = new ArrayList<>();
-                single.add(new ListPath(root.val));
-                return single;
-            }
-
-            if (root.left != null) {
-                le = findAllPaths(root.left);
-                for (Path p: le) {
-                    p.append(root.val);
-                }
-            }
-            if (root.right != null) {
-                ri = findAllPaths(root.right);
-                for (Path p: ri) {
-                    p.append(root.val);
-                }
-            }
-        }
-        List<Path> paths = new ArrayList<>();
-        paths.addAll(le);
-        paths.addAll(ri);
-        return paths;
-    }
-
-    public List<Path> findAllPathsNonRec(TreeNode root) {
-
-        List<Path> allPaths = new ArrayList<>();
-        Stack<Integer> treeData = new DyStack<>();
-        Stack<TraceNode> trace = new DyStack<>();
-
-        TreeNode p = root;
-        TraceNode traceNode = TraceNode.getNoAccessedNode(p);
-        while(p != null) {
-            if (p.left == null && p.right == null) {
-                // 叶子节点的情形，需要记录路径，并回溯到父节点
-                treeData.push(p.val);
-                allPaths.add(new ListPath(treeData.unmodifiedList()));
-                treeData.pop();
-                if (treeData.isEmpty()) {
-                    break;
-                }
-                traceNode = trace.pop();
-                p = traceNode.getParent();
-                continue;
-            }
-            else if (traceNode.needAccessLeft()) {
-                // 需要访问左子树的情形
-                treeData.push(p.val);
-                trace.push(TraceNode.getLeftAccessedNode(p));
-                p = p.left;
-                traceNode = TraceNode.getNoAccessedNode(p);
-            }
-            else if (traceNode.needAccessRight()) {
-                // 需要访问右子树的情形
-                if (traceNode.hasNoLeft()) {
-                    treeData.push(p.val);
-                }
-                if (!traceNode.hasAccessedLeft()) {
-                    // 访问左节点时已经入栈过，这里不重复入栈
-                    treeData.push(p.val);
-                }
-                trace.push(TraceNode.getRightAccessedNode(p));
-                p = p.right;
-                traceNode = TraceNode.getNoAccessedNode(p);
-            }
-            else if (traceNode.hasAllAccessed()) {
-                // 左右子树都已经访问了，需要回溯到父节点
-                if (trace.isEmpty()) {
-                    break;
-                }
-                treeData.pop();
-                traceNode = trace.pop();
-                p = traceNode.getParent();
-            }
-        }
-        return allPaths;
-    }
-
-    public List<Path> findAllPathsNonRecDeadLoop(TreeNode root) {
-
-        List<Path> allPaths = new ArrayList<>();
-        Stack<Integer> s = new DyStack<Integer>();
-
-        TreeNode p = root;
-        while(p != null) {
-            s.push(p.val);
-            if (p.left == null && p.right == null) {
-                allPaths.add(new ListPath(s.unmodifiedList()));
-                s.pop();
-                if (s.isEmpty()) {
-                    break;
-                }
-            }
-            if (p.left != null) {
-                p = p.left;
-            }
-            else if (p.right != null) {
-                p = p.right;
-            }
-        }
-        return allPaths;
-    }
-
-}
 
 
-interface Path {
-    void append(Integer i);
-    Long getValue();
-}
-
-class ListPath implements Path {
-    List<Integer> path = new ArrayList<>();
-
-    public ListPath(int i) {
-        this.path.add(i);
-    }
-
-    public ListPath(List list) {
-        this.path.addAll(list);
-    }
-
-    @Override
-    public void append(Integer i) {
-        path.add(i);
-    }
-
-    @Override
-    public Long getValue() {
-        StringBuilder s = new StringBuilder();
-        path.forEach( e-> {
-            s.append(e);
-        });
-        return Long.parseLong(s.reverse().toString());
-    }
-
-    public String toString() {
-        return StringUtils.join(path.toArray(), "");
-    }
-}
-
-class StringPath implements Path {
-    StringBuilder s = new StringBuilder();
-
-    public StringPath() {
-    }
-
-    public StringPath(Integer i) {
-        s.append(i);
-    }
-
-    public StringPath(List list) {
-        list.forEach( e-> {
-            s.append(e);
-        });
-    }
-
-    public StringPath(String str) { this.s = new StringBuilder(str); }
-
-    public Long getValue() {
-        return Long.parseLong(s.reverse().toString());
-    }
-
-    public void append(Integer i) {
-        s.append(i);
-    }
-
-    public String toString() {
-        return s.reverse().toString();
-    }
-}
-
-class TreeNode {
-
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int x) { val = x; }
-
-    public int height() {
-        if (left == null && right == null) {
-            return 1;
-        }
-        int leftHeight = 0;
-        int rightHeight = 0;
-        if (left != null) {
-            leftHeight = left.height();
-        }
-        if (right != null) {
-            rightHeight = right.height();
-        }
-        return 1 + max(leftHeight, rightHeight);
-    }
 }
