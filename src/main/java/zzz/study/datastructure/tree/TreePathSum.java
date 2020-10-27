@@ -6,49 +6,43 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static zzz.study.datastructure.tree.TreeUtil.findAllPaths;
-import static zzz.study.datastructure.tree.TreeUtil.findAllPathsNonRec;
-
 public class TreePathSum {
 
+    TreeUtil treeUtil = new TreeUtil();
+
     public static void main(String[] args) {
-        TreePathSum treePathSum = new TreePathSum();
-        Method[] methods = treePathSum.getClass().getDeclaredMethods();
 
         try {
             // time for starting up arthas trace method commands
-            TimeUnit.SECONDS.sleep(20);
+            TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             //
         }
 
-        for (Method m: methods) {
-            if (m.isAnnotationPresent(TreeBuilder.class)) {
-                try {
-                    TreeNode t = (TreeNode) m.invoke(treePathSum, null);
-                    System.out.println("height: " + t.height());
-                    treePathSum.test2(t);
-                    treePathSum.testNonRec(t);
-                } catch (Exception ex) {
-                    System.err.println(ex.getMessage());
-                }
 
-            }
-        }
+        TreePathSum treePathSum = new TreePathSum();
+
+        System.out.println("---------- Validating ----------");
+
+        treePathSum.testValidate();
+
+        System.out.println("---------- Performance ----------");
+
+        treePathSum.testNonRecPerformance();
     }
 
     public void test(TreeNode root) {
 
         System.out.println("Rec Implementation");
 
-        List<Path> paths = findAllPaths(root);
+        List<Path> paths = treeUtil.findAllPaths(root);
         Long sum = paths.stream().collect(Collectors.summarizingLong(Path::getValue)).getSum();
         System.out.println(paths);
         System.out.println(sum);
 
         System.out.println("Non Rec Implementation");
 
-        List<Path> paths2 = findAllPathsNonRec(root);
+        List<Path> paths2 = treeUtil.findAllPathsNonRec(root);
         Long sum2 = paths2.stream().collect(Collectors.summarizingLong(Path::getValue)).getSum();
         System.out.println(paths2);
         System.out.println(sum2);
@@ -56,29 +50,78 @@ public class TreePathSum {
         assert sum == sum2;
     }
 
+    public void testValidate() {
+
+        TreePathSum treePathSum = new TreePathSum();
+        Method[] methods = treePathSum.getClass().getDeclaredMethods();
+
+        for (Method m: methods) {
+            if (m.isAnnotationPresent(TreeBuilder.class)) {
+                try {
+                    TreeNode t = (TreeNode) m.invoke(treePathSum, null);
+                    System.out.println("height: " + t.height());
+                    treePathSum.test2(t);
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                }
+
+            }
+        }
+
+        for (int i=0; i < 100; i++) {
+            for (int j=1; j < 10; j++) {
+                TreeNode t = treePathSum.buildTreeWithRandom(j);
+                treePathSum.test2(t);
+            }
+        }
+    }
+
     public void test2(TreeNode root) {
+
         System.out.println("Rec Implementation");
-        List<Path> paths = findAllPaths(root);
+        List<Path> paths = treeUtil.findAllPaths(root);
         System.out.println(paths);
 
         System.out.println("Non Rec Implementation");
-        List<Path> paths2 = findAllPathsNonRec(root);
+        List<Path> paths2 = treeUtil.findAllPathsNonRec(root);
         System.out.println(paths2);
 
+        System.out.println("Effectively Non Rec Implementation");
+        List<Path> paths3 = treeUtil.findAllPathsNonRecEffectively(root);
+        System.out.println(paths3);
+
         assert paths.size() == paths2.size();
+        assert paths.size() == paths3.size();
         for (int i=0; i < paths.size(); i++) {
             assert paths.get(i).toString().equals(paths2.get(i).toString());
+            assert paths.get(i).toString().equals(paths3.get(i).toString());
         }
+
+        System.out.println("Validate OK");
 
     }
 
     // use arthas trace to measure costs of findAllPathsNonRec
     // trace zzz.study.datastructure.tree.TreePathSum findAllPathsNonRec
-    public void testNonRec(TreeNode root) {
+    public void testNonRecPerformance() {
 
-        System.out.println("Non Rec Implementation");
-        List<Path> paths2 = findAllPathsNonRec(root);
-        System.out.println(paths2);
+        for (int i=0; i < 50; i++) {
+            long start = System.currentTimeMillis();
+            TreeNode t = buildTreeWithRandom(10);
+            System.out.println("Non Rec Implementation");
+            List<Path> paths = treeUtil.findAllPathsNonRec(t);
+            //System.out.println(paths);
+
+            long end = System.currentTimeMillis();
+
+            System.out.println("Effectively Non Rec Implementation");
+            List<Path> pathsEffectively = treeUtil.findAllPathsNonRecEffectively(t);
+            //System.out.println(pathsEffectively);
+
+            long endEffectively = System.currentTimeMillis();
+
+            System.out.println("time cost: non-rec -- " + (end-start) + " Effectively -- " + (endEffectively-end));
+        }
 
     }
 
@@ -219,11 +262,21 @@ public class TreePathSum {
     @TreeBuilder
     public TreeNode buildTreeWithRandom() {
         TreeNode root = treeWithRandom();
-        int i = 20;
+        int i = 3;
         while (i > 0) {
             TreeNode t = treeWithRandom();
             root = linkRandom(root, t);
             i--;
+        }
+        return root;
+    }
+
+    public TreeNode buildTreeWithRandom(int h) {
+        TreeNode root = treeWithRandom();
+        while (h > 0) {
+            TreeNode t = treeWithRandom();
+            root = linkRandom(root, t);
+            h--;
         }
         return root;
     }

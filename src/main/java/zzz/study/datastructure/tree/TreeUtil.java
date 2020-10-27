@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TreeUtil {
 
-    public static List<Path> findAllPaths(TreeNode root) {
+    public List<Path> findAllPaths(TreeNode root) {
         List<Path> le = new ArrayList<>();
         List<Path> ri = new ArrayList<>();
         if (root != null) {
@@ -38,7 +38,7 @@ public class TreeUtil {
         return paths;
     }
 
-    public static List<Path> findAllPathsNonRec(TreeNode root) {
+    public List<Path> findAllPathsNonRec(TreeNode root) {
 
         List<Path> allPaths = new ArrayList<>();
         Stack<Integer> treeData = new DyStack<>();
@@ -92,7 +92,73 @@ public class TreeUtil {
         return allPaths;
     }
 
-    public static List<Path> findAllPathsNonRecDeadLoop(TreeNode root) {
+    public List<Path> findAllPathsNonRecEffectively(TreeNode root) {
+
+        List<Path> allPaths = new ArrayList<>();
+        Stack<Integer> treeData = new DyStack<>();
+        Stack<TraceNode> trace = new DyStack<>();
+
+        TreeNode p = root;
+        int accessed = 0;
+        while(p != null) {
+            if (p.left == null && p.right == null) {
+                // 叶子节点的情形，需要记录路径，并回溯到父节点
+                treeData.push(p.val);
+                allPaths.add(new ListPath(treeData.unmodifiedList()));
+                treeData.pop();
+                if (treeData.isEmpty()) {
+                    break;
+                }
+                TraceNode traceNode = trace.pop();
+                p = traceNode.getParent();
+                accessed = traceNode.getAccessed();
+                continue;
+            }
+            else if (p.left != null && accessed == 0) {
+                // 需要访问左子树的情形
+                treeData.push(p.val);
+                trace.push(TraceNode.getLeftAccessedNode(p));
+                p = p.left;
+                accessed = 0;
+            }
+            else if (p.right != null && accessed < 2) {
+                // 需要访问右子树的情形
+                if (p.left == null) {
+                    treeData.push(p.val);
+                }
+                if (!( p.left == null || (p.left != null && accessed == 1) )) {
+                    // 访问左节点时已经入栈过，这里不重复入栈
+                    treeData.push(p.val);
+                }
+                trace.push(TraceNode.getRightAccessedNode(p));
+                p = p.right;
+                accessed = 0;
+            }
+            else if (hasAllAccessed(p, accessed)) {
+                // 左右子树都已经访问了，需要回溯到父节点
+                if (trace.isEmpty()) {
+                    break;
+                }
+                treeData.pop();
+                TraceNode traceNode = trace.pop();
+                p = traceNode.getParent();
+                accessed = traceNode.getAccessed();
+            }
+        }
+        return allPaths;
+    }
+
+    public boolean hasAllAccessed(TreeNode parent, int accessed) {
+        if (parent.left != null && parent.right == null && accessed == 1) {
+            return true;
+        }
+        if (parent.right != null && accessed == 2) {
+            return true;
+        }
+        return false;
+    }
+
+    public List<Path> findAllPathsNonRecDeadLoop(TreeNode root) {
 
         List<Path> allPaths = new ArrayList<>();
         Stack<Integer> s = new DyStack<Integer>();
