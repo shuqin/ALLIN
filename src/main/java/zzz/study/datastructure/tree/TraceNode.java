@@ -5,9 +5,9 @@ class TraceNode {
     private TreeNode parent;
     private int accessed;  // 0 均未访问 1 已访问左 2 已访问右
 
-    public TraceNode(TreeNode parent, int child) {
+    public TraceNode(TreeNode parent, int accessed) {
         this.parent = parent;
-        this.accessed = child;
+        this.accessed = accessed;
     }
 
     public static TraceNode getNoAccessedNode(TreeNode parent) {

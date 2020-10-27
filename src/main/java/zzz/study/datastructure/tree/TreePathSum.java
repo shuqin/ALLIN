@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static java.lang.Integer.max;
@@ -17,12 +18,21 @@ public class TreePathSum {
     public static void main(String[] args) {
         TreePathSum treePathSum = new TreePathSum();
         Method[] methods = treePathSum.getClass().getDeclaredMethods();
+
+        try {
+            // time for starting up arthas trace method commands
+            TimeUnit.SECONDS.sleep(20);
+        } catch (InterruptedException e) {
+            //
+        }
+
         for (Method m: methods) {
             if (m.isAnnotationPresent(TreeBuilder.class)) {
                 try {
                     TreeNode t = (TreeNode) m.invoke(treePathSum, null);
                     System.out.println("height: " + t.height());
-                    treePathSum.test2(t);
+                    //treePathSum.test2(t);
+                    treePathSum.testNonRec(t);
                 } catch (Exception ex) {
                     System.err.println(ex.getMessage());
                 }
@@ -63,6 +73,16 @@ public class TreePathSum {
         for (int i=0; i < paths.size(); i++) {
             assert paths.get(i).toString().equals(paths2.get(i).toString());
         }
+
+    }
+
+    // use arthas trace to measure costs of findAllPathsNonRec
+    // trace zzz.study.datastructure.tree.TreePathSum findAllPathsNonRec
+    public void testNonRec(TreeNode root) {
+
+        System.out.println("Non Rec Implementation");
+        List<Path> paths2 = findAllPathsNonRec(root);
+        System.out.println(paths2);
 
     }
 
