@@ -14,7 +14,7 @@ public class TreePathSum {
 
         try {
             // time for starting up arthas trace method commands
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(25);
         } catch (InterruptedException e) {
             //
         }
@@ -24,7 +24,7 @@ public class TreePathSum {
 
         System.out.println("---------- Validating ----------");
 
-        treePathSum.testValidate();
+        //treePathSum.testValidate();
 
         System.out.println("---------- Performance ----------");
 
@@ -105,22 +105,24 @@ public class TreePathSum {
     // trace zzz.study.datastructure.tree.TreePathSum findAllPathsNonRec
     public void testNonRecPerformance() {
 
-        for (int i=0; i < 50; i++) {
-            long start = System.currentTimeMillis();
-            TreeNode t = buildTreeWithRandom(10);
-            System.out.println("Non Rec Implementation");
-            List<Path> paths = treeUtil.findAllPathsNonRec(t);
-            //System.out.println(paths);
+        for (int h=10; h < 30; h++) {
 
-            long end = System.currentTimeMillis();
+            System.out.println("h: " + h);
 
-            System.out.println("Effectively Non Rec Implementation");
-            List<Path> pathsEffectively = treeUtil.findAllPathsNonRecEffectively(t);
-            //System.out.println(pathsEffectively);
+            for (int c=0; c < 50; c++) {
+                TreeNode t = buildTreeWithRandom(h);
+                System.out.println("Tree Height : " + t.height());
 
-            long endEffectively = System.currentTimeMillis();
+                long start = System.currentTimeMillis();
+                List<Path> paths = treeUtil.findAllPathsNonRec(t);
+                long end = System.currentTimeMillis();
+                //List<Path> pathsEffectively = treeUtil.findAllPathsNonRecImprove(t);
 
-            System.out.println("time cost: non-rec -- " + (end-start) + " Effectively -- " + (endEffectively-end));
+                long endEffectively = System.currentTimeMillis();
+
+                System.out.println("time cost: non-rec -- " + (end-start) + " Effectively -- " + (endEffectively-end));
+            }
+
         }
 
     }
