@@ -1,7 +1,6 @@
 package zzz.study.datastructure.tree;
 
 import org.apache.commons.lang.StringUtils;
-import org.htrace.Trace;
 import zzz.study.datastructure.stack.DyStack;
 import zzz.study.datastructure.stack.Stack;
 
@@ -11,6 +10,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static java.lang.Integer.max;
+
 public class TreePathSum {
 
     public static void main(String[] args) {
@@ -19,7 +20,9 @@ public class TreePathSum {
         for (Method m: methods) {
             if (m.isAnnotationPresent(TreeBuilder.class)) {
                 try {
-                    treePathSum.test((TreeNode) m.invoke(treePathSum, null));
+                    TreeNode t = (TreeNode) m.invoke(treePathSum, null);
+                    System.out.println("height: " + t.height());
+                    treePathSum.test2(t);
                 } catch (Exception ex) {
                     System.err.println(ex.getMessage());
                 }
@@ -45,6 +48,22 @@ public class TreePathSum {
         System.out.println(sum2);
 
         assert sum == sum2;
+    }
+
+    public void test2(TreeNode root) {
+        System.out.println("Rec Implementation");
+        List<Path> paths = findAllPaths(root);
+        System.out.println(paths);
+
+        System.out.println("Non Rec Implementation");
+        List<Path> paths2 = findAllPathsNonRec(root);
+        System.out.println(paths2);
+
+        assert paths.size() == paths2.size();
+        for (int i=0; i < paths.size(); i++) {
+            assert paths.get(i).toString().equals(paths2.get(i).toString());
+        }
+
     }
 
     @TreeBuilder
@@ -91,7 +110,7 @@ public class TreePathSum {
         return tree;
     }
 
-    Random rand = new Random(47);
+    Random rand = new Random(System.currentTimeMillis());
 
     @TreeBuilder
     public TreeNode buildTreeWithMore() {
@@ -118,6 +137,36 @@ public class TreePathSum {
         tree.left = left;
         right.left = left2;
         right.right = right2;
+        return tree;
+    }
+
+    @TreeBuilder
+    public TreeNode buildTreeWithMore3() {
+        TreeNode tree = new TreeNode(5);
+        TreeNode left = new TreeNode(1);
+        TreeNode right = new TreeNode(2);
+        TreeNode left2 = new TreeNode(3);
+        TreeNode right2 = new TreeNode(4);
+        tree.right = right;
+        tree.left = left;
+        right.right = left2;
+        left2.right = right2;
+        return tree;
+    }
+
+    @TreeBuilder
+    public TreeNode buildTreeWithMore4() {
+        TreeNode tree = new TreeNode(5);
+        TreeNode left = new TreeNode(1);
+        TreeNode right = new TreeNode(2);
+        TreeNode left2 = new TreeNode(3);
+        TreeNode right2 = new TreeNode(4);
+        TreeNode right3 = new TreeNode(6);
+        tree.right = right;
+        tree.left = left;
+        left.right = right3;
+        right.right = left2;
+        left2.right = right2;
         return tree;
     }
 
@@ -154,7 +203,7 @@ public class TreePathSum {
     @TreeBuilder
     public TreeNode buildTreeWithRandom() {
         TreeNode root = treeWithRandom();
-        int i = 8;
+        int i = 20;
         while (i > 0) {
             TreeNode t = treeWithRandom();
             root = linkRandom(root, t);
@@ -219,6 +268,7 @@ public class TreePathSum {
                 treeData.push(p.val);
                 trace.push(TraceNode.getLeftAccessedNode(p));
                 p = p.left;
+                traceNode = TraceNode.getNoAccessedNode(p);
             }
             else if (traceNode.needAccessRight()) {
                 // 需要访问右子树的情形
@@ -231,12 +281,7 @@ public class TreePathSum {
                 }
                 trace.push(TraceNode.getRightAccessedNode(p));
                 p = p.right;
-                if (p.left != null) {
-                    traceNode = TraceNode.getNoAccessedNode(p);
-                }
-                else if (p.right != null) {
-                    traceNode = TraceNode.getLeftAccessedNode(p);
-                }
+                traceNode = TraceNode.getNoAccessedNode(p);
             }
             else if (traceNode.hasAllAccessed()) {
                 // 左右子树都已经访问了，需要回溯到父节点
@@ -351,4 +396,19 @@ class TreeNode {
     TreeNode left;
     TreeNode right;
     TreeNode(int x) { val = x; }
+
+    public int height() {
+        if (left == null && right == null) {
+            return 1;
+        }
+        int leftHeight = 0;
+        int rightHeight = 0;
+        if (left != null) {
+            leftHeight = left.height();
+        }
+        if (right != null) {
+            rightHeight = right.height();
+        }
+        return 1 + max(leftHeight, rightHeight);
+    }
 }
