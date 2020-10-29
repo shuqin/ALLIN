@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import cc.lovesq.annotations.Timecost;
 import cc.lovesq.components.JedisLocalClient;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
@@ -27,7 +28,9 @@ public class CreativeServiceImpl implements CreativeService {
   @Resource
   private JedisLocalClient jedisLocalClient;
 
+  @Timecost
   public CreativeDO get(Long creativeId) {
+    
     String creativeJson = jedisLocalClient.get(CREATIVE_KEY+creativeId);
     if (!StringUtils.isBlank(creativeJson)) {
       return JsonUtil.toObject(creativeJson, CreativeDO.class);
