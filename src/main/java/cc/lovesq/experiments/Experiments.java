@@ -32,6 +32,7 @@ public class Experiments implements ApplicationContextAware, ApplicationListener
 
     public void doExperiments() {
 
+        /*
         Map<String, IExperiment> experimentBeans = applicationContext.getBeansOfType(IExperiment.class);
         experimentBeans.forEach(
                 (name, bean) -> {
@@ -40,5 +41,6 @@ public class Experiments implements ApplicationContextAware, ApplicationListener
                 }
 
         );
+        */
     }
 }

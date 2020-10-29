@@ -39,7 +39,7 @@ public class TreeUtil {
     }
 
     // 非递归算法的效率主要取决于树的均衡性。通过 arthas 分析结果，主要取决于访问节点和出栈入栈次数
-    // 一棵 h 高的满二叉树, 出入栈次数为 2^h-2 , 树越均衡，要比较的次数越多. 
+    // 一棵 h 高的满二叉树, 出入栈次数为 2^h-2 , 树越均衡，要比较的次数越多.
     public List<Path> findAllPathsNonRec(TreeNode root) {
 
         List<Path> allPaths = new ArrayList<>();
