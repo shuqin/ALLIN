@@ -22,6 +22,8 @@ create table creative (
   	gmt_modified datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+## Run StudentCoursesDataGenerator to generate datas for student_courses
+
 drop table if exists student_courses;
 
 create table student_courses (
