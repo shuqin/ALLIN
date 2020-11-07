@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import zzz.study.function.refactor.TaskUtil;
+import zzz.study.algorithm.dividing.Dividing;
 
 /**
  * Created by shuqin on 17/6/23.
@@ -32,7 +32,7 @@ public class ConcurrentDataHandlerFrame {
    * 获取所有业务数据
    */
   public static <T> List<T> getAllData(List<String> allKeys, final IGetBizData iGetBizData) {
-    List<String> parts = TaskUtil.divide(allKeys.size(), 1000);
+    List<String> parts = Dividing.divide(allKeys.size(), 1000);
     System.out.println(parts);
     ExecutorService executor = Executors.newFixedThreadPool(parts.size());
     CompletionService<List<T>>

@@ -14,8 +14,8 @@ import java.util.function.Function;
 import javax.annotation.Resource;
 
 import shared.rpc.batchcall.WrapperListHandlerParam;
+import zzz.study.algorithm.dividing.Dividing;
 import zzz.study.function.refactor.ForeachUtil;
-import zzz.study.function.refactor.TaskUtil;
 
 /**
  * Created by shuqin on 18/3/13.
@@ -53,13 +53,13 @@ public class MultiTaskExecutor {
 
   public <T,R> List<R> exec(WrapperListHandlerParam<T,R> listParam, Function<WrapperListHandlerParam<T,R>, List<R>> handleBizDataFunc, int taskSize) {
     List<T> allKeys = listParam.getKeys();
-    List<String> parts = TaskUtil.divide(allKeys.size(), taskSize);
+    List<String> parts = Dividing.divide(allKeys.size(), taskSize);
 
     CompletionService<List<R>>
         completionService = new ExecutorCompletionService<>(generalThreadPoolExecutor);
 
     ForeachUtil.foreachDone(parts, (part) -> {
-      final List<T> tmpRowkeyList = TaskUtil.getSubList(allKeys, part);
+      final List<T> tmpRowkeyList = Dividing.getSubList(allKeys, part);
       WrapperListHandlerParam
           subListParam = new WrapperListHandlerParam(tmpRowkeyList, handleBizDataFunc);
       completionService.submit(

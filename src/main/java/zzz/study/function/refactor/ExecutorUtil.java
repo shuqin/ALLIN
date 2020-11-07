@@ -1,5 +1,7 @@
 package zzz.study.function.refactor;
 
+import zzz.study.algorithm.dividing.Dividing;
+
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CompletionService;
@@ -36,14 +38,14 @@ public class ExecutorUtil {
    * NOTE: 类似实现了 stream.par.map 的功能，不带延迟计算
    */
   public static <T,R> List<R> exec(List<T> allKeys, Function<List<T>, List<R>> handleBizDataFunc) {
-    List<String> parts = TaskUtil.divide(allKeys.size(), TASK_SIZE);
+    List<String> parts = Dividing.divide(allKeys.size(), TASK_SIZE);
     //System.out.println(parts);
 
     CompletionService<List<R>>
         completionService = new ExecutorCompletionService<>(executor);
 
     ForeachUtil.foreachDone(parts, (part) -> {
-      final List<T> tmpRowkeyList = TaskUtil.getSubList(allKeys, part);
+      final List<T> tmpRowkeyList = Dividing.getSubList(allKeys, part);
       completionService.submit(
           () -> handleBizDataFunc.apply(tmpRowkeyList));  // lambda replace inner class
     });
@@ -62,11 +64,11 @@ public class ExecutorUtil {
    * NOTE: foreachDone 的并发版
    */
   public static <T> void exec(List<T> allKeys, Consumer<List<T>> handleBizDataFunc) {
-    List<String> parts = TaskUtil.divide(allKeys.size(), TASK_SIZE);
+    List<String> parts = Dividing.divide(allKeys.size(), TASK_SIZE);
     //System.out.println(parts);
 
     ForeachUtil.foreachDone(parts, (part) -> {
-      final List<T> tmpRowkeyList = TaskUtil.getSubList(allKeys, part);
+      final List<T> tmpRowkeyList = Dividing.getSubList(allKeys, part);
       executor.execute(
           () -> handleBizDataFunc.accept(tmpRowkeyList));  // lambda replace inner class
     });
