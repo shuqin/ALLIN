@@ -8,20 +8,19 @@ public class BitMath {
     }
 
     public static int max(int a, int b) {
-        if ((a^b) >=0) {
+        if ((a^b) > 0) {
             // 同符号时 a-b 不会溢出，避免错误
             return b & ((a-b) >> 31) | a & (~(a-b) >> 31);
         }
-        return a > 0 ? a : b;
+        return ((a ^ (1 << 31)) < 0) ? a : b;
     }
 
-
     public static int min(int a, int b) {
-        if ((a^b) >=0) {
+        if ((a^b) > 0) {
             // 同符号时 a-b 不会溢出，避免错误
             return a & ((a-b) >> 31) | b & (~(a-b) >> 31);
         }
-        return a < 0 ? a : b;
+        return ((a ^ (1 << 31)) >= 0) ? a : b;
     }
 
     // 位运算实现加法
@@ -53,6 +52,8 @@ public class BitMath {
             testAbs(Integer.MIN_VALUE+1);
 
             testMax(999,-999);
+            testMax(999,0);
+            testMax(0,-999);
             testMax(Integer.MAX_VALUE,Integer.MIN_VALUE);
             testMax(Integer.MAX_VALUE >> 1,Integer.MIN_VALUE >> 1);
             testMax(Integer.MAX_VALUE >> 1,(Integer.MIN_VALUE >> 1)-1);
@@ -60,6 +61,8 @@ public class BitMath {
 
 
             testMin(999,-999);
+            testMin(999, 0);
+            testMin(0, -999);
             testMin(Integer.MAX_VALUE,Integer.MIN_VALUE);
             testMin(Integer.MAX_VALUE >> 1,Integer.MIN_VALUE >> 1);
             testMin(Integer.MAX_VALUE >> 1,(Integer.MIN_VALUE >> 1)-1);
