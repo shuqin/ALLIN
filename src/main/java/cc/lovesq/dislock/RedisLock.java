@@ -1,8 +1,11 @@
 package cc.lovesq.dislock;
 
+import redis.clients.jedis.BitOP;
 import redis.clients.jedis.Jedis;
 
 import java.util.concurrent.TimeUnit;
+
+import static avro.shaded.com.google.common.primitives.Ints.max;
 
 public class RedisLock {
 
@@ -25,11 +28,25 @@ public class RedisLock {
         return jedis;
     }
 
+    public void sort(int[] list) {
+        for (int i: list) {
+           jedis.setbit("arr", i, true);
+        }
+        int max = max(list);
+        for (int i=0; i <= max; i++) {
+            if (jedis.getbit("arr", i)) {
+                System.out.printf(String.format("%d ", i));
+            }
+        }
+    }
+
     public static class RedisLockTest {
         public static void main(String[]args) {
             RedisLock redisLock = new RedisLock();
             Jedis jedis = redisLock.getInstance();
             basic(redisLock, jedis);
+
+            redisLock.sort(new int[] { 5,7,1,23, 26, 10, 28,12});
         }
     }
 
