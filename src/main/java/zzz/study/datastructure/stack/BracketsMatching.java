@@ -19,7 +19,7 @@ public class BracketsMatching {
         test("([)]", false);
         test("([])", true);
         test("([({})])", true);
-        test("(([]){})", false);
+        test("(([]){})", true);
 
 
     }

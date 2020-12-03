@@ -6,14 +6,22 @@ public class LinkedListOperation {
         ListNode h = construct(3);
         ListNode reversed = reverse(h);
         desc(reversed);
+        System.out.println();
 
         ListNode h2 = construct(3,4,5,6);
         ListNode reversed2 = reverse(h2);
         desc(reversed2);
+        System.out.println();
 
         ListNode s1 = construct(1,2,4,6,8);
         ListNode s2 = construct(3,7,9,10,12);
         desc(mergeSorted(s1, s2));
+        System.out.println();
+
+        ListNode s3 = construct();
+        ListNode s4 = construct();
+        desc(mergeKLists(new ListNode[] {s3, s4}));
+
     }
 
     public static ListNode reverse(ListNode h) {
@@ -53,6 +61,22 @@ public class LinkedListOperation {
             System.out.print(p.val+"-");
             p = p.next;
         }
+    }
+
+    public static ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) { return null; }
+        if (lists.length == 1 ) {
+            return lists[0];
+        }
+        ListNode result = lists[0];
+        for (int i=1; i < lists.length; i++) {
+            result = mergeSorted(result, lists[i]);
+        }
+        ListNode p = result;
+        while (p != null && p.val == -1) {
+            p = p.next;
+        }
+        return p;
     }
 
     public static ListNode mergeSorted(ListNode s1, ListNode s2) {
