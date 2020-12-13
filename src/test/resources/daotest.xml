@@ -11,7 +11,7 @@
 
 	<!-- config -->
 	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		class="org.springframework.beans.singleton3.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
 			<value>classpath:jtester.properties</value>

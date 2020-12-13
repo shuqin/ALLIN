@@ -7,7 +7,7 @@
         <!-- thread pool -->
 		<bean id="ioThreadPoolExecutor"
 			class="shared.multitasks.customized.MyThreadPoolExecutor"
-			factory-method="getInstance">
+			singleton3-method="getInstance">
 			<constructor-arg index="0" type="int">
 				<value>60</value>
 			</constructor-arg>
@@ -27,7 +27,7 @@
 		
 		<bean id="cpuThreadPoolExecutor"
 			class="shared.multitasks.customized.MyThreadPoolExecutor"
-			factory-method="getInstance">
+			singleton3-method="getInstance">
 			<constructor-arg index="0" type="int">
 				<value>3</value>
 			</constructor-arg>

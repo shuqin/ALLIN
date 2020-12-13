@@ -1,7 +1,5 @@
 package cc.lovesq.experiments;
 
-import cc.lovesq.aspect.RemotingLockAspect;
-import cc.lovesq.components.DistributedLock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
@@ -27,12 +25,12 @@ public class Experiments implements ApplicationContextAware, ApplicationListener
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent applicationEvent) {
-        doExperiments();
+        //doExperiments();
     }
 
     public void doExperiments() {
 
-        /*
+
         Map<String, IExperiment> experimentBeans = applicationContext.getBeansOfType(IExperiment.class);
         experimentBeans.forEach(
                 (name, bean) -> {
@@ -41,6 +39,6 @@ public class Experiments implements ApplicationContextAware, ApplicationListener
                 }
 
         );
-        */
+
     }
 }
