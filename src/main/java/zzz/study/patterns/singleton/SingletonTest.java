@@ -3,6 +3,7 @@ package zzz.study.patterns.singleton;
 public class SingletonTest {
 
     public static void main(String[] args) {
+        
         Singleton sl21 = Singleton.INSTANCE;
         Singleton sl22 = Singleton.INSTANCE;
         System.out.println(sl21 == sl22);
