@@ -16,10 +16,13 @@ import java.util.concurrent.TimeUnit;
 import static com.sun.jmx.mbeanserver.Util.cast;
 
 @Component
-public class ServiceTplList4 {
+public class ServiceTplSplitList4 {
 
-    @Value(value="classpath:service4.tpl")
-    private Resource data;
+    @Value(value="classpath:service41.tpl")
+    private Resource data1;
+
+    @Value(value="classpath:service42.tpl")
+    private Resource data2;
 
     private List<ServiceTpl4> serviceTplList4 = new ArrayList<>();
 
@@ -35,8 +38,12 @@ public class ServiceTplList4 {
         convertToList();
 
         watchService = FileSystems.getDefault().newWatchService();
-        System.out.println("parent: " + data.getFile().getParent());
-        Paths.get(data.getFile().getParent()).register(watchService,
+        System.out.println("parent: " + data1.getFile().getParent());
+        Paths.get(data1.getFile().getParent()).register(watchService,
+                StandardWatchEventKinds.ENTRY_CREATE,
+                StandardWatchEventKinds.ENTRY_DELETE,
+                StandardWatchEventKinds.ENTRY_MODIFY);
+        Paths.get(data2.getFile().getParent()).register(watchService,
                 StandardWatchEventKinds.ENTRY_CREATE,
                 StandardWatchEventKinds.ENTRY_DELETE,
                 StandardWatchEventKinds.ENTRY_MODIFY);
@@ -46,8 +53,12 @@ public class ServiceTplList4 {
 
     private void convertToList() {
 
-        String json = getData();
-        serviceTplList4 = JSONObject.parseArray(json, ServiceTpl4.class);
+        serviceTplList4.clear();
+        String json = getData(data1);
+        serviceTplList4.addAll(JSONObject.parseArray(json, ServiceTpl4.class));
+
+        String json2 = getData(data2);
+        serviceTplList4.addAll(JSONObject.parseArray(json2, ServiceTpl4.class));
 
         Map<String, List<ServiceTpl4>> serviceTplLocalMap = new HashMap<>();
         for (ServiceTpl4 serviceTpl4: serviceTplList4) {
@@ -80,8 +91,9 @@ public class ServiceTplList4 {
                     //获取监听Path
                     Path path = cast(event.context());
                     //只关注目标文件
-                    String fileName = data.getFile().getName();
-                    if (!fileName.equals(path.toString())) {
+                    String fileName1 = data1.getFile().getName();
+                    String fileName2 = data2.getFile().getName();
+                    if (!fileName1.equals(path.toString()) && !  fileName2.equals(path.toString())) {
                         continue;
                     }
                     convertToList();
@@ -114,7 +126,7 @@ public class ServiceTplList4 {
         return null;
     }
 
-    public String getData(){
+    public String getData(Resource data){
         try {
             File file = data.getFile();
             String jsonData = this.jsonRead(file);

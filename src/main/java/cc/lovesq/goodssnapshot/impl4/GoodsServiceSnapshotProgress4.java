@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class GoodsServiceSnapshotProgress4 {
 
     @Resource
-    private ServiceTplList4 serviceTplList4;
+    private ServiceTplSplitList4 serviceTplSplitList4;
 
     public List<GoodsServiceSnapshot> getServiceDescs(Order order, List<String> keys) {
 
@@ -23,7 +23,7 @@ public class GoodsServiceSnapshotProgress4 {
 
             GoodsServiceSnapshot goodsServiceSnapshot = new GoodsServiceSnapshot();
             goodsServiceSnapshot.setKey(key);
-            goodsServiceSnapshot.setTitle(serviceTplList4.getTpl(key, order.getBookTime()).getTitle());
+            goodsServiceSnapshot.setTitle(serviceTplSplitList4.getTpl(key, order.getBookTime()).getTitle());
             goodsServiceSnapshot.setDesc(getServiceDesc2(order, key));
             goodsServiceSnapshots.add(goodsServiceSnapshot);
         }
@@ -38,7 +38,7 @@ public class GoodsServiceSnapshotProgress4 {
     public GoodsServiceSnapshot transfer(Order order, String key) {
         GoodsServiceSnapshot goodsServiceSnapshot = new GoodsServiceSnapshot();
         goodsServiceSnapshot.setKey(key);
-        goodsServiceSnapshot.setTitle(serviceTplList4.getTpl(key, order.getBookTime()).getTitle());
+        goodsServiceSnapshot.setTitle(serviceTplSplitList4.getTpl(key, order.getBookTime()).getTitle());
         goodsServiceSnapshot.setDesc(getServiceDesc2(order, key));
         return goodsServiceSnapshot;
 
@@ -47,11 +47,11 @@ public class GoodsServiceSnapshotProgress4 {
 
     public String getServiceDesc2(Order order, String key) {
 
-        if (!serviceTplList4.containsKey(key)) {
+        if (!serviceTplSplitList4.containsKey(key)) {
             return "";
         }
 
-        String tpl = serviceTplList4.getTpl(key, order.getBookTime()).getTpl();
+        String tpl = serviceTplSplitList4.getTpl(key, order.getBookTime()).getTpl();
 
         if (key.equals("express")) {
             if (Objects.equals(order.getPrice(), 0.0)) {
