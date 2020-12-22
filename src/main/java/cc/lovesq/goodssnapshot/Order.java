@@ -12,7 +12,7 @@ public class Order {
     private Integer orderType;
 
     /** 下单时间 */
-    private Integer bookTime;
+    private Long bookTime;
 
     /** 是否担保交易 */
     private boolean isSecuredOrder;
@@ -38,7 +38,7 @@ public class Order {
         return orderType;
     }
 
-    public Integer getBookTime() {
+    public Long getBookTime() {
         return bookTime;
     }
 
@@ -56,5 +56,33 @@ public class Order {
 
     public List<String> getKeys() {
         return keys;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
+    }
+
+    public void setBookTime(Long bookTime) {
+        this.bookTime = bookTime;
+    }
+
+    public void setSecuredOrder(boolean securedOrder) {
+        isSecuredOrder = securedOrder;
+    }
+
+    public void setDeliveryType(Integer deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setKeys(List<String> keys) {
+        this.keys = keys;
     }
 }

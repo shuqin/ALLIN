@@ -19,11 +19,13 @@ public class AvoidingOversoldExperiment implements IExperiment {
 
     @Override
     public void test() {
+        /*
         int i = 10000;
         while (i > 0) {
             threadPoolExecutor.submit(this::buy);
             i--;
         }
+         */
     }
 
     public boolean buy() {

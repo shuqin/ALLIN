@@ -8,6 +8,10 @@ public class ServiceTpl4 {
     private long start;
     private long end;
 
+    public String getUniqueKey() {
+        return key + "_" + start + "_" + end;
+    }
+
     public String getKey() {
         return key;
     }

@@ -54,7 +54,7 @@ public class GoodsServiceSnapshotProgress4 {
         String tpl = serviceTplList4.getTpl(key, order.getBookTime()).getTpl();
 
         if (key.equals("express")) {
-            if (Objects.equals(order.getPrice(), 0)) {
+            if (Objects.equals(order.getPrice(), 0.0)) {
                 return tpl.replace("$info", "免运费");
             }
             else {

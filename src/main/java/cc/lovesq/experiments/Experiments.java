@@ -25,11 +25,10 @@ public class Experiments implements ApplicationContextAware, ApplicationListener
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent applicationEvent) {
-        //doExperiments();
+        doExperiments();
     }
 
     public void doExperiments() {
-
 
         Map<String, IExperiment> experimentBeans = applicationContext.getBeansOfType(IExperiment.class);
         experimentBeans.forEach(
