@@ -11,6 +11,9 @@ public class Order {
     /** 订单类型 0 普通 */
     private Integer orderType;
 
+    /** 下单时间 */
+    private Integer bookTime;
+
     /** 是否担保交易 */
     private boolean isSecuredOrder;
 
@@ -33,6 +36,10 @@ public class Order {
 
     public Integer getOrderType() {
         return orderType;
+    }
+
+    public Integer getBookTime() {
+        return bookTime;
     }
 
     public boolean isSecuredOrder() {
