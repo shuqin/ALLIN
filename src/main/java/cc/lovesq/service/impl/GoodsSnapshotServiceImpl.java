@@ -4,10 +4,9 @@ import cc.lovesq.dao.GoodsMapper;
 import cc.lovesq.dao.OrderMapper;
 import cc.lovesq.goodssnapshot.GoodsServiceSnapshot;
 import cc.lovesq.goodssnapshot.impl4.GoodsServiceSnapshotProgress;
-import cc.lovesq.model.BookInfo;
-import cc.lovesq.model.GoodsDO;
-import cc.lovesq.model.Order;
-import cc.lovesq.model.OrderDO;
+import cc.lovesq.model.*;
+import cc.lovesq.query.GoodsSnapshotQuery;
+import cc.lovesq.result.goodsnapshot.GoodsSnapshot;
 import cc.lovesq.service.GoodsSnapshotService;
 import org.springframework.stereotype.Component;
 
@@ -36,14 +35,23 @@ public class GoodsSnapshotServiceImpl implements GoodsSnapshotService {
     }
 
     @Override
-    public List<GoodsServiceSnapshot> query(String orderNo) {
-        Order order = queryByOrder(orderNo);
-        return goodsServiceSnapshotProgress.getServiceDescs(order);
+    public GoodsSnapshot query(GoodsSnapshotQuery goodsSnapshotQuery) {
+        OrderDO orderQuery = new OrderDO();
+        orderQuery.setOrderNo(goodsSnapshotQuery.getOrderNo());
+        OrderDO orderDO = orderMapper.findByQuery(orderQuery);
+        Order order = Order.from(orderDO);
+        List<GoodsServiceSnapshot> goodsServiceSnapshots = goodsServiceSnapshotProgress.getServiceDescs(order);
+
+        GoodsDO goodsQuery = new GoodsDO();
+        goodsQuery.setOrderNo(goodsSnapshotQuery.getOrderNo());
+        goodsQuery.setGoodsId(goodsSnapshotQuery.getGoodsId());
+        GoodsDO goodsDO = goodsMapper.findByQuery(goodsQuery);
+
+        GoodsSnapshot gs = new GoodsSnapshot();
+        gs.setOrder(order);
+        gs.setGoodsInfo(GoodsInfo.from(goodsDO));
+        gs.setGoodsServiceSnapshots(goodsServiceSnapshots);
+        return gs;
+
     }
-
-    private Order queryByOrder(String orderNo) {
-        return new Order();
-    }
-
-
 }

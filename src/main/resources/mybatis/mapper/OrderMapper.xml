@@ -5,20 +5,42 @@
 		<result column="id" property="orderId" jdbcType="BIGINT" />
 		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
 		<result column="book_time" property="bookTime" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
 		<result column="delivery_type" property="deliveryType" jdbcType="SMALLINT" />
 		<result column="price" property="price" jdbcType="BIGINT" />
 		<result column="extend" property="extend" jdbcType="VARCHAR" />
 		<result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
 		<result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
 	</resultMap>
-	
+
+	<sql id="orderColumns">
+		order_no, book_time, user_id, delivery_type, price, extend, gmt_create, gmt_modified
+	</sql>
+
 	<insert id="insert" parameterType="cc.lovesq.model.OrderDO" >
        
-       INSERT INTO trade_order (order_no, book_time, delivery_type, price, extend, gmt_create, gmt_modified)
-                     VALUES(#{orderNo}, #{bookTime}, #{deliveryType}, #{price}, #{extend}, now(), now())
+       INSERT INTO trade_order (order_no, book_time, user_id, delivery_type, price, extend, gmt_create, gmt_modified)
+                     VALUES(#{orderNo}, #{bookTime}, #{userId}, #{deliveryType}, #{price}, #{extend}, now(), now())
        <selectKey resultType="long" keyProperty="orderId">
           <![CDATA[SELECT LAST_INSERT_ID() ]]>   
        </selectKey>                       
 	</insert>
+
+	<select id="findByQuery" resultMap="OrderResult" parameterType="cc.lovesq.model.OrderDO">
+		SELECT
+		<include refid="orderColumns" />
+		FROM trade_order
+		<include refid="dynamicConditionParams" />
+		<include refid="BASE_SQL_SEGMENT.pagination" />
+	</select>
+
+	<sql id="dynamicConditionParams" >
+		<where>
+			1 = 1
+			<if test="orderNo != null">and order_no = #{orderNo}</if>
+			<if test="userId != null">and user_id = #{userId}</if>
+		</where>
+		order by gmt_create desc
+	</sql>
 	
 </mapper>

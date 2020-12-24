@@ -9,6 +9,9 @@ public class OrderDO {
     /** 订单号 */
     private String orderNo;
 
+    /** 下单人ID */
+    private Long userId;
+
     /** 下单时间 */
     private Long bookTime;
 
@@ -47,6 +50,14 @@ public class OrderDO {
 
     public void setBookTime(Long bookTime) {
         this.bookTime = bookTime;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Integer getDeliveryType() {
@@ -88,4 +99,6 @@ public class OrderDO {
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
     }
+
+
 }

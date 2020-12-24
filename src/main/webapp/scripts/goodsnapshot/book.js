@@ -34,7 +34,38 @@ $('#bookOrderButton').click(function(event) {
    };
 
    var succTodo = function(result) {
-     alert("下单成功");
+       alert(result.data.orderNo);
+       var orderNo = result.data.orderNo;
+       var goodsId = result.data.goodsId;
+
+       var query = {
+           'orderNo': orderNo,
+           'goodsId': goodsId
+       }
+
+       var succTodo = function(resp) {
+           $('#goodsnapshot').setText(resp.data);
+       }
+
+       var failTodo = function(resp) {
+           alert('查看快照失败!');
+         };
+
+         var jqXHR = jQuery.ajax({
+         		dataType: "json",
+         		contentType: "application/json; charset=utf-8",
+         		url: 'http://localhost:8080/api/goodsnapshot/detail',
+         		data: JSON.stringify(query),
+         	    timeout: 90000,
+         	    type: 'POST'
+         	});
+         	if (succTodo != null && (typeof succTodo === 'function')) {
+         		jqXHR.done(succTodo);
+         	}
+         	if (failTodo != null && (typeof failTodo === 'function')) {
+         		jqXHR.fail(failTodo);
+         	}
+         	return jqXHR;
    };
 
    var failTodo = function(resp) {

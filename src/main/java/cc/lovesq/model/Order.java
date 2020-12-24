@@ -2,6 +2,7 @@ package cc.lovesq.model;
 
 import cc.lovesq.constants.DeliveryType;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -47,6 +48,8 @@ public class Order {
         OrderDO orderDO = new OrderDO();
         orderDO.setOrderNo(orderNo);
         orderDO.setBookTime(bookTime);
+        orderDO.setUserId(userId);
+
         orderDO.setDeliveryType(deliveryType.getCode());
         orderDO.setPrice(price);
         orderDO.setExtend(formExtend());
@@ -55,6 +58,26 @@ public class Order {
         orderDO.setGmtModified(new Date());
 
         return orderDO;
+    }
+
+    public static Order from(OrderDO orderDO) {
+        Order order = new Order();
+        order.setOrderNo(orderDO.getOrderNo());
+        order.setBookTime(orderDO.getBookTime());
+        order.setUserId(orderDO.getUserId());
+        order.setPrice(orderDO.getPrice());
+        order.setDeliveryType(DeliveryType.getDeliveryType(orderDO.getDeliveryType()));
+
+        String extend = orderDO.getExtend();
+        JSONObject extMap = JSON.parseObject(extend);
+        order.setIsCodPay(extMap.getBoolean("isCodPay"));
+        order.setIsSecuredOrder(extMap.getBoolean("isSecuredOrder"));
+        order.setHasRetailShop(extMap.getBoolean("hasRetailShop"));
+        order.setLocalDeliveryBasePrice(extMap.getLong("localDeliveryBasePrice"));
+        order.setLocalDeliveryPrice(extMap.getLong("localDeliveryPrice"));
+        order.setKeys(extMap.getJSONArray("keys").toJavaList(String.class));
+
+        return order;
     }
 
     private String formExtend() {

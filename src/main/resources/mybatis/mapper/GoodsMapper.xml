@@ -12,7 +12,11 @@
 		<result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
 	</resultMap>
 
-	
+
+	<sql id="goodsColumns">
+		goods_id, title, desc, order_no, choice, gmt_create, gmt_modified
+	</sql>
+
 	<insert id="insert" parameterType="cc.lovesq.model.GoodsInfo" >
        
        INSERT INTO trade_goods (`goods_id`, `title`, `desc`, `order_no`, `choice`, `gmt_create`, `gmt_modified`)
@@ -21,5 +25,22 @@
           <![CDATA[SELECT LAST_INSERT_ID() ]]>   
        </selectKey>                       
 	</insert>
+
+	<select id="findByQuery" resultMap="GoodsResult" parameterType="cc.lovesq.model.GoodsDO">
+		SELECT
+		<include refid="goodsColumns" />
+		FROM trade_goods
+		<include refid="dynamicConditionParams" />
+		<include refid="BASE_SQL_SEGMENT.pagination" />
+	</select>
+
+	<sql id="dynamicConditionParams" >
+		<where>
+			1 = 1
+			<if test="orderNo != null">and order_no = #{orderNo}</if>
+			<if test="goodsId != null">and goods_id = #{goodsId}</if>
+		</where>
+		order by gmt_create desc
+	</sql>
 	
 </mapper>

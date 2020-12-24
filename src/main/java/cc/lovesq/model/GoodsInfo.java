@@ -30,6 +30,17 @@ public class GoodsInfo {
         return goodsDO;
     }
 
+    public static GoodsInfo from(GoodsDO goodsDO) {
+
+        GoodsInfo goodsInfo = new GoodsInfo();
+        goodsInfo.setOrderNo(goodsDO.getOrderNo());
+        goodsInfo.setGoodsId(goodsDO.getGoodsId());
+        goodsInfo.setTitle(goodsDO.getTitle());
+        goodsInfo.setDesc(goodsDO.getDesc());
+        goodsInfo.setChoice(goodsDO.getChoice());
+        return goodsInfo;
+    }
+
     public Long getGoodsId() {
         return goodsId;
     }

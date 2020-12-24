@@ -1,13 +1,12 @@
 package cc.lovesq.service;
 
-import cc.lovesq.goodssnapshot.GoodsServiceSnapshot;
 import cc.lovesq.model.BookInfo;
-
-import java.util.List;
+import cc.lovesq.query.GoodsSnapshotQuery;
+import cc.lovesq.result.goodsnapshot.GoodsSnapshot;
 
 public interface GoodsSnapshotService {
 
     boolean save(BookInfo goodsInfo);
 
-    List<GoodsServiceSnapshot> query(String orderNo);
+    GoodsSnapshot query(GoodsSnapshotQuery goodsSnapshotQuery);
 }
