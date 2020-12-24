@@ -16,14 +16,17 @@ import java.util.concurrent.TimeUnit;
 import static com.sun.jmx.mbeanserver.Util.cast;
 
 @Component
-public class ServiceTplList4 {
+public class ServiceTplSplitList {
 
-    @Value(value="classpath:service4.tpl")
-    private Resource data;
+    @Value(value="classpath:service1.tpl")
+    private Resource data1;
 
-    private List<ServiceTpl4> serviceTplList4 = new ArrayList<>();
+    @Value(value="classpath:service2.tpl")
+    private Resource data2;
 
-    private static Map<String, List<ServiceTpl4>> serviceTplMap = new HashMap<>();
+    private List<ServiceTpl> serviceTplList = new ArrayList<>();
+
+    private static Map<String, List<ServiceTpl>> serviceTplMap = new HashMap<>();
 
     private static Set<String> uniqueKeys = new HashSet<>();
 
@@ -35,8 +38,12 @@ public class ServiceTplList4 {
         convertToList();
 
         watchService = FileSystems.getDefault().newWatchService();
-        System.out.println("parent: " + data.getFile().getParent());
-        Paths.get(data.getFile().getParent()).register(watchService,
+        System.out.println("parent: " + data1.getFile().getParent());
+        Paths.get(data1.getFile().getParent()).register(watchService,
+                StandardWatchEventKinds.ENTRY_CREATE,
+                StandardWatchEventKinds.ENTRY_DELETE,
+                StandardWatchEventKinds.ENTRY_MODIFY);
+        Paths.get(data2.getFile().getParent()).register(watchService,
                 StandardWatchEventKinds.ENTRY_CREATE,
                 StandardWatchEventKinds.ENTRY_DELETE,
                 StandardWatchEventKinds.ENTRY_MODIFY);
@@ -46,18 +53,22 @@ public class ServiceTplList4 {
 
     private void convertToList() {
 
-        String json = getData();
-        serviceTplList4 = JSONObject.parseArray(json, ServiceTpl4.class);
+        serviceTplList.clear();
+        String json = getData(data1);
+        serviceTplList.addAll(JSONObject.parseArray(json, ServiceTpl.class));
 
-        Map<String, List<ServiceTpl4>> serviceTplLocalMap = new HashMap<>();
-        for (ServiceTpl4 serviceTpl4: serviceTplList4) {
-            String key = serviceTpl4.getKey();
-            String uniqueKey = serviceTpl4.getUniqueKey();
+        String json2 = getData(data2);
+        serviceTplList.addAll(JSONObject.parseArray(json2, ServiceTpl.class));
+
+        Map<String, List<ServiceTpl>> serviceTplLocalMap = new HashMap<>();
+        for (ServiceTpl serviceTpl : serviceTplList) {
+            String key = serviceTpl.getKey();
+            String uniqueKey = serviceTpl.getUniqueKey();
             if (!serviceTplLocalMap.containsKey(key)) {
                 serviceTplLocalMap.put(key, new ArrayList<>());
                 uniqueKeys.add(uniqueKey);
             }
-            serviceTplLocalMap.get(key).add(serviceTpl4);
+            serviceTplLocalMap.get(key).add(serviceTpl);
         }
         serviceTplMap = serviceTplLocalMap;
     }
@@ -80,8 +91,9 @@ public class ServiceTplList4 {
                     //获取监听Path
                     Path path = cast(event.context());
                     //只关注目标文件
-                    String fileName = data.getFile().getName();
-                    if (!fileName.equals(path.toString())) {
+                    String fileName1 = data1.getFile().getName();
+                    String fileName2 = data2.getFile().getName();
+                    if (!fileName1.equals(path.toString()) && !  fileName2.equals(path.toString())) {
                         continue;
                     }
                     convertToList();
@@ -100,13 +112,13 @@ public class ServiceTplList4 {
         return serviceTplMap.containsKey(key);
     }
 
-    public ServiceTpl4 getTpl(String key, long timestamp) {
-        List<ServiceTpl4> serviceTpls = serviceTplMap.get(key);
+    public ServiceTpl getTpl(String key, long timestamp) {
+        List<ServiceTpl> serviceTpls = serviceTplMap.get(key);
         if (CollectionUtils.isEmpty(serviceTpls)) {
             return null;
         }
 
-        for (ServiceTpl4 serviceTpl: serviceTpls) {
+        for (ServiceTpl serviceTpl: serviceTpls) {
             if (serviceTpl.getStart() <= timestamp && serviceTpl.getEnd() > timestamp) {
                 return serviceTpl;
             }
@@ -114,7 +126,7 @@ public class ServiceTplList4 {
         return null;
     }
 
-    public String getData(){
+    public String getData(Resource data){
         try {
             File file = data.getFile();
             String jsonData = this.jsonRead(file);

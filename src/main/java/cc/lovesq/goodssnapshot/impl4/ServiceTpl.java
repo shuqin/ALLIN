@@ -1,6 +1,6 @@
 package cc.lovesq.goodssnapshot.impl4;
 
-public class ServiceTpl4 {
+public class ServiceTpl {
 
     private String key;
     private String title;
