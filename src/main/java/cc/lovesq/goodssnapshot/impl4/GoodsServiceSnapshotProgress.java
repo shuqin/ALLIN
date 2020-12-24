@@ -17,6 +17,10 @@ public class GoodsServiceSnapshotProgress {
     @Resource
     private ServiceTplList serviceTplList;
 
+    public List<GoodsServiceSnapshot> getServiceDescs(Order order) {
+        return order.getKeys().stream().map(key -> transfer(order, key)).filter(gss -> gss.getDesc().length() > 0).collect(Collectors.toList());
+    }
+
     public List<GoodsServiceSnapshot> getServiceDescs(Order order, List<String> keys) {
         return keys.stream().map(key -> transfer(order, key)).filter(gss -> gss.getDesc().length() > 0).collect(Collectors.toList());
     }

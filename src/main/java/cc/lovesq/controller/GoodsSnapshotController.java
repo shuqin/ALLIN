@@ -2,6 +2,7 @@ package cc.lovesq.controller;
 
 import cc.lovesq.exception.Errors;
 import cc.lovesq.exception.IError;
+import cc.lovesq.goodssnapshot.GoodsServiceSnapshot;
 import cc.lovesq.model.BookInfo;
 import cc.lovesq.result.BaseResult;
 import cc.lovesq.service.GoodsSnapshotService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/goodsnapshot/")
@@ -32,6 +34,13 @@ public class GoodsSnapshotController {
         bookInfo.getGoods().setOrderNo(bookInfo.getOrder().getOrderNo());
         boolean isSaved = goodsSnapshotService.save(bookInfo);
         return isSaved ? BaseResult.succ("保存成功"): BaseResult.failed(Errors.BookError);
+    }
+
+    @RequestMapping(value = "/detail")
+    public BaseResult detail(@RequestBody String orderNo) {
+        Assert.notNull(orderNo, "订单号不能为空");
+        List<GoodsServiceSnapshot> goodsServiceSnapshotList = goodsSnapshotService.query(orderNo);
+        return BaseResult.succ(goodsServiceSnapshotList);
     }
 
 }

@@ -1,4 +1,4 @@
-var goodsId = $('#goodsId').text();
+var goodsId = $('#goodsId').text() + Math.floor(Math.random()*10000);
 var price = $('#price').text();
 var title = $('#title').text();
 var desc = $('#desc').text();
@@ -20,7 +20,7 @@ $('#bookOrderButton').click(function(event) {
                 'choice': choice
             },
             'order': {
-                'orderNo': "E202009000000123400001",
+                'orderNo': "E20200900000000" + userId + Math.floor(Math.random()*10000),
                 'userId': userId,
                 'bookTime': 1598889900,
                 'deliveryType': "express",
