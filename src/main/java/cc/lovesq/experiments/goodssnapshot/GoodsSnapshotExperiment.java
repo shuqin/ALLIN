@@ -4,7 +4,7 @@ import cc.lovesq.constants.DeliveryType;
 import cc.lovesq.experiments.Experiments;
 import cc.lovesq.experiments.IExperiment;
 import cc.lovesq.goodssnapshot.GoodsServiceSnapshot;
-import cc.lovesq.goodssnapshot.Order;
+import cc.lovesq.model.Order;
 import cc.lovesq.goodssnapshot.impl4.GoodsServiceSnapshotProgress;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,9 +34,9 @@ public class GoodsSnapshotExperiment implements IExperiment {
         Order order = new Order();
         order.setOrderNo("E202009000000123400001");
         order.setDeliveryType(DeliveryType.express);
-        order.setPrice(0.0);
+        order.setPrice(0L);
         order.setBookTime(1598889600L);
-        order.setSecuredOrder(true);
+        order.setIsSecuredOrder(true);
         order.setKeys(Arrays.asList("express", "secureService", "refundAndReturn"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
@@ -47,9 +47,9 @@ public class GoodsSnapshotExperiment implements IExperiment {
         Order order = new Order();
         order.setOrderNo("E202010000000123400001");
         order.setDeliveryType(DeliveryType.express);
-        order.setPrice(0.10);
+        order.setPrice(10L);
         order.setBookTime(1601481600L);
-        order.setSecuredOrder(true);
+        order.setIsSecuredOrder(true);
         order.setKeys(Arrays.asList("express", "secureService", "refundAndReturn"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
@@ -60,9 +60,9 @@ public class GoodsSnapshotExperiment implements IExperiment {
         Order order = new Order();
         order.setOrderNo("E202009000000123400001");
         order.setDeliveryType(DeliveryType.selfetch);
-        order.setPrice(0.0);
+        order.setPrice(0L);
         order.setBookTime(1598889600L);
-        order.setSecuredOrder(true);
+        order.setIsSecuredOrder(true);
         order.setKeys(Arrays.asList("selfetch", "secureService", "refundAndReturn"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
@@ -73,12 +73,12 @@ public class GoodsSnapshotExperiment implements IExperiment {
         Order order = new Order();
         order.setOrderNo("E202009000000123400001");
         order.setDeliveryType(DeliveryType.localDelivery);
-        order.setPrice(0.0);
-        order.setLocalDeliveryBasePrice(0.01);
-        order.setLocalDeliveryPrice(0.02);
+        order.setPrice(0L);
+        order.setLocalDeliveryBasePrice(1L);
+        order.setLocalDeliveryPrice(2L);
         order.setBookTime(1598889600L);
-        order.setSecuredOrder(false);
-        order.setCodPay(true);
+        order.setIsSecuredOrder(false);
+        order.setIsCodPay(true);
         order.setHasRetailShop(true);
         order.setKeys(Arrays.asList("localDelivery", "secureService", "refundAndReturn", "codpay","retailShop", "drectoseller"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());

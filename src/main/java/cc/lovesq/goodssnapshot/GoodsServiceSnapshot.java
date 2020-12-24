@@ -1,12 +1,9 @@
 package cc.lovesq.goodssnapshot;
 
-import lombok.Data;
-
 /**
  * 返回给前端的数据： List<GoodsServiceSnapshot>
  *
  */
-@Data
 public class GoodsServiceSnapshot {
 
     /** 快照信息的 key  */
@@ -18,5 +15,27 @@ public class GoodsServiceSnapshot {
     /** 中文描述 */
     private String desc;
 
+    public String getKey() {
+        return key;
+    }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 }

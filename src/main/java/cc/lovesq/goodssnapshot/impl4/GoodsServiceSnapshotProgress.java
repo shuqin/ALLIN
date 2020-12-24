@@ -1,7 +1,7 @@
 package cc.lovesq.goodssnapshot.impl4;
 
 import cc.lovesq.goodssnapshot.GoodsServiceSnapshot;
-import cc.lovesq.goodssnapshot.Order;
+import cc.lovesq.model.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

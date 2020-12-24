@@ -6,6 +6,8 @@ public enum Errors implements IError {
 
   NoGoodsError(100000011, "No goods"),
 
+  BookError(100000012, "下单失败"),
+
   ;
 
   ;

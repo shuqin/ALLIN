@@ -1,0 +1,156 @@
+package cc.lovesq.model;
+
+import cc.lovesq.constants.DeliveryType;
+import com.alibaba.fastjson.JSON;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Order {
+
+    /** 订单号 */
+    private String orderNo;
+
+    /** 下单时间 */
+    private Long bookTime;
+
+    /** 下单人ID */
+    private Long userId;
+
+    /** 是否货到付款 */
+    private Boolean isCodPay;
+
+    /** 是否担保交易 */
+    private Boolean isSecuredOrder;
+
+    /** 是否有线下门店 */
+    private Boolean hasRetailShop;
+
+    /** 配送方式 0 快递 1 自提 2 同城送 */
+    private DeliveryType deliveryType;
+
+    /** 订单金额 */
+    private Long price;
+
+    /** 同城配送起送金额 */
+    private Long localDeliveryBasePrice;
+
+    /** 同城配送金额 */
+    private Long localDeliveryPrice;
+
+    /** 订单的服务 keys */
+    private List<String> keys;
+
+    public OrderDO toOrderDO() {
+        OrderDO orderDO = new OrderDO();
+        orderDO.setOrderNo(orderNo);
+        orderDO.setBookTime(bookTime);
+        orderDO.setDeliveryType(deliveryType.getCode());
+        orderDO.setPrice(price);
+        orderDO.setExtend(formExtend());
+
+        orderDO.setGmtCreate(new Date());
+        orderDO.setGmtModified(new Date());
+
+        return orderDO;
+    }
+
+    private String formExtend() {
+        Map<String, Object> ext = new HashMap<>();
+        ext.put("isCodPay", isCodPay);
+        ext.put("isSecuredOrder", isSecuredOrder);
+        ext.put("hasRetailShop", hasRetailShop);
+        ext.put("keys", keys);
+        return JSON.toJSONString(ext);
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public Long getBookTime() {
+        return bookTime;
+    }
+
+    public void setBookTime(Long bookTime) {
+        this.bookTime = bookTime;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Boolean isCodPay() {
+        return isCodPay;
+    }
+
+    public void setIsCodPay(Boolean codPay) {
+        isCodPay = codPay;
+    }
+
+    public Boolean isSecuredOrder() {
+        return isSecuredOrder;
+    }
+
+    public void setIsSecuredOrder(Boolean securedOrder) {
+        isSecuredOrder = securedOrder;
+    }
+
+    public Boolean isHasRetailShop() {
+        return hasRetailShop;
+    }
+
+    public void setHasRetailShop(Boolean hasRetailShop) {
+        this.hasRetailShop = hasRetailShop;
+    }
+
+    public DeliveryType getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(DeliveryType deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public Long getLocalDeliveryBasePrice() {
+        return localDeliveryBasePrice;
+    }
+
+    public void setLocalDeliveryBasePrice(Long localDeliveryBasePrice) {
+        this.localDeliveryBasePrice = localDeliveryBasePrice;
+    }
+
+    public Long getLocalDeliveryPrice() {
+        return localDeliveryPrice;
+    }
+
+    public void setLocalDeliveryPrice(Long localDeliveryPrice) {
+        this.localDeliveryPrice = localDeliveryPrice;
+    }
+
+    public List<String> getKeys() {
+        return keys;
+    }
+
+    public void setKeys(List<String> keys) {
+        this.keys = keys;
+    }
+}

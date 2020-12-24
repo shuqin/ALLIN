@@ -25,4 +25,8 @@ public enum DeliveryType {
     public String getDeliveryType() {
         return deliveryType;
     }
+
+    public Integer getCode() {
+        return code;
+    }
 }

@@ -40,3 +40,34 @@ create table student_courses (
 
 ALTER TABLE `student_courses` ADD INDEX stc_index ( `s_id`, `t_id`, `c_id` );
 ALTER TABLE `student_courses` ADD INDEX tc_index ( `t_id`, `c_id` );
+
+drop table if exists trade_order;
+
+create table trade_order (
+	id int(10) UNSIGNED not null primary key AUTO_INCREMENT,
+	order_no varchar(32) not null,
+	book_time int(10) UNSIGNED not null,
+	delivery_type smallint not null,
+	price int(100) not null,
+	extend varchar(1000) default '{}',
+	gmt_create datetime DEFAULT CURRENT_TIMESTAMP,
+  	gmt_modified datetime DEFAULT CURRENT_TIMESTAMP,
+  	KEY order_no_index(order_no)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists trade_goods;
+
+create table trade_goods (
+	id int(10) UNSIGNED not null primary key AUTO_INCREMENT,
+	goods_id int(10) UNSIGNED not null,
+	title varchar(32) not null,
+	`desc` varchar(256) not null,
+	order_no varchar(32) not null,
+	choice varchar(64) default '',
+	gmt_create datetime DEFAULT CURRENT_TIMESTAMP,
+  	gmt_modified datetime DEFAULT CURRENT_TIMESTAMP,
+
+  	KEY goods_id_index(goods_id),
+  	KEY goods_order_index(order_no, goods_id)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

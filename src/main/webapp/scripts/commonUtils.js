@@ -145,7 +145,7 @@ timeFormatObj = {
  * 
  */
 var doAjaxRequest = function(requestOptions, succTodo, failTodo) {
-	
+
 	var jqXHR = jQuery.ajax({
 		dataType: "json",
 		url: requestOptions.url,

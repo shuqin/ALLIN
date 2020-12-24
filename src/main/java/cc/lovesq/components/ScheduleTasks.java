@@ -21,7 +21,7 @@ public class ScheduleTasks {
     public void init() {
         es.scheduleAtFixedRate(
                 (Runnable) () -> goodsSnapshotExperiment.test(),
-                3, 5,
+                1000000, 1000000,
                 TimeUnit.SECONDS
         );
     }
