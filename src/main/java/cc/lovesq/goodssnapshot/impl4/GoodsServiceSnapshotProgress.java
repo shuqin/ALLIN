@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static cc.lovesq.util.Currency.fen2yuan;
+
 @Component
 public class GoodsServiceSnapshotProgress {
 
@@ -48,13 +50,13 @@ public class GoodsServiceSnapshotProgress {
                 return tpl.replace("$info", "免运费");
             }
             else {
-                return tpl.replace("$info", "运费￥" + order.getPrice() + "元");
+                return tpl.replace("$info", "运费￥" + fen2yuan(order.getPrice()) + "元");
             }
         }
 
         if (key.equals("localDelivery")) {
-            return tpl.replace("$localDeliveryBasePrice", order.getLocalDeliveryBasePrice().toString())
-                      .replace("$localDeliveryPrice", order.getLocalDeliveryPrice().toString());
+            return tpl.replace("$localDeliveryBasePrice", fen2yuan(order.getLocalDeliveryBasePrice()).toString())
+                      .replace("$localDeliveryPrice", fen2yuan(order.getLocalDeliveryPrice()).toString());
         }
 
         if (key.equals("codpay")) {

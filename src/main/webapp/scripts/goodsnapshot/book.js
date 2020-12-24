@@ -44,7 +44,7 @@ $('#bookOrderButton').click(function(event) {
        }
 
        var succTodo = function(resp) {
-           $('#goodsnapshot').setText(resp.data);
+           $('#goodsnapshot').text(JSON.stringify(resp.data));
        }
 
        var failTodo = function(resp) {

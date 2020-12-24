@@ -1,6 +1,7 @@
 package cc.lovesq.dao;
 
 import cc.lovesq.model.OrderDO;
+import cc.lovesq.query.OrderQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,6 +10,6 @@ public interface OrderMapper {
 
   Integer insert(OrderDO orderDO);
 
-  OrderDO findByQuery(OrderDO query);
+  OrderDO findByQuery(OrderQuery query);
 
 }

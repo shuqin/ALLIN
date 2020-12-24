@@ -14,7 +14,7 @@
 
 
 	<sql id="goodsColumns">
-		goods_id, title, desc, order_no, choice, gmt_create, gmt_modified
+		goods_id, title, `desc`, order_no, choice, gmt_create, gmt_modified
 	</sql>
 
 	<insert id="insert" parameterType="cc.lovesq.model.GoodsInfo" >
@@ -26,7 +26,7 @@
        </selectKey>                       
 	</insert>
 
-	<select id="findByQuery" resultMap="GoodsResult" parameterType="cc.lovesq.model.GoodsDO">
+	<select id="findByQuery" resultMap="GoodsResult" parameterType="cc.lovesq.query.GoodsQuery">
 		SELECT
 		<include refid="goodsColumns" />
 		FROM trade_goods

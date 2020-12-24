@@ -26,7 +26,7 @@
        </selectKey>                       
 	</insert>
 
-	<select id="findByQuery" resultMap="OrderResult" parameterType="cc.lovesq.model.OrderDO">
+	<select id="findByQuery" resultMap="OrderResult" parameterType="cc.lovesq.query.OrderQuery">
 		SELECT
 		<include refid="orderColumns" />
 		FROM trade_order

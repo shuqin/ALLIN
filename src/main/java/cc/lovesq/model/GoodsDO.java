@@ -1,5 +1,7 @@
 package cc.lovesq.model;
 
+import java.util.Date;
+
 public class GoodsDO {
 
     /** 商品表主键ID */
@@ -19,6 +21,10 @@ public class GoodsDO {
 
     /** 商品关联的订单号 */
     private String orderNo;
+
+    private Date gmtCreate;
+
+    private Date gmtModified;
 
     public Long getGoodsId() {
         return goodsId;
@@ -58,5 +64,29 @@ public class GoodsDO {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
     }
 }

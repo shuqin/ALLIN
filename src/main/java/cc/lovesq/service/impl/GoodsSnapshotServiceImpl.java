@@ -5,7 +5,9 @@ import cc.lovesq.dao.OrderMapper;
 import cc.lovesq.goodssnapshot.GoodsServiceSnapshot;
 import cc.lovesq.goodssnapshot.impl4.GoodsServiceSnapshotProgress;
 import cc.lovesq.model.*;
+import cc.lovesq.query.GoodsQuery;
 import cc.lovesq.query.GoodsSnapshotQuery;
+import cc.lovesq.query.OrderQuery;
 import cc.lovesq.result.goodsnapshot.GoodsSnapshot;
 import cc.lovesq.service.GoodsSnapshotService;
 import org.springframework.stereotype.Component;
@@ -36,13 +38,13 @@ public class GoodsSnapshotServiceImpl implements GoodsSnapshotService {
 
     @Override
     public GoodsSnapshot query(GoodsSnapshotQuery goodsSnapshotQuery) {
-        OrderDO orderQuery = new OrderDO();
+        OrderQuery orderQuery = new OrderQuery();
         orderQuery.setOrderNo(goodsSnapshotQuery.getOrderNo());
         OrderDO orderDO = orderMapper.findByQuery(orderQuery);
         Order order = Order.from(orderDO);
         List<GoodsServiceSnapshot> goodsServiceSnapshots = goodsServiceSnapshotProgress.getServiceDescs(order);
 
-        GoodsDO goodsQuery = new GoodsDO();
+        GoodsQuery goodsQuery = new GoodsQuery();
         goodsQuery.setOrderNo(goodsSnapshotQuery.getOrderNo());
         goodsQuery.setGoodsId(goodsSnapshotQuery.getGoodsId());
         GoodsDO goodsDO = goodsMapper.findByQuery(goodsQuery);
