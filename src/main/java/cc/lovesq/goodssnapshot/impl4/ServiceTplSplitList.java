@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import static com.sun.jmx.mbeanserver.Util.cast;
 
 @Component
-public class ServiceTplSplitList {
+public class ServiceTplSplitList implements ServiceTplListInf {
 
     @Value(value="classpath:service1.tpl")
     private Resource data1;

@@ -14,6 +14,9 @@ public class GoodsServiceSnapshotProgress {
     @Resource
     private ServiceTplSplitList serviceTplSplitList;
 
+    @Resource
+    private ServiceTplList serviceTplList;
+
     public List<GoodsServiceSnapshot> getServiceDescs(Order order, List<String> keys) {
         return keys.stream().map(key -> transfer(order, key)).filter(gss -> gss.getDesc().length() > 0).collect(Collectors.toList());
     }
@@ -21,7 +24,7 @@ public class GoodsServiceSnapshotProgress {
     public GoodsServiceSnapshot transfer(Order order, String key) {
         GoodsServiceSnapshot goodsServiceSnapshot = new GoodsServiceSnapshot();
         goodsServiceSnapshot.setKey(key);
-        goodsServiceSnapshot.setTitle(serviceTplSplitList.getTpl(key, order.getBookTime()).getTitle());
+        goodsServiceSnapshot.setTitle(getServiceTplListInf().getTpl(key, order.getBookTime()).getTitle());
         goodsServiceSnapshot.setDesc(getServiceDescInner(order, key));
         return goodsServiceSnapshot;
 
@@ -30,11 +33,11 @@ public class GoodsServiceSnapshotProgress {
 
     public String getServiceDescInner(Order order, String key) {
 
-        if (!serviceTplSplitList.containsKey(key)) {
+        if (!getServiceTplListInf().containsKey(key)) {
             return "";
         }
 
-        String tpl = serviceTplSplitList.getTpl(key, order.getBookTime()).getTpl();
+        String tpl = getServiceTplListInf().getTpl(key, order.getBookTime()).getTpl();
 
         if (key.equals("express")) {
             if (Objects.equals(order.getPrice(), 0.0)) {
@@ -64,6 +67,11 @@ public class GoodsServiceSnapshotProgress {
 
         return tpl;
     }
+
+    public ServiceTplListInf getServiceTplListInf() {
+        return serviceTplList;
+    }
+
 }
 
 

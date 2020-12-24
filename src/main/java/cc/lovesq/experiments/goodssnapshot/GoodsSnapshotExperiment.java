@@ -53,7 +53,7 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setKeys(Arrays.asList("express", "secureService", "refundAndReturn"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
-        log.info(serviceSnapshots);
+        log.info(order.getOrderNo() + " " + serviceSnapshots);
     }
 
     public void test3() {
@@ -66,7 +66,7 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setKeys(Arrays.asList("selfetch", "secureService", "refundAndReturn"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
-        log.info(serviceSnapshots);
+        log.info(order.getOrderNo() + " " + serviceSnapshots);
     }
 
     public void test4() {
@@ -83,6 +83,6 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setKeys(Arrays.asList("localDelivery", "secureService", "refundAndReturn", "codpay","retailShop", "drectoseller"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
-        log.info(serviceSnapshots);
+        log.info(order.getOrderNo() + " " + serviceSnapshots);
     }
 }
