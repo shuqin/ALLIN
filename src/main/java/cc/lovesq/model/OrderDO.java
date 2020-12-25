@@ -9,6 +9,9 @@ public class OrderDO {
     /** 订单号 */
     private String orderNo;
 
+    /** 店铺ID */
+    private Long shopId;
+
     /** 下单人ID */
     private Long userId;
 
@@ -42,6 +45,14 @@ public class OrderDO {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public Long getBookTime() {

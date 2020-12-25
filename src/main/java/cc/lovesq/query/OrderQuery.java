@@ -4,6 +4,8 @@ public class OrderQuery extends PagerQuery {
 
     private String orderNo;
 
+    private Long shopId;
+
     private Long userId;
 
     private Long bookTime;
@@ -14,6 +16,14 @@ public class OrderQuery extends PagerQuery {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public Long getUserId() {

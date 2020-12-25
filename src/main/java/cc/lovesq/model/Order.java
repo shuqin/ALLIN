@@ -14,6 +14,9 @@ public class Order {
     /** 订单号 */
     private String orderNo;
 
+    /** 店铺ID */
+    private Long shopId;
+
     /** 下单时间 */
     private Long bookTime;
 
@@ -35,6 +38,9 @@ public class Order {
     /** 订单金额 */
     private Long price;
 
+    /** 快递配送金额 */
+    private Long expressFee;
+
     /** 同城配送起送金额 */
     private Long localDeliveryBasePrice;
 
@@ -47,6 +53,7 @@ public class Order {
     public OrderDO toOrderDO() {
         OrderDO orderDO = new OrderDO();
         orderDO.setOrderNo(orderNo);
+        orderDO.setShopId(shopId);
         orderDO.setBookTime(bookTime);
         orderDO.setUserId(userId);
 
@@ -63,6 +70,7 @@ public class Order {
     public static Order from(OrderDO orderDO) {
         Order order = new Order();
         order.setOrderNo(orderDO.getOrderNo());
+        order.setShopId(orderDO.getShopId());
         order.setBookTime(orderDO.getBookTime());
         order.setUserId(orderDO.getUserId());
         order.setPrice(orderDO.getPrice());
@@ -73,6 +81,7 @@ public class Order {
         order.setIsCodPay(extMap.getBoolean("isCodPay"));
         order.setIsSecuredOrder(extMap.getBoolean("isSecuredOrder"));
         order.setHasRetailShop(extMap.getBoolean("hasRetailShop"));
+        order.setExpressFee(extMap.getLong("expressFee"));
         order.setLocalDeliveryBasePrice(extMap.getLong("localDeliveryBasePrice"));
         order.setLocalDeliveryPrice(extMap.getLong("localDeliveryPrice"));
         order.setKeys(extMap.getJSONArray("keys").toJavaList(String.class));
@@ -85,6 +94,9 @@ public class Order {
         ext.put("isCodPay", isCodPay);
         ext.put("isSecuredOrder", isSecuredOrder);
         ext.put("hasRetailShop", hasRetailShop);
+        ext.put("expressFee", expressFee);
+        ext.put("localDeliveryBasePrice", localDeliveryBasePrice);
+        ext.put("localDeliveryPrice", localDeliveryPrice);
         ext.put("keys", keys);
         return JSON.toJSONString(ext);
     }
@@ -95,6 +107,14 @@ public class Order {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public Long getBookTime() {
@@ -151,6 +171,14 @@ public class Order {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public Long getExpressFee() {
+        return expressFee;
+    }
+
+    public void setExpressFee(Long expressFee) {
+        this.expressFee = expressFee;
     }
 
     public Long getLocalDeliveryBasePrice() {

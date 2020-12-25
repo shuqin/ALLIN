@@ -5,6 +5,9 @@ public class GoodsInfo {
     /** 商品ID */
     private Long goodsId;
 
+    /** 店铺ID */
+    private Long shopId;
+
     /** 商品标题 */
     private String title;
 
@@ -23,6 +26,7 @@ public class GoodsInfo {
     public GoodsDO toGoodsDO() {
         GoodsDO goodsDO = new GoodsDO();
         goodsDO.setGoodsId(goodsId);
+        goodsDO.setShopId(shopId);
         goodsDO.setTitle(title);
         goodsDO.setDesc(desc);
         goodsDO.setChoice(choice);
@@ -34,6 +38,7 @@ public class GoodsInfo {
 
         GoodsInfo goodsInfo = new GoodsInfo();
         goodsInfo.setOrderNo(goodsDO.getOrderNo());
+        goodsInfo.setShopId(goodsDO.getShopId());
         goodsInfo.setGoodsId(goodsDO.getGoodsId());
         goodsInfo.setTitle(goodsDO.getTitle());
         goodsInfo.setDesc(goodsDO.getDesc());
@@ -47,6 +52,14 @@ public class GoodsInfo {
 
     public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public String getTitle() {

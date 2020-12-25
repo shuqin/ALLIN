@@ -5,6 +5,8 @@ public class GoodsQuery extends PagerQuery {
 
     private Long goodsId;
 
+    private Long shopId;
+
     private String orderNo;
 
     public Long getGoodsId() {
@@ -13,6 +15,14 @@ public class GoodsQuery extends PagerQuery {
 
     public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public String getOrderNo() {

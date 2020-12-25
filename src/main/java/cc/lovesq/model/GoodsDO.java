@@ -10,6 +10,9 @@ public class GoodsDO {
     /** 商品ID */
     private Long goodsId;
 
+    /** 店铺ID */
+    private Long shopId;
+
     /** 商品标题 */
     private String title;
 
@@ -32,6 +35,14 @@ public class GoodsDO {
 
     public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public String getTitle() {

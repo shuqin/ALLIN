@@ -5,6 +5,7 @@
 		<result column="id" property="orderId" jdbcType="BIGINT" />
 		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
 		<result column="book_time" property="bookTime" jdbcType="BIGINT" />
+		<result column="shop_id" property="shopId" jdbcType="BIGINT" />
 		<result column="user_id" property="userId" jdbcType="BIGINT" />
 		<result column="delivery_type" property="deliveryType" jdbcType="SMALLINT" />
 		<result column="price" property="price" jdbcType="BIGINT" />
@@ -14,13 +15,13 @@
 	</resultMap>
 
 	<sql id="orderColumns">
-		order_no, book_time, user_id, delivery_type, price, extend, gmt_create, gmt_modified
+		order_no, book_time, shop_id, user_id, delivery_type, price, extend, gmt_create, gmt_modified
 	</sql>
 
 	<insert id="insert" parameterType="cc.lovesq.model.OrderDO" >
        
-       INSERT INTO trade_order (order_no, book_time, user_id, delivery_type, price, extend, gmt_create, gmt_modified)
-                     VALUES(#{orderNo}, #{bookTime}, #{userId}, #{deliveryType}, #{price}, #{extend}, now(), now())
+       INSERT INTO trade_order (order_no, book_time, shop_id, user_id, delivery_type, price, extend, gmt_create, gmt_modified)
+                     VALUES(#{orderNo}, #{bookTime}, #{shopId}, #{userId}, #{deliveryType}, #{price}, #{extend}, now(), now())
        <selectKey resultType="long" keyProperty="orderId">
           <![CDATA[SELECT LAST_INSERT_ID() ]]>   
        </selectKey>                       
@@ -37,6 +38,7 @@
 	<sql id="dynamicConditionParams" >
 		<where>
 			1 = 1
+			<if test="shopId != null">and shop_id = #{shopId}</if>
 			<if test="orderNo != null">and order_no = #{orderNo}</if>
 			<if test="userId != null">and user_id = #{userId}</if>
 		</where>

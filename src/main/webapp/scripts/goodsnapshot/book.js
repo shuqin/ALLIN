@@ -1,3 +1,4 @@
+var shopId = $('#shopId').text();
 var goodsId = $('#goodsId').text() + Math.floor(Math.random()*10000);
 var price = $('#price').text();
 var title = $('#title').text();
@@ -6,12 +7,16 @@ var choice = $('#choice').text();
 var serviceKeys = $('#serviceKeys').text();
 var userId = $('#userId').text();
 
+var deliveryType = $('#deliveryType').val();
+var isCodPay = $('#isCodPay').val();
+
 var priceNum = parseInt(price) * 100;
 
 $('#bookOrderButton').click(function(event) {
 
    var bookInfo = {
            'goods': {
+                'shopId': shopId,
                 'goodsId': goodsId,
                 'price': priceNum,
                 'title': title,
@@ -20,52 +25,55 @@ $('#bookOrderButton').click(function(event) {
                 'choice': choice
             },
             'order': {
-                'orderNo': "E20200900000000" + userId + Math.floor(Math.random()*10000),
+                'shopId': shopId,
                 'userId': userId,
-                'bookTime': 1598889900,
                 'deliveryType': "express",
                 'price': priceNum,
-                'isCodPay' : false,
-                'isSecuredOrder': true,
-                'hasRetailShop' : true,
-                'localDeliveryBasePrice': 1,
-                'localDeliveryPrice': 2
+                'isCodPay' : isCodPay,
             }
    };
 
    var succTodo = function(result) {
-       alert(result.data.orderNo);
        var orderNo = result.data.orderNo;
        var goodsId = result.data.goodsId;
 
-       var query = {
-           'orderNo': orderNo,
-           'goodsId': goodsId
-       }
+       $('#orderNoResult').text("订单号：" + orderNo);
 
-       var succTodo = function(resp) {
-           $('#goodsnapshot').text(JSON.stringify(resp.data));
-       }
+       $('#snapshotBtn').click(function(event) {
 
-       var failTodo = function(resp) {
-           alert('查看快照失败!');
-         };
+          var query = {
+                      'orderNo': orderNo,
+                      'goodsId': goodsId
+          }
 
-         var jqXHR = jQuery.ajax({
-         		dataType: "json",
-         		contentType: "application/json; charset=utf-8",
-         		url: 'http://localhost:8080/api/goodsnapshot/detail',
-         		data: JSON.stringify(query),
-         	    timeout: 90000,
-         	    type: 'POST'
-         	});
-         	if (succTodo != null && (typeof succTodo === 'function')) {
-         		jqXHR.done(succTodo);
-         	}
-         	if (failTodo != null && (typeof failTodo === 'function')) {
-         		jqXHR.fail(failTodo);
-         	}
-         	return jqXHR;
+          var succTodoForSnapshot = function(resp) {
+              $('#goodsnapshotContent').text(JSON.stringify(resp.data));
+          }
+
+          var failTodoForSnapshot = function(resp) {
+              alert('查看快照失败!');
+            };
+
+            var jqXHRForSnapshot = jQuery.ajax({
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    url: 'http://localhost:8080/api/goodsnapshot/detail',
+                    data: JSON.stringify(query),
+                    timeout: 90000,
+                    type: 'POST'
+                });
+                if (succTodo != null && (typeof succTodo === 'function')) {
+                    jqXHRForSnapshot.done(succTodoForSnapshot);
+                }
+                if (failTodo != null && (typeof failTodo === 'function')) {
+                    jqXHRForSnapshot.fail(failTodoForSnapshot);
+                }
+                return jqXHRForSnapshot;
+
+
+       });
+
+       $('#goodsnapshot').removeAttr('hidden');
    };
 
    var failTodo = function(resp) {
