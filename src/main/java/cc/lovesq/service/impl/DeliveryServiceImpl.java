@@ -30,6 +30,11 @@ public class DeliveryServiceImpl implements DeliveryService {
             deliveryModel.setLocalDeliveryPrice(Long.valueOf(random.nextInt(10)));
             return deliveryModel;
         }
-        return null;
+
+        deliveryModel.setExpressFee(0L);
+        deliveryModel.setLocalDeliveryPrice(0L);
+        deliveryModel.setLocalDeliveryBasePrice(0L);
+        return deliveryModel;
+
     }
 }

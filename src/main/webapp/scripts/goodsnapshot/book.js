@@ -1,18 +1,18 @@
-var shopId = $('#shopId').text();
-var goodsId = $('#goodsId').text() + Math.floor(Math.random()*10000);
-var price = $('#price').text();
-var title = $('#title').text();
-var desc = $('#desc').text();
-var choice = $('#choice').text();
-var userId = $('#userId').text();
-
-var deliveryType = $("input[name='deliveryType']:checked").val();
-var serviceKeys = $('#serviceKeys').text() + "," + deliveryType;
-var isCodPay = $("input[name='codpay']:checked").val();
-
-var priceNum = parseInt(price) * 100;
-
 $('#bookOrderButton').click(function(event) {
+
+   var shopId = $('#shopId').text();
+   var goodsId = $('#goodsId').text() + Math.floor(Math.random()*10000);
+   var price = $('#price').text();
+   var title = $('#title').text();
+   var desc = $('#desc').text();
+   var choice = $('#choice').text();
+   var userId = $('#userId').text();
+
+   var deliveryType = $("input[name='deliveryType']:checked").val();
+   var serviceKeys = $('#serviceKeys').text() + "," + deliveryType;
+   var isCodPay = $("input[name='codpay']:checked").val();
+
+   var priceNum = parseInt(price) * 100;
 
    var bookInfo = {
            'goods': {

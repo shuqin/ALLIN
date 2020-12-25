@@ -90,6 +90,10 @@
   text-align: center;
 }
 
-.div-center {
+#snapBtnCenter {
   margin-left: 39%;
+}
+
+#snapshotCenter {
+  margin-left: 37%;
 }
