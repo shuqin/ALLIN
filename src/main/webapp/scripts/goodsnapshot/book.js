@@ -37,7 +37,16 @@ $('#bookOrderButton').click(function(event) {
        var orderNo = result.data.orderNo;
        var goodsId = result.data.goodsId;
 
+       $('#bookArea').css("display", "none");
+       $('#goodsnapshot').css('display', 'block');
        $('#orderNoResult').text("订单号：" + orderNo);
+
+       $('#cancelBtn').click(function(event){
+          $('#orderNoResult').text('');
+          $('#goodsnapshot').css('display', 'none');
+          $('#bookArea').css("display", "block");
+          $('#goodsnapshotContent').css('visibility', 'hidden');
+       })
 
        $('#snapshotBtn').click(function(event) {
 
@@ -47,7 +56,21 @@ $('#bookOrderButton').click(function(event) {
           }
 
           var succTodoForSnapshot = function(resp) {
-              $('#goodsnapshotContent').text(JSON.stringify(resp.data));
+
+              $('#pricesnapshot').text(resp.data.order.price);
+              $('#titlesnapshot').text(resp.data.goodsInfo.title);
+              $('#choicesnapshot').text(resp.data.goodsInfo.choice);
+              $('#servicesnapshots').empty();
+
+              var goodsServiceSnapshots = resp.data.goodsServiceSnapshots;
+              for (i=0; i < goodsServiceSnapshots.length; i++) {
+                  var snapshot = goodsServiceSnapshots[i];
+                  $('#servicesnapshots').append("<div><div class='st'>" + snapshot.title + "</div>");
+                  $('#servicesnapshots').append("<div class='sd'>" + snapshot.desc + "</div></div>");
+              }
+
+              $('#goodsnapshotContent').css('visibility', 'visible');
+
           }
 
           var failTodoForSnapshot = function(resp) {

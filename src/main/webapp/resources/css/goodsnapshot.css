@@ -1,24 +1,68 @@
+
+
 #bookArea {
 
-  top: 50%;
-  left: 50%;
+  margin-top: 10px;
+  margin-left: 40%;
 
   width: 80%;
   height: 80%;
 
 }
 
-
-#goodsnapshot {
-  position: fixed;
-  top: 100;
-  left: 200;
-  bottom: 500;
-  right: 500;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  text-align: center;
-
+#goodsImg {
+  width: 50%;
+  height: 50%;
 }
 
+#priceArea {
+  color: red;
+  font-size: 24px;
+}
+
+#desc {
+  font-size: 10px;
+}
+
+
+.line {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.line2 {
+   margin-top: 10px;
+   margin-bottom: 5px;
+   font-size: 13px;
+}
+
+.inline {
+   display: inline-block;
+}
+
+#bookOrderButton, #snapshotBtn {
+   width: 120px;
+   margin-left: 80px;
+   margin-top: 30px;
+}
+
+#goodsnapshot {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.1);
+  text-align: center;
+  z-Index: 999;
+  display: none;
+}
+
+#goodsnapshotContent {
+  visibility: hidden;
+}
+
+.st .sd {
+  font-size: 14px;
+  line-height: 1.5;
+}
