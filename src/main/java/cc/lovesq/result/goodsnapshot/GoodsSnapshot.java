@@ -14,6 +14,9 @@ public class GoodsSnapshot {
 
     private List<GoodsServiceSnapshot> goodsServiceSnapshots;
 
+    /** 订单金额，元为单位 */
+    private Double priceYuan;
+
     public GoodsInfo getGoodsInfo() {
         return goodsInfo;
     }
@@ -36,5 +39,13 @@ public class GoodsSnapshot {
 
     public void setGoodsServiceSnapshots(List<GoodsServiceSnapshot> goodsServiceSnapshots) {
         this.goodsServiceSnapshots = goodsServiceSnapshots;
+    }
+
+    public Double getPriceYuan() {
+        return priceYuan;
+    }
+
+    public void setPriceYuan(Double priceYuan) {
+        this.priceYuan = priceYuan;
     }
 }

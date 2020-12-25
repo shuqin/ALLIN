@@ -35,7 +35,7 @@ public class Order {
     /** 配送方式 0 快递 1 自提 2 同城送 */
     private DeliveryType deliveryType;
 
-    /** 订单金额 */
+    /** 订单金额, 分为单位 */
     private Long price;
 
     /** 快递配送金额 */

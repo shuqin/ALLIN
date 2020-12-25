@@ -50,7 +50,7 @@ public class GoodsServiceSnapshotProgress {
                 return tpl.replace("$info", "免运费");
             }
             else {
-                return tpl.replace("$info", "运费￥" + fen2yuan(order.getPrice()) + "元");
+                return tpl.replace("$info", "运费￥" + fen2yuan(order.getExpressFee()) + "元");
             }
         }
 

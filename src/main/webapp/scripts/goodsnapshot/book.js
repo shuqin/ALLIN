@@ -4,10 +4,10 @@ var price = $('#price').text();
 var title = $('#title').text();
 var desc = $('#desc').text();
 var choice = $('#choice').text();
-var serviceKeys = $('#serviceKeys').text();
 var userId = $('#userId').text();
 
 var deliveryType = $("input[name='deliveryType']:checked").val();
+var serviceKeys = $('#serviceKeys').text() + "," + deliveryType;
 var isCodPay = $("input[name='codpay']:checked").val();
 
 var priceNum = parseInt(price) * 100;
@@ -27,7 +27,7 @@ $('#bookOrderButton').click(function(event) {
             'order': {
                 'shopId': shopId,
                 'userId': userId,
-                'deliveryType': "express",
+                'deliveryType': deliveryType,
                 'price': priceNum,
                 'isCodPay' : isCodPay,
             }
@@ -57,7 +57,7 @@ $('#bookOrderButton').click(function(event) {
 
           var succTodoForSnapshot = function(resp) {
 
-              $('#pricesnapshot').text(resp.data.order.price);
+              $('#pricesnapshot').text(resp.data.priceYuan);
               $('#titlesnapshot').text(resp.data.goodsInfo.title);
               $('#choicesnapshot').text(resp.data.goodsInfo.choice);
               $('#servicesnapshots').empty();

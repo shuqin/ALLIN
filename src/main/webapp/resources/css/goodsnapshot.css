@@ -60,11 +60,11 @@
 #goodsnapshotContent {
   visibility: hidden;
   margin-top: 50px;
-  margin-left: 5%;
-  margin-right: 40%;
+  margin-left: 0%;
+  margin-right: 50%;
   border-radius: 5px;
   border: 1px outset #B0C4DE;
-  padding: 25px;
+  padding: 15px;
 }
 
 
