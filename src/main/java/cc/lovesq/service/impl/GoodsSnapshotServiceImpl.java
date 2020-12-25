@@ -11,6 +11,7 @@ import cc.lovesq.query.OrderQuery;
 import cc.lovesq.result.goodsnapshot.GoodsSnapshot;
 import cc.lovesq.service.GoodsSnapshotService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -27,6 +28,7 @@ public class GoodsSnapshotServiceImpl implements GoodsSnapshotService {
     @Resource
     private GoodsServiceSnapshotProgress goodsServiceSnapshotProgress;
 
+    @Transactional
     @Override
     public boolean save(BookInfo bookInfo) {
         GoodsDO goodsDO = bookInfo.getGoods().toGoodsDO();
