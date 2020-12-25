@@ -7,8 +7,8 @@ var choice = $('#choice').text();
 var serviceKeys = $('#serviceKeys').text();
 var userId = $('#userId').text();
 
-var deliveryType = $('#deliveryType').val();
-var isCodPay = $('#isCodPay').val();
+var deliveryType = $("input[name='deliveryType']:checked").val();
+var isCodPay = $("input[name='codpay']:checked").val();
 
 var priceNum = parseInt(price) * 100;
 
