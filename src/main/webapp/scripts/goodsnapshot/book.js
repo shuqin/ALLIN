@@ -65,8 +65,9 @@ $('#bookOrderButton').click(function(event) {
               var goodsServiceSnapshots = resp.data.goodsServiceSnapshots;
               for (i=0; i < goodsServiceSnapshots.length; i++) {
                   var snapshot = goodsServiceSnapshots[i];
-                  $('#servicesnapshots').append("<div><div class='st'>" + snapshot.title + "</div>");
-                  $('#servicesnapshots').append("<div class='sd'>" + snapshot.desc + "</div></div>");
+                  var serviceDivStr = "<div class='gs'><div class='st'>" + snapshot.title + "</div>"
+                                                    + "<div class='sd'>" + snapshot.desc + "</div></div>"
+                  $('#servicesnapshots').append(serviceDivStr);
               }
 
               $('#goodsnapshotContent').css('visibility', 'visible');
