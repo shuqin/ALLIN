@@ -55,13 +55,13 @@
 				title = #{title, jdbcType=VARCHAR},
 			</if>
 			<if test="content != null">
-				content = #{contengt, jdbcType=VARCHAR},
+				content = #{content, jdbcType=VARCHAR},
 			</if>
 			<if test="comment != null">
 				comment = #{comment, jdbcType=VARCHAR},
 			</if>
 		</set>
-		where creative_id = #creativeId#
+		where creative_id = #{creativeId}
 	</update>
 
 	<sql id="dynamicConditionParams" >

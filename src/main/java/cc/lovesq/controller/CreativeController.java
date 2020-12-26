@@ -6,6 +6,7 @@ import cc.lovesq.result.BaseResult;
 import cc.lovesq.result.JsonResult;
 import cc.lovesq.result.PagerJsonResult;
 import cc.lovesq.service.CreativeService;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -97,6 +98,16 @@ public class CreativeController extends BaseController {
     Assert.notNull(creative, "对象不能为空");
     Assert.notNull(creative.getCreativeId(), "创意ID不能为空");
     creativeService.update(creative);
+    return BaseResult.succ("创意更新成功");
+  }
+
+  @RequestMapping(value = "/updateByMap")
+  @ResponseBody
+  public BaseResult updateByMap(@RequestParam  Map creative) {
+    Assert.notNull(creative, "对象不能为空");
+    Assert.notNull(creative.get("creativeId"), "创意ID不能为空");
+    CreativeDO creativeObj = JSONObject.parseObject(JSONObject.toJSONString(creative), CreativeDO.class);
+    creativeService.update(creativeObj);
     return BaseResult.succ("创意更新成功");
   }
 
