@@ -1,5 +1,6 @@
 package cc.lovesq.controller;
 
+import cc.lovesq.annotations.Timecost;
 import cc.lovesq.components.OrderGenerator;
 import cc.lovesq.exception.Errors;
 import cc.lovesq.model.*;
@@ -37,6 +38,7 @@ public class GoodsSnapshotController {
     @Resource
     private DeliveryService deliveryService;
 
+    @Timecost
     @RequestMapping(value = "/save")
     @ResponseBody
     public BaseResult save(@RequestBody BookInfo bookInfo) {
