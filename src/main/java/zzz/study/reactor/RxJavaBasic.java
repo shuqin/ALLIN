@@ -5,12 +5,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.observables.GroupedObservable;
-import scala.Int;
-
-import java.util.Set;
 
 /**
  * @Description RxJava基本Demo

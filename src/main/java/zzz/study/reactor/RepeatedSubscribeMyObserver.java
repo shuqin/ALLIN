@@ -28,13 +28,13 @@ public class RepeatedSubscribeMyObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        System.out.println(getName() + "RepeatedSubscribeMyObserver: " + e.getMessage());
+        System.out.println(getName() + ": " + e.getMessage());
         cancel();
     }
 
     @Override
     public void onComplete() {
-        System.out.println(getName() + "RepeatedSubscribeMyObserver: Complete");
+        System.out.println(getName() + ": Complete");
         cancel();
     }
 
