@@ -8,7 +8,7 @@ import io.reactivex.observers.DefaultObserver;
  * @Date 2021/1/23 4:13 下午
  * @Created by qinshu
  */
-class MyObserver extends DefaultObserver {
+public class MyObserver extends DefaultObserver {
 
     @Override
     public void onStart() {
@@ -23,10 +23,12 @@ class MyObserver extends DefaultObserver {
     @Override
     public void onError(Throwable e) {
         System.out.println("Observed: " + e.getMessage());
+        super.cancel();
     }
 
     @Override
     public void onComplete() {
         System.out.println("MyObserver: Complete");
+        super.cancel();
     }
 }
