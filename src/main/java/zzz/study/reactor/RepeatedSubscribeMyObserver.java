@@ -11,31 +11,35 @@ import io.reactivex.internal.disposables.DisposableHelper;
  * @Date 2021/1/24 10:11 上午
  * @Created by qinshu
  */
-public class RepeatedSubscribeMyObserver implements Observer {
+public class RepeatedSubscribeMyObserver<T> implements Observer<T> {
 
     public Disposable upstream;
 
     @Override
     public void onSubscribe(@NonNull Disposable d){
-        System.out.println("RepeatedSubscribeMyObserver: Start");
+        System.out.println(getName() + ": Start");
         this.upstream = d;
     }
 
     @Override
-    public void onNext(Object o) {
-        System.out.println("RepeatedSubscribeMyObserver: " + JSON.toJSONString(o));
+    public void onNext(T o) {
+        System.out.println(getName() + ": " + JSON.toJSONString(o));
     }
 
     @Override
     public void onError(Throwable e) {
-        System.out.println("RepeatedSubscribeMyObserver: " + e.getMessage());
+        System.out.println(getName() + "RepeatedSubscribeMyObserver: " + e.getMessage());
         cancel();
     }
 
     @Override
     public void onComplete() {
-        System.out.println("RepeatedSubscribeMyObserver: Complete");
+        System.out.println(getName() + "RepeatedSubscribeMyObserver: Complete");
         cancel();
+    }
+
+    public String getName() {
+        return this.getClass().getSimpleName();
     }
 
     /**
