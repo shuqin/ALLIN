@@ -1,10 +1,12 @@
 package cc.lovesq.components;
 
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import javax.annotation.Resource;
 
+@Component
 public class JedisLocalClient {
 
     @Resource
