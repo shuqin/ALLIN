@@ -1,6 +1,5 @@
 package cc.lovesq.kafkamsg;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
