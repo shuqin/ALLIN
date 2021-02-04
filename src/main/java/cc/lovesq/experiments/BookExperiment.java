@@ -11,6 +11,8 @@ import cc.lovesq.result.BaseResult;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.kafka.clients.producer.Callback;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -75,8 +77,18 @@ public class BookExperiment implements IExperiment {
         BaseResult bookResult = goodsSnapshotController.save(bookInfo);
         log.info("下单结果:" + JSON.toJSONString(bookResult));
 
-        producer.send(BookInfoToMessageTransfer.transfer(bookInfo));
-        log.info("发送订单消息:" + bookInfo.getOrder().getOrderNo());
+        producer.sendAsync(
+                BookInfoToMessageTransfer.transfer(bookInfo),
+                (metadata, exception) -> callback(bookInfo, metadata, exception));
+
         return bookResult;
+    }
+
+    private void callback(BookInfo bookInfo, RecordMetadata metadata, Exception ex) {
+        if (metadata != null) {
+            log.info("发送订单消息:" + bookInfo.getOrder().getOrderNo() + " 偏移量: " + metadata.offset() + " 主题: " + metadata.topic());
+        } else {
+            log.error("发送订单消息失败: " + ex.getMessage(), ex);
+        }
     }
 }

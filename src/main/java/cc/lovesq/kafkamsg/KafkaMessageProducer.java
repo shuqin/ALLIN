@@ -1,12 +1,15 @@
 package cc.lovesq.kafkamsg;
 
-import cc.lovesq.model.Order;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description kafka消息发送
@@ -16,6 +19,8 @@ import java.util.Properties;
 @Component
 public class KafkaMessageProducer {
 
+    private static Log log = LogFactory.getLog(KafkaMessageProducer.class);
+
     private KafkaProducer producer;
 
     @PostConstruct
@@ -24,12 +29,34 @@ public class KafkaMessageProducer {
         properties.put("bootstrap.servers","localhost:9092");
         properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put("acks", "1");
+        properties.put("retries", "5");
 
         producer = new KafkaProducer<String,String>(properties);
 
     }
 
+    /**
+     * 同步发送消息
+     */
     public void send(ProducerRecord record) {
-        producer.send(record);
+        try {
+            producer.send(record).get(200, TimeUnit.MILLISECONDS);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+
+    }
+
+    /**
+     * 异步发送消息
+     */
+    public void sendAsync(ProducerRecord record, Callback callback) {
+        try {
+            producer.send(record, callback);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+
     }
 }
