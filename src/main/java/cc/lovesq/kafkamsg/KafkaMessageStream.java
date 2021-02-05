@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
 import java.util.Properties;
 
 /**
- * @Description TODO
+ * @Description Kafka 事件流
  * @Date 2021/2/4 8:17 下午
  * @Created by qinshu
  */

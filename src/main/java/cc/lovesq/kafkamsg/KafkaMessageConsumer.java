@@ -27,13 +27,13 @@ public class KafkaMessageConsumer {
     @PostConstruct
     public void init() {
         Properties properties = new Properties();
-        properties.put("bootstrap.servers","localhost:9092");
-        properties.put("group.id", "experiment");
-        properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        properties.put("bootstrap.servers","localhost:9092");  // 指定 Broker
+        properties.put("group.id", "experiment");              // 指定消费组群 ID
+        properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer"); // 将 key 的字节数组转成 Java 对象
+        properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");  // 将 value 的字节数组转成 Java 对象
 
         consumer = new KafkaConsumer(properties);
-        consumer.subscribe(Collections.singleton("order-events"));
+        consumer.subscribe(Collections.singleton("order-events"));  // 订阅主题 order-events
 
         new Thread(this::consumer).start();
     }
