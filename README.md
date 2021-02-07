@@ -14,8 +14,7 @@ Java 学习相关： zzz.study 下
 
 Run ALLIN
 ---------------------------------------
-应用启动依赖 Redis，否则会报 Unable to connect to Redis server: 127.0.0.1/127.0.0.1:6379 错误
-解决办法： 安装 redis 服务器并启动。 移除 redis 依赖比较麻烦。
+应用启动依赖 Redis 和 Kafka. 需要安装 redis, zookeeper, Kafka 服务。
 
 步骤一：启动 Redis 服务；
 $ redis-server
