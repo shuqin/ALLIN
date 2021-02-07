@@ -25,14 +25,16 @@ public class RandomValueController {
 
     @HystrixCommand(commandKey = "randInt", fallbackMethod = "randIntDowngrade",
             commandProperties = {
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500")
+                    @HystrixProperty(name="metrics.rollingStats.timeInMilliseconds", value="5000"),
+                    @HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="4"),
+                    @HystrixProperty(name="circuitBreaker.errorThresholdPercentage", value="50")
             })
     @RequestMapping("/randInt")
     public Integer randInt() {
 
         int v = rand.nextInt(100);
 
-        if (v == 0) {
+        if (v >= 50) {
             throw new RuntimeException("Invalid number");
         }
 

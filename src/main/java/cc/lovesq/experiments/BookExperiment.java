@@ -45,7 +45,7 @@ public class BookExperiment implements IExperiment {
 
     // 线程池并发执行实验
     public void generateOrders() {
-        for (int i=1; i < 1000; i++) {
+        for (int i=1; i < 10; i++) {
             es.submit(() -> {
                 book();
             });
