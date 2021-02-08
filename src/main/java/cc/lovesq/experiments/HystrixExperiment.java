@@ -1,6 +1,6 @@
 package cc.lovesq.experiments;
 
-import cc.lovesq.controller.RandomValueController;
+import cc.lovesq.service.impl.RandomValueService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -18,14 +18,14 @@ public class HystrixExperiment implements IExperiment {
     private static Log log = LogFactory.getLog(HystrixExperiment.class);
 
     @Resource
-    private RandomValueController randomValueController;
+    private RandomValueService randomValueService;
 
     @Override
     public void test() {
         log.info("----HystrixExperiment-start----");
         for (int i=0; i < 100000; i++) {
             try {
-                randomValueController.randInt();
+                randomValueService.randInt();
             } catch (Exception ex) {
                 log.error("CatchedException: " + ex.getMessage());
             }
