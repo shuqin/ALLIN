@@ -27,7 +27,7 @@ import java.util.Date;
 @RequestMapping("/api/goodsnapshot/")
 public class GoodsSnapshotController {
 
-    private static Log log = LogFactory.getLog(CreativeController.class);
+    private static Log log = LogFactory.getLog(GoodsSnapshotController.class);
 
     @Resource
     private GoodsSnapshotService goodsSnapshotService;
