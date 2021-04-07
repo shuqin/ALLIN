@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * @Date 2021/1/28 4:39 上午
  * @Created by qinshu
  */
-@Component
+//@Component
 public class HystrixExperiment implements IExperiment {
 
     private static Log log = LogFactory.getLog(HystrixExperiment.class);
