@@ -18,7 +18,7 @@ import cc.lovesq.service.CreativeService;
 import shared.utils.JsonUtil;
 
 @Component("creativeService")
-public class CreativeServiceImpl implements CreativeService {
+public class CreativeServiceImpl extends BaseServiceImpl<CreativeDO> implements CreativeService {
 
   @Autowired
   private CreativeMapper creativeMapper;

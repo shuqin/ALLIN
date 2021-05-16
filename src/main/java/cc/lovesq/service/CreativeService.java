@@ -5,7 +5,7 @@ import java.util.List;
 import cc.lovesq.pojo.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 
-public interface CreativeService {
+public interface CreativeService extends BaseService<CreativeDO> {
 
   /**
    * 根据创意ID获取创意详情
