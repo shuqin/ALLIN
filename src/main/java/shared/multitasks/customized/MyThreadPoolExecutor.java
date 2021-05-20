@@ -73,8 +73,12 @@ public class MyThreadPoolExecutor {
   /**
    * 通过线程池执行Runable
    */
-  public void execute(FutureTask<?> task) {
+  public void execute(FutureTask task) {
     threadPool.execute(task);
+  }
+
+  public void execute(Runnable r) {
+    threadPool.execute(r);
   }
 
   /**
