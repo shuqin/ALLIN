@@ -1,16 +1,22 @@
 package shared.utils;
 
 import com.jayway.jsonpath.JsonPath;
-
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.type.JavaType;
+import org.codehaus.jackson.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JsonUtil {
+
+  private static Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -44,6 +50,41 @@ public class JsonUtil {
       return null;
     }
   }
+
+  public static <T> String objectToJson(T obj){
+    if(obj == null){
+      return null;
+    }
+    try {
+      return obj instanceof String ? (String) obj : MAPPER.writeValueAsString(obj);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  public static <T> T jsonToObject(String src, TypeReference<T> typeReference){
+    if(StringUtils.isEmpty(src) || typeReference == null){
+      return null;
+    }
+    try {
+      return (T)(typeReference.getType().equals(String.class) ? src : MAPPER.readValue(src, typeReference));
+    } catch (Exception e) {
+      logger.warn("Parse Json to Object error",e);
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static <T> T jsonToObject(String src, Class<?> collectionClass,Class<?>... elementClasses){
+    JavaType javaType = MAPPER.getTypeFactory().constructParametricType(collectionClass,elementClasses);
+    try {
+      return MAPPER.readValue(src,javaType);
+    } catch (Exception e) {
+      logger.warn("Parse Json to Object error",e);
+      return null;
+    }
+  }
+
 
   /**
    * 读取JSON字符串为MAP
