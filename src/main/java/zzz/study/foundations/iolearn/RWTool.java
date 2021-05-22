@@ -1,19 +1,6 @@
 package zzz.study.foundations.iolearn;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 public class RWTool {
 
@@ -85,6 +72,22 @@ public class RWTool {
         new PrintStream(new BufferedOutputStream(
             new FileOutputStream(filename)));
     System.setOut(output);
+  }
+
+  public static String readFromSource(String filename) {
+    try {
+      InputStream is = RWTool.class.getResourceAsStream(filename);
+      byte[] bytes = new byte[4096];
+      int num = 0;
+      String json = "";
+      while((num=is.read(bytes))>0){
+        json=new String(bytes,0,num);
+      }
+      return json;
+    } catch (Exception ex) {
+      throw new RuntimeException(ex.getCause());
+    }
+
   }
 
 

@@ -1,5 +1,7 @@
 package cc.lovesq.study.json
 
+import jdk.nashorn.internal.parser.JSONParser
+
 class JsonParserTest {
 
     def static main(args) {
@@ -16,6 +18,14 @@ class JsonParserTest {
 
         //new JsonParser().parse(json)
         new JsonParserV2().parse(json)
+
+
+        def json2 = '''
+
+{"agentEventDatas": [{"rule_id":"反弹shell","format_output":"进程 pname 反向连接到 %dest_ip%:%dest_port%","info":{"process_events":{"pid":21,"pname":"nginx","cmdline":"curl www.cfda.com","ppid":7,"ppname":"bash"},"proc_trees":[{"pid":21,"pname":"nginx","cmdline":"curl www.cfda.com","ppid":7,"ppname":"bash"}],"containers":{"container_id":"fef4636d8403871c2e56e06e51d609554564adbbf8284dd914a0f61130558bdf","container_name":"nginx","image_id":"4eb8f7c43909449dbad801c50d9dccc7dc86631e54f28b1a4b13575729065be8","status":"Running"},"sockets":{"src_ip":"127.0.0.1","src_port":"8080","type":"1","in_out":"0","dest_ip":"localhost","dest_port":"80"}}}]}
+
+        '''
+        new JsonParserV2().parse(json2);
     }
 
 }

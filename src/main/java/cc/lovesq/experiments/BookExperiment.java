@@ -74,6 +74,8 @@ public class BookExperiment implements IExperiment {
         goods.setDesc("2箱*250g");
         bookInfo.setGoods(goods);
 
+        log.info("bookInfo: " + JSON.toJSONString(bookInfo));
+
         BaseResult bookResult = goodsSnapshotController.save(bookInfo);
         log.info("下单结果:" + JSON.toJSONString(bookResult));
 

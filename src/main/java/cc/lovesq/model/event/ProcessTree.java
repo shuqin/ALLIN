@@ -1,5 +1,6 @@
 package cc.lovesq.model.event;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -13,18 +14,23 @@ import org.codehaus.jackson.annotate.JsonProperty;
 @Setter
 public class ProcessTree {
 
+    @SerializedName("pid")
     @JsonProperty("pid")
     private String pid;
 
+    @SerializedName("pname")
     @JsonProperty("pname")
     private String pname;
 
+    @SerializedName("cmdline")
     @JsonProperty("cmdline")
     private String cmdline;
 
+    @SerializedName("ppid")
     @JsonProperty("ppid")
     private String ppid;
 
+    @SerializedName("ppname")
     @JsonProperty("ppname")
     private String ppname;
 }

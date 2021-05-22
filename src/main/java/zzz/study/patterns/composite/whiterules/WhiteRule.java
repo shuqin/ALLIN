@@ -3,6 +3,7 @@ package zzz.study.patterns.composite.whiterules;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import shared.utils.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,15 +49,15 @@ public interface WhiteRule {
         Op op = Op.getOp(jsonObject.getJSONObject(CONDITION).getString(OP));
         switch (op) {
             case eq:
-                return jsonObject.toJavaObject(EqualsRule.class);
+                return JsonUtil.toObject(jsonObject.toJSONString(), EqualsRule.class);
             case neq:
-                return jsonObject.toJavaObject(NotEqualsRule.class);
+                return JsonUtil.toObject(jsonObject.toJSONString(), NotEqualsRule.class);
             case in:
-                return jsonObject.toJavaObject(InRule.class);
+                return JsonUtil.toObject(jsonObject.toJSONString(), InRule.class);
             case range:
-                return jsonObject.toJavaObject(RangeRule.class);
+                return JsonUtil.toObject(jsonObject.toJSONString(), RangeRule.class);
             case match:
-                return jsonObject.toJavaObject(MatchRule.class);
+                return JsonUtil.toObject(jsonObject.toJSONString(), MatchRule.class);
             default:
                 return null;
         }

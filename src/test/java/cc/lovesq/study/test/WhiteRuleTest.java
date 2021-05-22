@@ -1,9 +1,12 @@
 package cc.lovesq.study.test;
 
+import cc.lovesq.util.GsonUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.Assert;
 import org.junit.Test;
+import shared.utils.JsonUtil;
 import zzz.study.patterns.composite.whiterules.*;
 
 import java.util.Arrays;
@@ -20,6 +23,14 @@ public class WhiteRuleTest {
         FunctionWhiteRule fwr = new FunctionWhiteRule("cc.lovesq.utils.AgeUtil#inc", new RangeRule("age", 30, 36));
         Person p = new Person("qin", 32);
         fwr.test(p);
+
+        String json = JSON.toJSONString(fwr);
+
+        FunctionWhiteRule fwr2 = JsonUtil.toObject(json, FunctionWhiteRule.class);
+        fwr2.test(p);
+
+        //FunctionWhiteRule fwr3 = GsonUtil.fromJson(json, FunctionWhiteRule.class);
+        //fwr3.test(p);
     }
 
     @Test
@@ -51,8 +62,6 @@ public class WhiteRuleTest {
         String orExpr = orRule.expr();
         System.out.println(orExpr);
         WhiteRule rule = WhiteRule.parse(orExpr);
-
-
 
         Assert.assertFalse(rule.test(detectEntity2));
     }

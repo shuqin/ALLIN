@@ -47,7 +47,7 @@ public class JsonUtil {
     try {
       return MAPPER.readValue(json, cls);
     } catch (Exception e) {
-      return null;
+      throw new RuntimeException(e.getCause());
     }
   }
 
@@ -70,8 +70,7 @@ public class JsonUtil {
       return (T)(typeReference.getType().equals(String.class) ? src : MAPPER.readValue(src, typeReference));
     } catch (Exception e) {
       logger.warn("Parse Json to Object error",e);
-      e.printStackTrace();
-      return null;
+      throw new RuntimeException(e.getCause());
     }
   }
 
@@ -81,7 +80,7 @@ public class JsonUtil {
       return MAPPER.readValue(src,javaType);
     } catch (Exception e) {
       logger.warn("Parse Json to Object error",e);
-      return null;
+      throw new RuntimeException(e.getCause());
     }
   }
 
