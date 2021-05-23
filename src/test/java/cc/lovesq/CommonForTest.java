@@ -1,4 +1,4 @@
-package cc.lovesq.study.test;
+package cc.lovesq;
 
 import org.junit.Assert;
 

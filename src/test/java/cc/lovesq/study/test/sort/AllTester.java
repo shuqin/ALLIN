@@ -14,10 +14,8 @@ public class AllTester extends TestCase {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(IntArraySortingTester.class);
 		suite.addTestSuite(DoubleArraySortingTester.class);
-		//suite.addTestSuite(LongArraySortingTester.class);
 		suite.addTestSuite(IntegerArraySortingTester.class);
 		suite.addTestSuite(WrappedDoubleArraySortingTester.class);
-		//suite.addTestSuite(WrappedLongArraySortingTester.class);
 		suite.addTestSuite(ObjectArraySortingTester.class);
 		return suite;
 	}

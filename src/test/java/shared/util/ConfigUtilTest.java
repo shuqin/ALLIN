@@ -1,10 +1,10 @@
 package shared.util;
 
-import cc.lovesq.CommonForAssert;
 import cc.lovesq.config.EventFlowExecutionModel;
 import cc.lovesq.config.EventFlowsModel;
 import cc.lovesq.config.ExecWay;
 import cc.lovesq.config.ExecutionModel;
+import cc.lovesq.CommonForTest;
 import cc.lovesq.util.ConfigUtil;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * YML 配置加载
  */
-public class ConfigUtilTest extends CommonForAssert {
+public class ConfigUtilTest extends CommonForTest {
 
     @Test
     public void testLoad() {
