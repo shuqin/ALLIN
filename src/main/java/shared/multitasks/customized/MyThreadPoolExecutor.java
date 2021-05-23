@@ -18,22 +18,37 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Function;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import static shared.utils.ListStream.stream;
+
+/**
+ * MyThreadPoolExecutor:
+ * 提供了针对真正执行任务的线程池 threadPool 的代理访问，同时提供了线程池参数配置能力
+ */
 public class MyThreadPoolExecutor {
 
-  private static final Logger log = Logger.getLogger("threadMonitor");
+  private static final Logger logger = LoggerFactory.getLogger(MyThreadPoolExecutor.class);
 
   private static ConcurrentMap<String, MyThreadPoolExecutor> poolCache = new ConcurrentHashMap<String, MyThreadPoolExecutor>();
 
-  private static MyThreadPoolExecutor myThreadPool = null;
+  private static final int DEFAULT_CORE_POOL_SIZE = 5;
+  private static final int DEFAULT_MAX_POOL_SIZE = 10;
+  private static final long DEFAULT_KEEP_ALIVE_TIME_SECS = 60;
+  private static final int DEFAULT_TIMEOUT_QUEUE_SIZE = 60;
+  private static final long TASK_WAIT_TIME = 30L;
 
-  private int corePoolSize = 3;   // 线程池维护线程的最小数量
+  private static final int MAX_THREAD_POOL_NUM = 10;
 
-  private int maximumPoolSize = 5;  // 线程池维护线程的最大数量
+  private int corePoolSize = DEFAULT_CORE_POOL_SIZE;   // 线程池维护线程的最小数量
 
-  private long keepAliveTime = 60;  // 线程池维护线程所允许的空闲时间
+  private int maximumPoolSize = DEFAULT_MAX_POOL_SIZE;  // 线程池维护线程的最大数量
+
+  private long keepAliveTime = DEFAULT_KEEP_ALIVE_TIME_SECS;  // 线程池维护线程所允许的空闲时间
 
   private final TimeUnit unit = TimeUnit.SECONDS;  // 线程池维护线程所允许的空闲时间的单位
 
@@ -42,6 +57,10 @@ public class MyThreadPoolExecutor {
   private final RejectedExecutionHandler handler = new ThreadPoolExecutor.CallerRunsPolicy();  // 线程池对拒绝任务的处理策略
 
   private ThreadPoolExecutor threadPool = null;
+
+  private static MyThreadPoolExecutor DEFAULT = new MyThreadPoolExecutor(
+          DEFAULT_CORE_POOL_SIZE, DEFAULT_MAX_POOL_SIZE, DEFAULT_KEEP_ALIVE_TIME_SECS,
+          DEFAULT_TIMEOUT_QUEUE_SIZE, "default");
 
   private MyThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime,
                                int timeoutQueueSize,
@@ -52,22 +71,43 @@ public class MyThreadPoolExecutor {
     workQueue = new ArrayBlockingQueue<Runnable>(timeoutQueueSize);
     threadPool =
         new MonitoredThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit,
-                                        workQueue,
-                                        new MoonmmThreadFactory(namePrefix), handler);
+                                        workQueue, new NamedThreadFactory(namePrefix), handler);
   }
 
   /**
    * 实例化线程池
    */
+  public static MyThreadPoolExecutor getInstance(String namePrefix) {
+    MyThreadPoolExecutor myThreadPool = poolCache.get(namePrefix);
+    if (myThreadPool != null) {
+      return myThreadPool;
+    }
+    synchronized (poolCache) {
+      if (poolCache.size() < MAX_THREAD_POOL_NUM) {
+        myThreadPool = new MyThreadPoolExecutor(
+                DEFAULT_CORE_POOL_SIZE, DEFAULT_MAX_POOL_SIZE, DEFAULT_KEEP_ALIVE_TIME_SECS,
+                DEFAULT_TIMEOUT_QUEUE_SIZE, namePrefix);
+        poolCache.put(namePrefix, myThreadPool);
+        return myThreadPool;
+      }
+    }
+    return DEFAULT;
+  }
+
   public static MyThreadPoolExecutor getInstance(int corePoolSize, int maximumPoolSize,
                                                  long keepAliveTime,
                                                  int timeoutQueueSize, String namePrefix) {
-    if (poolCache.get(namePrefix) == null) {
+    MyThreadPoolExecutor myThreadPool = poolCache.get(namePrefix);
+    if (myThreadPool == null) {
       myThreadPool = new MyThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime,
                                               timeoutQueueSize, namePrefix);
       poolCache.put(namePrefix, myThreadPool);
     }
     return myThreadPool;
+  }
+
+  public ThreadPoolExecutor getDelegated() {
+    return threadPool;
   }
 
   /**
@@ -79,6 +119,14 @@ public class MyThreadPoolExecutor {
 
   public void execute(Runnable r) {
     threadPool.execute(r);
+  }
+
+  public <T,R> List<R> getMultiTaskResult(List<T> origin, Function<T,R> func) {
+    List<FutureTask<R>> futureTasks = new ArrayList<>();
+    for (T t: origin) {
+      futureTasks.add(new FutureTask(() -> func.apply(t)));
+    }
+    return getMultiTaskResult(futureTasks);
   }
 
   /**
@@ -112,12 +160,12 @@ public class MyThreadPoolExecutor {
   /**
    * 线程工厂类
    */
-  static class MoonmmThreadFactory implements ThreadFactory {
+  static class NamedThreadFactory implements ThreadFactory {
 
     final AtomicInteger threadNumber = new AtomicInteger(1);
     String namePrefix = "";
 
-    public MoonmmThreadFactory(String namePrefix) {
+    public NamedThreadFactory(String namePrefix) {
       this.namePrefix = namePrefix;
     }
 
@@ -131,6 +179,9 @@ public class MyThreadPoolExecutor {
     }
   }
 
+  /**
+   * 基于 ThreadPoolExecutor 扩展了任务描述和计时能力
+   */
   static class MonitoredThreadPoolExecutor extends ThreadPoolExecutor {
 
     public MonitoredThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime,
@@ -160,17 +211,12 @@ public class MyThreadPoolExecutor {
           Callable c = ((FutureTaskWithCallableAvailed) r).getTask();
           if (c instanceof TaskInfo) {
             String taskInfo = ((TaskInfo) c).desc();
-            log.info(String.format("Task %s: time=%dms", taskInfo, taskTime));
+            logger.info("Task {}: time={}ms", taskInfo, taskTime);
           }
         }
       } finally {
         super.afterExecute(r, t);
       }
-    }
-
-    public void logThreadPoolMonitorData() {
-      log.info("total tasks completed: " + numTasks.get());
-      log.info("totalTime: " + totalTime.get());
     }
 
     public Map<String, Object> obtainThreadPoolMonitorData() {
@@ -182,26 +228,22 @@ public class MyThreadPoolExecutor {
 
   }
 
-  public static <T> List<T> getMultiTaskResult(List<FutureTask<List<T>>> futureTaskList) {
+  private <T> List<T> getMultiTaskResult(List<FutureTask<T>> futureTaskList) {
     List<T> results = new ArrayList<T>();
-    for (FutureTask<List<T>> futureTask : futureTaskList) {
+    for (FutureTask<T> futureTask : futureTaskList) {
       try {
         // 每个线程设置固定的执行时间，过期不候
-        List<T> partResultList = futureTask.get(ThreadConstants.TASK_WAIT_TIME, TimeUnit.SECONDS);
-        if (partResultList != null && partResultList.size() > 0) {
-          for (T file : partResultList) {
-            results.add(file);
-          }
-        }
+        T partResult = futureTask.get(TASK_WAIT_TIME, TimeUnit.SECONDS);
+        results.add(partResult);
       } catch (TimeoutException e) {
-        log.error(futureTask.getClass() + " Multi thread timeout error: " + Thread.currentThread()
+        logger.error(futureTask.getClass() + " Multi thread timeout error: " + Thread.currentThread()
                       .getName(),
                   e);
       } catch (InterruptedException e) {
-        log.error(futureTask.getClass() + " Multi thread interrupted error: "
+        logger.error(futureTask.getClass() + " Multi thread interrupted error: "
                   + Thread.currentThread().getName(), e);
       } catch (ExecutionException e) {
-        log.error(futureTask.getClass() + " Multi thread execution error: "
+        logger.error(futureTask.getClass() + " Multi thread execution error: "
                   + Thread.currentThread().getName(), e);
       }
     }

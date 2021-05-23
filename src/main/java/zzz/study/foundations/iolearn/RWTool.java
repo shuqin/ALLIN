@@ -79,11 +79,11 @@ public class RWTool {
       InputStream is = RWTool.class.getResourceAsStream(filename);
       byte[] bytes = new byte[4096];
       int num = 0;
-      String json = "";
+      String text = "";
       while((num=is.read(bytes))>0){
-        json=new String(bytes,0,num);
+        text=new String(bytes,0,num);
       }
-      return json;
+      return text;
     } catch (Exception ex) {
       throw new RuntimeException(ex.getCause());
     }

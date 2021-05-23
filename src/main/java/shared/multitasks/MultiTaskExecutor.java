@@ -4,15 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Function;
 
 import javax.annotation.Resource;
 
+import shared.multitasks.customized.MyThreadPoolExecutor;
 import shared.rpc.batchcall.WrapperListHandlerParam;
 import zzz.study.algorithm.dividing.Dividing;
 import zzz.study.function.refactor.ForeachUtil;
@@ -24,9 +21,9 @@ public class MultiTaskExecutor {
 
   private static Logger logger = LoggerFactory.getLogger(MultiTaskExecutor.class);
 
-  private static final int TASK_SIZE = 1000;
+  private static final int TASK_SIZE = 50;
   
-  private ExecutorService generalThreadPoolExecutor = Executors.newFixedThreadPool(10);
+  private ThreadPoolExecutor taskExecutor = MyThreadPoolExecutor.getInstance("multitasks").getDelegated();
 
   /**
    * 根据指定的列表关键数据及列表数据处理器，并发地处理并返回处理后的列表数据集合
@@ -55,7 +52,7 @@ public class MultiTaskExecutor {
     List<String> parts = Dividing.divide(allKeys.size(), taskSize);
 
     CompletionService<List<R>>
-        completionService = new ExecutorCompletionService<>(generalThreadPoolExecutor);
+        completionService = new ExecutorCompletionService(taskExecutor);
 
     ForeachUtil.foreachDone(parts, (part) -> {
       final List<T> tmpRowkeyList = Dividing.getSubList(allKeys, part);
