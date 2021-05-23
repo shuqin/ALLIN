@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-import static cc.lovesq.util.Currency.fen2yuan;
+import static shared.utils.Currency.fen2yuan;
 
 @Component
 public class GoodsSnapshotServiceImpl implements GoodsSnapshotService {

@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.unitils.spring.annotation.SpringBeanByName;
 
-import cc.lovesq.pojo.CreativeDO;
+import cc.lovesq.model.CreativeDO;
 
 public class CreativeDaoTest extends BaseDAOJTester {
 

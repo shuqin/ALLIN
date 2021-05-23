@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-import zzz.study.utils.ArrayUtil;
+import shared.utils.ArrayUtil;
 
 public class Chain {
 	

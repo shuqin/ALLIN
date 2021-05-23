@@ -1,13 +1,12 @@
-package zzz.study.utils;
+package shared.utils;
 
-import com.alibaba.fastjson.JSON;
 import com.jayway.jsonpath.JsonPath;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
 
 
-public class JsonUtils {
+public class JsonExtractUtil {
 
   private static final String BIZ_ORDER_ATTRIBUTE = "BIZ_ORDER_ATTRIBUTE";
   private static final String BIZ_ITEM_ATTRIBUTE = "BIZ_ITEM_ATTRIBUTE";

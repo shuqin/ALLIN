@@ -17,6 +17,8 @@ public class EqualsRule implements SingleWhiteRule {
     private String field;
     private EqualCondition condition;
 
+    public EqualsRule() {}
+
     public EqualsRule(String field, Object value) {
         this.field = field;
         this.condition = new EqualCondition(value);

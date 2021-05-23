@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-import cc.lovesq.pojo.CreativeDO;
+import cc.lovesq.model.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 
 @Mapper

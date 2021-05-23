@@ -1,6 +1,6 @@
 package cc.lovesq.components;
 
-import cc.lovesq.util.DateUtil;
+import shared.utils.DateUtil;
 
 import java.util.Date;
 import java.util.Random;

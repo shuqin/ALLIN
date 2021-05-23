@@ -1,7 +1,7 @@
 package cc.lovesq.transfer;
 
 import cc.lovesq.model.Creative;
-import cc.lovesq.pojo.CreativeDO;
+import cc.lovesq.model.CreativeDO;
 
 public class CreativeDataTransfer {
 

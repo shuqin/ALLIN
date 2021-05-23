@@ -1,10 +1,10 @@
 package cc.lovesq.kafkamsg;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class KafkaMessageProducer {
 
-    private static Log log = LogFactory.getLog(KafkaMessageProducer.class);
+    private static Logger logger = LoggerFactory.getLogger(KafkaMessageProducer.class);
 
     private KafkaProducer producer;
 
@@ -43,7 +43,7 @@ public class KafkaMessageProducer {
         try {
             producer.send(record).get(200, TimeUnit.MILLISECONDS);
         } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
         }
 
     }
@@ -55,7 +55,7 @@ public class KafkaMessageProducer {
         try {
             producer.send(record, callback);
         } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
         }
 
     }

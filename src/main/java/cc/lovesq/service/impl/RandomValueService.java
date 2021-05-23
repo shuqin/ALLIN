@@ -2,8 +2,8 @@ package cc.lovesq.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -16,7 +16,7 @@ import java.util.Random;
 @Component
 public class RandomValueService {
 
-    private static Log log = LogFactory.getLog(RandomValueService.class);
+    private static Logger logger = LoggerFactory.getLogger(RandomValueService.class);
 
     Random rand = new Random(47);
 
@@ -39,7 +39,7 @@ public class RandomValueService {
     }
 
     public Integer randIntDowngrade() {
-        log.info("randIntDowngrade");
+        logger.info("randIntDowngrade");
         return 0;
     }
 }

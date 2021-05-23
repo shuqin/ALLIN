@@ -21,6 +21,8 @@ public class OrRule implements WhiteRule {
 
     private Op op = Op.or;
 
+    public OrRule() {}
+
     public OrRule(List<WhiteRule> whiteRules) {
         this.whiteRules = whiteRules;
     }

@@ -1,9 +1,8 @@
 package cc.lovesq.experiments;
 
 import cc.lovesq.service.impl.RandomValueService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 
@@ -15,22 +14,22 @@ import javax.annotation.Resource;
 //@Component
 public class HystrixExperiment implements IExperiment {
 
-    private static Log log = LogFactory.getLog(HystrixExperiment.class);
+    private static Logger logger = LoggerFactory.getLogger(HystrixExperiment.class);
 
     @Resource
     private RandomValueService randomValueService;
 
     @Override
     public void test() {
-        log.info("----HystrixExperiment-start----");
+        logger.info("----HystrixExperiment-start----");
         for (int i=0; i < 100000; i++) {
             try {
                 randomValueService.randInt();
             } catch (Exception ex) {
-                log.error("CatchedException: " + ex.getMessage());
+                logger.error("CatchedException: " + ex.getMessage(), ex);
             }
 
         }
-        log.info("----HystrixExperiment-end----");
+        logger.info("----HystrixExperiment-end----");
     }
 }

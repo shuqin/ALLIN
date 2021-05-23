@@ -1,4 +1,4 @@
-package zzz.study.utils;
+package shared.utils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

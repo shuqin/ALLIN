@@ -1,12 +1,12 @@
 package cc.lovesq.aspect;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 @Component
 public class TimecostAspect {
 
-    private static Log log = LogFactory.getLog(TimecostAspect.class);
+    private static Logger logger = LoggerFactory.getLogger(TimecostAspect.class);
 
     @Pointcut(value = "@annotation(cc.lovesq.annotations.Timecost)")
     public void timecostAspect() {
@@ -36,10 +36,10 @@ public class TimecostAspect {
         try {
             obj = joinPoint.proceed();
         } catch (Throwable throwable) {
-            log.error("failed to run method");
+            logger.error("failed to run method");
         }
         long end = System.nanoTime();
-        log.info(methodInfo + "[cost]: " + (end-start)/1000 + " us");
+        logger.info(methodInfo + "[cost]: {} us", (end-start)/1000 );
 
         return obj;
     }

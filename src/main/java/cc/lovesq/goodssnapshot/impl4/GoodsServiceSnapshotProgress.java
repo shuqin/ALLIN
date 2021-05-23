@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static cc.lovesq.util.Currency.fen2yuan;
+import static shared.utils.Currency.fen2yuan;
 
 @Component
 public class GoodsServiceSnapshotProgress {

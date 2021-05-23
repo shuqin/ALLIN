@@ -1,10 +1,10 @@
 package cc.lovesq.kafkamsg;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +20,7 @@ import java.util.Properties;
 @Component
 public class KafkaMessageConsumer {
 
-    private static Log log = LogFactory.getLog(KafkaMessageConsumer.class);
+    private static Logger logger = LoggerFactory.getLogger(KafkaMessageConsumer.class);
 
     private KafkaConsumer consumer;
 
@@ -45,7 +45,7 @@ public class KafkaMessageConsumer {
                 for (ConsumerRecord<String,String> record: records) {
                     String info = String.format("[Topic: %s][Partition:%d][Offset:%d][Key:%s][Message:%s]",
                             record.topic(), record.partition(), record.offset(), record.key(), record.value());
-                    log.info("Received:" + info);
+                    logger.info("Received: {}", info);
                 }
             }
         } finally {

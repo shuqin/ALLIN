@@ -11,8 +11,8 @@ import cc.lovesq.result.goodsnapshot.GoodsSnapshot;
 import cc.lovesq.service.DeliveryService;
 import cc.lovesq.service.GoodsSnapshotService;
 import cc.lovesq.service.ShopService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +27,7 @@ import java.util.Date;
 @RequestMapping("/api/goodsnapshot/")
 public class GoodsSnapshotController {
 
-    private static Log log = LogFactory.getLog(GoodsSnapshotController.class);
+    private static Logger logger = LoggerFactory.getLogger(GoodsSnapshotController.class);
 
     @Resource
     private GoodsSnapshotService goodsSnapshotService;

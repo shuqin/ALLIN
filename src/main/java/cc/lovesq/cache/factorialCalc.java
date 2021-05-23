@@ -1,17 +1,16 @@
 package cc.lovesq.cache;
 
-import cc.lovesq.annotations.Timecost;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class factorialCalc {
 
-    private static Log log = LogFactory.getLog(factorialCalc.class);
+    private static Logger logger = LoggerFactory.getLogger(factorialCalc.class);
 
     static Random random = new Random(System.currentTimeMillis());
 
@@ -22,17 +21,15 @@ public class factorialCalc {
             long start = System.nanoTime();
             long facRec = fac(num);
             long end = System.nanoTime();
-            String info = String.format("fac(%d)=%d", num, facRec);
-            log.info(info);
+            logger.info("fac({})={}", num, facRec);
 
             long start2 = System.nanoTime();
             long facWithCache = facWithCache(num);
             long end2 = System.nanoTime();
-            String info2 = String.format("facWithCache(%d)=%d", num, facWithCache);
-            log.info(info2);
-            printCacheInfo(cache);
+            logger.info("facWithCache({})={}", num, facWithCache);
+            logCacheInfo(cache);
 
-            log.info("facRec cost: " + toMicros(end-start) + " " + "facWithCache cost: " +  toMicros(end2-start2) + " us");
+            logger.info("facRec cost: {}, facWithCache cost: {} us.", toMicros(end-start), toMicros(end2-start2));
         }
     }
 
@@ -40,9 +37,9 @@ public class factorialCalc {
         return TimeUnit.MICROSECONDS.toMicros(nanos);
     }
 
-    private static void printCacheInfo(Cache<Integer, Long> cache) {
-        log.info("cache contents: " + cache.asMap());
-        log.info("cache stat: " + cache.stats());
+    private static void logCacheInfo(Cache<Integer, Long> cache) {
+        logger.info("cache contents: {}", cache.asMap());
+        logger.info("cache stat: {}", cache.stats());
     }
 
     public static long fac(int n) {

@@ -1,7 +1,5 @@
 package cc.lovesq.study.test;
 
-import cc.lovesq.util.GsonUtil;
-import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.Assert;
@@ -24,7 +22,7 @@ public class WhiteRuleTest {
         Person p = new Person("qin", 32);
         fwr.test(p);
 
-        String json = JSON.toJSONString(fwr);
+        String json = JsonUtil.objectToJson(fwr);
 
         FunctionWhiteRule fwr2 = JsonUtil.toObject(json, FunctionWhiteRule.class);
         fwr2.test(p);

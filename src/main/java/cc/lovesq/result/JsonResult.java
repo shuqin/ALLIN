@@ -3,7 +3,7 @@ package cc.lovesq.result;
 import java.io.Serializable;
 import java.util.List;
 
-import cc.lovesq.util.GsonUtil;
+import shared.utils.GsonUtil;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

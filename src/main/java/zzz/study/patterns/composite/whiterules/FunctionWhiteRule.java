@@ -1,5 +1,6 @@
 package zzz.study.patterns.composite.whiterules;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +21,10 @@ public class FunctionWhiteRule implements SingleWhiteRule {
     private Op op = Op.func;
     private String func;   // 类的全限定性名.方法名
 
+    @JsonDeserialize(using = SingleWhiteRuleDeserializer.class)
     private SingleWhiteRule whiteRule;
+
+    public FunctionWhiteRule() {}
 
     public FunctionWhiteRule(String func, SingleWhiteRule whiteRule) {
         this.func = func;

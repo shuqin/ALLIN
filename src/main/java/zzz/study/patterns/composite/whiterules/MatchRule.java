@@ -22,6 +22,8 @@ public class MatchRule implements SingleWhiteRule {
     private String field;
     private MatchCondition condition;
 
+    public MatchRule() {}
+
     public MatchRule(String field, List<String> values) {
         this.field = field;
         this.condition = new MatchCondition(values);

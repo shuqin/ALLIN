@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import shared.utils.JsonUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @Date 2021/5/8 4:24 下午
  * @Created by qinshu
  */
-public interface WhiteRule {
+public interface WhiteRule extends Serializable {
 
     String IS_SINGLE_RULE = "single";
     String WHITE_RULES_FIELD = "whiteRules";

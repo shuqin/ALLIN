@@ -4,10 +4,10 @@ import cc.lovesq.constants.DeliveryType;
 import cc.lovesq.experiments.Experiments;
 import cc.lovesq.experiments.IExperiment;
 import cc.lovesq.goodssnapshot.GoodsServiceSnapshot;
-import cc.lovesq.model.Order;
 import cc.lovesq.goodssnapshot.impl4.GoodsServiceSnapshotProgress;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import cc.lovesq.model.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -17,7 +17,7 @@ import java.util.List;
 @Component("goodsSnapshotExperiment")
 public class GoodsSnapshotExperiment implements IExperiment {
 
-    private static Log log = LogFactory.getLog(Experiments.class);
+    private static Logger logger = LoggerFactory.getLogger(Experiments.class);
 
     @Resource
     private GoodsServiceSnapshotProgress goodsServiceSnapshotProgress;
@@ -40,7 +40,7 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setKeys(Arrays.asList("express", "secureService", "refundAndReturn"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
-        log.info(order.getOrderNo() + " " + serviceSnapshots);
+        logger.info("{} {}", order.getOrderNo(), serviceSnapshots);
     }
 
     public void test2() {
@@ -53,7 +53,7 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setKeys(Arrays.asList("express", "secureService", "refundAndReturn"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
-        log.info(order.getOrderNo() + " " + serviceSnapshots);
+        logger.info("{} {}", order.getOrderNo(), serviceSnapshots);
     }
 
     public void test3() {
@@ -66,7 +66,7 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setKeys(Arrays.asList("selfetch", "secureService", "refundAndReturn"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
-        log.info(order.getOrderNo() + " " + serviceSnapshots);
+        logger.info("{} {}", order.getOrderNo(), serviceSnapshots);
     }
 
     public void test4() {
@@ -83,6 +83,6 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setKeys(Arrays.asList("localDelivery", "secureService", "refundAndReturn", "codpay","retailShop", "drectoseller"));
         List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
-        log.info(order.getOrderNo() + " " + serviceSnapshots);
+        logger.info("{} {}", order.getOrderNo(), serviceSnapshots);
     }
 }

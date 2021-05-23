@@ -1,4 +1,4 @@
-package cc.lovesq.pojo;
+package cc.lovesq.model;
 
 import java.io.Serializable;
 

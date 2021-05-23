@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import zzz.study.utils.MapUtil;
+import shared.utils.MapUtil;
 
 public class RandomTester {
 	

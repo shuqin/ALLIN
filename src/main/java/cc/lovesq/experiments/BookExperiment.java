@@ -9,10 +9,9 @@ import cc.lovesq.model.Order;
 import cc.lovesq.model.transfer.BookInfoToMessageTransfer;
 import cc.lovesq.result.BaseResult;
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -28,7 +27,7 @@ import java.util.concurrent.Executors;
 @Component
 public class BookExperiment implements IExperiment {
 
-    private static Log log = LogFactory.getLog(BookExperiment.class);
+    private static Logger logger = LoggerFactory.getLogger(BookExperiment.class);
 
     @Resource
     private GoodsSnapshotController goodsSnapshotController;
@@ -74,10 +73,10 @@ public class BookExperiment implements IExperiment {
         goods.setDesc("2箱*250g");
         bookInfo.setGoods(goods);
 
-        log.info("bookInfo: " + JSON.toJSONString(bookInfo));
+        logger.info("bookInfo: {}", JSON.toJSONString(bookInfo));
 
         BaseResult bookResult = goodsSnapshotController.save(bookInfo);
-        log.info("下单结果:" + JSON.toJSONString(bookResult));
+        logger.info("下单结果: {}", JSON.toJSONString(bookResult));
 
         producer.sendAsync(
                 BookInfoToMessageTransfer.transfer(bookInfo),
@@ -88,9 +87,9 @@ public class BookExperiment implements IExperiment {
 
     private void callback(BookInfo bookInfo, RecordMetadata metadata, Exception ex) {
         if (metadata != null) {
-            log.info("发送订单消息:" + bookInfo.getOrder().getOrderNo() + " 偏移量: " + metadata.offset() + " 主题: " + metadata.topic());
+            logger.info("发送订单消息: {}  偏移量: {} 主题: {}", bookInfo.getOrder().getOrderNo(), metadata.offset(), metadata.topic());
         } else {
-            log.error("发送订单消息失败: " + ex.getMessage(), ex);
+            logger.error("发送订单消息失败: " + ex.getMessage(), ex);
         }
     }
 }

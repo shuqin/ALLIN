@@ -25,3 +25,5 @@ $ bin/zkServer.sh start-foreground
 步骤三：启动 Kafka 服务：
 $ bin/kafka-server-start.sh config/server.properties
 
+步骤四：启动 mongo 服务：
+$ mongod --dbpath /usr/local/var/mongodb --logpath /usr/local/var/log/mongodb/mongo.log --fork

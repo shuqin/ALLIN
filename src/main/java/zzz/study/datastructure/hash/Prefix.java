@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import zzz.study.utils.ArrayUtil;
+import shared.utils.ArrayUtil;
 
 
 public class Prefix {

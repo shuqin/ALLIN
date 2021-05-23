@@ -2,6 +2,7 @@ package cc.lovesq.util;
 
 import cc.lovesq.config.*;
 import org.yaml.snakeyaml.Yaml;
+import shared.utils.YamlUtil;
 import zzz.study.function.refactor.StreamUtil;
 
 import java.util.List;
@@ -56,9 +57,7 @@ public class ConfigUtil {
      * 通过 yml 文件加载对象模型
      */
     public static <T> T load(String ymlFilePath, Class<T> cls) {
-        Yaml yaml = new Yaml();
-        T model = yaml.loadAs(cls.getClassLoader().getResourceAsStream(ymlFilePath), cls);
-        return model;
+        return YamlUtil.load(ymlFilePath, cls);
     }
 
 }

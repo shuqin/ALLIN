@@ -1,15 +1,15 @@
 package cc.lovesq.flows.detect.bizevents;
 
 import cc.lovesq.flows.components.DefaultThreatInfoSender;
-import com.alibaba.fastjson.JSON;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import cc.lovesq.flows.factory.DetectEventFlowFactory;
 import cc.lovesq.flows.definitions.BizEventHandler;
 import cc.lovesq.flows.definitions.EventFlow;
 import cc.lovesq.flows.detect.DetectEventData;
+import cc.lovesq.flows.factory.DetectEventFlowFactory;
+import com.alibaba.fastjson.JSON;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 入侵事件的 BizEvent 对象的处理流程入口
@@ -21,7 +21,7 @@ import cc.lovesq.flows.detect.DetectEventData;
 @Component
 public class DetectEventHandler implements BizEventHandler {
 
-    private static Log log = LogFactory.getLog(DefaultThreatInfoSender.class);
+    private static Logger logger = LoggerFactory.getLogger(DefaultThreatInfoSender.class);
 
     private DetectEventFlowFactory detectEventFlowFactory;
 
@@ -34,7 +34,7 @@ public class DetectEventHandler implements BizEventHandler {
     public void handle(BizEvent bizEvent) {
         try {
             if (null == bizEvent.getData() || !(bizEvent.getData() instanceof DetectEventData)) {
-                log.warn("not-detect-data:" + JSON.toJSONString(bizEvent.getData()));
+                logger.warn("not-detect-data: {}", JSON.toJSONString(bizEvent.getData()));
                 return;
             }
 
@@ -46,7 +46,7 @@ public class DetectEventHandler implements BizEventHandler {
             eventFlow.process(new DetectEventDataWrapper(data));
 
         } catch (Exception e) {
-            log.error("DetectEventHandler@exception", e);
+            logger.error("DetectEventHandler@exception " + e.getMessage(), e);
         }
     }
 }

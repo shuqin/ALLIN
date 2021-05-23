@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static cc.lovesq.util.ListStream.stream;
+import static shared.utils.ListStream.stream;
 
 /**
  * @Description TODO

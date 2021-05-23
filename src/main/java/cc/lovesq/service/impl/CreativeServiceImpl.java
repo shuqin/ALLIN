@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cc.lovesq.dao.CreativeMapper;
-import cc.lovesq.pojo.CreativeDO;
+import cc.lovesq.model.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 import cc.lovesq.service.CreativeService;
 import shared.utils.JsonUtil;

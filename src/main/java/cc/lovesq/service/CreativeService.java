@@ -2,7 +2,7 @@ package cc.lovesq.service;
 
 import java.util.List;
 
-import cc.lovesq.pojo.CreativeDO;
+import cc.lovesq.model.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 
 public interface CreativeService extends BaseService<CreativeDO> {

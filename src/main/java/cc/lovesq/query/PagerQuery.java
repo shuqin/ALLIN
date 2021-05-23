@@ -1,6 +1,6 @@
 package cc.lovesq.query;
 
-import cc.lovesq.pojo.BaseObject;
+import cc.lovesq.model.BaseObject;
 import lombok.Data;
 
 /**

@@ -20,6 +20,8 @@ public class AndRule implements WhiteRule {
     private List<WhiteRule> whiteRules = new ArrayList<>();
     private Op op = Op.and;
 
+    public AndRule() {}
+
     public AndRule(List<WhiteRule> whiteRules) {
         this.whiteRules = whiteRules;
     }

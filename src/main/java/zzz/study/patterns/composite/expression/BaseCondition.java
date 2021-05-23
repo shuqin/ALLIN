@@ -1,7 +1,7 @@
 package zzz.study.patterns.composite.expression;
 
 import lombok.Data;
-import zzz.study.utils.MapUtil;
+import shared.utils.MapUtil;
 
 import java.util.Collection;
 import java.util.Map;

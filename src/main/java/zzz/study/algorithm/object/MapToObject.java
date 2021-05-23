@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import zzz.study.datastructure.map.TransferUtil;
 
-import static shared.utils.BeanUtil.map2Bean;
+import static cc.lovesq.util.BeanUtil.map2Bean;
 
 public class MapToObject {
 

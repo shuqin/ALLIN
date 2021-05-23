@@ -1,4 +1,4 @@
-package shared.utils;
+package cc.lovesq.util;
 
 import org.apache.commons.beanutils.BeanUtils;
 

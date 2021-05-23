@@ -1,6 +1,6 @@
 package cc.lovesq.controller;
 
-import cc.lovesq.pojo.CreativeDO;
+import cc.lovesq.model.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 import cc.lovesq.result.BaseResult;
 import cc.lovesq.result.JsonResult;
@@ -8,8 +8,8 @@ import cc.lovesq.result.PagerJsonResult;
 import cc.lovesq.service.CreativeService;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ import java.util.function.Function;
 @RequestMapping("/api/creatives")
 public class CreativeController extends BaseController {
 
-  private static Log log = LogFactory.getLog(CreativeController.class);
+  private static Logger logger = LoggerFactory.getLogger(CreativeController.class);
 
   @Resource
   private CreativeService creativeService;

@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-import zzz.study.utils.DateUtil;
-
 import static zzz.study.utils.PrintUtil.printNChars;
 import static zzz.study.utils.PrintUtil.indent;
 
@@ -97,7 +95,6 @@ public class ActualVisitor implements Visitor {
 			System.out.println("�Ƿ�Ŀ¼?  " + filePath.isDirectory()); 
 			System.out.println("�Ƿ�ɶ�?  " + filePath.canRead());
 			System.out.println("�Ƿ��д?  " + filePath.canWrite());
-			System.out.println("���һ�α��޸ĵ�ʱ��: " + DateUtil.toFormattedDate(new Date(filePath.lastModified())));
 		} catch (IOException e) {
 			e.printStackTrace(System.err);
 		}

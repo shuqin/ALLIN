@@ -2,7 +2,7 @@ package shared.util;
 
 import cc.lovesq.model.BookInfo;
 import cc.lovesq.model.event.AgentDetectEventData;
-import cc.lovesq.util.GsonUtil;
+import shared.utils.GsonUtil;
 import com.google.gson.reflect.TypeToken;
 import org.junit.Assert;
 import org.junit.Test;

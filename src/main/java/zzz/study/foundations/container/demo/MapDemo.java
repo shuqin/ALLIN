@@ -3,7 +3,7 @@ package zzz.study.foundations.container.demo;
 import java.util.HashMap;
 import java.util.Map;
 
-import static zzz.study.utils.MapUtil.*;
+import static shared.utils.MapUtil.*;
 import zzz.study.foundations.sharingclasses.Position;
 
 

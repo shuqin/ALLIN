@@ -16,7 +16,7 @@ import net.sf.jsqlparser.statement.select.*;
 import java.io.StringReader;
 import java.util.List;
 
-import static cc.lovesq.util.ListStream.stream;
+import static shared.utils.ListStream.stream;
 
 /**
  * @Description jsqlParser 解析

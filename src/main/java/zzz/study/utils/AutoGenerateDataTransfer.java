@@ -1,6 +1,6 @@
 package zzz.study.utils;
 
-import cc.lovesq.pojo.CreativeDO;
+import cc.lovesq.model.CreativeDO;
 
 import java.lang.reflect.Field;
 

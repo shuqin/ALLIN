@@ -26,7 +26,7 @@ import java.util.Properties;
  * @Date 2021/5/7 2:52 下午
  * @Created by qinshu
  */
-@Component
+//@Component
 public class KafkaFlinkDemo {
 
     @PostConstruct

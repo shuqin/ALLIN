@@ -1,7 +1,7 @@
 /**
  *
  */
-package cc.lovesq.util;
+package shared.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

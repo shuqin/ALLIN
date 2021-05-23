@@ -1,4 +1,4 @@
-package cc.lovesq.util;
+package shared.utils;
 
 import java.util.concurrent.TimeUnit;
 

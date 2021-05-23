@@ -25,8 +25,7 @@ public class MultiTaskExecutor {
   private static Logger logger = LoggerFactory.getLogger(MultiTaskExecutor.class);
 
   private static final int TASK_SIZE = 1000;
-
-  @Resource
+  
   private ExecutorService generalThreadPoolExecutor = Executors.newFixedThreadPool(10);
 
   /**

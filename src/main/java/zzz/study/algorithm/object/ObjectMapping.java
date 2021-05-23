@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static shared.utils.BeanUtil.map2Bean;
+import static cc.lovesq.util.BeanUtil.map2Bean;
 
 public class ObjectMapping {
 

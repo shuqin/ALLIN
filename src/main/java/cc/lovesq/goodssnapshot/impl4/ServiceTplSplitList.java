@@ -38,7 +38,6 @@ public class ServiceTplSplitList implements ServiceTplListInf {
         convertToList();
 
         watchService = FileSystems.getDefault().newWatchService();
-        System.out.println("parent: " + data1.getFile().getParent());
         Paths.get(data1.getFile().getParent()).register(watchService,
                 StandardWatchEventKinds.ENTRY_CREATE,
                 StandardWatchEventKinds.ENTRY_DELETE,

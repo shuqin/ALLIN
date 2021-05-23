@@ -1,6 +1,5 @@
 package cc.lovesq.dislock;
 
-import redis.clients.jedis.BitOP;
 import redis.clients.jedis.Jedis;
 
 import java.util.concurrent.TimeUnit;

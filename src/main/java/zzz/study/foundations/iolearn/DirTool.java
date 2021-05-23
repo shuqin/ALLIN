@@ -1,5 +1,7 @@
 package zzz.study.foundations.iolearn;
 
+import shared.utils.DateUtil;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,8 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
-
-import zzz.study.utils.DateUtil;
 
 public class DirTool {
 	
@@ -99,7 +99,7 @@ public class DirTool {
 			System.out.println("是否目录?  " + filePath.isDirectory()); 
 			System.out.println("是否可读?  " + filePath.canRead());
 			System.out.println("是否可写?  " + filePath.canWrite());
-			System.out.println("最后一次被修改的时间: " + DateUtil.toFormattedDate(new Date(filePath.lastModified())));
+			System.out.println("最后一次被修改的时间: " + DateUtil.format(new Date(filePath.lastModified())));
 			System.out.println("该目录下所有文件和目录：");
 			DirTool.printDirInfo(path);
 			

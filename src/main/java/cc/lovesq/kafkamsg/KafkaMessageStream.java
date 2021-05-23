@@ -1,10 +1,8 @@
 package cc.lovesq.kafkamsg;
 
 import cc.lovesq.model.BookInfo;
-import cc.lovesq.util.TimeUtil;
+import shared.utils.TimeUtil;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -12,6 +10,8 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Printed;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +25,7 @@ import java.util.Properties;
 @Component
 public class KafkaMessageStream {
 
-    private static Log log = LogFactory.getLog(KafkaMessageStream.class);
+    private static Logger logger = LoggerFactory.getLogger(KafkaMessageStream.class);
 
     @PostConstruct
     public void init() {
@@ -54,7 +54,7 @@ public class KafkaMessageStream {
                     TimeUtil.sleepInSecs(10);
                     KafkaStreams streams = new KafkaStreams(streamBuilder.build(), properties);
                     streams.start();
-                    log.info("stream-start ...");
+                    logger.info("stream-start ...");
                     TimeUtil.sleepInSecs(10);
                     streams.close();
                 }

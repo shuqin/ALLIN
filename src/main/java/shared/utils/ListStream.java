@@ -1,6 +1,4 @@
-package cc.lovesq.util;
-
-import org.springframework.util.CollectionUtils;
+package shared.utils;
 
 import java.util.ArrayList;
 import java.util.List;

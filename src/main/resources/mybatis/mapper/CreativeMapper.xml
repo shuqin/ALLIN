@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.lovesq.dao.CreativeMapper" >
-	<resultMap id="CreativeResult" type="cc.lovesq.pojo.CreativeDO" >
+	<resultMap id="CreativeResult" type="cc.lovesq.model.CreativeDO" >
 		<result column="creative_id" property="creativeId" jdbcType="BIGINT" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
@@ -15,7 +15,7 @@
 		creative_id, title, content, submitter, comment, gmt_create, gmt_modified
 	</sql>
 	
-	<insert id="insert" parameterType="cc.lovesq.pojo.CreativeDO" >
+	<insert id="insert" parameterType="cc.lovesq.model.CreativeDO" >
        
        INSERT INTO creative (title, content, submitter, comment, gmt_create, gmt_modified)
                      VALUES(#{title}, #{content}, #{submitter}, #{comment}, now(), now())
@@ -48,7 +48,7 @@
     	delete from creative where creative_id=#{creativeId}
 	</delete>
 	
-	<update id="update" parameterType="cc.lovesq.pojo.CreativeDO" >
+	<update id="update" parameterType="cc.lovesq.model.CreativeDO" >
     	update creative
 		<set>
 			<if test="title != null">
