@@ -1,12 +1,15 @@
-package shared.utils;
+package shared.stream;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @Description 列表的 Stream 包装
@@ -31,7 +34,7 @@ public class ListStream<T> {
     }
 
     public  <R> List<R> map(Function<? super T, R> func) {
-        return origin.stream().map(func).collect(Collectors.toList());
+        return origin.stream().map(func).collect(toList());
     }
 
     public  <R> Set<R> mapToSet(Function<? super T, R> func) {
@@ -39,7 +42,7 @@ public class ListStream<T> {
     }
 
     public  List<T> filter(Predicate<? super T> predicate) {
-        return origin.stream().filter(predicate).collect(Collectors.toList());
+        return origin.stream().filter(predicate).collect(toList());
     }
 
     public <R> List<R> filterAndMapChain(List<Predicate<? super T>> beforeFilters,
@@ -59,8 +62,19 @@ public class ListStream<T> {
                 midResult = midResult.filter(f);
             }
         }
-        return midResult.collect(Collectors.toList());
+        return midResult.collect(toList());
     }
 
+    public <K> Map<K, List<T>> group(Function<T,K> keyFunc) {
+        return origin.stream().collect(Collectors.groupingBy(keyFunc));
+    }
+
+    public <K,V> Map<K, List<V>> group(Function<T,K> keyFunc, Function<T, V> valueFunc) {
+        return origin.stream().collect(Collectors.groupingBy(keyFunc, Collectors.mapping(valueFunc, toList())));
+    }
+
+    public <K> Map<K,T> toMap(Function<T,K> keyFunc) {
+        return origin.stream().collect(Collectors.toMap(keyFunc, Function.identity(), (v1,v2) -> v1));
+    }
 
 }

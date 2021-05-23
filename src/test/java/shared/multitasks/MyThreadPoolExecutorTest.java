@@ -2,8 +2,6 @@ package shared.multitasks;
 
 import cc.lovesq.CommonForTest;
 import cc.lovesq.model.Word;
-import org.apache.http.util.Asserts;
-import org.junit.Assert;
 import org.junit.Test;
 import shared.data.DataGenerator;
 import shared.multitasks.customized.MyThreadPoolExecutor;

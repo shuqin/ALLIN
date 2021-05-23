@@ -1,12 +1,15 @@
 package shared.util;
 
+import cc.lovesq.model.Word;
 import org.junit.Assert;
 import org.junit.Test;
+import shared.data.DataGenerator;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-import static shared.utils.ListStream.stream;
+import static shared.stream.ListStream.stream;
 
 /**
  * @Description TODO
@@ -40,5 +43,27 @@ public class ListStreamTest {
                 x -> x*2,
                 x -> x > 8);
         Assert.assertArrayEquals(ints.toArray(new Integer[0]), new Integer[]{10});
+    }
+
+    @Test
+    public void testGroup() {
+        List<String> origin = DataGenerator.readWords("/eventflows.yml");
+        Map<Integer, List<String>> countWords = stream(origin).group(String::length);
+        System.out.println(countWords);
+    }
+
+    @Test
+    public void testGroup2() {
+        List<String> origin = DataGenerator.readWords("/eventflows.yml");
+        Map<Integer, List<Word>> countWords = stream(origin).group(String::length, s -> new Word(s, s.length()));
+        System.out.println(countWords);
+    }
+
+    @Test
+    public void testToMap() {
+        List<String> origin = DataGenerator.readWords("/eventflows.yml");
+        List<Word> words = stream(origin).map(s -> new Word(s, s.length()));
+        Map<String,Word> wordMap = stream(words).toMap(Word::getWord);
+        System.out.println(wordMap);
     }
 }
