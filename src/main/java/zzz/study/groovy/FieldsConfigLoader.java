@@ -12,24 +12,25 @@ import java.util.Map;
  */
 public class FieldsConfigLoader {
 
-  private static Logger logger = LoggerFactory.getLogger(FieldsConfigLoader.class);
+    private static Logger logger = LoggerFactory.getLogger(FieldsConfigLoader.class);
 
-  private static Map<String, ReportFieldConfig> fieldConfigMap = new HashMap<>();
-  static {
-    try {
-      List<ReportFieldConfig> fieldConfigs = new YamlConfigDirLoader("src/main/resources/scripts/").loadConfigs();
-      fieldConfigs.forEach(
-          fc -> fieldConfigMap.put(fc.getName(), fc)
-      );
-      logger.info("fieldConfigs: {}", fieldConfigs);
-    } catch (Exception ex) {
-      logger.error("failed to load fields conf", ex);
+    private static Map<String, ReportFieldConfig> fieldConfigMap = new HashMap<>();
+
+    static {
+        try {
+            List<ReportFieldConfig> fieldConfigs = new YamlConfigDirLoader("src/main/resources/scripts/").loadConfigs();
+            fieldConfigs.forEach(
+                    fc -> fieldConfigMap.put(fc.getName(), fc)
+            );
+            logger.info("fieldConfigs: {}", fieldConfigs);
+        } catch (Exception ex) {
+            logger.error("failed to load fields conf", ex);
+        }
+
     }
 
-  }
-
-  public static ReportFieldConfig getFieldConfig(String name) {
-    return fieldConfigMap.get(name);
-  }
+    public static ReportFieldConfig getFieldConfig(String name) {
+        return fieldConfigMap.get(name);
+    }
 
 }

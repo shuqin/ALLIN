@@ -6,7 +6,8 @@ public class BookSaveResponse {
 
     private Long goodsId;
 
-    public BookSaveResponse() {}
+    public BookSaveResponse() {
+    }
 
     public BookSaveResponse(String orderNo, Long goodsId) {
         this.orderNo = orderNo;

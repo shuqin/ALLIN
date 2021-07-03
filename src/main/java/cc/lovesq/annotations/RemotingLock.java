@@ -9,10 +9,11 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Retention(value=RUNTIME)
-@Target(value=METHOD)
+@Retention(value = RUNTIME)
+@Target(value = METHOD)
 public @interface RemotingLock {
 
     long time() default 1;
+
     TimeUnit timeUnit() default TimeUnit.SECONDS;
 }

@@ -28,7 +28,7 @@ class AutoUTGenerator {
     static void ut(Class testClass) {
         def packageName = testClass.package.name
         def className = testClass.simpleName
-        def methods = testClass.declaredMethods.findAll { ! it.name.contains("lambda") }
+        def methods = testClass.declaredMethods.findAll { !it.name.contains("lambda") }
         def methodInfos = methods.collect { parse(it) }
 
         def allInfo = new AllInfoForAutoGeneratingUT(
@@ -58,9 +58,9 @@ class AutoUTGenerator {
         def returnType = m.returnType.simpleName
 
         new MethodInfo(methodName: methodName,
-                       paramTypes: paramTypes,
-                       classNamesToImported: classNamesToImported,
-                       returnType: returnType
+                paramTypes: paramTypes,
+                classNamesToImported: classNamesToImported,
+                returnType: returnType
         )
 
     }
@@ -71,19 +71,19 @@ class AutoUTGenerator {
     static buildUTContent(AllInfoForAutoGeneratingUT allInfo) {
         def spockTestFile = new File("${projectRoot}/templates/spocktest.tpl")
         def methodContents = allInfo.methodInfos.collect { generateTestMethod(it, allInfo.className) }
-                                                .join("\n\n")
+                .join("\n\n")
 
         def engine = new SimpleTemplateEngine()
         def imports = allInfo.methodInfos.collect { it.classNamesToImported }
                 .flatten().toSet()
                 .findAll { isNeedImport(it) }
-                .collect { "import " + it } .join("\n")
+                .collect { "import " + it }.join("\n")
         def binding = [
-                "packageName": allInfo.packageName,
-                "ClassName": allInfo.className,
-                "inst": allInfo.className.toLowerCase(),
+                "packageName"        : allInfo.packageName,
+                "ClassName"          : allInfo.className,
+                "inst"               : allInfo.className.toLowerCase(),
                 "BizClassNameImports": imports,
-                "AllTestMethods": methodContents
+                "AllTestMethods"     : methodContents
         ]
         def spockTestContent = engine.createTemplate(spockTestFile).make(binding) as String
         return spockTestContent
@@ -111,14 +111,14 @@ class AutoUTGenerator {
         }
 
         def binding = [
-                "method": m.methodName,
-                "Method": firstUpperCase(m.methodName) + "(" + m.paramTypes.join(",") + ")",
-                "inst": className.toLowerCase(),
-                "paramListInMethodCall": paramTypeList.join(","),
+                "method"                 : m.methodName,
+                "Method"                 : firstUpperCase(m.methodName) + "(" + m.paramTypes.join(",") + ")",
+                "inst"                   : className.toLowerCase(),
+                "paramListInMethodCall"  : paramTypeList.join(","),
                 "paramListInDataProvider": paramTypeList.join(" | "),
-                "result": mapType(firstLowerCase(m.returnType), true),
-                "paramValues": paramValues,
-                "resultValue": returnValue
+                "result"                 : mapType(firstLowerCase(m.returnType), true),
+                "paramValues"            : paramValues,
+                "resultValue"            : returnValue
         ]
 
         return engine.createTemplate(methodTplFile).make(binding).toString() as String
@@ -176,15 +176,15 @@ class AutoUTGenerator {
 
     def static typeMap = [
             "string": "str", "boolean": "bval", "long": "longval", "Integer": "intval",
-            "float": "fval", "double": "dval", "int": "intval", "object[]": "objectlist",
-            "int[]": "intlist", "long[]": "longlist", "char[]": "chars",
+            "float" : "fval", "double": "dval", "int": "intval", "object[]": "objectlist",
+            "int[]" : "intlist", "long[]": "longlist", "char[]": "chars",
             "byte[]": "bytes", "short[]": "shortlist", "double[]": "dlist", "float[]": "flist"
     ]
 
     def static typeDefaultValues = [
-            "string": "\"\"", "boolean": true, "long": 0L, "integer": 0, "int": 0,
-            "float": 0, "double": 0.0, "list": "[]", "map": "[:]", "date": "new Date()",
-            "int[]": "[]", "long[]": "[]", "string[]": "[]", "char[]": "[]", "short[]": "[]", "byte[]": "[]", "booloean[]": "[]",
+            "string"   : "\"\"", "boolean": true, "long": 0L, "integer": 0, "int": 0,
+            "float"    : 0, "double": 0.0, "list": "[]", "map": "[:]", "date": "new Date()",
+            "int[]"    : "[]", "long[]": "[]", "string[]": "[]", "char[]": "[]", "short[]": "[]", "byte[]": "[]", "booloean[]": "[]",
             "integer[]": "[]", "object[]": "[]"
     ]
 }

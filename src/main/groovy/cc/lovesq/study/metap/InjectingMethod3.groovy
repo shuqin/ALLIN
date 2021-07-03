@@ -12,11 +12,10 @@ class InjectingMethod3 {
                     if (value instanceof Map) {
                         def innerMap = [:]
                         value.each { k, v ->
-                            innerMap[key+'.'+k] = v
+                            innerMap[key + '.' + k] = v
                         }
                         finalResult.putAll(innerMap)
-                    }
-                    else {
+                    } else {
                         finalResult[key] = value
                     }
                 }
@@ -35,7 +34,7 @@ class InjectingMethod3 {
 
         }
 
-        def skills = [id:123, name:'qin', 'skills': ['programming':'good', 'writing': 'good', 'expression':'not very good']]
+        def skills = [id: 123, name: 'qin', 'skills': ['programming': 'good', 'writing': 'good', 'expression': 'not very good']]
 
         println "pretty print: " + Map.pretty(skills)
         println 'flatMap:' + skills.flatMap()

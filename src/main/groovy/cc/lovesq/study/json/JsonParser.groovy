@@ -22,8 +22,7 @@ class JsonParser {
             k, v ->
                 if (!(v instanceof Map) && !(v instanceof List)) {
                     fields += "${indent()}private ${getType(v)} $k;\n"
-                }
-                else {
+                } else {
 
                     if (v instanceof Map) {
                         def className = getClsName(k)
@@ -42,14 +41,14 @@ class JsonParser {
                             if (cls.endsWith('s')) {
                                 cls = cls[0..-2]
                             }
-                            def convertedClsName = convert(cls,keyConverter)
+                            def convertedClsName = convert(cls, keyConverter)
                             fields += "${indent()}private List<${convertedClsName}> ${uncapitalize(convertedClsName)}s;\n"
                             parseMap(obj, convertedClsName, keyConverter)
                         }
                     }
                 }
         }
-        print getString(classTpl, ["Namespace": namespace, "fieldsContent" : fields])
+        print getString(classTpl, ["Namespace": namespace, "fieldsContent": fields])
 
     }
 

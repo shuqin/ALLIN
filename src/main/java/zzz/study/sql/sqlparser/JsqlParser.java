@@ -11,7 +11,10 @@ import net.sf.jsqlparser.parser.CCJSqlParserManager;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.select.*;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.SelectExpressionItem;
+import net.sf.jsqlparser.statement.select.SelectItem;
 
 import java.io.StringReader;
 import java.util.List;
@@ -30,7 +33,7 @@ public class JsqlParser {
             CCJSqlParserManager parserManager = new CCJSqlParserManager();
             Statement statement = parserManager.parse(new StringReader(selectSql));
             if (!(statement instanceof Select)) {
-                return ;
+                return;
             }
 
             SqlParserInfo spi = new SqlParserInfo();
@@ -80,7 +83,7 @@ public class JsqlParser {
             String right = getValue(eq.getRightExpression());
             Condition condition = new Condition(left, right);
             whereInfo.addCondition(condition);
-            return ;
+            return;
         }
 
         if (expr instanceof InExpression) {
@@ -91,7 +94,7 @@ public class JsqlParser {
             String values = String.join(",", stream(el.getExpressions()).map(JsqlParser::getValue));
             Condition condition = new Condition(left, values);
             whereInfo.addCondition(condition);
-            return ;
+            return;
         }
 
         if (expr instanceof LikeExpression) {
@@ -100,7 +103,7 @@ public class JsqlParser {
             String right = getValue(le.getRightExpression());
             Condition condition = new Condition(left, right);
             whereInfo.addCondition(condition);
-            return ;
+            return;
         }
 
         if (expr instanceof AndExpression) {
@@ -109,7 +112,7 @@ public class JsqlParser {
             Expression right = ae.getRightExpression();
             parseWhereInfo(left, whereInfo);
             parseWhereInfo(right, whereInfo);
-            return ;
+            return;
         }
 
         if (expr instanceof OrExpression) {
@@ -118,7 +121,7 @@ public class JsqlParser {
             Expression right = ae.getRightExpression();
             parseWhereInfo(left, whereInfo);
             parseWhereInfo(right, whereInfo);
-            return ;
+            return;
         }
     }
 

@@ -14,7 +14,7 @@ class CatchUtilTest extends Specification {
     def "testTryDo"() {
         expect:
         try {
-            CatchUtil.tryDo(1, { throw new IllegalArgumentException(it.toString())} as Consumer)
+            CatchUtil.tryDo(1, { throw new IllegalArgumentException(it.toString()) } as Consumer)
             Assert.fail("NOT THROW EXCEPTION")
         } catch (Exception ex) {
             ex.class.name == "java.lang.RuntimeException"
@@ -24,7 +24,7 @@ class CatchUtilTest extends Specification {
 
     def "testTryDoWithThrown"() {
         when:
-        CatchUtil.tryDo(1, { throw new IllegalArgumentException(it.toString())} as Consumer)
+        CatchUtil.tryDo(1, { throw new IllegalArgumentException(it.toString()) } as Consumer)
 
         then:
         def ex = thrown(Exception)

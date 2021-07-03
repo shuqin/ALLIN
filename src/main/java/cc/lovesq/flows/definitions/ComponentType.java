@@ -3,11 +3,12 @@ package cc.lovesq.flows.definitions;
 /**
  * 组件类型包括三要素：
  * 组件名称、组件业务类型、组件意图
- *
+ * <p>
  * 组件编程涉及到一个问题：根据具体业务选择适合的组件。
  * 组件的选择目前依赖两个要素：组件的意图和组件业务类型
- *
+ * <p>
  * ComponentType 与 FlowComponent 的定义保持一致
+ *
  * @see ComponentProperties
  */
 public enum ComponentType {
@@ -33,6 +34,10 @@ public enum ComponentType {
         this.purpose = purpose;
     }
 
+    public static String getKey(String purpose, String biz) {
+        return purpose + "_" + biz;
+    }
+
     public String getName() {
         return name;
     }
@@ -43,9 +48,5 @@ public enum ComponentType {
 
     public String getPurpose() {
         return purpose;
-    }
-
-    public static String getKey(String purpose, String biz) {
-        return purpose + "_" + biz;
     }
 }

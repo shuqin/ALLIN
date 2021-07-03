@@ -20,7 +20,7 @@ public class Report {
         ).collect(Collectors.toList());
 
         System.out.println(reportTitles);
-        System.out.println(String.join("\n",rows));
+        System.out.println(String.join("\n", rows));
 
     }
 

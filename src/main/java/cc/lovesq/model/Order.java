@@ -11,61 +11,70 @@ import java.util.Map;
 
 public class Order {
 
-    /** 订单号 */
+    /**
+     * 订单号
+     */
     private String orderNo;
 
-    /** 店铺ID */
+    /**
+     * 店铺ID
+     */
     private Long shopId;
 
-    /** 下单时间 */
+    /**
+     * 下单时间
+     */
     private Long bookTime;
 
-    /** 下单人ID */
+    /**
+     * 下单人ID
+     */
     private Long userId;
 
-    /** 是否货到付款 */
+    /**
+     * 是否货到付款
+     */
     private Boolean isCodPay;
 
-    /** 是否担保交易 */
+    /**
+     * 是否担保交易
+     */
     private Boolean isSecuredOrder;
 
-    /** 是否有线下门店 */
+    /**
+     * 是否有线下门店
+     */
     private Boolean hasRetailShop;
 
-    /** 配送方式 0 快递 1 自提 2 同城送 */
+    /**
+     * 配送方式 0 快递 1 自提 2 同城送
+     */
     private DeliveryType deliveryType;
 
-    /** 订单金额, 分为单位 */
+    /**
+     * 订单金额, 分为单位
+     */
     private Long price;
 
-    /** 快递配送金额 */
+    /**
+     * 快递配送金额
+     */
     private Long expressFee;
 
-    /** 同城配送起送金额 */
+    /**
+     * 同城配送起送金额
+     */
     private Long localDeliveryBasePrice;
 
-    /** 同城配送金额 */
+    /**
+     * 同城配送金额
+     */
     private Long localDeliveryPrice;
 
-    /** 订单的服务 keys */
+    /**
+     * 订单的服务 keys
+     */
     private List<String> keys;
-
-    public OrderDO toOrderDO() {
-        OrderDO orderDO = new OrderDO();
-        orderDO.setOrderNo(orderNo);
-        orderDO.setShopId(shopId);
-        orderDO.setBookTime(bookTime);
-        orderDO.setUserId(userId);
-
-        orderDO.setDeliveryType(deliveryType.getCode());
-        orderDO.setPrice(price);
-        orderDO.setExtend(formExtend());
-
-        orderDO.setGmtCreate(new Date());
-        orderDO.setGmtModified(new Date());
-
-        return orderDO;
-    }
 
     public static Order from(OrderDO orderDO) {
         Order order = new Order();
@@ -87,6 +96,23 @@ public class Order {
         order.setKeys(extMap.getJSONArray("keys").toJavaList(String.class));
 
         return order;
+    }
+
+    public OrderDO toOrderDO() {
+        OrderDO orderDO = new OrderDO();
+        orderDO.setOrderNo(orderNo);
+        orderDO.setShopId(shopId);
+        orderDO.setBookTime(bookTime);
+        orderDO.setUserId(userId);
+
+        orderDO.setDeliveryType(deliveryType.getCode());
+        orderDO.setPrice(price);
+        orderDO.setExtend(formExtend());
+
+        orderDO.setGmtCreate(new Date());
+        orderDO.setGmtModified(new Date());
+
+        return orderDO;
     }
 
     private String formExtend() {

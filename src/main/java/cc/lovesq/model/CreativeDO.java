@@ -1,24 +1,24 @@
 package cc.lovesq.model;
 
-import java.util.Date;
-
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class CreativeDO {
 
-  private Long creativeId;
+    private Long creativeId;
 
-  private String title;
+    private String title;
 
-  private String content;
+    private String content;
 
-  private String comment;
+    private String comment;
 
-  private String submitter;
+    private String submitter;
 
-  private Date gmtCreate;
+    private Date gmtCreate;
 
-  private Date gmtModified;
+    private Date gmtModified;
 
 }

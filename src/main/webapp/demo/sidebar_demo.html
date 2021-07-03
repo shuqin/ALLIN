@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>左边栏布局</title>
-		
-        <link rel="stylesheet" type="text/css" href="../resources/css/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="../resources/css/global.css" />
-        <script src="../scripts/jsthirdbase/jquery-1.10.1.min.js"></script>
-        <script src="../scripts/jsthirdbase/jquery-ui-1.9.2-min.js"></script>
-		
-		<script type="text/javascript">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>左边栏布局</title>
+
+    <link href="../resources/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <link href="../resources/css/global.css" rel="stylesheet" type="text/css"/>
+    <script src="../scripts/jsthirdbase/jquery-1.10.1.min.js"></script>
+    <script src="../scripts/jsthirdbase/jquery-ui-1.9.2-min.js"></script>
+
+    <script type="text/javascript">
 		
 		    htmlSrc = {
 		    	'Taobao': 'http://taobao.com',
@@ -69,9 +69,10 @@
 	       	    	$('#Taobao').trigger('click');
 			   }    
 			);
-		</script>
-		
-		<style type="text/css">
+
+    </script>
+
+    <style type="text/css">
 		    .left {
 				margin: 0px -3px 0 1px;
 			}
@@ -99,34 +100,35 @@
 		    }
 		    
 		    
-		</style>
-    </head>
-	<body>
-    <div id="content">
-        <div class="left">
-             <div id="accordion-resizer" class="ui-widget-content">
-				  <div id="accordion">
-				    <h4>常用购物网站</h4>
-				    <div>
-				        <button type="button" id="Taobao" value="Taobao" class="accordClass my-button-clicked">淘宝</button>
-				        <button type="button" id="Jingdong" value="Jingdong" class="accordClass">京东</button>
-				        <button type="button" id="Amazon" value="Amazon" class="accordClass">亚马逊</button>
-				    </div>
-				    <h4>常用开发网站</h4>
-				    <div>
-				        <button type="button" id="Ifeve" value="Ifeve" class="accordClass my-button-clicked">Ifeve</button>
-				        <button type="button" id="Bole" value="Bole" class="accordClass my-button-clicked">伯乐在线</button>
-				    </div>
-				  </div>
-		    </div>
-	    </div>
-	    
-	    <div class="verticalSeparator"></div>
-	    
-	    <div class="right">
-	        <iframe id="maincontent" frameborder="0" width="100%"></iframe>
-	    </div> 
-	</div>	
-    
+
+    </style>
+</head>
+<body>
+<div id="content">
+    <div class="left">
+        <div class="ui-widget-content" id="accordion-resizer">
+            <div id="accordion">
+                <h4>常用购物网站</h4>
+                <div>
+                    <button class="accordClass my-button-clicked" id="Taobao" type="button" value="Taobao">淘宝</button>
+                    <button class="accordClass" id="Jingdong" type="button" value="Jingdong">京东</button>
+                    <button class="accordClass" id="Amazon" type="button" value="Amazon">亚马逊</button>
+                </div>
+                <h4>常用开发网站</h4>
+                <div>
+                    <button class="accordClass my-button-clicked" id="Ifeve" type="button" value="Ifeve">Ifeve</button>
+                    <button class="accordClass my-button-clicked" id="Bole" type="button" value="Bole">伯乐在线</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="verticalSeparator"></div>
+
+    <div class="right">
+        <iframe frameborder="0" id="maincontent" width="100%"></iframe>
+    </div>
+</div>
+
 </body>
 </html>

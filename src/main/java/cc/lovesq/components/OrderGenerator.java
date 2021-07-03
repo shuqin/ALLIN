@@ -21,7 +21,7 @@ public class OrderGenerator {
         StringBuilder sb = new StringBuilder();
         String numStr = String.valueOf(num);
         int zeros = n - numStr.length();
-        while( zeros > 0) {
+        while (zeros > 0) {
             sb.append('0');
             zeros--;
         }

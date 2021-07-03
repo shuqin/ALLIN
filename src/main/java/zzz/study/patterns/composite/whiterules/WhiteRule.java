@@ -21,16 +21,6 @@ public interface WhiteRule extends Serializable {
     String CONDITION = "condition";
     String OP = "op";
 
-    boolean test(Object obj);
-
-    interface Condition {
-        boolean test(Object value);
-    }
-
-    default String expr() {
-        return JSON.toJSONString(this);
-    }
-
     static WhiteRule parse(String ruleStr) {
         JSONObject jsonObject = JSON.parseObject(ruleStr);
         if (jsonObject.getBoolean(IS_SINGLE_RULE) == Boolean.TRUE) {
@@ -39,7 +29,7 @@ public interface WhiteRule extends Serializable {
         JSONArray jsonArray = jsonObject.getJSONArray(WHITE_RULES_FIELD);
         Op op = Op.getOp(jsonObject.getString(OP));
         List<WhiteRule> whiteRuleList = new ArrayList<>();
-        for (int i=0; i < jsonArray.size(); i++) {
+        for (int i = 0; i < jsonArray.size(); i++) {
             // 目前不考虑列表嵌套的情形
             whiteRuleList.add(parseSingle(jsonArray.getJSONObject(i)));
         }
@@ -62,5 +52,15 @@ public interface WhiteRule extends Serializable {
             default:
                 return null;
         }
+    }
+
+    boolean test(Object obj);
+
+    default String expr() {
+        return JSON.toJSONString(this);
+    }
+
+    interface Condition {
+        boolean test(Object value);
     }
 }

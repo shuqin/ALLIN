@@ -2,10 +2,10 @@ package shared.util;
 
 import cc.lovesq.model.BookInfo;
 import cc.lovesq.model.event.AgentDetectEventData;
-import shared.utils.GsonUtil;
 import com.google.gson.reflect.TypeToken;
 import org.junit.Assert;
 import org.junit.Test;
+import shared.utils.GsonUtil;
 import zzz.study.foundations.iolearn.RWTool;
 
 import java.util.List;
@@ -15,7 +15,8 @@ public class GsonUtilTest {
     @Test
     public void testParseJson() {
         String json = RWTool.readFromSource("/json.txt");
-        List<AgentDetectEventData> ade = GsonUtil.fromJson(json, new TypeToken<List<AgentDetectEventData>>(){}.getType());
+        List<AgentDetectEventData> ade = GsonUtil.fromJson(json, new TypeToken<List<AgentDetectEventData>>() {
+        }.getType());
         Assert.assertNotNull(ade);
     }
 

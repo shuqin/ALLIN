@@ -21,13 +21,13 @@ public class TreeUtil {
 
             if (root.left != null) {
                 le = findAllPaths(root.left);
-                for (Path p: le) {
+                for (Path p : le) {
                     p.append(root.val);
                 }
             }
             if (root.right != null) {
                 ri = findAllPaths(root.right);
-                for (Path p: ri) {
+                for (Path p : ri) {
                     p.append(root.val);
                 }
             }
@@ -48,7 +48,7 @@ public class TreeUtil {
 
         TreeNode p = root;
         TraceNode traceNode = TraceNode.getNoAccessedNode(p);
-        while(p != null) {
+        while (p != null) {
             if (p.left == null && p.right == null) {
                 // 叶子节点的情形，需要记录路径，并回溯到父节点
                 treeData.push(p.val);
@@ -60,15 +60,13 @@ public class TreeUtil {
                 traceNode = trace.pop();
                 p = traceNode.getParent();
                 continue;
-            }
-            else if (traceNode.needAccessLeft()) {
+            } else if (traceNode.needAccessLeft()) {
                 // 需要访问左子树的情形
                 treeData.push(p.val);
                 trace.push(TraceNode.getLeftAccessedNode(p));
                 p = p.left;
                 traceNode = TraceNode.getNoAccessedNode(p);
-            }
-            else if (traceNode.needAccessRight()) {
+            } else if (traceNode.needAccessRight()) {
                 // 需要访问右子树的情形
                 if (traceNode.hasNoLeft()) {
                     treeData.push(p.val);
@@ -80,8 +78,7 @@ public class TreeUtil {
                 trace.push(TraceNode.getRightAccessedNode(p));
                 p = p.right;
                 traceNode = TraceNode.getNoAccessedNode(p);
-            }
-            else if (traceNode.hasAllAccessed()) {
+            } else if (traceNode.hasAllAccessed()) {
                 // 左右子树都已经访问了，需要回溯到父节点
                 if (trace.isEmpty()) {
                     break;
@@ -102,7 +99,7 @@ public class TreeUtil {
 
         TreeNode p = root;
         int accessed = 0;
-        while(p != null) {
+        while (p != null) {
             if (p.left == null && p.right == null) {
                 // 叶子节点的情形，需要记录路径，并回溯到父节点
                 treeData.push(p.val);
@@ -115,28 +112,25 @@ public class TreeUtil {
                 p = traceNode.getParent();
                 accessed = traceNode.getAccessed();
                 continue;
-            }
-            else if (p.left != null && accessed == 0) {
+            } else if (p.left != null && accessed == 0) {
                 // 需要访问左子树的情形
                 treeData.push(p.val);
                 trace.push(TraceNode.getLeftAccessedNode(p));
                 p = p.left;
                 accessed = 0;
-            }
-            else if (p.right != null && accessed < 2) {
+            } else if (p.right != null && accessed < 2) {
                 // 需要访问右子树的情形
                 if (p.left == null) {
                     treeData.push(p.val);
                 }
-                if (!( p.left == null || (p.left != null && accessed == 1) )) {
+                if (!(p.left == null || (p.left != null && accessed == 1))) {
                     // 访问左节点时已经入栈过，这里不重复入栈
                     treeData.push(p.val);
                 }
                 trace.push(TraceNode.getRightAccessedNode(p));
                 p = p.right;
                 accessed = 0;
-            }
-            else if (hasAllAccessed(p, accessed)) {
+            } else if (hasAllAccessed(p, accessed)) {
                 // 左右子树都已经访问了，需要回溯到父节点
                 if (trace.isEmpty()) {
                     break;
@@ -166,7 +160,7 @@ public class TreeUtil {
         Stack<Integer> s = new DyStack<Integer>();
 
         TreeNode p = root;
-        while(p != null) {
+        while (p != null) {
             s.push(p.val);
             if (p.left == null && p.right == null) {
                 allPaths.add(new ListPath(s.unmodifiedList()));
@@ -177,8 +171,7 @@ public class TreeUtil {
             }
             if (p.left != null) {
                 p = p.left;
-            }
-            else if (p.right != null) {
+            } else if (p.right != null) {
                 p = p.right;
             }
         }

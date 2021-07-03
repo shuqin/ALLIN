@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class OrderInfo {
 
-  private String orderNo;
+    private String orderNo;
 
-  public OrderInfo(String orderNo) {
-    this.orderNo = orderNo;
-  }
+    public OrderInfo(String orderNo) {
+        this.orderNo = orderNo;
+    }
 }

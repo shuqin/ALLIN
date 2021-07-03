@@ -7,7 +7,8 @@ import cc.lovesq.flows.definitions.DetectDTO;
 
 public class DefaultDetectFlowContext extends AbstractFlowContext<DetectEventDataWrapper> {
 
-    public DefaultDetectFlowContext() {}
+    public DefaultDetectFlowContext() {
+    }
 
     public DefaultDetectFlowContext(DetectEventDataWrapper detectEventData,
                                     DetectDO detectDO,

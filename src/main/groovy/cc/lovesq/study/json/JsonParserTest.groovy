@@ -1,7 +1,5 @@
 package cc.lovesq.study.json
 
-import jdk.nashorn.internal.parser.JSONParser
-
 class JsonParserTest {
 
     def static main(args) {

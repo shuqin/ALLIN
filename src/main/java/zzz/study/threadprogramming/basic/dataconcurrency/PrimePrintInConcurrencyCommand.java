@@ -4,14 +4,14 @@ import zzz.study.algorithm.runtime.Command;
 
 public class PrimePrintInConcurrencyCommand implements Command {
 
-	private PrimePrintInConcurrency ppic;
-		
-	public PrimePrintInConcurrencyCommand(PrimePrintInConcurrency ppic) {
-		this.ppic = ppic;
-	}
+    private PrimePrintInConcurrency ppic;
 
-	public void run() {
-		ppic.run();	
-	}
+    public PrimePrintInConcurrencyCommand(PrimePrintInConcurrency ppic) {
+        this.ppic = ppic;
+    }
+
+    public void run() {
+        ppic.run();
+    }
 
 }

@@ -11,7 +11,7 @@ class GeneralCaller {
         orderProcessor(this.&complete)
 
         def listSorter = generalCaller.rcurry(this.&sort)
-        println listSorter([4,7,2,6,1,3])
+        println listSorter([4, 7, 2, 6, 1, 3])
         println listSorter(["i", "have", "a", "dream"])
 
     }
@@ -22,11 +22,11 @@ class GeneralCaller {
     }
 
     def static cancel(order) {
-        println ("cancel: " + order.orderNo)
+        println("cancel: " + order.orderNo)
     }
 
     def static complete(order) {
-        println ("complete: " + order.orderNo)
+        println("complete: " + order.orderNo)
     }
 
 }

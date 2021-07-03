@@ -1,41 +1,40 @@
 package zzz.study.foundations.basic;
 
 public class InheritanceTrap {
-	
-	public static void main(String[] args)
-	{
-		Child c = new Child(2, 3);
-		System.out.println(c);
-	}
+
+    public static void main(String[] args) {
+        Child c = new Child(2, 3);
+        System.out.println(c);
+    }
 
 }
 
 class Child extends Parent {
-	
-	private int i; 
-	private int j;
-	
-	public Child(int i, int j) {
-		super(i);
-		this.j = j;
-	}
-	
-	public String toString() {
-		return "i = " + i + ", j = " + j;
-	}
+
+    private int i;
+    private int j;
+
+    public Child(int i, int j) {
+        super(i);
+        this.j = j;
+    }
+
+    public String toString() {
+        return "i = " + i + ", j = " + j;
+    }
 }
 
 class Parent {
-	
-	private int i;
-	
-	public Parent(int i) {
-		this.i = i;
-	}
-	
-	public String toString() {
-		return "i = " + i;
-	}
+
+    private int i;
+
+    public Parent(int i) {
+        this.i = i;
+    }
+
+    public String toString() {
+        return "i = " + i;
+    }
 }
 
 /*

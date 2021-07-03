@@ -13,12 +13,12 @@ public class DetectEventData {
         return event;
     }
 
-    public String getEventType() {
-        return eventType;
-    }
-
     public void setEvent(String event) {
         this.event = event;
+    }
+
+    public String getEventType() {
+        return eventType;
     }
 
     public void setEventType(String eventType) {

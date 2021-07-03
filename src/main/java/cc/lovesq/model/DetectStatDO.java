@@ -13,8 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @Date 2021/5/7 6:25 下午
  * @Created by qinshu
  */
-@Accessors(chain=true)  //链式调用
-@Document(collection="detect_stat")   //指定集合
+@Accessors(chain = true)  //链式调用
+@Document(collection = "detect_stat")   //指定集合
 @CompoundIndexes({
         @CompoundIndex(
                 name = "ns_ts",

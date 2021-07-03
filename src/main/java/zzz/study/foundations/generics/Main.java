@@ -8,9 +8,36 @@ import java.util.List;
 
 public class Main {
 
-    public static class MyList<T>{
+    public static Class getActualType(Field field) {
+        Class<?> fieldType = field.getType();
+        // 集合List元素
+        if (fieldType.equals(List.class)) {
+            // 当前集合的泛型类型
+            Type genericType = field.getGenericType();
+            if (genericType instanceof ParameterizedType) {
+                ParameterizedType pt = (ParameterizedType) genericType;
+                // 得到泛型里的class类型对象
+                Class<?> actualTypeArgument = (Class<?>) (pt.getActualTypeArguments()[0]);
+                return actualTypeArgument;
+            }
+        }
+        return fieldType;
+    }
+
+    public static void main(String[] args) throws Exception {
+        MyList<User> userMyList = new MyList<User>();//传入泛型
+        userMyList.add(new User());
+        System.out.println(userMyList.getGenericType());
+        System.out.println(userMyList.getGenericTypeWithReflection());
+        userMyList.list.forEach(user -> {
+            System.out.println(user.name);
+        });
+    }
+
+    public static class MyList<T> {
         private List<T> list = new ArrayList<>();
-        public MyList(){
+
+        public MyList() {
         }
 
         public void add(T t) {
@@ -37,34 +64,8 @@ public class Main {
         }
     }
 
-    public static Class getActualType(Field field){
-        Class<?> fieldType = field.getType();
-        // 集合List元素
-        if (fieldType.equals(List.class)) {
-            // 当前集合的泛型类型
-            Type genericType = field.getGenericType();
-            if (genericType instanceof ParameterizedType) {
-                ParameterizedType pt = (ParameterizedType) genericType;
-                // 得到泛型里的class类型对象
-                Class<?> actualTypeArgument = (Class<?>)(pt.getActualTypeArguments()[0]);
-                return actualTypeArgument;
-            }
-        }
-        return fieldType;
-    }
-
-    public static class User{
+    public static class User {
         String name;
-    }
-
-    public static void main(String[] args) throws Exception {
-        MyList<User> userMyList = new MyList<User>();//传入泛型
-        userMyList.add(new User());
-        System.out.println(userMyList.getGenericType());
-        System.out.println(userMyList.getGenericTypeWithReflection());
-        userMyList.list.forEach(user -> {
-            System.out.println(user.name);
-        });
     }
 
 }

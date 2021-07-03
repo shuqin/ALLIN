@@ -17,7 +17,7 @@ class SubExpression2 extends Expression {
             result
         }
 
-        def exp = new SubExpression2(field: "id", op:"=", value:111)
+        def exp = new SubExpression2(field: "id", op: "=", value: 111)
 
         println exp.match([id: 123])
         println exp.match([id: 111])

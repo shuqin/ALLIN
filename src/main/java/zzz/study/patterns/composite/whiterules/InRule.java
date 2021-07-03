@@ -19,7 +19,8 @@ public class InRule implements WhiteRule {
     private String field;
     private InCondition condition;
 
-    public InRule() {}
+    public InRule() {
+    }
 
     public InRule(String field, List values) {
         this.field = field;

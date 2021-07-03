@@ -8,7 +8,9 @@ package zzz.study.function.comparator;
 public interface ComparatorObject {
 
     Long getVisitCount();
+
     String getFirstTime();
+
     String getLastTime();
 
 }

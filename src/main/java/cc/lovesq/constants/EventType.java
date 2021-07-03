@@ -22,20 +22,20 @@ public enum EventType {
         this.desc = desc;
     }
 
+    public static String getEventDesc(String type) {
+        for (EventType et : EventType.values()) {
+            if (et.getType().equals(type)) {
+                return et.getDesc();
+            }
+        }
+        return "NoMatch";
+    }
+
     public String getType() {
         return type;
     }
 
     public String getDesc() {
         return desc;
-    }
-
-    public static String getEventDesc(String type) {
-        for (EventType et: EventType.values()) {
-            if (et.getType().equals(type)) {
-                return et.getDesc();
-            }
-        }
-        return "NoMatch";
     }
 }

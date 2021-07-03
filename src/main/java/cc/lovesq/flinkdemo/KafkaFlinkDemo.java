@@ -15,7 +15,6 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
 import org.apache.flink.util.Collector;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
@@ -46,7 +45,7 @@ public class KafkaFlinkDemo {
         props.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.setProperty("auto.offset.reset", "latest"); //value 反序列化
 
-        FlinkKafkaConsumer011<String> consumer =new FlinkKafkaConsumer011<String>(
+        FlinkKafkaConsumer011<String> consumer = new FlinkKafkaConsumer011<String>(
                 "detect-events",  // kafka topic
                 new SimpleStringSchema(),  // String 序列化
                 props);
@@ -80,7 +79,7 @@ public class KafkaFlinkDemo {
 
     private void countDangerEvents(DataStream<DetectEventDTO> detectEventDataStream) {
         DataStream<DetectEventDTO> dangerEvents =
-                detectEventDataStream.filter( e -> e.getSeverity() >= 3);
+                detectEventDataStream.filter(e -> e.getSeverity() >= 3);
         //DataStream<Tuple3<String, String, Integer>> severityCountStream =
         //        calc(dangerEvents, o -> String.valueOf(o.getSeverity()), Severity::getSeverityDesc);
         dangerEvents.print();
@@ -108,8 +107,8 @@ public class KafkaFlinkDemo {
         @Override
         public void apply(String s, TimeWindow timeWindow, Iterable<DetectEventDTO> events, Collector<Tuple3<String, String, Integer>> collector) throws Exception {
             int count = 0;
-            Tuple3<String,String,Integer> result = new Tuple3<>(s, function.apply(s), count);
-            for (DetectEventDTO e: events) {
+            Tuple3<String, String, Integer> result = new Tuple3<>(s, function.apply(s), count);
+            for (DetectEventDTO e : events) {
                 count++;
             }
             result.f2 = count;

@@ -2,13 +2,13 @@ package cc.lovesq.study.metap
 
 class AutoGeneratingTestData {
 
-    public static final orderTypeTestData = ['condField':'orderTypeDesc', 'validationField': 'order_type',
-                             'valuePair': [["NORMAL"]            :0,
-                                           ["GROUP"]             :10]]
+    public static final orderTypeTestData = ['condField': 'orderTypeDesc', 'validationField': 'order_type',
+                                             'valuePair': [["NORMAL"]: 0,
+                                                           ["GROUP"] : 10]]
 
-    public static final stateTestData = ['condField':'stateDesc', 'validationField': 'state',
-                         'valuePair': ["TOPAY"  :1,
-                                       "SUCCESS":100]]
+    public static final stateTestData = ['condField': 'stateDesc', 'validationField': 'state',
+                                         'valuePair': ["TOPAY"  : 1,
+                                                       "SUCCESS": 100]]
 
     def static generateAllTestCases(testDatas) {
         testDatas.collect {
@@ -23,7 +23,7 @@ class AutoGeneratingTestData {
             def validationField = testData['validationField']
 
             return [
-                    params: [
+                    params     : [
                             "$searchCondField": key
                     ],
                     validations: [

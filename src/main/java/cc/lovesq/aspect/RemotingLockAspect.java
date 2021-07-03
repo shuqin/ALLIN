@@ -28,7 +28,7 @@ public class RemotingLockAspect {
     @Around(value = "@annotation(cc.lovesq.annotations.RemotingLock)")
     public Object around(ProceedingJoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 
         RemotingLock remotingLock = method.getAnnotation(RemotingLock.class);
@@ -42,8 +42,7 @@ public class RemotingLockAspect {
         String lockKey = "";
         if (args.length >= 1) {
             lockKey = (String) args[0];
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Method Annotated by RemotingLock should provider one arg at least");
         }
 
@@ -54,7 +53,7 @@ public class RemotingLockAspect {
             obj = joinPoint.proceed();
         } catch (Throwable e) {
             throw new RuntimeException();
-        } finally{
+        } finally {
             lock.unlock();
         }
         return obj;

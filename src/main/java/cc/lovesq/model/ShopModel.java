@@ -2,10 +2,14 @@ package cc.lovesq.model;
 
 public class ShopModel {
 
-    /** 是否有线下门店 */
+    /**
+     * 是否有线下门店
+     */
     private boolean hasRetailStore;
 
-    /** 是否加入了担保 */
+    /**
+     * 是否加入了担保
+     */
     private boolean isSecuredShop;
 
     public boolean hasRetailStore() {

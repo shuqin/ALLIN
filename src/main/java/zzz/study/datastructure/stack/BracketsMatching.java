@@ -31,18 +31,26 @@ public class BracketsMatching {
 
     // 无法通过 test("(([]){})", false); 如果中间不匹配的话
     public static boolean isValid2(String s) {
-        if (s == null) { return false; }
-        if (s.length()== 0) { return true; }
-        return isValidRec(s, 0, s.length()-1);
+        if (s == null) {
+            return false;
+        }
+        if (s.length() == 0) {
+            return true;
+        }
+        return isValidRec(s, 0, s.length() - 1);
     }
 
     public static boolean isValidRec(String s, int startIdx, int endIdx) {
         int length = endIdx - startIdx + 1;
-        if (length== 0) { return true; }
-        if (length % 2 == 1) { return false; }
+        if (length == 0) {
+            return true;
+        }
+        if (length % 2 == 1) {
+            return false;
+        }
 
         int high = startIdx + (length >> 1);
-        int low = high-1;
+        int low = high - 1;
 
         while (low < high) {
             if (isMatch(s, low, high)) {
@@ -51,8 +59,7 @@ public class BracketsMatching {
                 if (low < startIdx) {
                     return true;
                 }
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -72,28 +79,34 @@ public class BracketsMatching {
     }
 
     public static boolean isValid(String s) {
-        if (s == null) { return false; }
+        if (s == null) {
+            return false;
+        }
         int length = s.length();
-        if (length== 0) { return true; }
-        if (length % 2 == 1) { return false; }
+        if (length == 0) {
+            return true;
+        }
+        if (length % 2 == 1) {
+            return false;
+        }
 
         char[] stack = new char[s.length()];
         int idx = 0;
 
-        for (int i=0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (isStartBracket(c)) {
                 stack[idx] = c;
                 idx++;
-            }
-            else if (isEndBracket(c)){
-                if (idx == 0) { return false; }
+            } else if (isEndBracket(c)) {
+                if (idx == 0) {
+                    return false;
+                }
                 char cs = stack[--idx];
                 if (!isMatch(cs, c)) {
                     return false;
                 }
-            }
-            else {
+            } else {
                 return false;
             }
         }

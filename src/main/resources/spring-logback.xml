@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
     <!-- 设置日志输出根目录 -->
-    <property name="log.dir" value="/tmp/logs" />
-    <property name="encoding" value="UTF-8" />
+    <property name="log.dir" value="/tmp/logs"/>
+    <property name="encoding" value="UTF-8"/>
     <property name="pattern"
-              value="%d{yyyy-MM-dd.HH:mm:ss} %-5level [%thread] %logger.%M:%L  %msg%n" />
+              value="%d{yyyy-MM-dd.HH:mm:ss} %-5level [%thread] %logger.%M:%L  %msg%n"/>
 
     <!-- 控制台输出日志 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -49,10 +49,10 @@
     </appender>
 
     <logger name="com.qunar.fresh2017.exam1">
-        <level value="INFO" />
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
-        <appender-ref ref="ERROR_FILE" />
+        <level value="INFO"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
     </logger>
 
 </configuration>

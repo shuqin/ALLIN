@@ -21,8 +21,7 @@ public class MyEmitter implements ObservableOnSubscribe {
         emitter.onNext("next");
         if (random.nextInt(3) == 0) {
             emitter.onError(new RuntimeException("A RuntimeException"));
-        }
-        else {
+        } else {
             emitter.onComplete();
         }
 

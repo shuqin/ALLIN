@@ -38,7 +38,7 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setBookTime(1598889600L);
         order.setIsSecuredOrder(true);
         order.setKeys(Arrays.asList("express", "secureService", "refundAndReturn"));
-        List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
+        List<GoodsServiceSnapshot> serviceSnapshots = goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
         logger.info("{} {}", order.getOrderNo(), serviceSnapshots);
     }
@@ -51,7 +51,7 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setBookTime(1601481600L);
         order.setIsSecuredOrder(true);
         order.setKeys(Arrays.asList("express", "secureService", "refundAndReturn"));
-        List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
+        List<GoodsServiceSnapshot> serviceSnapshots = goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
         logger.info("{} {}", order.getOrderNo(), serviceSnapshots);
     }
@@ -64,7 +64,7 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setBookTime(1598889600L);
         order.setIsSecuredOrder(true);
         order.setKeys(Arrays.asList("selfetch", "secureService", "refundAndReturn"));
-        List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
+        List<GoodsServiceSnapshot> serviceSnapshots = goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
         logger.info("{} {}", order.getOrderNo(), serviceSnapshots);
     }
@@ -80,8 +80,8 @@ public class GoodsSnapshotExperiment implements IExperiment {
         order.setIsSecuredOrder(false);
         order.setIsCodPay(true);
         order.setHasRetailShop(true);
-        order.setKeys(Arrays.asList("localDelivery", "secureService", "refundAndReturn", "codpay","retailShop", "drectoseller"));
-        List<GoodsServiceSnapshot> serviceSnapshots =  goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
+        order.setKeys(Arrays.asList("localDelivery", "secureService", "refundAndReturn", "codpay", "retailShop", "drectoseller"));
+        List<GoodsServiceSnapshot> serviceSnapshots = goodsServiceSnapshotProgress.getServiceDescs(order, order.getKeys());
 
         logger.info("{} {}", order.getOrderNo(), serviceSnapshots);
     }

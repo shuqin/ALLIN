@@ -57,9 +57,9 @@ $fieldsContent
         convertFunc == null ? key : convertFunc(key)
     }
 
-    def static underscoreToCamelCase(String underscore){
+    def static underscoreToCamelCase(String underscore) {
         String[] ss = underscore.split("_")
-        if(ss.length ==1){
+        if (ss.length == 1) {
             return underscore
         }
 

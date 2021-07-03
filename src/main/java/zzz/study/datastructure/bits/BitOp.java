@@ -3,33 +3,26 @@ package zzz.study.datastructure.bits;
 public class BitOp {
 
     // 取 n 的第 m 位
-    public static int getBit(int n, int m){
-        return (n >> (m-1)) & 1;
+    public static int getBit(int n, int m) {
+        return (n >> (m - 1)) & 1;
     }
 
     // 将 n 的第 m  位置 1
-    public static int setBitToOne(int n, int m){
-        return n | (1 << (m-1));
+    public static int setBitToOne(int n, int m) {
+        return n | (1 << (m - 1));
     }
 
     // 将 n 的第 m 位置 0
-    public static int setBitToZero(int n, int m){
-        return n & ~(1 << (m-1));
+    public static int setBitToZero(int n, int m) {
+        return n & ~(1 << (m - 1));
     }
 
     public static String toBinaryString(int n) {
         StringBuilder s = new StringBuilder();
-        for (int i=32; i >0; i--) {
+        for (int i = 32; i > 0; i--) {
             s.append(getBit(n, i));
         }
         return s.toString();
-    }
-
-    static class BitOpTester {
-        public static void main(String[]args) {
-            test(999);
-            test(-999);
-        }
     }
 
     public static void test(int n) {
@@ -49,5 +42,12 @@ public class BitOp {
         System.out.println("My Own: " + myOwnBinaryStr);
 
         assert standardBinaryStr.equals(myOwnBinaryStr);
+    }
+
+    static class BitOpTester {
+        public static void main(String[] args) {
+            test(999);
+            test(-999);
+        }
     }
 }

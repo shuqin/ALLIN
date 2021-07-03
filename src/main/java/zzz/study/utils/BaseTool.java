@@ -12,13 +12,20 @@ public class BaseTool {
 
     public static final String ALLIN_PROJ_PATH = System.getProperty("user.dir");
     public static final String ALLIN_PROJ_PATH_SRC = ALLIN_PROJ_PATH + "/src/main/java";
+    public static final String methodNameRegexStr = "\\s*(?:\\w+\\s+)?\\w+<?\\w+>?\\s+(\\w+)";
+    public static final String singleParamRegexStr = "[^,]*\\w+<?\\w+>?\\s+(\\w+)\\s*";
+    public static final String simpleMethodSignRexStr = methodNameRegexStr + "\\(" + singleParamRegexStr + "\\)\\s*;\\s*";
+    public static final String twoParamMethodSignRegStr = methodNameRegexStr + "\\(" + singleParamRegexStr + "," + singleParamRegexStr + "\\);\\s*";
+    //val generalParamMethodSignRegStr = methodNameRegexStr + "\\((" + singleParamRegexStr + "(?:," + singleParamRegexStr + ")*)\\);\\s*";
+    public static final String generalParamMethodSignRegStr = methodNameRegexStr + "\\((.*)\\);\\s*";
+    public static final Pattern singleParamPattern = Pattern.compile(singleParamRegexStr);
+    public static final Pattern generalParamMethodSignPattern = Pattern.compile(generalParamMethodSignRegStr);
 
     public static String strip(String origin, String toStrip) {
         int index = origin.indexOf(toStrip);
         if (index == -1) {
             return origin;
-        }
-        else {
+        } else {
             return origin.substring(0, index);
         }
     }
@@ -36,7 +43,7 @@ public class BaseTool {
         if (preIndex == -1) {
             return "";
         }
-        String bizPart = packageName.substring(preIndex+"common.".length());
+        String bizPart = packageName.substring(preIndex + "common.".length());
         int bizIndex = bizPart.indexOf(".");
         if (bizIndex == -1) {
             return "";
@@ -46,7 +53,7 @@ public class BaseTool {
 
     public static String indent(int n) {
         StringBuilder spaces = new StringBuilder();
-        for (int i=0; i<n; i++) {
+        for (int i = 0; i < n; i++) {
             spaces.append(' ');
         }
         return spaces.toString();
@@ -100,14 +107,14 @@ public class BaseTool {
 
     public static void fetchFiles(String path, List<String> fetchedFiles) {
         File[] dirAndfiles = (new File(path)).listFiles();
-        if (dirAndfiles!=null && dirAndfiles.length > 0) {
-            for (File file: dirAndfiles) {
+        if (dirAndfiles != null && dirAndfiles.length > 0) {
+            for (File file : dirAndfiles) {
                 if (file.isFile()) {
                     fetchedFiles.add(file.getAbsolutePath());
                 }
             }
 
-            for (File file: dirAndfiles) {
+            for (File file : dirAndfiles) {
                 if (file.isDirectory()) {
                     fetchFiles(file.getAbsolutePath(), fetchedFiles);
                 }
@@ -119,7 +126,7 @@ public class BaseTool {
         List<String> files = fetchAllFiles(path);
         List<Class> result = new ArrayList<Class>();
         ClassLoader cld = Thread.currentThread().getContextClassLoader();
-        for (String fname: files) {
+        for (String fname : files) {
             String fn = fname.replace(ALLIN_PROJ_PATH_SRC + "/", "").replace(".java", "");
             String qualifiedClassName = fn.replaceAll("/", ".");
             try {
@@ -133,18 +140,9 @@ public class BaseTool {
         return result;
     }
 
-    public static final String methodNameRegexStr = "\\s*(?:\\w+\\s+)?\\w+<?\\w+>?\\s+(\\w+)";
-    public static final String singleParamRegexStr = "[^,]*\\w+<?\\w+>?\\s+(\\w+)\\s*";
-    public static final String simpleMethodSignRexStr = methodNameRegexStr + "\\(" + singleParamRegexStr + "\\)\\s*;\\s*";
-    public static final String twoParamMethodSignRegStr = methodNameRegexStr + "\\(" + singleParamRegexStr + "," + singleParamRegexStr + "\\);\\s*";
-    //val generalParamMethodSignRegStr = methodNameRegexStr + "\\((" + singleParamRegexStr + "(?:," + singleParamRegexStr + ")*)\\);\\s*";
-    public static final String generalParamMethodSignRegStr = methodNameRegexStr + "\\((.*)\\);\\s*";
-
-    public static final Pattern singleParamPattern = Pattern.compile(singleParamRegexStr);
-    public static final Pattern generalParamMethodSignPattern = Pattern.compile(generalParamMethodSignRegStr);
-
     /**
      * 从方法签名中解析出方法名称\参数列表
+     *
      * @param methodSign 方法签名
      * @return ["方法名称", "参数1, 参数2, ..., 参数N"]
      */
@@ -158,13 +156,12 @@ public class BaseTool {
         if (m.find()) {
             methodName = m.group(1);
             args = m.group(2);
-        }
-        else {
+        } else {
             return Arrays.asList(new String[]{"", ""});
         }
         parsed.add(methodName);
         String[] params = args.split(",");
-        for (String param: params) {
+        for (String param : params) {
             String arg = extractArgName(param);
             parsed.add(arg);
         }
@@ -184,25 +181,24 @@ public class BaseTool {
         result.add(parsed.get(0));
         if (parsed.size() == 2) {
             result.add(parsed.get(1));
-        }
-        else {
+        } else {
             int size = parsed.size();
             StringBuilder argBuilder = new StringBuilder();
-            for (int i=1; i< size-1; i++) {
+            for (int i = 1; i < size - 1; i++) {
                 argBuilder.append(parsed.get(i) + ", ");
             }
-            argBuilder.append(parsed.get(size-1));
+            argBuilder.append(parsed.get(size - 1));
             result.add(argBuilder.toString());
         }
         return result;
     }
 
     public static void testParseMethod() {
-        Map<String,List<String>> testMethods = new HashMap<String, List<String>>();
+        Map<String, List<String>> testMethods = new HashMap<String, List<String>>();
         testMethods.put(" List<OrderDO> queryOrder(int kdtId); ", Arrays.asList(new String[]{"queryOrder", "kdtId"}));
         testMethods.put(" List<OrderDO> queryOrder( int kdtId ); ", Arrays.asList(new String[]{"queryOrder", "kdtId"}));
         testMethods.put(" OrderDO queryOrder(@Param(\"kdtId\") int kdtId); ", Arrays.asList(new String[]{"queryOrder", "kdtId"}));
-        testMethods.put(" List<OrderDO> queryOrder(List<String> orderNos); " , Arrays.asList(new String[]{"queryOrder", "orderNos"}));
+        testMethods.put(" List<OrderDO> queryOrder(List<String> orderNos); ", Arrays.asList(new String[]{"queryOrder", "orderNos"}));
         testMethods.put(" List<OrderDO> queryOrder(@Param(\"orderNos\") List<String> orderNos); ", Arrays.asList(new String[]{"queryOrder", "orderNos"}));
         testMethods.put(" OrderDO queryOrder(String orderNo, Integer kdtId); ", Arrays.asList(new String[]{"queryOrder", "orderNo, kdtId"}));
         testMethods.put(" OrderDO queryOrder(String orderNo, @Param(\"kdtId\") Integer kdtId); ", Arrays.asList(new String[]{"queryOrder", "orderNo, kdtId"}));
@@ -215,9 +211,9 @@ public class BaseTool {
         testMethods.put(" OrderDO queryOrder(@Param(\"orderNos\") List<String> orderNos, @Param(\"page\") Integer page, @Param(\"pageSize\") Integer pageSize); ", Arrays.asList(new String[]{"queryOrder", "orderNos, page, pageSize"}));
 
         Set<Map.Entry<String, List<String>>> entries = testMethods.entrySet();
-        for (Map.Entry entry: entries) {
-            String methodSign = (String)entry.getKey();
-            List<String> expected = (List<String>)entry.getValue();
+        for (Map.Entry entry : entries) {
+            String methodSign = (String) entry.getKey();
+            List<String> expected = (List<String>) entry.getValue();
             List<String> actual = transform(parseMethod(methodSign));
             if (!assertListEqual(actual, expected)) {
                 System.err.println("failed: " + methodSign);
@@ -234,13 +230,13 @@ public class BaseTool {
         if (list1 == null && list2 == null) {
             return true;
         }
-        if ((list1 == null && list2 !=null) || (list1 != null && list2 ==null)) {
+        if ((list1 == null && list2 != null) || (list1 != null && list2 == null)) {
             return false;
         }
         if (list1.size() != list2.size()) {
             return false;
         }
-        for (int i=0; i< list1.size(); i++) {
+        for (int i = 0; i < list1.size(); i++) {
             if (!list1.get(i).equals(list2.get(i))) {
                 return false;
             }

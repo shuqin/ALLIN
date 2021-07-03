@@ -10,14 +10,14 @@ class SearchTestCases {
     @Case
     def getOrderNoSearchCase() {
         [
-           'name': 'testSearchOrderNo',
-           'param': ['kdtId': 55, 'orderNo': 'E20180507200552032000001', 'sourceName':'service-test'],
-           'check': { data ->
-               data.list.each {
-                   order ->
-                       order.orderNo == 'E20180507200552032000001'
-               }
-           }
+                'name' : 'testSearchOrderNo',
+                'param': ['kdtId': 55, 'orderNo': 'E20180507200552032000001', 'sourceName': 'service-test'],
+                'check': { data ->
+                    data.list.each {
+                        order ->
+                            order.orderNo == 'E20180507200552032000001'
+                    }
+                }
         ]
     }
 

@@ -12,7 +12,7 @@ public enum ExecWay {
     ;
 
     public static ExecWay get(String name) {
-        for (ExecWay execWay: ExecWay.values()) {
+        for (ExecWay execWay : ExecWay.values()) {
             if (execWay.name().equals(name)) {
                 return execWay;
             }

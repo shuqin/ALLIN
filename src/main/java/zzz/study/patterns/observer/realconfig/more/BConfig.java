@@ -4,7 +4,7 @@ import zzz.study.patterns.observer.realconfig.simple.Config;
 
 public class BConfig extends Config<Long> {
 
-  public BConfig(Long conf) {
-    super(conf);
-  }
+    public BConfig(Long conf) {
+        super(conf);
+    }
 }

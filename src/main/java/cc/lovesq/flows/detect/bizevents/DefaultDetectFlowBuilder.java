@@ -20,6 +20,6 @@ public class DefaultDetectFlowBuilder implements FlowContextBuilder<DetectEventD
 
     private <T> T parse(String text, Class<T> cls) {
         JSONObject jsonObject = JSONObject.fromObject(text);
-        return (T)JSONObject.toBean(jsonObject, cls);
+        return (T) JSONObject.toBean(jsonObject, cls);
     }
 }

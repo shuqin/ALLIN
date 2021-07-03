@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface GoodsMapper {
 
-  Integer insert(GoodsDO goodsDO);
+    Integer insert(GoodsDO goodsDO);
 
-  GoodsDO findByQuery(GoodsQuery query);
+    GoodsDO findByQuery(GoodsQuery query);
 
 }

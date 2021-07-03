@@ -18,18 +18,13 @@ import static com.sun.jmx.mbeanserver.Util.cast;
 @Component
 public class ServiceTplSplitList implements ServiceTplListInf {
 
-    @Value(value="classpath:service1.tpl")
-    private Resource data1;
-
-    @Value(value="classpath:service2.tpl")
-    private Resource data2;
-
-    private List<ServiceTpl> serviceTplList = new ArrayList<>();
-
     private static Map<String, List<ServiceTpl>> serviceTplMap = new HashMap<>();
-
     private static Set<String> uniqueKeys = new HashSet<>();
-
+    @Value(value = "classpath:service1.tpl")
+    private Resource data1;
+    @Value(value = "classpath:service2.tpl")
+    private Resource data2;
+    private List<ServiceTpl> serviceTplList = new ArrayList<>();
     private WatchService watchService;
 
     @PostConstruct
@@ -74,7 +69,7 @@ public class ServiceTplSplitList implements ServiceTplListInf {
 
     private void listenFileModified() {
         try {
-            while(true) {
+            while (true) {
                 WatchKey key = watchService.poll(20, TimeUnit.SECONDS);
                 if (key == null) {
                     continue;
@@ -85,14 +80,14 @@ public class ServiceTplSplitList implements ServiceTplListInf {
                     WatchEvent.Kind kind = event.kind();
                     //异常事件跳过
                     if (kind != StandardWatchEventKinds.ENTRY_MODIFY) {
-                         continue;
+                        continue;
                     }
                     //获取监听Path
                     Path path = cast(event.context());
                     //只关注目标文件
                     String fileName1 = data1.getFile().getName();
                     String fileName2 = data2.getFile().getName();
-                    if (!fileName1.equals(path.toString()) && !  fileName2.equals(path.toString())) {
+                    if (!fileName1.equals(path.toString()) && !fileName2.equals(path.toString())) {
                         continue;
                     }
                     convertToList();
@@ -117,7 +112,7 @@ public class ServiceTplSplitList implements ServiceTplListInf {
             return null;
         }
 
-        for (ServiceTpl serviceTpl: serviceTpls) {
+        for (ServiceTpl serviceTpl : serviceTpls) {
             if (serviceTpl.getStart() <= timestamp && serviceTpl.getEnd() > timestamp) {
                 return serviceTpl;
             }
@@ -125,7 +120,7 @@ public class ServiceTplSplitList implements ServiceTplListInf {
         return null;
     }
 
-    public String getData(Resource data){
+    public String getData(Resource data) {
         try {
             File file = data.getFile();
             String jsonData = this.jsonRead(file);
@@ -135,7 +130,7 @@ public class ServiceTplSplitList implements ServiceTplListInf {
         }
     }
 
-    private String jsonRead(File file){
+    private String jsonRead(File file) {
         Scanner scanner = null;
         StringBuilder buffer = new StringBuilder();
         try {

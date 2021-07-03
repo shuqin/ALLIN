@@ -7,10 +7,14 @@ import java.lang.annotation.*;
 @Documented
 public @interface ComponentProperties {
 
-    /** 组件的意图或功能 */
+    /**
+     * 组件的意图或功能
+     */
     String purpose();
 
-    /** 组件的业务类型选择 */
+    /**
+     * 组件的业务类型选择
+     */
     String biz() default "common";
 
 }

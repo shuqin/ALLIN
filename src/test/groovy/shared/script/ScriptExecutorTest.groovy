@@ -44,6 +44,7 @@ class ScriptExecutorTest extends Specification {
 class CalcThread extends Thread {
     int x
     ScriptExecutor scriptExecutor
+
     CalcThread(int x, ScriptExecutor scriptExecutor) {
         this.x = x
         this.scriptExecutor = scriptExecutor

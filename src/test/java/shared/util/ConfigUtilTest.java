@@ -1,10 +1,10 @@
 package shared.util;
 
+import cc.lovesq.CommonForTest;
 import cc.lovesq.config.EventFlowExecutionModel;
 import cc.lovesq.config.EventFlowsModel;
 import cc.lovesq.config.ExecWay;
 import cc.lovesq.config.ExecutionModel;
-import cc.lovesq.CommonForTest;
 import cc.lovesq.util.ConfigUtil;
 import org.junit.Test;
 

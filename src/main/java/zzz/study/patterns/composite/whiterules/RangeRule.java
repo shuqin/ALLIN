@@ -17,7 +17,8 @@ public class RangeRule implements SingleWhiteRule {
     private String field;
     private RangeCondition condition;
 
-    public RangeRule() {}
+    public RangeRule() {
+    }
 
     public RangeRule(String field, Comparable start, Comparable end) {
         this.field = field;

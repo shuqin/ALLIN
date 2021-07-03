@@ -22,7 +22,8 @@ public class MatchRule implements SingleWhiteRule {
     private String field;
     private MatchCondition condition;
 
-    public MatchRule() {}
+    public MatchRule() {
+    }
 
     public MatchRule(String field, List<String> values) {
         this.field = field;
@@ -56,8 +57,8 @@ public class MatchRule implements SingleWhiteRule {
         }
 
         public boolean test(Object fv) {
-            for (Pattern p: patterns) {
-                if (p.matcher((String)fv).matches()) {
+            for (Pattern p : patterns) {
+                if (p.matcher((String) fv).matches()) {
                     return true;
                 }
             }

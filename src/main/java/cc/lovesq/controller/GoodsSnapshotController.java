@@ -48,7 +48,7 @@ public class GoodsSnapshotController {
         complete(bookInfo);
         boolean isSaved = goodsSnapshotService.save(bookInfo);
         BookSaveResponse bookSaveResponse = new BookSaveResponse(bookInfo.getOrder().getOrderNo(), bookInfo.getGoods().getGoodsId());
-        return isSaved ? BaseResult.succ(bookSaveResponse): BaseResult.failed(Errors.BookError);
+        return isSaved ? BaseResult.succ(bookSaveResponse) : BaseResult.failed(Errors.BookError);
     }
 
     private void complete(BookInfo bookInfo) {
@@ -59,7 +59,7 @@ public class GoodsSnapshotController {
         String orderNo = OrderGenerator.generateOrder(date, order.getUserId());
         order.setOrderNo(orderNo);
         goodsInfo.setOrderNo(orderNo);
-        order.setBookTime(date.getTime()/1000);
+        order.setBookTime(date.getTime() / 1000);
         order.setKeys(Arrays.asList(bookInfo.getGoods().getServiceKeys().split(",")));
         goodsInfo.setOrderNo(bookInfo.getOrder().getOrderNo());
 

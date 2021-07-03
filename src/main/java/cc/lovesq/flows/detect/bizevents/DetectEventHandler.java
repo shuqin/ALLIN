@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 入侵事件的 BizEvent 对象的处理流程入口
- *
+ * <p>
  * 前置环节：
  * Agent 入侵事件上报经过业务处理后构建成 BizEvent 发送给 Kafka
  * BizEvent 对象从 Kafka 消息中获得。

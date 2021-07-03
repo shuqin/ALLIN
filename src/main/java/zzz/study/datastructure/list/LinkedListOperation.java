@@ -2,25 +2,25 @@ package zzz.study.datastructure.list;
 
 public class LinkedListOperation {
 
-    public static void main(String[]args) {
+    public static void main(String[] args) {
         ListNode h = construct(3);
         ListNode reversed = reverse(h);
         desc(reversed);
         System.out.println();
 
-        ListNode h2 = construct(3,4,5,6);
+        ListNode h2 = construct(3, 4, 5, 6);
         ListNode reversed2 = reverse(h2);
         desc(reversed2);
         System.out.println();
 
-        ListNode s1 = construct(1,2,4,6,8);
-        ListNode s2 = construct(3,7,9,10,12);
+        ListNode s1 = construct(1, 2, 4, 6, 8);
+        ListNode s2 = construct(3, 7, 9, 10, 12);
         desc(mergeSorted(s1, s2));
         System.out.println();
 
         ListNode s3 = construct();
         ListNode s4 = construct();
-        desc(mergeKLists(new ListNode[] {s3, s4}));
+        desc(mergeKLists(new ListNode[]{s3, s4}));
 
     }
 
@@ -43,7 +43,7 @@ public class LinkedListOperation {
     public static ListNode construct(int... nums) {
         ListNode h = new ListNode(-1);
         ListNode p = h;
-        for(int i: nums) {
+        for (int i : nums) {
             ListNode n = new ListNode(i);
             p.next = n;
             p = p.next;
@@ -53,23 +53,25 @@ public class LinkedListOperation {
 
     public static void desc(ListNode h) {
         ListNode p = h;
-        while (p!= null) {
+        while (p != null) {
             if (p.val < 0) {
                 p = p.next;
                 continue;
             }
-            System.out.print(p.val+"-");
+            System.out.print(p.val + "-");
             p = p.next;
         }
     }
 
     public static ListNode mergeKLists(ListNode[] lists) {
-        if (lists == null || lists.length == 0) { return null; }
-        if (lists.length == 1 ) {
+        if (lists == null || lists.length == 0) {
+            return null;
+        }
+        if (lists.length == 1) {
             return lists[0];
         }
         ListNode result = lists[0];
-        for (int i=1; i < lists.length; i++) {
+        for (int i = 1; i < lists.length; i++) {
             result = mergeSorted(result, lists[i]);
         }
         ListNode p = result;
@@ -88,12 +90,11 @@ public class LinkedListOperation {
         }
         ListNode res = new ListNode(-1);
         ListNode cur = res;
-        while (s1 != null && s2!=null) {
+        while (s1 != null && s2 != null) {
             if (s1.val < s2.val) {
                 cur.next = s1;
                 s1 = s1.next;
-            }
-            else {
+            } else {
                 cur.next = s2;
                 s2 = s2.next;
             }
@@ -118,10 +119,9 @@ public class LinkedListOperation {
         while (p1 != null && p2 != null) {
             int v = p1.val + p2.val + inc;
             if (v > 9) {
-                v = v-10;
-                inc=1;
-            }
-            else {
+                v = v - 10;
+                inc = 1;
+            } else {
                 inc = 0;
             }
             p.next = new ListNode(v);
@@ -149,5 +149,8 @@ public class LinkedListOperation {
 class ListNode {
     int val;
     ListNode next;
-    ListNode(int x) { val = x; }
+
+    ListNode(int x) {
+        val = x;
+    }
 }

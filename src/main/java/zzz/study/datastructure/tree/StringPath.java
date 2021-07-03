@@ -13,12 +13,14 @@ public class StringPath implements Path {
     }
 
     public StringPath(List list) {
-        list.forEach( e-> {
+        list.forEach(e -> {
             s.append(e);
         });
     }
 
-    public StringPath(String str) { this.s = new StringBuilder(str); }
+    public StringPath(String str) {
+        this.s = new StringBuilder(str);
+    }
 
     public Long getValue() {
         return Long.parseLong(s.reverse().toString());

@@ -1,5 +1,5 @@
-    @Test
-    def "test${Method}"() {
+@Test
+        def "test${Method}"() {
         expect:
         ${inst}.invokeMethod("${method}", [${paramListInMethodCall}]) == ${result}
 
@@ -7,4 +7,4 @@
         ${paramListInDataProvider}     | ${result}
         ${paramValues} | ${resultValue}
 
-    }
+        }

@@ -15,7 +15,7 @@ public enum FieldConf {
     private String title;
     private Function<Person, String> method;
 
-    FieldConf(String name, String title, Function<Person,String> method) {
+    FieldConf(String name, String title, Function<Person, String> method) {
         this.name = name;
         this.title = title;
         this.method = method;

@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Message {
 
-  private Integer status;
+    private Integer status;
 }

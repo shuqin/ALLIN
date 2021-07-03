@@ -6,6 +6,7 @@ package zzz.study.function.basic;
 public interface Person {
 
     String getId();
+
     String getName();
 
     String able();

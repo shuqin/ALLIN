@@ -20,5 +20,7 @@ public class DetectEventDataWrapper implements EventData {
         return detectEventData.getEventType();
     }
 
-    public String getDetectType() { return detectEventData.getEventType(); }
+    public String getDetectType() {
+        return detectEventData.getEventType();
+    }
 }

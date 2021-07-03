@@ -4,12 +4,12 @@ class InjectingMethod {
 
     static void main(args) {
 
-        [id:123, name:'qin', 'skills':'good'].each {
+        [id: 123, name: 'qin', 'skills': 'good'].each {
             println it
         }
 
         use(MapUtil) {
-            def map = [id:123, name:'qin', 'skills':'good']
+            def map = [id: 123, name: 'qin', 'skills': 'good']
             println map.pretty()
         }
     }

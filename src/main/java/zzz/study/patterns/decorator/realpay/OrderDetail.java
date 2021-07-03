@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class OrderDetail {
 
-  private Integer orderType;
-  private String buyWay;
+    private Integer orderType;
+    private String buyWay;
 }

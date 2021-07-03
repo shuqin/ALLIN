@@ -24,7 +24,7 @@ public class ConsistentHashLoadBalance {
 
     private static void test(ConsistentHashSelector<String> selector) {
         Map<String, List<Integer>> map = new HashMap<>();
-        for (int i=1; i < 16000; i+=1) {
+        for (int i = 1; i < 16000; i += 1) {
             String node = selector.select(String.valueOf(i));
             List<Integer> objs = map.getOrDefault(node, new ArrayList<>());
             objs.add(i);
@@ -55,7 +55,7 @@ public class ConsistentHashLoadBalance {
         }
 
         public boolean addNode(T node) {
-            opNode(node, (m, no) -> virtualNodes.put(m,no));
+            opNode(node, (m, no) -> virtualNodes.put(m, no));
             return true;
         }
 

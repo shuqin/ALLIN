@@ -1,4 +1,5 @@
 package cc.lovesq.study.metap
+
 class Car {
     def check() { System.out.println "check called..." }
 

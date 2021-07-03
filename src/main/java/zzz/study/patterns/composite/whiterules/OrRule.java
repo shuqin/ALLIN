@@ -21,7 +21,8 @@ public class OrRule implements WhiteRule {
 
     private Op op = Op.or;
 
-    public OrRule() {}
+    public OrRule() {
+    }
 
     public OrRule(List<WhiteRule> whiteRules) {
         this.whiteRules = whiteRules;
@@ -34,7 +35,7 @@ public class OrRule implements WhiteRule {
 
     @Override
     public boolean test(Object value) {
-        for (WhiteRule rule: whiteRules) {
+        for (WhiteRule rule : whiteRules) {
             if (rule.test(value)) {
                 return true;
             }

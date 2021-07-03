@@ -16,7 +16,7 @@ public class DataGenerator {
 
     public static <T> List<T> generate(int num, Function<Integer, T> func) {
         List<T> origin = new ArrayList<>();
-        for (int i=0; i<num; i++) {
+        for (int i = 0; i < num; i++) {
             origin.add(func.apply(i));
         }
         return origin;

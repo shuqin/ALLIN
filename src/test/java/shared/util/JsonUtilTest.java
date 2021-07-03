@@ -15,7 +15,8 @@ public class JsonUtilTest {
     @Test
     public void testParseJson() {
         String json = RWTool.readFromSource("/json.txt");
-        List<AgentDetectEventData> ade = JsonUtil.jsonToObject(json, new TypeReference<List<AgentDetectEventData>>() {});
+        List<AgentDetectEventData> ade = JsonUtil.jsonToObject(json, new TypeReference<List<AgentDetectEventData>>() {
+        });
         Assert.assertNotNull(ade);
     }
 

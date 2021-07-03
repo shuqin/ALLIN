@@ -10,18 +10,17 @@ import java.util.concurrent.TimeUnit;
 
 public class BatchGetQueue<E> extends LinkedBlockingQueue {
 
-  private BlockingQueue<E> queue = new LinkedBlockingQueue<>();
+    private static final Integer BATCH_SIZE = 50;
+    private BlockingQueue<E> queue = new LinkedBlockingQueue<>();
 
-  private static final Integer BATCH_SIZE = 50;
+    public List<E> batchPoll(int batchSize) {
+        try {
+            List<E> elems = new ArrayList<>(batchSize);
+            Queues.drain(this, elems, batchSize, 5, TimeUnit.SECONDS);
+            return elems;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex.getCause());
+        }
 
-  public List<E> batchPoll(int batchSize) {
-    try {
-      List<E> elems = new ArrayList<>(batchSize);
-      Queues.drain(this, elems, batchSize, 5, TimeUnit.SECONDS);
-      return elems;
-    } catch (Exception ex) {
-      throw new RuntimeException(ex.getCause());
     }
-
-  }
 }

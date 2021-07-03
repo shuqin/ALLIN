@@ -7,10 +7,14 @@ import java.util.List;
  */
 public class ComponentsExecutionModel {
 
-    /** serial 串行(不指定默认)  parallel 并发 */
+    /**
+     * serial 串行(不指定默认)  parallel 并发
+     */
     protected ExecWay way = ExecWay.serial;
 
-    /** 组件参数类型 */
+    /**
+     * 组件参数类型
+     */
     protected String componentParamType;
 
     protected List<String> components;

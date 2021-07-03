@@ -2,8 +2,8 @@ package zzz.study.algorithm.dynamicplan;
 
 public class MaxSubArray {
 
-    public static void main(String[]args) {
-        System.out.println(maxSubArray(new int[] {1,3,-5,7,9,8,-6}));
+    public static void main(String[] args) {
+        System.out.println(maxSubArray(new int[]{1, 3, -5, 7, 9, 8, -6}));
     }
 
     public static int maxSubArray(int[] nums) {

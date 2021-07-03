@@ -1,7 +1,7 @@
 package zzz.study.testdata.generator;
 
 public interface ArrayGenerator {
-	
-		int[] geneArray(int size);
+
+    int[] geneArray(int size);
 
 }

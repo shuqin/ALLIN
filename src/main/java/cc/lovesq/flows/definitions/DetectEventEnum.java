@@ -20,12 +20,19 @@ public enum DetectEventEnum {
 
     ;
 
+    private static Map<String, DetectEventEnum> notifyMap = new HashMap<>();
+
+    static {
+        for (DetectEventEnum de : DetectEventEnum.values()) {
+            notifyMap.put(de.detectType, de);
+        }
+    }
+
     String detectType;
     Class doCls;
     Class dtoCls;
     String notifyType;
     String bigDataType;
-
 
     DetectEventEnum(String detectType, Class doCls, Class dtoCls, String notifyType, String bigDataType) {
         this.detectType = detectType;
@@ -33,13 +40,6 @@ public enum DetectEventEnum {
         this.dtoCls = dtoCls;
         this.notifyType = notifyType;
         this.bigDataType = bigDataType;
-    }
-
-    private static Map<String, DetectEventEnum> notifyMap = new HashMap<>();
-    static {
-        for (DetectEventEnum de: DetectEventEnum.values()) {
-            notifyMap.put(de.detectType, de);
-        }
     }
 
     public static String getNotifyType(String detectType, int osType) {

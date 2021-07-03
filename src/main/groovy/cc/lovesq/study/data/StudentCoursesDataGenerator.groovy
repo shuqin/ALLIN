@@ -19,11 +19,11 @@ class StudentCoursesDataGenerator {
         def batchSize = 50
 
         file.withWriter { writer ->
-            for (int i=0; i< 8000000/batchSize; i++) {
+            for (int i = 0; i < 8000000 / batchSize; i++) {
 
                 def insertSql = "insert into student_courses(s_id, t_id, room, c_id, c_time) values "
 
-                for (int j=0; j< batchSize; j++) {
+                for (int j = 0; j < batchSize; j++) {
                     def sId = STUDENT_PREFIX + "_" + random.nextInt(40000)
                     def tId = TEACHER_PREFIX + random.nextInt(100)
                     def room = ROOM_PREFIX + random.nextInt(50)
@@ -31,7 +31,7 @@ class StudentCoursesDataGenerator {
                     def cTime = Math.floor((System.currentTimeMillis() - random.nextInt(THREE_MONTH)) / 1000)
                     insertSql += "('$sId', '$tId', '$room', '$cId', $cTime),"
                 }
-                insertSql = insertSql.substring(0, insertSql.length()-1) + ";\n"
+                insertSql = insertSql.substring(0, insertSql.length() - 1) + ";\n"
 
 
                 //print(insertSql)

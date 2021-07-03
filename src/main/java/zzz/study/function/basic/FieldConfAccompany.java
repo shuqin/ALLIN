@@ -12,7 +12,7 @@ public class FieldConfAccompany {
     private static List<String> allFields = new ArrayList<>();
 
     static {
-        for (FieldConf fc: FieldConf.values()) {
+        for (FieldConf fc : FieldConf.values()) {
             fieldConfMap.put(fc.name(), fc);
             allFields.add(fc.getName());
         }

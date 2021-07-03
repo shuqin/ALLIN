@@ -18,9 +18,9 @@ public class Dividing {
 
         int num = totalSize / persize + (totalSize % persize == 0 ? 0 : 1);
 
-        for (int i=0; i<num; i++) {
-            int start = persize*i;
-            int end = persize*i+persize;
+        for (int i = 0; i < num; i++) {
+            int start = persize * i;
+            int end = persize * i + persize;
             if (end > totalSize) {
                 end = totalSize;
             }
@@ -38,7 +38,7 @@ public class Dividing {
         int i = 0;
         int persize = totalSize / num;
         while (num > 0) {
-            parts.add(persize*i);
+            parts.add(persize * i);
             i++;
             num--;
         }

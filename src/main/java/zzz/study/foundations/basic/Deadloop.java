@@ -1,7 +1,5 @@
 package zzz.study.foundations.basic;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * 分析 cpu 问题
  */

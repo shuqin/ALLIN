@@ -10,11 +10,11 @@ class DetailTestCases {
     @Case
     def getDetailCase() {
         [
-           'name': 'testSingleOrderDetail',
-           'param': ['kdtId': 55, 'orderNo': 'E20180507200552032000001', 'app':'service-test', 'bizGroup': 'trade'],
-           'check': { data ->
-               data.mainOrderInfo.orderNo == 'E20180507200552032000001'
-           }
+                'name' : 'testSingleOrderDetail',
+                'param': ['kdtId': 55, 'orderNo': 'E20180507200552032000001', 'app': 'service-test', 'bizGroup': 'trade'],
+                'check': { data ->
+                    data.mainOrderInfo.orderNo == 'E20180507200552032000001'
+                }
         ]
     }
 

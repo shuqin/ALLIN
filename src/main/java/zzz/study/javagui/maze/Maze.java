@@ -5,21 +5,32 @@ import java.util.concurrent.TimeUnit;
 
 public class Maze extends Observable {
 
+    // 存放所有方向, 使用该集合与某个位置已尝试方向的差集来获取其未尝试的方向
+    private static final Set<Byte> allDirs = new HashSet<Byte>(Arrays.asList(new Byte[]{0, (byte) 1, (byte) 2, (byte) 3}));
+    // 抵达迷宫最上边界时, 仅允许往东或往南走
+    private static final byte[] firstRowAllowedDirs = new byte[]{(byte) 0, (byte) 1};
+    // 抵达迷宫最下边界时, 仅允许往东或往北走
+    private static final byte[] lastRowAllowedDirs = new byte[]{(byte) 0, (byte) 3};
+    // 抵达迷宫最左边界时, 仅允许往东或往南走
+    private static final byte[] firstColAllowedDirs = new byte[]{(byte) 0, (byte) 1};
+    // 抵达迷宫最右边界时, 仅允许往南或往西走
+    private static final byte[] lastColAllowedDirs = new byte[]{(byte) 1, (byte) 2};
+    // 各方向出现的概率设置,
+    private static final int P0 = 36;
+    private static final int P1 = 36;
+    private static final int P2 = 14;
+    private static final int P3 = 14;
     // 定义迷宫大小：行数 rows 和列数 cols
     private final int rows;
     private final int cols;
-
     // 定义迷宫出口点位置： 行坐标 EXIT_ROW 和 列坐标 EXIT_COL
     private final int EXIT_ROW;
     private final int EXIT_COL;
-
     // 定义迷宫矩阵mazeMatrix 和 标记数组 mark
     private boolean[][] mazeMatrix;   // true: 可通行；  false: 不可通行
     private short[][] mark;
-
     private String mazeStr = "";      // 迷宫的字符串表示
     private String solution = "";     // 迷宫的解的字符串表示
-
     // 定义移动方向表
     private byte[][] move = {
             {0, 1},        // 正东 , move[0]  方向一
@@ -27,14 +38,8 @@ public class Maze extends Observable {
             {0, -1},       // 正西 , move[2]  方向三
             {-1, 0},       // 正北 , move[3]  方向四
     };
-
-    // 存放所有方向, 使用该集合与某个位置已尝试方向的差集来获取其未尝试的方向
-    private static final Set<Byte> allDirs = new HashSet<Byte>(Arrays.asList(new Byte[] {0, (byte)1, (byte)2, (byte)3}));
-
     private DyStack<Position> stack;    // 使用栈存放迷宫通路路径
-
     private boolean isCreatedFinished;   // 迷宫是否创建完成
-
     private Random rand = new Random();
 
     public Maze(int rows, int cols) {
@@ -44,6 +49,53 @@ public class Maze extends Observable {
         EXIT_COL = cols - 1;
         mazeMatrix = new boolean[rows][cols];
         mark = new short[rows][cols];
+    }
+
+    /*
+     * divide [1:rows-1] into n sectors
+     */
+    private static List<Integer> divideN(int rows, int n) {
+        int each = rows / n;
+        int start = 0;
+        List<Integer> divs = new ArrayList<Integer>();
+        for (int i = 0; i < n; i++) {
+            divs.add(start + i * each);
+        }
+        divs.add(rows - 1);
+        return divs;
+    }
+
+    private static List<int[][]> divideMaze(int rows, int cols, int n) {
+        List<Integer> nrowParts = divideN(rows, n);
+        List<Integer> ncolParts = divideN(cols, n);
+        System.out.println("nrowParts: " + nrowParts);
+        List<int[][]> results = new ArrayList<int[][]>();
+        int rowsize = nrowParts.size();
+        int colsize = ncolParts.size();
+        for (int i = 0; i < rowsize - 1; i++) {
+            for (int j = 0; j < colsize - 1; j++) {
+                int[][] smallParts = new int[2][2];
+                int startRow = nrowParts.get(i);
+                int exitRow = (i == rowsize - 2) ? (nrowParts.get(i + 1)) : (nrowParts.get(i + 1) - 1);
+                int startCol = ncolParts.get(j);
+                int exitCol = (j == colsize - 2) ? (ncolParts.get(j + 1)) : (ncolParts.get(j + 1) - 1);
+                smallParts[0][0] = startRow;
+                smallParts[0][1] = startCol;
+                smallParts[1][0] = exitRow;
+                smallParts[1][1] = exitCol;
+                System.out.println("div: " + startRow + " " + startCol + " " + exitRow + " " + exitCol);
+                results.add(smallParts);
+            }
+        }
+        return results;
+    }
+
+    private static List<Byte> createNnums(byte b, int num) {
+        List<Byte> occurs = new ArrayList<Byte>();
+        for (int i = 0; i < num; i++) {
+            occurs.add(b);
+        }
+        return occurs;
     }
 
     /**
@@ -78,8 +130,7 @@ public class Maze extends Observable {
                 } else {  // 存在通路
                     if (mark[i][j] == 1) {
                         mazeCell = String.format("%2s", "GG");
-                    }
-                    else {
+                    } else {
                         mazeCell = String.format("%5s", "");
                     }
                 }
@@ -95,7 +146,6 @@ public class Maze extends Observable {
         return mazeStr;
     }
 
-
     /**
      * 监听按钮事件后发生改变，并通知观察者此变化的发生
      */
@@ -108,7 +158,9 @@ public class Maze extends Observable {
         return solution;
     }
 
-    public boolean isCreatedFinished() { return isCreatedFinished; }
+    public boolean isCreatedFinished() {
+        return isCreatedFinished;
+    }
 
     /**
      * 将迷宫还原为初始状态
@@ -129,20 +181,19 @@ public class Maze extends Observable {
             }
         }
         if (rows < 10 && cols < 10) {
-            StackADT<Position> createPaths = new DyStack<Position>(rows+cols);
-            createMaze(0,0, EXIT_ROW, EXIT_COL, createPaths);
+            StackADT<Position> createPaths = new DyStack<Position>(rows + cols);
+            createMaze(0, 0, EXIT_ROW, EXIT_COL, createPaths);
             isCreatedFinished = true;
             change();
-        }
-        else {
-            StackADT<Position> createPaths = new DyStack<Position>(rows+cols);
+        } else {
+            StackADT<Position> createPaths = new DyStack<Position>(rows + cols);
 
             List<int[][]> smallParts = divideMaze(rows, cols, 4);
-            for (int[][] parts: smallParts) {
+            for (int[][] parts : smallParts) {
                 createMaze(parts[0][0], parts[0][1], parts[1][0], parts[1][1], createPaths);
                 if (parts[0][1] != 0) {
-                   // 衔接点打通, 保证总是有一条从入口到出口的通路
-                   mazeMatrix[parts[0][0]][parts[0][1]-1] = true;
+                    // 衔接点打通, 保证总是有一条从入口到出口的通路
+                    mazeMatrix[parts[0][0]][parts[0][1] - 1] = true;
                 }
             }
 
@@ -150,46 +201,6 @@ public class Maze extends Observable {
             isCreatedFinished = true;
             change();
         }
-    }
-
-    /*
-     * divide [1:rows-1] into n sectors
-     */
-    private static List<Integer> divideN(int rows, int n) {
-        int each = rows/n;
-        int start = 0;
-        List<Integer> divs = new ArrayList<Integer>();
-        for (int i=0; i<n;i++) {
-            divs.add(start + i*each);
-        }
-        divs.add(rows-1);
-        return divs;
-    }
-
-
-    private static List<int[][]> divideMaze(int rows, int cols, int n) {
-        List<Integer> nrowParts = divideN(rows, n);
-        List<Integer> ncolParts = divideN(cols, n);
-        System.out.println("nrowParts: " + nrowParts);
-        List<int[][]> results = new ArrayList<int[][]>();
-        int rowsize = nrowParts.size();
-        int colsize = ncolParts.size();
-        for (int i=0; i<rowsize-1; i++) {
-            for (int j=0; j<colsize-1; j++) {
-                int[][] smallParts = new int[2][2];
-                int startRow = nrowParts.get(i);
-                int exitRow = (i == rowsize-2) ? (nrowParts.get(i+1)) : (nrowParts.get(i+1)-1);
-                int startCol = ncolParts.get(j);
-                int exitCol = (j == colsize-2) ? (ncolParts.get(j+1)) : (ncolParts.get(j+1)-1);
-                smallParts[0][0] = startRow;
-                smallParts[0][1] = startCol;
-                smallParts[1][0] = exitRow;
-                smallParts[1][1] = exitCol;
-                System.out.println("div: " + startRow + " " + startCol + " " + exitRow + " " + exitCol);
-                results.add(smallParts);
-            }
-        }
-        return results;
     }
 
     /*
@@ -290,18 +301,6 @@ public class Maze extends Observable {
         triedPaths.put(currPos, triedDirs);
     }
 
-    // 抵达迷宫最上边界时, 仅允许往东或往南走
-    private static final byte[] firstRowAllowedDirs = new byte[] { (byte)0, (byte)1 };
-
-    // 抵达迷宫最下边界时, 仅允许往东或往北走
-    private static final byte[] lastRowAllowedDirs = new byte[] { (byte)0, (byte)3 };
-
-    // 抵达迷宫最左边界时, 仅允许往东或往南走
-    private static final byte[] firstColAllowedDirs = new byte[] { (byte)0, (byte)1 };
-
-    // 抵达迷宫最右边界时, 仅允许往南或往西走
-    private static final byte[] lastColAllowedDirs = new byte[] { (byte)1, (byte)2 };
-
     /*
      * 获取下一个随机的方向, [0,1,2,3] , 若均已尝试, 返回 -1
      */
@@ -349,8 +348,7 @@ public class Maze extends Observable {
         Byte[] nonTriedDirs = possibleDirs.toArray(new Byte[possibleDirs.size()]);
         if (nonTriedDirs.length == 0) {
             return -1;
-        }
-        else {
+        } else {
             byte nextdir = nonTriedDirs[rand.nextInt(nonTriedDirs.length)];
             return nextdir;
         }
@@ -362,8 +360,7 @@ public class Maze extends Observable {
     private boolean reachUpBound(int currRow, int startRow, int exitRow) {
         if (startRow < exitRow) {
             return currRow == startRow;
-        }
-        else {
+        } else {
             return currRow == exitRow;
         }
     }
@@ -374,8 +371,7 @@ public class Maze extends Observable {
     private boolean reachLowBound(int currRow, int startRow, int exitRow) {
         if (startRow > exitRow) {
             return currRow == startRow;
-        }
-        else {
+        } else {
             return currRow == exitRow;
         }
     }
@@ -386,8 +382,7 @@ public class Maze extends Observable {
     private boolean reachLeftBound(int currCol, int startCol, int exitCol) {
         if (startCol < exitCol) {
             return currCol == startCol;
-        }
-        else {
+        } else {
             return currCol == exitCol;
         }
     }
@@ -398,13 +393,10 @@ public class Maze extends Observable {
     private boolean reachRightBound(int currCol, int startCol, int exitCol) {
         if (startCol > exitCol) {
             return currCol == startCol;
-        }
-        else {
+        } else {
             return currCol == exitCol;
         }
     }
-
-
 
     /*
      * 统计随机选择的方向出现的比例
@@ -412,27 +404,20 @@ public class Maze extends Observable {
     private void statDirWalked(List<Byte> allDirWalked) {
         int[] counts = new int[4];
         int backCount = 0;
-        for (Byte b: allDirWalked) {
+        for (Byte b : allDirWalked) {
             if (b != -1) {
                 counts[b] += 1;
-            }
-            else {
+            } else {
                 backCount++;
             }
         }
         int total = allDirWalked.size();
-        for (int i=0; i < counts.length; i++) {
-            System.out.printf("P[%d]=%g ", i, (double)counts[i] / total);
+        for (int i = 0; i < counts.length; i++) {
+            System.out.printf("P[%d]=%g ", i, (double) counts[i] / total);
         }
         System.out.println("back count: " + backCount);
         System.out.println(allDirWalked);
     }
-
-    // 各方向出现的概率设置,
-    private static final int P0 = 36;
-    private static final int P1 = 36;
-    private static final int P2 = 14;
-    private static final int P3 = 14;
 
     /*
      * 扩展 nonTriedDirs 使得 0 (向前) , 1 (向下)　出现的概率更大一些, 减少回退的几率
@@ -440,27 +425,19 @@ public class Maze extends Observable {
     private List<Byte> getRandomDirs(Set<Byte> nonTriedDirs) {
 
         List<Byte> selectDirs = new ArrayList<Byte>();
-        if (nonTriedDirs.contains((byte)0)) {
+        if (nonTriedDirs.contains((byte) 0)) {
             selectDirs.addAll(createNnums((byte) 0, P0));
         }
-        if (nonTriedDirs.contains((byte)1)) {
+        if (nonTriedDirs.contains((byte) 1)) {
             selectDirs.addAll(createNnums((byte) 1, P1));
         }
-        if (nonTriedDirs.contains((byte)2)) {
+        if (nonTriedDirs.contains((byte) 2)) {
             selectDirs.addAll(createNnums((byte) 2, P2));
         }
-        if (nonTriedDirs.contains((byte)3)) {
+        if (nonTriedDirs.contains((byte) 3)) {
             selectDirs.addAll(createNnums((byte) 3, P3));
         }
         return selectDirs;
-    }
-
-    private static List<Byte> createNnums(byte b, int num) {
-        List<Byte> occurs = new ArrayList<Byte>();
-        for (int i=0; i<num; i++) {
-            occurs.add(b);
-        }
-        return occurs;
     }
 
     private boolean checkBound(int row, int col,
@@ -469,15 +446,13 @@ public class Maze extends Observable {
         boolean rowBound = false;
         if (startRow < exitRow) {
             rowBound = (row <= exitRow && row >= startRow);
-        }
-        else {
+        } else {
             rowBound = (row <= startRow && row >= exitRow);
         }
         boolean colBound = false;
         if (startCol < exitCol) {
             colBound = (col <= exitCol && col >= startCol);
-        }
-        else {
+        } else {
             colBound = (col <= startCol && col >= exitCol);
         }
 
@@ -522,8 +497,8 @@ public class Maze extends Observable {
                         col = nextCol;
                         dir = 0;
                     } else {
-                          /* 没有找到出口点，且当前搜索方向的相邻位置为墙，或已搜索过，或超出迷宫边界，
-		            	   * 则向当前位置的下一个搜索方向进行搜索移动  	 */
+                        /* 没有找到出口点，且当前搜索方向的相邻位置为墙，或已搜索过，或超出迷宫边界，
+                         * 则向当前位置的下一个搜索方向进行搜索移动  	 */
                         ++dir;
                     }
                 }

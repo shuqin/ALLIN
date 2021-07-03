@@ -17,7 +17,7 @@ class SubExpression extends Expression implements GroovyInterceptable {
     }
 
     static void main(args) {
-        def exp = new SubExpression(field: "id", op:"=", value:111)
+        def exp = new SubExpression(field: "id", op: "=", value: 111)
         println exp.match([id: 123])
         println exp.match([id: 111])
         println exp.nonexist()

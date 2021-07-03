@@ -14,6 +14,7 @@ public class JsonPathUtil {
 
     /**
      * 对于正确JSON及存在的Path下获取到最终指定值并转成字符串，其他情况一律返回 null
+     *
      * @param json JSON串
      * @param path 点分隔的字段路径
      * @return 相应字段的字符串值
@@ -23,7 +24,7 @@ public class JsonPathUtil {
             if (json == null || path == null) {
                 return null;
             }
-            Map<String,Object> map = readMap(json);
+            Map<String, Object> map = readMap(json);
             if (map == null) {
                 // log.warn("parse json failed: " + json);
                 return null;
@@ -43,16 +44,15 @@ public class JsonPathUtil {
     private static String readVal(Map<String, Object> map, String[] subpaths) {
         Object val = map;
         try {
-            for (String subpath: subpaths) {
+            for (String subpath : subpaths) {
                 if (val != null && val instanceof Map) {
-                    val = ((Map)val).get(subpath);
-                }
-                else {
+                    val = ((Map) val).get(subpath);
+                } else {
                     // log.warn("subpath may not exists in " + map);
                     return null;
                 }
             }
-            return val == null ? null: val.toString();
+            return val == null ? null : val.toString();
         } catch (Exception ex) {
             return null;
         }

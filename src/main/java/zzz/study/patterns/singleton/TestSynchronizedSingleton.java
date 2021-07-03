@@ -9,23 +9,23 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestSynchronizedSingleton implements Runnable {
 
-	public void run() {
-		SynchronizedSingletonWithLowPerformance synchronizedSingletonWithLowPerformance = SynchronizedSingletonWithLowPerformance.getInstance();
-		System.out.println("run(): " + synchronizedSingletonWithLowPerformance);
-	}
-	
-	public static void main(String[] args) {
-		ExecutorService es = Executors.newFixedThreadPool(1000);
+    public static void main(String[] args) {
+        ExecutorService es = Executors.newFixedThreadPool(1000);
 
-		for (int i=0; i<100000; i++) {
-			es.submit(new TestSynchronizedSingleton());
-		}
+        for (int i = 0; i < 100000; i++) {
+            es.submit(new TestSynchronizedSingleton());
+        }
 
-		try {
-			TimeUnit.SECONDS.sleep(10);
-			es.shutdown();
-			es.awaitTermination(10, TimeUnit.SECONDS );
-		} catch (InterruptedException e) {
-		}
-	}
+        try {
+            TimeUnit.SECONDS.sleep(10);
+            es.shutdown();
+            es.awaitTermination(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+        }
+    }
+
+    public void run() {
+        SynchronizedSingletonWithLowPerformance synchronizedSingletonWithLowPerformance = SynchronizedSingletonWithLowPerformance.getInstance();
+        System.out.println("run(): " + synchronizedSingletonWithLowPerformance);
+    }
 }

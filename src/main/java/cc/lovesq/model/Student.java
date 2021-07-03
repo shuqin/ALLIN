@@ -1,6 +1,5 @@
 package cc.lovesq.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,13 +12,13 @@ import lombok.ToString;
 @Setter
 public class Student {
 
-  private String name;
-  private int age;
-  private Address address;
+    private String name;
+    private int age;
+    private Address address;
 
-  public Student(String name, int age) {
-    this.name = name;
-    this.age = age;
-  }
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
 
 }

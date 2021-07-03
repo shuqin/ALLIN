@@ -1,10 +1,10 @@
 package cc.lovesq.experiments;
 
-import org.springframework.stereotype.Component;
 import cc.lovesq.flows.definitions.BizEventTypeEnum;
 import cc.lovesq.flows.detect.DetectEventData;
 import cc.lovesq.flows.detect.bizevents.BizEvent;
 import cc.lovesq.flows.detect.bizevents.DetectEventHandler;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 

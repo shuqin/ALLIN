@@ -3,7 +3,9 @@ package cc.lovesq.study.metap
 class TestCases {
 
     def testA() { println 'do testA' }
+
     def testB() { println 'do testB' }
+
     def getTestData() { println "getTestData" }
 
     static void main(args) {

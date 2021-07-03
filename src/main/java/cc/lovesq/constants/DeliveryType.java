@@ -23,7 +23,7 @@ public enum DeliveryType {
     }
 
     public static DeliveryType getDeliveryType(Integer code) {
-        for (DeliveryType deliveryType: DeliveryType.values()) {
+        for (DeliveryType deliveryType : DeliveryType.values()) {
             if (deliveryType.code.equals(code)) {
                 return deliveryType;
             }

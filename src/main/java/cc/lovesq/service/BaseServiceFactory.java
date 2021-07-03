@@ -29,7 +29,7 @@ public class BaseServiceFactory implements ApplicationContextAware {
     @PostConstruct
     public void init() {
         Map<String, BaseServiceImpl> baseServiceMap = applicationContext.getBeansOfType(BaseServiceImpl.class);
-        for (BaseServiceImpl bs: baseServiceMap.values()) {
+        for (BaseServiceImpl bs : baseServiceMap.values()) {
             Class c = bs.getClass();
             // 解决cglib动态代理问题
             if (bs.getClass().getName().contains("CGLIB")) {

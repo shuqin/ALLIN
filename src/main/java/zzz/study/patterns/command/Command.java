@@ -1,9 +1,9 @@
 package zzz.study.patterns.command;
 
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public interface Command {
-	
-	public void setTextField(JTextField textfield);
+
+    public void setTextField(JTextField textfield);
 
 }

@@ -11,7 +11,7 @@ import rx.Subscriber;
  */
 public class RxJava1 {
 
-    public static void main(String[]args) {
+    public static void main(String[] args) {
 
         (Observable.just(1)).single().subscribe(new Subscriber() {
 

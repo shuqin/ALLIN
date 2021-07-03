@@ -13,11 +13,11 @@ import org.springframework.context.annotation.ImportResource;
 @Configuration
 @ComponentScan(basePackages = {"cc.lovesq.*"})
 @MapperScan(basePackages = {"cc.lovesq.dao"})
-@ImportResource(locations={"classpath:spring.xml"})
+@ImportResource(locations = {"classpath:spring.xml"})
 public class Application {
 
-  public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
 }

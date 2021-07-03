@@ -17,7 +17,8 @@ public class NotEqualsRule implements SingleWhiteRule {
     private String field;
     private NotEqualCondition condition;
 
-    public NotEqualsRule() {}
+    public NotEqualsRule() {
+    }
 
     public NotEqualsRule(String field, Object value) {
         this.field = field;

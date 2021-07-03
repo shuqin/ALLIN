@@ -13,7 +13,7 @@ public enum EmployeeFieldConf {
     private String title;
     private Function<Employee, String> method;
 
-    EmployeeFieldConf(String name, String title, Function<Employee,String> method) {
+    EmployeeFieldConf(String name, String title, Function<Employee, String> method) {
         this.name = name;
         this.title = title;
         this.method = method;

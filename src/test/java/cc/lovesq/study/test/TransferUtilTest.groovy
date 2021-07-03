@@ -14,22 +14,22 @@ class TransferUtilTest {
         [null, "", " "].each {
             assert "" == camelToUnderline(it)
         }
-        ["isBuyGoods": "is_buy_goods", "feeling": "feeling", "G":"G", "GG": "GG"].each {
+        ["isBuyGoods": "is_buy_goods", "feeling": "feeling", "G": "G", "GG": "GG"].each {
             key, value -> assert camelToUnderline(key) == value
         }
 
         [null, "", " "].each {
             assert "" == underlineToCamel(it)
         }
-        ["is_buy_goods": "isBuyGoods", "feeling": "feeling", "b":"b", "_b":"B"].each {
+        ["is_buy_goods": "isBuyGoods", "feeling": "feeling", "b": "b", "_b": "B"].each {
             key, value -> assert underlineToCamel(key) == value
         }
 
-        def amap = ["code": 200,
-                    "msg": "successful",
-                    "data": [
-                            "total": 2,
-                            "list": [
+        def amap = ["code"      : 200,
+                    "msg"       : "successful",
+                    "data"      : [
+                            "total"    : 2,
+                            "list"     : [
                                     ["isBuyGoods": "a little", "feeling": ["isHappy": "ok"]],
                                     ["isBuyGoods": "ee", "feeling": ["isHappy": "haha"]],
                             ],
@@ -37,9 +37,9 @@ class TransferUtilTest {
                                     "totalFee": 1500, "totalTime": "3d",
                                     "nestInfo": [
                                             "travelDestination": "xiada",
-                                            "isIgnored": true
+                                            "isIgnored"        : true
                                     ],
-                                    "buyList": ["Food","Dress","Daily"]
+                                    "buyList" : ["Food", "Dress", "Daily"]
                             ]
                     ],
                     "extendInfo": [

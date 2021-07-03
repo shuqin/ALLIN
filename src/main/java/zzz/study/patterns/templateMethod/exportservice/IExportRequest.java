@@ -5,6 +5,6 @@ package zzz.study.patterns.templateMethod.exportservice;
  */
 public interface IExportRequest {
 
-  // common methods to be implemented
+    // common methods to be implemented
 
 }

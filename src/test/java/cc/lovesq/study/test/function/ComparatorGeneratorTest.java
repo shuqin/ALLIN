@@ -20,7 +20,7 @@ public class ComparatorGeneratorTest {
     @Test
     public void testGetComparator() {
         List<ConnBriefInfo> connBriefInfoList = Arrays.asList(
-              new ConnBriefInfo(3L, "2021-06-11", "2021-05-12"),
+                new ConnBriefInfo(3L, "2021-06-11", "2021-05-12"),
                 new ConnBriefInfo(5L, "2021-06-19", "2021-05-19"),
                 new ConnBriefInfo(2L, "2021-06-15", "2021-05-15")
         );
@@ -39,14 +39,14 @@ public class ComparatorGeneratorTest {
         System.out.println(sortedByVisitorCount);
 
         List<ConnBriefInfo> sortedByVisitorCountDesc = connBriefInfoList.stream()
-                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(new Sort(Sort.Direction.DESC,"visitCount")))
+                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(new Sort(Sort.Direction.DESC, "visitCount")))
                 .collect(Collectors.toList());
 
         System.out.println(sortedByVisitorCountDesc);
 
 
         List<ConnBriefInfo> sortedByLastTime = connBriefInfoList.stream()
-                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(new Sort(Sort.Direction.DESC,"lastTime")))
+                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(new Sort(Sort.Direction.DESC, "lastTime")))
                 .collect(Collectors.toList());
 
         System.out.println(sortedByLastTime);

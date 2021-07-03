@@ -20,16 +20,8 @@ public enum Severity {
         this.desc = desc;
     }
 
-    public int getValue() {
-        return value;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
     public static String getSeverityDesc(String value) {
-        for (Severity s: Severity.values()) {
+        for (Severity s : Severity.values()) {
             if (String.valueOf(s.getValue()).equals(value)) {
                 return s.getDesc();
             }
@@ -38,11 +30,19 @@ public enum Severity {
     }
 
     public static String getSeverityDesc(int value) {
-        for (Severity s: Severity.values()) {
+        for (Severity s : Severity.values()) {
             if (s.getValue() == value) {
                 return s.getDesc();
             }
         }
         return "NoMatch";
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 }

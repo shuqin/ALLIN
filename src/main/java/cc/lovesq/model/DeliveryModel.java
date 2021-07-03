@@ -2,13 +2,19 @@ package cc.lovesq.model;
 
 public class DeliveryModel {
 
-    /** 快递运费 */
+    /**
+     * 快递运费
+     */
     Long expressFee;
 
-    /** 同城送起送金额 */
+    /**
+     * 同城送起送金额
+     */
     Long localDeliveryBasePrice;
 
-    /** 同城送配送金额 */
+    /**
+     * 同城送配送金额
+     */
     Long localDeliveryPrice;
 
     public Long getExpressFee() {

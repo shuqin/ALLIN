@@ -6,26 +6,26 @@ import java.util.List;
 
 public class EscapedObject {
 
-  private List<Integer> nums = new ArrayList<>();
+    private List<Integer> nums = new ArrayList<>();
 
-  private synchronized void add(Integer num) {
-    if (num != null) {
-      nums.add(num);
+    private synchronized void add(Integer num) {
+        if (num != null) {
+            nums.add(num);
+        }
     }
-  }
 
-  public List<Integer> getNums() {
-    return nums;
-  }
+    public List<Integer> getNums() {
+        return nums;
+    }
 
-  public List<Integer> getImmutableNums() {
-    return Collections.unmodifiableList(nums);
-  }
+    public List<Integer> getImmutableNums() {
+        return Collections.unmodifiableList(nums);
+    }
 
-  static class EscapedObjectTester {
-    public static void main(String[] args) throws InterruptedException {
-      EscapedObject escapedObject = new EscapedObject();
-      escapedObject.add(5);
+    static class EscapedObjectTester {
+        public static void main(String[] args) throws InterruptedException {
+            EscapedObject escapedObject = new EscapedObject();
+            escapedObject.add(5);
 
       /*
       List<Integer> escaped = escapedObject.getNums();
@@ -37,15 +37,15 @@ public class EscapedObject {
       );
       */
 
-      List<Integer> escaped = escapedObject.getImmutableNums();
-      ThreadStarter.startMultiThreads(10, 3,
-          (ti) -> {
-            Integer i = escaped.get(0);
-            i = i.intValue() + 1;
-            System.out.println(ti + ":" + i);
-          }
-      );
+            List<Integer> escaped = escapedObject.getImmutableNums();
+            ThreadStarter.startMultiThreads(10, 3,
+                    (ti) -> {
+                        Integer i = escaped.get(0);
+                        i = i.intValue() + 1;
+                        System.out.println(ti + ":" + i);
+                    }
+            );
 
+        }
     }
-  }
 }

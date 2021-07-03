@@ -27,111 +27,10 @@ public class EnhancedBigNBitsVector {
         this.bitsLength = BITS_PER_INT * INTS_PER_ARRAY * arrNums;
         if (bitsVector == null) {
             bitsVector = new ArrayList<int[]>();
-            for (int i=0; i< arrNums; i++) {
+            for (int i = 0; i < arrNums; i++) {
                 bitsVector.add(new int[INTS_PER_ARRAY]);
             }
         }
-    }
-
-    /**
-     * setBit: 将位向量的第 i 位置一
-     *
-     * @param i 要置位的位置
-     */
-    public void setBit(long i) {
-        int arrIndex = (int)(i / BITS_PER_ARRAY);
-        int intBits = (int)(i - arrIndex * BITS_PER_ARRAY);
-        int intIndex = intBits / BITS_PER_INT;
-        int[] arr = bitsVector.get(arrIndex);
-        arr[intIndex] |= 1 << (intBits & 0x1f);
-
-    }
-
-    /**
-     * clrBit: 将位向量的第 i 位清零
-     *
-     * @param i 要清零的位置
-     */
-    public void clrBit(long i) {
-        int arrIndex = (int)(i / BITS_PER_ARRAY);
-        int intBits = (int)(i - arrIndex * BITS_PER_ARRAY);
-        int intIndex = intBits / BITS_PER_INT;
-        int[] arr = bitsVector.get(arrIndex);
-        arr[intIndex] &= ~(1 << (intBits & 0x1f));
-    }
-
-    /**
-     * testBit: 测试位向量的第 i 位是否为 1
-     *
-     * @param i 测试位的位置
-     * @return 若位向量的第 i 位为 1, 则返回true, 否则返回 false
-     */
-    public boolean testBit(long i) {
-        int arrIndex = (int)(i / BITS_PER_ARRAY);
-        int intBits = (int)(i - arrIndex * BITS_PER_ARRAY);
-        int intIndex = intBits / BITS_PER_INT;
-        int[] arr = bitsVector.get(arrIndex);
-        return (arr[intIndex] & 1 << (intBits & 0x1f)) != 0;
-    }
-
-
-    /**
-     * clr: 位向量全部清零
-     */
-    public void clr() {
-        int vecLen = bitsVector.size();
-        for (int i = 0; i < vecLen; i++) {
-            bitsVector.set(i, new int[INTS_PER_ARRAY]);
-
-        }
-    }
-
-    /**
-     * getBitsLength: 获取位向量的总位数
-     */
-    public long getBitsLength() {
-        return bitsLength;
-    }
-
-    /**
-     * 返回位向量的表示
-     * @return 一个整数数组, 里面每个整数表示位出现的位置
-     */
-    public List<Integer> expr() {
-        List<Integer> bitVectorExpr = new ArrayList<Integer>();
-        for (long i=0; i < bitsLength; i++) {
-            if (testBit((int)i)) {
-                bitVectorExpr.add((int)i);
-            }
-        }
-        return bitVectorExpr;
-    }
-
-    /**
-     * 获取给定整数 i 的二进制表示， 若高位若不为 1 则补零。
-     *
-     * @param i 给定整数 i
-     */
-    public String intToBinaryStringWithHighZero(int i) {
-        String basicResult = Integer.toBinaryString(i);
-        int bitsForZero = BITS_PER_INT - basicResult.length();
-        StringBuilder sb = new StringBuilder("");
-        while (bitsForZero-- > 0) {
-            sb.append('0');
-        }
-        sb.append(basicResult);
-        return sb.toString();
-    }
-
-    public String toString() {
-        StringBuilder sb = new StringBuilder("");
-        for (int i=bitsVector.size()-1; i>=0; i--) {
-            int[] arr = bitsVector.get(i);
-            for (int j = arr.length - 1; j >= 0; j--) {
-                sb.append(intToBinaryStringWithHighZero(arr[j]));
-            }
-        }
-        return sb.toString();
     }
 
     public static void main(String[] args) {
@@ -155,6 +54,107 @@ public class EnhancedBigNBitsVector {
         nbitsVector.clr();
         //System.out.println(nbitsVector);
         System.out.println(nbitsVector.expr());
+    }
+
+    /**
+     * setBit: 将位向量的第 i 位置一
+     *
+     * @param i 要置位的位置
+     */
+    public void setBit(long i) {
+        int arrIndex = (int) (i / BITS_PER_ARRAY);
+        int intBits = (int) (i - arrIndex * BITS_PER_ARRAY);
+        int intIndex = intBits / BITS_PER_INT;
+        int[] arr = bitsVector.get(arrIndex);
+        arr[intIndex] |= 1 << (intBits & 0x1f);
+
+    }
+
+    /**
+     * clrBit: 将位向量的第 i 位清零
+     *
+     * @param i 要清零的位置
+     */
+    public void clrBit(long i) {
+        int arrIndex = (int) (i / BITS_PER_ARRAY);
+        int intBits = (int) (i - arrIndex * BITS_PER_ARRAY);
+        int intIndex = intBits / BITS_PER_INT;
+        int[] arr = bitsVector.get(arrIndex);
+        arr[intIndex] &= ~(1 << (intBits & 0x1f));
+    }
+
+    /**
+     * testBit: 测试位向量的第 i 位是否为 1
+     *
+     * @param i 测试位的位置
+     * @return 若位向量的第 i 位为 1, 则返回true, 否则返回 false
+     */
+    public boolean testBit(long i) {
+        int arrIndex = (int) (i / BITS_PER_ARRAY);
+        int intBits = (int) (i - arrIndex * BITS_PER_ARRAY);
+        int intIndex = intBits / BITS_PER_INT;
+        int[] arr = bitsVector.get(arrIndex);
+        return (arr[intIndex] & 1 << (intBits & 0x1f)) != 0;
+    }
+
+    /**
+     * clr: 位向量全部清零
+     */
+    public void clr() {
+        int vecLen = bitsVector.size();
+        for (int i = 0; i < vecLen; i++) {
+            bitsVector.set(i, new int[INTS_PER_ARRAY]);
+
+        }
+    }
+
+    /**
+     * getBitsLength: 获取位向量的总位数
+     */
+    public long getBitsLength() {
+        return bitsLength;
+    }
+
+    /**
+     * 返回位向量的表示
+     *
+     * @return 一个整数数组, 里面每个整数表示位出现的位置
+     */
+    public List<Integer> expr() {
+        List<Integer> bitVectorExpr = new ArrayList<Integer>();
+        for (long i = 0; i < bitsLength; i++) {
+            if (testBit((int) i)) {
+                bitVectorExpr.add((int) i);
+            }
+        }
+        return bitVectorExpr;
+    }
+
+    /**
+     * 获取给定整数 i 的二进制表示， 若高位若不为 1 则补零。
+     *
+     * @param i 给定整数 i
+     */
+    public String intToBinaryStringWithHighZero(int i) {
+        String basicResult = Integer.toBinaryString(i);
+        int bitsForZero = BITS_PER_INT - basicResult.length();
+        StringBuilder sb = new StringBuilder("");
+        while (bitsForZero-- > 0) {
+            sb.append('0');
+        }
+        sb.append(basicResult);
+        return sb.toString();
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder("");
+        for (int i = bitsVector.size() - 1; i >= 0; i--) {
+            int[] arr = bitsVector.get(i);
+            for (int j = arr.length - 1; j >= 0; j--) {
+                sb.append(intToBinaryStringWithHighZero(arr[j]));
+            }
+        }
+        return sb.toString();
     }
 
 }

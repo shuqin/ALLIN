@@ -45,15 +45,16 @@ public abstract class AbstractComponentFactory {
     }
 
     /**
-     *  返回所有对应的组件实例映射 Map[BeanName, ComponentBean]
-     *
-     *  ComponentBeans 推荐以下方式获取：
-     *  applicationContext.getBeansOfType(Component.class);
-     *  */
+     * 返回所有对应的组件实例映射 Map[BeanName, ComponentBean]
+     * <p>
+     * ComponentBeans 推荐以下方式获取：
+     * applicationContext.getBeansOfType(Component.class);
+     */
     abstract public Map<String, FlowComponent> getComponentBeans();
 
     /**
      * 根据指定的组件全限定性类名来获取对应的组件实例
+     *
      * @param qualifiedClassName 组件全限定性类名
      * @return 组件实例
      */
@@ -63,8 +64,9 @@ public abstract class AbstractComponentFactory {
 
     /**
      * 根据指定的组件意图和业务类型来获取对应的组件实例
+     *
      * @param purpose 组件意图标识
-     * @param biz 组件业务类型
+     * @param biz     组件业务类型
      * @return 组件实例
      */
     public FlowComponent getComponent(String purpose, String biz) {
@@ -73,6 +75,7 @@ public abstract class AbstractComponentFactory {
 
     /**
      * 根据指定的组件类型来获取对应的组件实例
+     *
      * @param componentType 组件类型
      * @return 组件实例
      */
@@ -82,6 +85,7 @@ public abstract class AbstractComponentFactory {
 
     /**
      * 根据组件类型集合批量获取对应的组件实例集合
+     *
      * @param componentTypeList 组件类型集合
      * @return 组件实例集合
      */

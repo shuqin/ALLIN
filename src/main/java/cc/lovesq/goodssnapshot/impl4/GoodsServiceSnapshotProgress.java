@@ -5,7 +5,8 @@ import cc.lovesq.model.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static shared.utils.Currency.fen2yuan;
@@ -48,15 +49,14 @@ public class GoodsServiceSnapshotProgress {
         if (key.equals("express")) {
             if (Objects.equals(order.getPrice(), 0.0)) {
                 return tpl.replace("$info", "免运费");
-            }
-            else {
+            } else {
                 return tpl.replace("$info", "运费￥" + fen2yuan(order.getExpressFee()) + "元");
             }
         }
 
         if (key.equals("localDelivery")) {
             return tpl.replace("$localDeliveryBasePrice", fen2yuan(order.getLocalDeliveryBasePrice()).toString())
-                      .replace("$localDeliveryPrice", fen2yuan(order.getLocalDeliveryPrice()).toString());
+                    .replace("$localDeliveryPrice", fen2yuan(order.getLocalDeliveryPrice()).toString());
         }
 
         if (key.equals("codpay")) {
@@ -64,7 +64,7 @@ public class GoodsServiceSnapshotProgress {
         }
 
         if (key.equals("secureService")) {
-            return order.isSecuredOrder() ? tpl :"";
+            return order.isSecuredOrder() ? tpl : "";
         }
 
         if (key.equals("drectoseller")) {

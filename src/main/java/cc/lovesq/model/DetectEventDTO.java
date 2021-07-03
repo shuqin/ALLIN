@@ -22,7 +22,8 @@ public class DetectEventDTO implements Serializable {
     private String eventTypeDesc;
     private String severityDesc;
 
-    public DetectEventDTO() {}
+    public DetectEventDTO() {
+    }
 
     public DetectEventDTO(String eventType, long timestamp, int severity, String eventTypeDesc, String severityDesc) {
         this.eventType = eventType;

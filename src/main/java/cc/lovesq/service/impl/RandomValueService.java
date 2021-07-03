@@ -22,9 +22,9 @@ public class RandomValueService {
 
     @HystrixCommand(commandKey = "randInt", fallbackMethod = "randIntDowngrade",
             commandProperties = {
-                    @HystrixProperty(name="metrics.rollingStats.timeInMilliseconds", value="5000"),
-                    @HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="10"),
-                    @HystrixProperty(name="circuitBreaker.errorThresholdPercentage", value="50")
+                    @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "5000"),
+                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50")
             })
     public Integer randInt() {
 

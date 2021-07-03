@@ -6,25 +6,39 @@ public class OrderDO {
 
     private Long orderId;
 
-    /** 订单号 */
+    /**
+     * 订单号
+     */
     private String orderNo;
 
-    /** 店铺ID */
+    /**
+     * 店铺ID
+     */
     private Long shopId;
 
-    /** 下单人ID */
+    /**
+     * 下单人ID
+     */
     private Long userId;
 
-    /** 下单时间 */
+    /**
+     * 下单时间
+     */
     private Long bookTime;
 
-    /** 配送方式 */
+    /**
+     * 配送方式
+     */
     private Integer deliveryType;
 
-    /** 订单金额 */
+    /**
+     * 订单金额
+     */
     private Long price;
 
-    /** 订单扩展信息 */
+    /**
+     * 订单扩展信息
+     */
     private String extend;
 
     private Date gmtCreate;

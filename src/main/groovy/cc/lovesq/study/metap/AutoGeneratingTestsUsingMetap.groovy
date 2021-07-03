@@ -34,28 +34,28 @@ class AutoGeneratingTestsUsingMetap {
             log.info("test passed.")
         }(testCase)
 
-        println(AutoGeneratingTestsUsingMetap.metaClass.methods.collect{ it.name })
+        println(AutoGeneratingTestsUsingMetap.metaClass.methods.collect { it.name })
     }
 
     static void main(args) {
         AutoGeneratingTestsUsingMetap.generateTest(
                 [
-                    params: [
-                        'orderTypeDesc': ['NORMAL'],
-                        'recName': 'qin'
-                    ],
-                    validations: [
-                            'order_type': 0,
-                            'rec_name': 'qin'
-                    ]
+                        params     : [
+                                'orderTypeDesc': ['NORMAL'],
+                                'recName'      : 'qin'
+                        ],
+                        validations: [
+                                'order_type': 0,
+                                'rec_name'  : 'qin'
+                        ]
                 ]
         )
     }
 
     def static mockSearch(orderSearchParam) {
-        def results = new Expando(msg: 'success' , code: 200)
+        def results = new Expando(msg: 'success', code: 200)
         results.orders = (1..20).collect {
-            new Expando(order_type:0 , rec_name: 'qin')
+            new Expando(order_type: 0, rec_name: 'qin')
         }
         results
     }

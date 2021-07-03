@@ -15,7 +15,7 @@ import java.util.function.Function;
  */
 public class ComparatorGenerator {
 
-    public static Comparator<? extends ComparatorObject> getComparator(Function<ComparatorObject,Object> compFunc, boolean isAscending) {
+    public static Comparator<? extends ComparatorObject> getComparator(Function<ComparatorObject, Object> compFunc, boolean isAscending) {
         return isAscending ? (o1, o2) -> (StringUtils.compare(String.valueOf(compFunc.apply(o1)), String.valueOf(compFunc.apply(o2)))) :
                 (o1, o2) -> (StringUtils.compare(String.valueOf(compFunc.apply(o2)), String.valueOf(compFunc.apply(o1))));
     }
@@ -46,8 +46,8 @@ public class ComparatorGenerator {
         visitCount("visitCount", ComparatorObject::getVisitCount),
         ;
 
-        private String field;
         Function<ComparatorObject, Object> compFunc;
+        private String field;
 
         ComparatorFuncEnum(String field, Function<ComparatorObject, Object> compFunc) {
             this.field = field;
@@ -55,7 +55,7 @@ public class ComparatorGenerator {
         }
 
         public static Function<ComparatorObject, Object> getCompFunc(String field) {
-            for (ComparatorFuncEnum cfe: ComparatorFuncEnum.values()) {
+            for (ComparatorFuncEnum cfe : ComparatorFuncEnum.values()) {
                 if (cfe.getField().equals(field)) {
                     return cfe.compFunc;
                 }

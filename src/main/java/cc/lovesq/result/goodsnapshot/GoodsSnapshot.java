@@ -14,7 +14,9 @@ public class GoodsSnapshot {
 
     private List<GoodsServiceSnapshot> goodsServiceSnapshots;
 
-    /** 订单金额，元为单位 */
+    /**
+     * 订单金额，元为单位
+     */
     private Double priceYuan;
 
     public GoodsInfo getGoodsInfo() {

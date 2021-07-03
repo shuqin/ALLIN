@@ -26,7 +26,7 @@ public class TimecostAspect {
     public Object around(ProceedingJoinPoint joinPoint) {
 
         Object[] args = joinPoint.getArgs();
-        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 
         String methodInfo = "[" + method.getName() + "][" + Arrays.deepToString(args) + "]";
@@ -39,7 +39,7 @@ public class TimecostAspect {
             logger.error("failed to run method");
         }
         long end = System.nanoTime();
-        logger.info(methodInfo + "[cost]: {} us", (end-start)/1000 );
+        logger.info(methodInfo + "[cost]: {} us", (end - start) / 1000);
 
         return obj;
     }

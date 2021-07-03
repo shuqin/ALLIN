@@ -3,14 +3,12 @@ package zzz.study.datastructure.stack;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.StringJoiner;
 
 /**
  * DyStack implements the services of a stack specified by the
  * stack.StackADT interface
  *
  * @author shuqin1984
- *
  */
 
 public class DyStack<T> implements Stack<T> {
@@ -28,7 +26,6 @@ public class DyStack<T> implements Stack<T> {
      * judge whether the given stack is empty
      *
      * @return if it's empty, return true, else return false
-     *
      */
     public boolean isEmpty() {
 
@@ -37,9 +34,8 @@ public class DyStack<T> implements Stack<T> {
 
     /**
      * remove all the elements in the stack.
-     *
      */
-    public void  clear() {
+    public void clear() {
         ds.clear();
     }
 
@@ -47,7 +43,6 @@ public class DyStack<T> implements Stack<T> {
      * push the given element into stack
      *
      * @param e the element to be pushed
-     *
      */
     public void push(T e) {
 
@@ -57,11 +52,10 @@ public class DyStack<T> implements Stack<T> {
     /**
      * pop the element in the top of stack
      *
-     * @throws Exception if the stack is empty
      * @return the element in the top of stack
-     *
+     * @throws Exception if the stack is empty
      */
-    public T pop()	{
+    public T pop() {
 
         if (ds.isEmpty())
             throw new RuntimeException("栈空！");
@@ -73,9 +67,8 @@ public class DyStack<T> implements Stack<T> {
      * get the element in the top of stack
      *
      * @return the element in the top of stack ; if the stack is empty , return null;
-     *
      */
-    public T peek()  {
+    public T peek() {
 
         if (ds.isEmpty())
             return null;
@@ -86,17 +79,15 @@ public class DyStack<T> implements Stack<T> {
      * get the number of elements in the stack
      *
      * @return the number of elements in the stack
-     *
      */
     public int size() {
-        return  ds.size();
+        return ds.size();
     }
 
     /**
      * traverse the stack
      *
      * @return a string that show the contents of the stack
-     *
      */
     public String toString() {
 

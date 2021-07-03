@@ -2,14 +2,14 @@ package zzz.study.foundations.puzzlers;
 
 public class JavaGeneric {
 
-    public static void main(String[]args) {
+    public static void main(String[] args) {
         new JavaGeneric().ss();
         new JavaGeneric().test2(new C(12));
         new JavaGeneric().test2(new C<Integer>(12));
         new JavaGeneric().test2(new C<String>("qin"));
     }
 
-    public void test(A<String,Integer> a) {
+    public void test(A<String, Integer> a) {
         System.out.println(a.toString());
     }
 
@@ -35,7 +35,7 @@ public class JavaGeneric {
     */
 }
 
-class A<S,I> {
+class A<S, I> {
     S name;
     I age;
 
@@ -56,7 +56,8 @@ class B<R> extends A<Integer, String> {
 class C<T> {
     T t;
 
-    public C() {}
+    public C() {
+    }
 
     public C(T t) {
         this.t = t;

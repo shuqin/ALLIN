@@ -6,7 +6,8 @@ import shared.conf.GlobalConfig
 import shared.script.ScriptExecutor
 import spock.lang.Specification
 import spock.lang.Unroll
-import zzz.study.patterns.composite.button.*
+import zzz.study.patterns.composite.button.BaseCondition
+import zzz.study.patterns.composite.button.CondOp
 import zzz.study.patterns.composite.button.strategy.ConditionParserStrategy
 import zzz.study.patterns.composite.button.strategy.ParserStrategyFactory
 
@@ -49,7 +50,7 @@ class ButtonConfigTest extends Specification {
         multiButtonCondition.getResult() == false
 
         def buttonConfigJson = '{"buttonRules": [{"cond":{"field": "activity_type", "op":"eq", "value": 63}, "result": false}, {"cond":{"field": "order_type", "op":"eq", "value": 75}, "result": false}, ' +
-                               '{"conditions": [{"field": "state", "op":"neq", "value": 10}, {"field": "order_type", "op":"eq", "value": 0}, {"field": "activity_type", "op":"neq", "value": 13}], "result": true}], "defaultResult": false}'
+                '{"conditions": [{"field": "state", "op":"neq", "value": 10}, {"field": "order_type", "op":"eq", "value": 0}, {"field": "activity_type", "op":"neq", "value": 13}], "result": true}], "defaultResult": false}'
         def combinedCondition = parserStrategy.parse(buttonConfigJson)
         def giftValueMap = ["activity_type": 63]
         def giftResult = combinedCondition.satisfiedBy(giftValueMap)

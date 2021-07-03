@@ -12,7 +12,7 @@ public class ReflectionUtil {
     public static Object getValue(Object obj, String field) {
         Field[] fields = obj.getClass().getDeclaredFields();
         Object value = null;
-        for (Field f: fields) {
+        for (Field f : fields) {
             f.setAccessible(true);
             if (f.getName().equals(field)) {
                 try {

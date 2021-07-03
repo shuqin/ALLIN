@@ -1,21 +1,20 @@
 package cc.lovesq.flows.definitions;
 
-import org.apache.commons.lang.StringUtils;
 import cc.lovesq.flows.detect.eventflow.DefaultDetectEventFlower;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
 
-import static cc.lovesq.flows.definitions.ComponentType.DefaultBigDataSender;
-import static cc.lovesq.flows.definitions.ComponentType.DefaultNotifySender;
-import static cc.lovesq.flows.definitions.ComponentType.DefaultThreatInfoSender;
+import static cc.lovesq.flows.definitions.ComponentType.*;
 import static cc.lovesq.flows.definitions.DetectTypeEnum.*;
 
 /**
  * 不同入侵事件处理流程的定义集中在这里管理
- *
+ * <p>
  * 这样可以很清晰地知道一个入侵事件的整个处理流程，然后单个去看每个处理的内部是什么
- *
+ * <p>
  * detectType 入侵事件类型，
+ *
  * @see cc.lovesq.flows.definitions.DetectTypeEnum
  */
 public enum DetectEventFlowDefinitions {
@@ -31,22 +30,36 @@ public enum DetectEventFlowDefinitions {
 
     ;
 
-    /** 入侵事件业务类型 */
+    private static Map<String, DetectEventFlowDefinitions> flowDefinitionsMap = new HashMap<>();
+    private static Set<String> flows = new HashSet<>();
+
+    static {
+        for (DetectEventFlowDefinitions detectEventFlowDefinitions : DetectEventFlowDefinitions.values()) {
+            flowDefinitionsMap.put(getKey(detectEventFlowDefinitions.detectType, detectEventFlowDefinitions.bizEventTypeEnum.getType()), detectEventFlowDefinitions);
+            flows.add(detectEventFlowDefinitions.detectType);
+        }
+    }
+
+    /**
+     * 入侵事件业务类型
+     */
     String detectType;
-
-    /** 入侵事件类型 */
+    /**
+     * 入侵事件类型
+     */
     BizEventTypeEnum bizEventTypeEnum;
-
-    /** 入侵事件处理流程的全限定类名 */
+    /**
+     * 入侵事件处理流程的全限定类名
+     */
     String eventClassName;
-
-    /** 事件处理所需要的组件 */
+    /**
+     * 事件处理所需要的组件
+     */
     List<ComponentType> componentTypes;
 
     DetectEventFlowDefinitions(String detectType, List<ComponentType> componentTypes) {
         this(detectType, BizEventTypeEnum.CREATE, DefaultDetectEventFlower.class.getName(), componentTypes);
     }
-
     DetectEventFlowDefinitions(String detectType, String eventClassName, List<ComponentType> componentTypes) {
         this(detectType, BizEventTypeEnum.CREATE, eventClassName, componentTypes);
     }
@@ -56,16 +69,6 @@ public enum DetectEventFlowDefinitions {
         this.bizEventTypeEnum = bizEventTypeEnum;
         this.eventClassName = eventClassName;
         this.componentTypes = componentTypes;
-    }
-
-    private static Map<String, DetectEventFlowDefinitions> flowDefinitionsMap = new HashMap<>();
-    private static Set<String> flows = new HashSet<>();
-
-    static {
-        for (DetectEventFlowDefinitions detectEventFlowDefinitions : DetectEventFlowDefinitions.values()) {
-            flowDefinitionsMap.put(getKey(detectEventFlowDefinitions.detectType, detectEventFlowDefinitions.bizEventTypeEnum.getType()), detectEventFlowDefinitions);
-            flows.add(detectEventFlowDefinitions.detectType);
-        }
     }
 
     public static String getKey(String detectModelType, String eventType) {

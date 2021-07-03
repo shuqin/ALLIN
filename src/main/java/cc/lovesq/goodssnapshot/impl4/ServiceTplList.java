@@ -18,15 +18,11 @@ import static com.sun.jmx.mbeanserver.Util.cast;
 @Component
 public class ServiceTplList implements ServiceTplListInf {
 
-    @Value(value="classpath:service.tpl")
-    private Resource data;
-
-    private List<ServiceTpl> serviceTplList = new ArrayList<>();
-
     private static Map<String, List<ServiceTpl>> serviceTplMap = new HashMap<>();
-
     private static Set<String> uniqueKeys = new HashSet<>();
-
+    @Value(value = "classpath:service.tpl")
+    private Resource data;
+    private List<ServiceTpl> serviceTplList = new ArrayList<>();
     private WatchService watchService;
 
     @PostConstruct
@@ -64,7 +60,7 @@ public class ServiceTplList implements ServiceTplListInf {
 
     private void listenFileModified() {
         try {
-            while(true) {
+            while (true) {
                 WatchKey key = watchService.poll(20, TimeUnit.SECONDS);
                 if (key == null) {
                     continue;
@@ -75,7 +71,7 @@ public class ServiceTplList implements ServiceTplListInf {
                     WatchEvent.Kind kind = event.kind();
                     //异常事件跳过
                     if (kind != StandardWatchEventKinds.ENTRY_MODIFY) {
-                         continue;
+                        continue;
                     }
                     //获取监听Path
                     Path path = cast(event.context());
@@ -106,7 +102,7 @@ public class ServiceTplList implements ServiceTplListInf {
             return null;
         }
 
-        for (ServiceTpl serviceTpl: serviceTpls) {
+        for (ServiceTpl serviceTpl : serviceTpls) {
             if (serviceTpl.getStart() <= timestamp && serviceTpl.getEnd() > timestamp) {
                 return serviceTpl;
             }
@@ -114,7 +110,7 @@ public class ServiceTplList implements ServiceTplListInf {
         return null;
     }
 
-    public String getData(){
+    public String getData() {
         try {
             File file = data.getFile();
             String jsonData = this.jsonRead(file);
@@ -124,7 +120,7 @@ public class ServiceTplList implements ServiceTplListInf {
         }
     }
 
-    private String jsonRead(File file){
+    private String jsonRead(File file) {
         Scanner scanner = null;
         StringBuilder buffer = new StringBuilder();
         try {

@@ -1,6 +1,7 @@
 package zzz.study.utils;
 
 import java.util.List;
+
 import static zzz.study.utils.BaseTool.*;
 
 public class AutoGenerateCoreService {
@@ -16,7 +17,7 @@ public class AutoGenerateCoreService {
         String packageName = daocls.getPackage().getName();
         String daoRelativePath = "/" + packageName.replaceAll("\\.", "/");
         String daoFileName = ALLIN_PROJ_PATH_SRC + "/" + daoRelativePath +
-                                                     "/" + daocls.getSimpleName() + ".java";
+                "/" + daocls.getSimpleName() + ".java";
         String bizType = getBizType(packageName);
 
         String writeFilename = ALLIN_PROJ_PATH_SRC + "/cc/lovesq/service/" + daoClassName.replace("DAO", "CoreService") + ".java";
@@ -26,18 +27,16 @@ public class AutoGenerateCoreService {
         List<String> lines = readLines(daoFileName);
         String fileContents = "";
         boolean daoFlag = false;
-        for (String line: lines) {
+        for (String line : lines) {
 
             if (daoFlag) {
                 fileContents += "\n\t@Resource\n";
                 fileContents += "\tprivate " + daoClassName + " " + daoRefName + ";\n\n";
                 daoFlag = false;
-            }
-            else if (line.contains("interface")) {
+            } else if (line.contains("interface")) {
                 fileContents += "@Component\npublic class " + serviceClassName + " { \n";
                 daoFlag = true;
-            }
-            else if (line.contains(";")) {
+            } else if (line.contains(";")) {
                 if (!line.contains("import") && !line.contains("package")) {
                     System.out.println(line);
                     System.out.println("parsed: " + parseMethod(line));
@@ -48,20 +47,17 @@ public class AutoGenerateCoreService {
                         accessQualifier = "public ";
                     }
                     fileContents += "\t" + accessQualifier + " " + line.trim().replace(";", replaceStr);
-                }
-                else if (line.contains("package")) {
+                } else if (line.contains("package")) {
                     System.out.println(line);
                     fileContents += line.replace("dao", "service") + "\n\n";
                     fileContents += "import " + daocls.getPackage().getName() + "." + daoClassName + ";\n";
                     fileContents += "import javax.annotation.Resource;\n" +
-                                    "import org.springframework.stereotype.Component;\n" +
-                                    "import java.util.List;";
-                }
-                else {
+                            "import org.springframework.stereotype.Component;\n" +
+                            "import java.util.List;";
+                } else {
                     fileContents += line + "\n";
                 }
-            }
-            else {
+            } else {
                 fileContents += line + "\n";
             }
         }

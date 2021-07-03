@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public class BaseObject implements Serializable {
 
-  private static final long serialVersionUID = -5724385654958878390L;
+    private static final long serialVersionUID = -5724385654958878390L;
 
 
 }

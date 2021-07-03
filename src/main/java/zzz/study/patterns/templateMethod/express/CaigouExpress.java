@@ -5,14 +5,14 @@ package zzz.study.patterns.templateMethod.express;
  */
 public class CaigouExpress extends AbstractExpress {
 
-  protected int execute(Order order, ExpressParam expressParam) {
-    pushMessage(order, expressParam);
-    System.out.println("success express for caigou order: " + expressParam);
-    return 1;
-  }
+    protected int execute(Order order, ExpressParam expressParam) {
+        pushMessage(order, expressParam);
+        System.out.println("success express for caigou order: " + expressParam);
+        return 1;
+    }
 
-  private void pushMessage(Order order, ExpressParam expressParam) {
-    System.out.println("push message to trigger fenxiao order to express");
-  }
+    private void pushMessage(Order order, ExpressParam expressParam) {
+        System.out.println("push message to trigger fenxiao order to express");
+    }
 
 }

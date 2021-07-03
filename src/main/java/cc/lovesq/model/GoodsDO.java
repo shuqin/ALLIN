@@ -4,25 +4,39 @@ import java.util.Date;
 
 public class GoodsDO {
 
-    /** 商品表主键ID */
+    /**
+     * 商品表主键ID
+     */
     private Long id;
 
-    /** 商品ID */
+    /**
+     * 商品ID
+     */
     private Long goodsId;
 
-    /** 店铺ID */
+    /**
+     * 店铺ID
+     */
     private Long shopId;
 
-    /** 商品标题 */
+    /**
+     * 商品标题
+     */
     private String title;
 
-    /** 商品描述 */
+    /**
+     * 商品描述
+     */
     private String desc;
 
-    /** 商品规格选择 */
+    /**
+     * 商品规格选择
+     */
     private String choice;
 
-    /** 商品关联的订单号 */
+    /**
+     * 商品关联的订单号
+     */
     private String orderNo;
 
     private Date gmtCreate;

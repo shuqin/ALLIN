@@ -2,8 +2,8 @@ version: 1.0
 flows:
 
   - bizTypes:
-    - 'docker_bounce_shell'
-    - 'abnormal_login'
+      - 'docker_bounce_shell'
+      - 'abnormal_login'
     eventType: 'create'
     eventSourceType: 'bizEvent'
     eventflowClassName: 'cc.lovesq.eventflow.demo.DefaultEventFlow'
@@ -12,13 +12,13 @@ flows:
     originParamType: 'cc.lovesq.eventflow.demo.DefaultEventData'
     componentParamType: 'cc.lovesq.eventflow.demo.DefaultFlowContext'
     components:
-    - 'notificationSender_common'
-    - 'defaultBigDataSender'
-    - 'cc.lovesq.eventflow.demo.components.DefaultBigDataSender'
+      - 'notificationSender_common'
+      - 'defaultBigDataSender'
+      - 'cc.lovesq.eventflow.demo.components.DefaultBigDataSender'
 
   - bizTypes:
-    - 'local_rights'
-    - 'docker_local_rights'
+      - 'local_rights'
+      - 'docker_local_rights'
     eventType: 'create'
     eventSourceType: 'bizEvent'
     eventflowClassName: 'cc.lovesq.eventflow.demo.DefaultEventFlow'
@@ -27,5 +27,5 @@ flows:
     originParamType: 'cc.lovesq.eventflow.demo.DefaultEventData'
     componentParamType: 'cc.lovesq.eventflow.demo.DefaultFlowContext'
     components:
-    - 'notificationSender_common'
-    - 'defaultBigDataSender'
+      - 'notificationSender_common'
+      - 'defaultBigDataSender'

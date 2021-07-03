@@ -55,7 +55,7 @@ class ClassNodeBuilder {
 
         @Override
         def add(ClassNode classNode, Object k, Object v) {
-            v = (Map)v
+            v = (Map) v
             def className = getClsName(k)
             classNode.addNode(parseMap(v, className))
         }
@@ -68,7 +68,7 @@ class ClassNodeBuilder {
 
         @Override
         def add(ClassNode classNode, Object k, Object v) {
-            v = (List)v
+            v = (List) v
             if (CollectionUtils.isEmpty(v)) {
                 return
             }
@@ -84,7 +84,7 @@ class ClassNodeBuilder {
                 if (cls.endsWith('s')) {
                     cls = cls[0..-2]
                 }
-                classNode.addNode(new LeafNode(type: "${cls}", name: "${uncapitalize(cls)}s", isList:  true))
+                classNode.addNode(new LeafNode(type: "${cls}", name: "${uncapitalize(cls)}s", isList: true))
 
                 addSubClassNode(classNode, v, cls)
 
@@ -134,10 +134,9 @@ class ClassNodeBuilder {
             }
 
             // Map : 两个 map size 不一样, 则 key 一定有不一样的 ， 合并两个 map
-            if (exist instanceof Map && subv != null && exist.size() != (Map)subv.size()) {
+            if (exist instanceof Map && subv != null && exist.size() != (Map) subv.size()) {
                 return mergeToFull([exist, subv])
-            }
-            else {
+            } else {
                 return exist
             }
         }

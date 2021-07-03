@@ -7,10 +7,10 @@ import lombok.Setter;
 @Setter
 public class CreativeQuery extends PagerQuery {
 
-  private Long creativeId;
-  private String title;
-  private String submitter;
-  private String content;
-  private String comment;
+    private Long creativeId;
+    private String title;
+    private String submitter;
+    private String content;
+    private String comment;
 
 }

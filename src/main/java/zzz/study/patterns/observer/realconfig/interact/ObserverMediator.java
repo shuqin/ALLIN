@@ -11,39 +11,39 @@ import java.util.Map;
  */
 public class ObserverMediator {
 
-  private Map<Config, List<ConfigObserver>> mediator = new HashMap<>();
+    private Map<Config, List<ConfigObserver>> mediator = new HashMap<>();
 
-  /**
-   * 应用启动时初始化
-   */
-  public void init() {
-  }
-
-  public synchronized boolean register(Config config, ConfigObserver configObserver) {
-    List<ConfigObserver> oberverList = mediator.get(config);
-    if (oberverList == null) {
-      oberverList = new ArrayList<>();
+    /**
+     * 应用启动时初始化
+     */
+    public void init() {
     }
-    oberverList.add(configObserver);
-    mediator.put(config, oberverList);
-    return true;
-  }
 
-  public synchronized boolean unregister(Config config, ConfigObserver configObserver) {
-    List<ConfigObserver> oberverList = mediator.get(config);
-    if (oberverList == null) {
-      return false;
+    public synchronized boolean register(Config config, ConfigObserver configObserver) {
+        List<ConfigObserver> oberverList = mediator.get(config);
+        if (oberverList == null) {
+            oberverList = new ArrayList<>();
+        }
+        oberverList.add(configObserver);
+        mediator.put(config, oberverList);
+        return true;
     }
-    oberverList.remove(configObserver);
-    mediator.put(config, oberverList);
-    return true;
-  }
 
-  public synchronized boolean notifyAll(Config config) {
-    List<ConfigObserver> configObservers = mediator.get(config);
-    configObservers.forEach(
-        observer -> observer.getUpdateFunc().apply(config)
-    );
-    return true;
-  }
+    public synchronized boolean unregister(Config config, ConfigObserver configObserver) {
+        List<ConfigObserver> oberverList = mediator.get(config);
+        if (oberverList == null) {
+            return false;
+        }
+        oberverList.remove(configObserver);
+        mediator.put(config, oberverList);
+        return true;
+    }
+
+    public synchronized boolean notifyAll(Config config) {
+        List<ConfigObserver> configObservers = mediator.get(config);
+        configObservers.forEach(
+                observer -> observer.getUpdateFunc().apply(config)
+        );
+        return true;
+    }
 }

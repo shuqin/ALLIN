@@ -2,36 +2,34 @@ package cc.lovesq.exception;
 
 public enum Errors implements IError {
 
-  ServerError(500, "internal error"),
+    ServerError(500, "internal error"),
 
-  NoGoodsError(100000011, "No goods"),
+    NoGoodsError(100000011, "No goods"),
 
-  BookError(100000012, "下单失败"),
+    BookError(100000012, "下单失败"),
 
-  ;
+    ;;
 
-  ;
+    private int code;
+    private String message;
 
-  private int code;
-  private String message;
+    Errors(Integer code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
-  Errors(Integer code, String message) {
-    this.code = code;
-    this.message = message;
-  }
+    @Override
+    public int getCode() {
+        return code;
+    }
 
-  @Override
-  public int getCode() {
-    return code;
-  }
+    @Override
+    public String getMessage() {
+        return message;
+    }
 
-  @Override
-  public String getMessage() {
-    return message;
-  }
-
-  @Override
-  public boolean isSuccess() {
-    return false;
-  }
+    @Override
+    public boolean isSuccess() {
+        return false;
+    }
 }

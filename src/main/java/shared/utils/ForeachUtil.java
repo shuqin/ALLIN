@@ -7,28 +7,26 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import shared.utils.ExceptionUtil;
-
 /**
  * Created by shuqin on 18/3/13.
  */
 public class ForeachUtil {
 
-  public static <T> List<T> foreachAddWithReturn(int num, Function<Integer, List<T>> getFunc) {
-    List<T> result = new ArrayList<T>();
-    for (int i=0; i< num; i++) {
-      List<T> partResult = ExceptionUtil.doWithRobust(getFunc, i);
-      if (CollectionUtils.isNotEmpty(partResult)) {
-        result.addAll(partResult);
-      }
+    public static <T> List<T> foreachAddWithReturn(int num, Function<Integer, List<T>> getFunc) {
+        List<T> result = new ArrayList<T>();
+        for (int i = 0; i < num; i++) {
+            List<T> partResult = ExceptionUtil.doWithRobust(getFunc, i);
+            if (CollectionUtils.isNotEmpty(partResult)) {
+                result.addAll(partResult);
+            }
+        }
+        return result;
     }
-    return result;
-  }
 
-  public static <T> void foreachDone(List<T> data, Consumer<T> doFunc) {
-    for (T part: data) {
-      ExceptionUtil.doWithRobust(doFunc, part);
+    public static <T> void foreachDone(List<T> data, Consumer<T> doFunc) {
+        for (T part : data) {
+            ExceptionUtil.doWithRobust(doFunc, part);
+        }
     }
-  }
 
 }

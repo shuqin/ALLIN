@@ -1,74 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
+<head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>商品交易快照项目</title>
 
     <!-- Bootstrap -->
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/goodsnapshot.css" rel="stylesheet">
 
-  </head>
-  <body>
+</head>
+<body>
 
-    <div id="bookArea">
-      <div id="goodsImg"><img src="./resources/css/images/renyangniu_1.jpeg" width="360" height="450"/></div>
-      <div id="shopId" hidden>987654</div>
-      <div id="goodsId" hidden>1356</div>
-      <div id="userId" hidden>123456</div>
-      <div id="priceArea" class="line">￥<div id="price" class="inline">89</div></div>
-      <div id="title" class="line"><strong>认养一头牛法式原味酸奶200g*12盒*2箱</strong></div>
-      <div id="desc" class="line">法国益生菌发酵/生牛乳发酵/优质奶源/浓郁醇厚/日期新鲜</div>
+<div id="bookArea">
+    <div id="goodsImg"><img height="450" src="./resources/css/images/renyangniu_1.jpeg" width="360"/></div>
+    <div hidden id="shopId">987654</div>
+    <div hidden id="goodsId">1356</div>
+    <div hidden id="userId">123456</div>
+    <div class="line" id="priceArea">￥
+        <div class="inline" id="price">89</div>
+    </div>
+    <div class="line" id="title"><strong>认养一头牛法式原味酸奶200g*12盒*2箱</strong></div>
+    <div class="line" id="desc">法国益生菌发酵/生牛乳发酵/优质奶源/浓郁醇厚/日期新鲜</div>
 
-      <div class="line2">服务：<div id="services" class="inline">收货后结算 * 支持退换 * 快递发货</div></div>
-      <div id="serviceKeys" hidden>secureService,refundAndReturn,retailShop,codpay,drectoseller</div>
-      <div class="line2">选择：<div id="choice" class="inline">200g*12盒*2箱</div></div>
-
-      <div id="deliveryType" class="line2">配送方式：
-            <div id="deliveryChoice" class="inline">
-        　　<input type="radio" name="deliveryType" value="express" checked="true">快递发货
-        　　<input type="radio" name="deliveryType" value="selfetch">到店自提
-        　　<input type="radio" name="deliveryType" value="localDelivery">同城配送
-           </div>
-      </div>
-      <div id="isCodPay" class="line2">货到付款：
-           <div id="isCodPayChoice" class="inline">
-        　　<input type="radio" name="codpay" value=true >是
-        　　<input type="radio" name="codpay" value=false checked="true">否
-           </div>
-      </div>
-      <button id="bookOrderButton" class="line">立即购买</button>
+    <div class="line2">服务：
+        <div class="inline" id="services">收货后结算 * 支持退换 * 快递发货</div>
+    </div>
+    <div hidden id="serviceKeys">secureService,refundAndReturn,retailShop,codpay,drectoseller</div>
+    <div class="line2">选择：
+        <div class="inline" id="choice">200g*12盒*2箱</div>
     </div>
 
-    <div id="goodsnapshot" class="line2">
-      <div class="center">
+    <div class="line2" id="deliveryType">配送方式：
+        <div class="inline" id="deliveryChoice">
+            　　<input checked="true" name="deliveryType" type="radio" value="express">快递发货
+            　　<input name="deliveryType" type="radio" value="selfetch">到店自提
+            　　<input name="deliveryType" type="radio" value="localDelivery">同城配送
+        </div>
+    </div>
+    <div class="line2" id="isCodPay">货到付款：
+        <div class="inline" id="isCodPayChoice">
+            　　<input name="codpay" type="radio" value=true>是
+            　　<input checked="true" name="codpay" type="radio" value=false>否
+        </div>
+    </div>
+    <button class="line" id="bookOrderButton">立即购买</button>
+</div>
+
+<div class="line2" id="goodsnapshot">
+    <div class="center">
         <h3>下单成功!</h3>
         <div id="orderNoResult"></div>
-      </div>
-      <div id="snapBtnCenter">
+    </div>
+    <div id="snapBtnCenter">
         <button id="snapshotBtn">查看快照</button>
         <div class="dist"></div>
         <button id="cancelBtn">取消</button>
-      </div>
-      <div id="snapshotCenter">
-        <div id="goodsnapshotContent">
-          <div class="line2">商品价格：<div id="pricesnapshot" class="inline"></div></div>
-          <div class="line2">商品标题：<div id="titlesnapshot" class="inline"></div></div>
-          <div class="line2">商品规格：<div id="choicesnapshot" class="inline"></div></div>
-          <div class="line2">商品服务：<div id="servicesnapshots"></div></div>
-        </div>
-      </div>
     </div>
-    
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="scripts/jsthirdbase/jquery-1.10.1.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="scripts/jsthirdbase/bootstrap.min.js"></script>
+    <div id="snapshotCenter">
+        <div id="goodsnapshotContent">
+            <div class="line2">商品价格：
+                <div class="inline" id="pricesnapshot"></div>
+            </div>
+            <div class="line2">商品标题：
+                <div class="inline" id="titlesnapshot"></div>
+            </div>
+            <div class="line2">商品规格：
+                <div class="inline" id="choicesnapshot"></div>
+            </div>
+            <div class="line2">商品服务：
+                <div id="servicesnapshots"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script src="scripts/commonUtils.js"></script>
-    <script src="scripts/goodsnapshot/book.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="scripts/jsthirdbase/jquery-1.10.1.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="scripts/jsthirdbase/bootstrap.min.js"></script>
 
-  </body>
+<script src="scripts/commonUtils.js"></script>
+<script src="scripts/goodsnapshot/book.js"></script>
+
+</body>
 </html>

@@ -16,7 +16,7 @@ public class RepeatedSubscribeMyObserver<T> implements Observer<T> {
     public Disposable upstream;
 
     @Override
-    public void onSubscribe(@NonNull Disposable d){
+    public void onSubscribe(@NonNull Disposable d) {
         System.out.println(getName() + ": Start");
         this.upstream = d;
     }

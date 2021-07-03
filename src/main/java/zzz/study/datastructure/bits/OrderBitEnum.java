@@ -34,9 +34,9 @@ public enum OrderBitEnum {
         StringBuilder sb = new StringBuilder();
         int len;
 
-        if ((bit & IS_PAIED.value) != 0)        sb.append("[IS_PAIED]");
-        if ((bit & IS_REFUNDED.value) != 0)     sb.append("[IS_REFUNDED]");
-        if ((bit & IS_SECURED.value) != 0)       sb.append("[IS_SECURED]");
+        if ((bit & IS_PAIED.value) != 0) sb.append("[IS_PAIED]");
+        if ((bit & IS_REFUNDED.value) != 0) sb.append("[IS_REFUNDED]");
+        if ((bit & IS_SECURED.value) != 0) sb.append("[IS_SECURED]");
 
         if ((len = sb.length()) > 0)
             return sb.toString();
@@ -45,7 +45,7 @@ public enum OrderBitEnum {
 
     static class OrderEnumBitTester {
 
-        public static void main(String[]args) {
+        public static void main(String[] args) {
             int x = 3;
             System.out.println(isRefunded(x));
             System.out.println(desc(x));

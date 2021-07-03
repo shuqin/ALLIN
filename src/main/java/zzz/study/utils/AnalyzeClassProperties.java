@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class AnalyzeClassProperties {
 
-    private List<Class> classList ;
+    private List<Class> classList;
 
     public AnalyzeClassProperties(List<Class> classList) {
         this.classList = classList;
@@ -18,10 +18,15 @@ public class AnalyzeClassProperties {
         this.classList = Arrays.asList(classes);
     }
 
+    public static void main(String[] args) {
+        AnalyzeClassProperties ncp = new AnalyzeClassProperties(new Class[]{Thread.class});
+        ncp.printClassPropertiesInfo(ncp.analyze());
+
+    }
 
     public Map<String, Set<String>> analyze() {
         Map<String, Set<String>> classProperties = new HashMap<String, Set<String>>();
-        for (Class cls: classList) {
+        for (Class cls : classList) {
             classProperties.put(cls.getName(), analyze(cls));
         }
         return classProperties;
@@ -29,15 +34,15 @@ public class AnalyzeClassProperties {
 
     public Set<String> analyze(Class cls) {
         Set<String> fieldNames = new HashSet<String>();
-        for (Field f: cls.getDeclaredFields()) {
+        for (Field f : cls.getDeclaredFields()) {
             fieldNames.add(getFieldInfo(f));
         }
         return fieldNames;
     }
 
     public void printClassPropertiesInfo(Map<String, Set<String>> classProperties) {
-        Set<Map.Entry<String,Set<String>>> cpEntries = classProperties.entrySet();
-        for (Map.Entry e: cpEntries) {
+        Set<Map.Entry<String, Set<String>>> cpEntries = classProperties.entrySet();
+        for (Map.Entry e : cpEntries) {
             System.out.println(e.getKey());
             System.out.println(e.getValue());
         }
@@ -45,12 +50,6 @@ public class AnalyzeClassProperties {
 
     private String getFieldInfo(Field f) {
         return "<" + f.getName() + "," + f.getType().getSimpleName() + ">";
-    }
-
-    public static void main(String[] args) {
-        AnalyzeClassProperties ncp = new AnalyzeClassProperties(new Class[]{Thread.class});
-        ncp.printClassPropertiesInfo(ncp.analyze());
-
     }
 
 }

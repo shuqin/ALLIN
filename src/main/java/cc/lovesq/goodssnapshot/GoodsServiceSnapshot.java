@@ -2,17 +2,22 @@ package cc.lovesq.goodssnapshot;
 
 /**
  * 返回给前端的数据： List<GoodsServiceSnapshot>
- *
  */
 public class GoodsServiceSnapshot {
 
-    /** 快照信息的 key  */
+    /**
+     * 快照信息的 key
+     */
     private String key;
 
-    /** 中文标题 */
+    /**
+     * 中文标题
+     */
     private String title;
 
-    /** 中文描述 */
+    /**
+     * 中文描述
+     */
     private String desc;
 
     public String getKey() {

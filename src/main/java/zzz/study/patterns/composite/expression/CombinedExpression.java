@@ -11,35 +11,36 @@ import java.util.stream.Collectors;
 
 public class CombinedExpression implements Expression {
 
-  private CombinedCondition conditions;
-  private String result;
+    private CombinedCondition conditions;
+    private String result;
 
-  public CombinedExpression() {}
-
-  public CombinedExpression(CombinedCondition conditions, String result) {
-    this.conditions = conditions;
-    this.result = result;
-  }
-
-  @Override
-  public String getResult(Map<String, Object> valueMap) {
-    return conditions.satisfiedBy(valueMap) ? result : "";
-  }
-
-  public static CombinedExpression getInstance(String configJson) {
-    try {
-      JSONObject jsonObject = JSON.parseObject(configJson);
-      String result = jsonObject.getString("result");
-      JSONArray condArray = jsonObject.getJSONArray("conditions");
-      List<BaseCondition> conditionList = new ArrayList<>();
-
-      if (condArray != null || condArray.size() >0) {
-        conditionList = condArray.stream().map(cond -> JSONObject.toJavaObject((JSONObject)cond, BaseCondition.class)).collect(Collectors.toList());
-      }
-      CombinedCondition combinedCondition = new CombinedCondition(conditionList);
-      return new CombinedExpression(combinedCondition, result);
-    } catch (Exception ex) {
-      return null;
+    public CombinedExpression() {
     }
-  }
+
+    public CombinedExpression(CombinedCondition conditions, String result) {
+        this.conditions = conditions;
+        this.result = result;
+    }
+
+    public static CombinedExpression getInstance(String configJson) {
+        try {
+            JSONObject jsonObject = JSON.parseObject(configJson);
+            String result = jsonObject.getString("result");
+            JSONArray condArray = jsonObject.getJSONArray("conditions");
+            List<BaseCondition> conditionList = new ArrayList<>();
+
+            if (condArray != null || condArray.size() > 0) {
+                conditionList = condArray.stream().map(cond -> JSONObject.toJavaObject((JSONObject) cond, BaseCondition.class)).collect(Collectors.toList());
+            }
+            CombinedCondition combinedCondition = new CombinedCondition(conditionList);
+            return new CombinedExpression(combinedCondition, result);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public String getResult(Map<String, Object> valueMap) {
+        return conditions.satisfiedBy(valueMap) ? result : "";
+    }
 }

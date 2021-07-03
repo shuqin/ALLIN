@@ -22,7 +22,7 @@ public class HystrixExperiment implements IExperiment {
     @Override
     public void test() {
         logger.info("----HystrixExperiment-start----");
-        for (int i=0; i < 100000; i++) {
+        for (int i = 0; i < 100000; i++) {
             try {
                 randomValueService.randInt();
             } catch (Exception ex) {

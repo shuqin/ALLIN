@@ -6,9 +6,9 @@ public class ProxyFactory {
 
     /**
      * getProxy ：
-     *  obtain the proxy instance of target object.
-     * @param object the target object to be proxyed.
+     * obtain the proxy instance of target object.
      *
+     * @param object the target object to be proxyed.
      */
     public static Object getProxy(Object object) {
 

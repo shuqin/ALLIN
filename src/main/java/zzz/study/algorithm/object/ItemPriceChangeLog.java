@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ItemPriceChangeLog {
-  private String id;
-  private String itemId;
-  private String detail;
+    private String id;
+    private String itemId;
+    private String detail;
 }

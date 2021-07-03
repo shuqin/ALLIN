@@ -24,7 +24,8 @@ public class FunctionWhiteRule implements SingleWhiteRule {
     @JsonDeserialize(using = SingleWhiteRuleDeserializer.class)
     private SingleWhiteRule whiteRule;
 
-    public FunctionWhiteRule() {}
+    public FunctionWhiteRule() {
+    }
 
     public FunctionWhiteRule(String func, SingleWhiteRule whiteRule) {
         this.func = func;

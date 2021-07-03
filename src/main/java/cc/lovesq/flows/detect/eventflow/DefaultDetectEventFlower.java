@@ -1,13 +1,13 @@
 package cc.lovesq.flows.detect.eventflow;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import cc.lovesq.flows.factory.FlowComponentFactory;
 import cc.lovesq.flows.definitions.DetectEventFlowDefinitions;
 import cc.lovesq.flows.definitions.FlowComponent;
+import cc.lovesq.flows.definitions.FlowContextBuilder;
 import cc.lovesq.flows.detect.bizevents.DefaultDetectFlowBuilder;
 import cc.lovesq.flows.detect.bizevents.DetectEventDataWrapper;
-import cc.lovesq.flows.definitions.FlowContextBuilder;
+import cc.lovesq.flows.factory.FlowComponentFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 

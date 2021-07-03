@@ -6,43 +6,43 @@ import java.util.concurrent.TimeUnit;
 
 public class ThreadLocalLeak {
 
-  private ThreadLocal<Integer> context = new ThreadLocal();
+    private ThreadLocal<Integer> context = new ThreadLocal();
 
-  public ThreadLocalLeak(Integer initValue) {
-    context.set(initValue);
-  }
+    public ThreadLocalLeak(Integer initValue) {
+        context.set(initValue);
+    }
 
-  public Integer get() {
-    return context.get();
-  }
+    public static void main(String[] args) throws InterruptedException {
+        ThreadLocalLeak threadLocalLeak = new ThreadLocalLeak(5);
+        ExecutorService executor = Executors.newFixedThreadPool(10);
 
-  public void set(Integer initValue) {
-    context.set(initValue);
-  }
+        executor.execute(
+                () -> {
+                    for (int i = 0; i <= 100000; i++) {
+                        System.out.println(System.nanoTime() + " set before:" + Thread.currentThread() + ": " + threadLocalLeak.get());
+                        threadLocalLeak.set(i);
+                        System.out.println(System.nanoTime() + " set after:" + Thread.currentThread() + ": " + threadLocalLeak.get());
+                        //threadLocalLeak.clear();
+                    }
+                }
+        );
 
-  public void clear() {
-    context.remove();
-  }
+        executor.shutdown();
+        executor.awaitTermination(3000, TimeUnit.SECONDS);
 
-  public static void main(String[] args) throws InterruptedException {
-    ThreadLocalLeak threadLocalLeak = new ThreadLocalLeak(5);
-    ExecutorService executor = Executors.newFixedThreadPool(10);
+    }
 
-    executor.execute(
-        () -> {
-          for (int i=0; i<=100000; i++) {
-            System.out.println(System.nanoTime() + " set before:" + Thread.currentThread() + ": " +  threadLocalLeak.get());
-            threadLocalLeak.set(i);
-            System.out.println(System.nanoTime() + " set after:" + Thread.currentThread() + ": " +  threadLocalLeak.get());
-            //threadLocalLeak.clear();
-          }
-        }
-    );
+    public Integer get() {
+        return context.get();
+    }
 
-    executor.shutdown();
-    executor.awaitTermination(3000, TimeUnit.SECONDS);
+    public void set(Integer initValue) {
+        context.set(initValue);
+    }
 
-  }
+    public void clear() {
+        context.remove();
+    }
 
 
 }

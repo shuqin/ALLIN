@@ -24,7 +24,7 @@ public class ListPath implements Path {
     @Override
     public Long getValue() {
         StringBuilder s = new StringBuilder();
-        path.forEach( e-> {
+        path.forEach(e -> {
             s.append(e);
         });
         return Long.parseLong(s.reverse().toString());

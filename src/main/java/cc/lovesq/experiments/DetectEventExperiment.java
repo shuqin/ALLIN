@@ -11,8 +11,6 @@ import shared.multitasks.customized.MyThreadPoolExecutor;
 
 import javax.annotation.Resource;
 import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,15 +21,14 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class DetectEventExperiment implements IExperiment {
 
+    static final Long EXPERIMENT_TIME = 1000 * 60 * 60 * 1L;
+    static Random random = new Random(System.currentTimeMillis());
     @Resource
     KafkaMessageProducer kafkaMessageProducer;
-
     @Resource
     MyThreadPoolExecutor ioThreadPoolExecutor;
-
-    static Random random = new Random(System.currentTimeMillis());
-
-    static final Long EXPERIMENT_TIME = 1000 * 60 * 60 * 1L;
+    EventType[] eventTypes = EventType.values();
+    Severity[] severities = Severity.values();
 
     @Override
     public void test() {
@@ -52,9 +49,6 @@ public class DetectEventExperiment implements IExperiment {
         System.out.println("Exit DetectEventExperiment");
 
     }
-
-    EventType[] eventTypes = EventType.values();
-    Severity[] severities = Severity.values();
 
     private void send() {
         int i = random.nextInt(4);

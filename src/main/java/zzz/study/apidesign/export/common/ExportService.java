@@ -4,7 +4,7 @@ import cc.lovesq.result.BaseResult;
 
 public interface ExportService {
 
-  BaseResult<String> export(ExportParam exportParam);
+    BaseResult<String> export(ExportParam exportParam);
 
 }
 

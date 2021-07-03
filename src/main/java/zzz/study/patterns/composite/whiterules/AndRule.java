@@ -20,7 +20,8 @@ public class AndRule implements WhiteRule {
     private List<WhiteRule> whiteRules = new ArrayList<>();
     private Op op = Op.and;
 
-    public AndRule() {}
+    public AndRule() {
+    }
 
     public AndRule(List<WhiteRule> whiteRules) {
         this.whiteRules = whiteRules;
@@ -33,7 +34,7 @@ public class AndRule implements WhiteRule {
 
     @Override
     public boolean test(Object value) {
-        for (WhiteRule rule: whiteRules) {
+        for (WhiteRule rule : whiteRules) {
             if (!rule.test(value)) {
                 return false;
             }

@@ -12,7 +12,7 @@ import java.util.concurrent.FutureTask;
  * @Date 2021/1/23 4:13 下午
  * @Created by qinshu
  */
-public class MyDisposable  {
+public class MyDisposable {
 
     public static Disposable build() {
         Disposable d1 = Disposables.fromRunnable(() -> {

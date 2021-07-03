@@ -5,12 +5,12 @@ package zzz.study.patterns.templateMethod.exportservice;
  */
 public class ExportInstance {
 
-  public static void main(String[] args) {
-    OrderExportRequest orderExportRequest = new OrderExportRequest();
-    ExportServiceFactory.getExportService(orderExportRequest).export(orderExportRequest);
+    public static void main(String[] args) {
+        OrderExportRequest orderExportRequest = new OrderExportRequest();
+        ExportServiceFactory.getExportService(orderExportRequest).export(orderExportRequest);
 
-    GeneralExportRequest generalExportRequest = new GeneralExportRequest();
-    ExportServiceFactory.getExportService(generalExportRequest).export(generalExportRequest);
-  }
+        GeneralExportRequest generalExportRequest = new GeneralExportRequest();
+        ExportServiceFactory.getExportService(generalExportRequest).export(generalExportRequest);
+    }
 
 }

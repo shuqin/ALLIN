@@ -10,7 +10,7 @@ package zzz.study.algorithm.dynamicplan;
 public class OnlinePeople {
 
     public static void main(String[] args) {
-        int[][] logs = new int[][] { {1, 0, 5}, {2, 0, 6}, {3, 0, 3}, {4, 1, 2}, {5, 1, 3}, {6, 2, 3}, {7, 3, 4}, {8, 4, 6} };
+        int[][] logs = new int[][]{{1, 0, 5}, {2, 0, 6}, {3, 0, 3}, {4, 1, 2}, {5, 1, 3}, {6, 2, 3}, {7, 3, 4}, {8, 4, 6}};
         print(countAllByPlain(logs));
         print(countAllByDyPlan(logs));
     }
@@ -19,10 +19,10 @@ public class OnlinePeople {
         int maxTime = maxTime(logs);
         int[] res = new int[maxTime];
 
-        for (int[] log: logs) {
+        for (int[] log : logs) {
             int start = log[1];
             int end = log[2];
-            res[start] = res[start]+1;
+            res[start] = res[start] + 1;
 
         }
         return res;
@@ -36,26 +36,26 @@ public class OnlinePeople {
     }
 
     public static void print(int[] res) {
-        for (int i: res) {
+        for (int i : res) {
             System.out.println(i);
         }
     }
 
     public static void count(int[] res, int[][] logs) {
-        for (int[] row: logs) {
+        for (int[] row : logs) {
             count(res, row[1], row[2]);
         }
     }
 
     public static void count(int[] res, int start, int end) {
-        for (int i=start; i < end; i++) {
+        for (int i = start; i < end; i++) {
             res[i] = res[i] + 1;
         }
     }
 
     public static int maxTime(int[][] logs) {
         int max = 0;
-        for (int[] row: logs) {
+        for (int[] row : logs) {
             if (row[2] >= max) {
                 max = row[2];
             }

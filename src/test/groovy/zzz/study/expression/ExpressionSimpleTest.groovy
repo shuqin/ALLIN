@@ -15,11 +15,11 @@ class ExpressionSimpleTest extends Specification {
     def "testOrderStateExpression"() {
         expect:
         SingleExpression singleExpression = expressionSimpleParser.parseSingle(singleOrderStateExpression)
-        singleExpression.getResult(["state":value]) == result
+        singleExpression.getResult(["state": value]) == result
 
         where:
-        singleOrderStateExpression  | value | result
-        'state = PAID => 待发货'  | "PAID" | '待发货'
+        singleOrderStateExpression | value  | result
+        'state = PAID => 待发货'      | "PAID" | '待发货'
     }
 
     @Test
@@ -29,7 +29,7 @@ class ExpressionSimpleTest extends Specification {
            activity = LOTTERY && state = PAID && extra isnull => 待开奖
     '''
         CombinedExpression combinedExpression = expressionSimpleParser.parseCombined(combinedOrderStateExpress.trim())
-        combinedExpression.getResult(["state":"PAID", "activity":"LOTTERY"]) == "待开奖"
+        combinedExpression.getResult(["state": "PAID", "activity": "LOTTERY"]) == "待开奖"
 
     }
 
@@ -40,7 +40,7 @@ class ExpressionSimpleTest extends Specification {
                activity = LOTTERY && state = PAID && extra NCT LOTTERY => 待开奖
         '''
         CombinedExpression combinedExpression = expressionSimpleParser.parseCombined(combinedOrderStateExpress.trim())
-        combinedExpression.getResult(["state":"PAID", "activity":"LOTTERY", "extra":[:]]) == "待开奖"
+        combinedExpression.getResult(["state": "PAID", "activity": "LOTTERY", "extra": [:]]) == "待开奖"
     }
 
     @Test
@@ -50,7 +50,7 @@ class ExpressionSimpleTest extends Specification {
            activity = LOTTERY && state = CONFIRM && extra.EXT_STATUS = "prize" => 待开奖
         '''
         CombinedExpression combinedExpression = expressionSimpleParser.parseCombined(combinedOrderStateExpress.trim())
-        combinedExpression.getResult(["state":"CONFIRM", "activity":"LOTTERY", "extra":['EXT_STATUS':'prize']]) == "待开奖"
+        combinedExpression.getResult(["state": "CONFIRM", "activity": "LOTTERY", "extra": ['EXT_STATUS': 'prize']]) == "待开奖"
     }
 
     @Test
@@ -63,9 +63,9 @@ class ExpressionSimpleTest extends Specification {
         '''
 
         WholeExpressions wholeExpressions = expressionSimpleParser.parseWhole(wholeExpressionStr)
-        wholeExpressions.getResult(["state":"PAID"]) == "待发货"
-        wholeExpressions.getResult(["state":"PAID", "activity":"LOTTERY"]) == "待开奖"
-        wholeExpressions.getResult(["state":"CONFIRM", "activity":"LOTTERY", "extra":['EXT_STATUS':'prize']]) == "待开奖"
+        wholeExpressions.getResult(["state": "PAID"]) == "待发货"
+        wholeExpressions.getResult(["state": "PAID", "activity": "LOTTERY"]) == "待开奖"
+        wholeExpressions.getResult(["state": "CONFIRM", "activity": "LOTTERY", "extra": ['EXT_STATUS': 'prize']]) == "待开奖"
 
     }
 }

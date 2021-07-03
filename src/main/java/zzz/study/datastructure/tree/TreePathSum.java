@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class TreePathSum {
 
     TreeUtil treeUtil = new TreeUtil();
+    Random rand = new Random(System.currentTimeMillis());
 
     public static void main(String[] args) {
 
@@ -55,7 +56,7 @@ public class TreePathSum {
         TreePathSum treePathSum = new TreePathSum();
         Method[] methods = treePathSum.getClass().getDeclaredMethods();
 
-        for (Method m: methods) {
+        for (Method m : methods) {
             if (m.isAnnotationPresent(TreeBuilder.class)) {
                 try {
                     TreeNode t = (TreeNode) m.invoke(treePathSum, null);
@@ -68,8 +69,8 @@ public class TreePathSum {
             }
         }
 
-        for (int i=0; i < 100; i++) {
-            for (int j=1; j < 10; j++) {
+        for (int i = 0; i < 100; i++) {
+            for (int j = 1; j < 10; j++) {
                 TreeNode t = treePathSum.buildTreeWithRandom(j);
                 treePathSum.test2(t);
             }
@@ -92,7 +93,7 @@ public class TreePathSum {
 
         assert paths.size() == paths2.size();
         assert paths.size() == paths3.size();
-        for (int i=0; i < paths.size(); i++) {
+        for (int i = 0; i < paths.size(); i++) {
             assert paths.get(i).toString().equals(paths2.get(i).toString());
             assert paths.get(i).toString().equals(paths3.get(i).toString());
         }
@@ -105,11 +106,11 @@ public class TreePathSum {
     // trace zzz.study.datastructure.tree.TreePathSum findAllPathsNonRec
     public void testNonRecPerformance() {
 
-        for (int h=10; h < 30; h++) {
+        for (int h = 10; h < 30; h++) {
 
             System.out.println("h: " + h);
 
-            for (int c=0; c < 50; c++) {
+            for (int c = 0; c < 50; c++) {
                 TreeNode t = buildTreeWithRandom(h);
                 System.out.println("Tree Height : " + t.height());
 
@@ -120,7 +121,7 @@ public class TreePathSum {
 
                 long endEffectively = System.currentTimeMillis();
 
-                System.out.println("time cost: non-rec -- " + (end-start) + " Effectively -- " + (endEffectively-end));
+                System.out.println("time cost: non-rec -- " + (end - start) + " Effectively -- " + (endEffectively - end));
             }
 
         }
@@ -147,7 +148,7 @@ public class TreePathSum {
 
     @TreeBuilder
     public TreeNode buildTreeWithR() {
-        return buildTreeWithR(5,2);
+        return buildTreeWithR(5, 2);
     }
 
     public TreeNode buildTreeWithR(int rootVal, int rightVal) {
@@ -159,7 +160,7 @@ public class TreePathSum {
 
     @TreeBuilder
     public TreeNode buildTreeWithLR() {
-        return buildTreeWithLR(5,1,2);
+        return buildTreeWithLR(5, 1, 2);
     }
 
     public TreeNode buildTreeWithLR(int rootVal, int leftVal, int rightVal) {
@@ -170,8 +171,6 @@ public class TreePathSum {
         tree.left = left;
         return tree;
     }
-
-    Random rand = new Random(System.currentTimeMillis());
 
     @TreeBuilder
     public TreeNode buildTreeWithMore() {
@@ -234,28 +233,35 @@ public class TreePathSum {
     public TreeNode treeWithRandom() {
         int c = rand.nextInt(3);
         switch (c) {
-            case 0: return buildTreeWithL(rand.nextInt(9), rand.nextInt(9));
-            case 1: return buildTreeWithR(rand.nextInt(9), rand.nextInt(9));
-            case 2: return buildTreeWithLR(rand.nextInt(9), rand.nextInt(9), rand.nextInt(9));
-            default: return buildTreeOnlyRoot();
+            case 0:
+                return buildTreeWithL(rand.nextInt(9), rand.nextInt(9));
+            case 1:
+                return buildTreeWithR(rand.nextInt(9), rand.nextInt(9));
+            case 2:
+                return buildTreeWithLR(rand.nextInt(9), rand.nextInt(9), rand.nextInt(9));
+            default:
+                return buildTreeOnlyRoot();
         }
     }
 
     public TreeNode linkRandom(TreeNode t1, TreeNode t2) {
         if (t2.left == null) {
             t2.left = t1;
-        }
-        else if (t2.right == null) {
+        } else if (t2.right == null) {
             t2.right = t1;
-        }
-        else {
+        } else {
             int c = rand.nextInt(4);
             switch (c) {
-                case 0: t2.left.left = t1;
-                case 1: t2.left.right = t1;
-                case 2: t2.right.left = t1;
-                case 3: t2.right.right = t1;
-                default: t2.left.left = t1;
+                case 0:
+                    t2.left.left = t1;
+                case 1:
+                    t2.left.right = t1;
+                case 2:
+                    t2.right.left = t1;
+                case 3:
+                    t2.right.right = t1;
+                default:
+                    t2.left.left = t1;
             }
         }
         return t2;
@@ -282,7 +288,6 @@ public class TreePathSum {
         }
         return root;
     }
-
 
 
 }

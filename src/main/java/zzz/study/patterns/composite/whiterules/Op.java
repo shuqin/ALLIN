@@ -13,7 +13,7 @@ public enum Op {
     ;
 
     public static Op getOp(String name) {
-        for (Op op: Op.values()) {
+        for (Op op : Op.values()) {
             if (op.name().equals(name)) {
                 return op;
             }

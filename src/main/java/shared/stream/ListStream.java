@@ -23,8 +23,7 @@ public class ListStream<T> {
     public ListStream(List<T> list) {
         if (list == null) {
             this.origin = new ArrayList<>();
-        }
-        else {
+        } else {
             this.origin = list;
         }
     }
@@ -33,24 +32,24 @@ public class ListStream<T> {
         return new ListStream<>(list);
     }
 
-    public  <R> List<R> map(Function<? super T, R> func) {
+    public <R> List<R> map(Function<? super T, R> func) {
         return origin.stream().map(func).collect(toList());
     }
 
-    public  <R> Set<R> mapToSet(Function<? super T, R> func) {
+    public <R> Set<R> mapToSet(Function<? super T, R> func) {
         return origin.stream().map(func).collect(Collectors.toSet());
     }
 
-    public  List<T> filter(Predicate<? super T> predicate) {
+    public List<T> filter(Predicate<? super T> predicate) {
         return origin.stream().filter(predicate).collect(toList());
     }
 
     public <R> List<R> filterAndMapChain(List<Predicate<? super T>> beforeFilters,
-                                                  Function<? super T,R> mapFunc, Predicate<R>... afterFilters) {
+                                         Function<? super T, R> mapFunc, Predicate<R>... afterFilters) {
         Stream<T> stream = origin.stream();
         Stream<R> midResult = null;
         if (beforeFilters != null) {
-            for (Predicate f: beforeFilters) {
+            for (Predicate f : beforeFilters) {
                 stream = stream.filter(f);
             }
         }
@@ -58,23 +57,23 @@ public class ListStream<T> {
             midResult = stream.map(mapFunc);
         }
         if (afterFilters != null) {
-            for (Predicate<R> f: afterFilters) {
+            for (Predicate<R> f : afterFilters) {
                 midResult = midResult.filter(f);
             }
         }
         return midResult.collect(toList());
     }
 
-    public <K> Map<K, List<T>> group(Function<T,K> keyFunc) {
+    public <K> Map<K, List<T>> group(Function<T, K> keyFunc) {
         return origin.stream().collect(Collectors.groupingBy(keyFunc));
     }
 
-    public <K,V> Map<K, List<V>> group(Function<T,K> keyFunc, Function<T, V> valueFunc) {
+    public <K, V> Map<K, List<V>> group(Function<T, K> keyFunc, Function<T, V> valueFunc) {
         return origin.stream().collect(Collectors.groupingBy(keyFunc, Collectors.mapping(valueFunc, toList())));
     }
 
-    public <K> Map<K,T> toMap(Function<T,K> keyFunc) {
-        return origin.stream().collect(Collectors.toMap(keyFunc, Function.identity(), (v1,v2) -> v1));
+    public <K> Map<K, T> toMap(Function<T, K> keyFunc) {
+        return origin.stream().collect(Collectors.toMap(keyFunc, Function.identity(), (v1, v2) -> v1));
     }
 
 }

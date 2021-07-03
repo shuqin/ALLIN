@@ -1,63 +1,59 @@
 package cc.lovesq.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import cc.lovesq.annotations.Timecost;
 import cc.lovesq.components.JedisLocalClient;
-import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import cc.lovesq.dao.CreativeMapper;
 import cc.lovesq.model.CreativeDO;
 import cc.lovesq.query.CreativeQuery;
 import cc.lovesq.service.CreativeService;
+import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import shared.utils.JsonUtil;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Component("creativeService")
 public class CreativeServiceImpl extends BaseServiceImpl<CreativeDO> implements CreativeService {
 
-  @Autowired
-  private CreativeMapper creativeMapper;
+    private static final String CREATIVE_KEY = "creative:";
+    @Autowired
+    private CreativeMapper creativeMapper;
+    @Resource
+    private JedisLocalClient jedisLocalClient;
 
-  private static final String CREATIVE_KEY = "creative:";
+    @Timecost
+    public CreativeDO get(Long creativeId) {
 
-  @Resource
-  private JedisLocalClient jedisLocalClient;
-
-  @Timecost
-  public CreativeDO get(Long creativeId) {
-
-    String creativeJson = jedisLocalClient.get(CREATIVE_KEY+creativeId);
-    if (!StringUtils.isBlank(creativeJson)) {
-      return JsonUtil.toObject(creativeJson, CreativeDO.class);
+        String creativeJson = jedisLocalClient.get(CREATIVE_KEY + creativeId);
+        if (!StringUtils.isBlank(creativeJson)) {
+            return JsonUtil.toObject(creativeJson, CreativeDO.class);
+        }
+        CreativeDO c = creativeMapper.findByCreativeId(creativeId);
+        jedisLocalClient.set(CREATIVE_KEY + creativeId, JSON.toJSONString(c));
+        return c;
     }
-    CreativeDO c = creativeMapper.findByCreativeId(creativeId);
-    jedisLocalClient.set(CREATIVE_KEY+creativeId, JSON.toJSONString(c));
-    return c;
-  }
 
-  public void save(CreativeDO creative) {
-    creativeMapper.insert(creative);
-  }
+    public void save(CreativeDO creative) {
+        creativeMapper.insert(creative);
+    }
 
-  public void update(CreativeDO creative) {
-    creativeMapper.update(creative);
-  }
+    public void update(CreativeDO creative) {
+        creativeMapper.update(creative);
+    }
 
-  public void delete(Long creativeId) {
-    creativeMapper.delete(creativeId);
-  }
+    public void delete(Long creativeId) {
+        creativeMapper.delete(creativeId);
+    }
 
-  public List<CreativeDO> search(CreativeQuery query) {
-    return creativeMapper.list(query);
-  }
+    public List<CreativeDO> search(CreativeQuery query) {
+        return creativeMapper.list(query);
+    }
 
-  public Integer count(CreativeQuery query) {
-    return creativeMapper.count(query);
-  }
+    public Integer count(CreativeQuery query) {
+        return creativeMapper.count(query);
+    }
 
 }

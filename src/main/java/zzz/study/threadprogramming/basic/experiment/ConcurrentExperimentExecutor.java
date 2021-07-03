@@ -11,10 +11,17 @@ public class ConcurrentExperimentExecutor {
 
     public ConcurrentExperiment ce;
 
-    public ConcurrentExperimentExecutor() {};
+    public ConcurrentExperimentExecutor() {
+    }
+
+    ;
 
     public ConcurrentExperimentExecutor(ConcurrentExperiment ce) {
         this.ce = ce;
+    }
+
+    public static void main(String[] args) {
+        new ConcurrentExperimentExecutor(new AtomicLongDemo()).execute();
     }
 
     public void execute() {
@@ -25,7 +32,7 @@ public class ConcurrentExperimentExecutor {
         checkExperiment(ce);
 
         int count = 0;
-        for (int i=0; i<COUNTS;i++) {
+        for (int i = 0; i < COUNTS; i++) {
             if (!ce.perform()) {
                 count++;
             }
@@ -37,10 +44,6 @@ public class ConcurrentExperimentExecutor {
         if (ce == null) {
             throw new NullPointerException("No Concurrent Experiment to execute.");
         }
-    }
-
-    public static void main(String[] args) {
-       new ConcurrentExperimentExecutor(new AtomicLongDemo()).execute();
     }
 
 }

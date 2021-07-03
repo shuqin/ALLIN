@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 
 /**
  * 入侵事件处理：发送系统通知
- *
  */
 @ComponentProperties(purpose = "NotifySender")
 @Component
 public class DefaultDetectNotificationSender implements NotificationSender<DefaultDetectFlowContext> {
 
     private static Logger logger = LoggerFactory.getLogger(DefaultDetectBigDataSender.class);
+    NotificationSendStrategy defaultDetectNotificationSender = new DefaultNotificationSendStrategy();
 
     @Override
     public void sendNotify(DefaultDetectFlowContext context) {
@@ -28,8 +28,6 @@ public class DefaultDetectNotificationSender implements NotificationSender<Defau
             logger.info("sendNotification: notifyType={}, msg={}", notifyType, notifyType, JSON.toJSONString(dto));
         }
     }
-
-    NotificationSendStrategy defaultDetectNotificationSender = new DefaultNotificationSendStrategy();
 
     private NotificationSendStrategy get(String eventType) {
         return defaultDetectNotificationSender; //  use factory pattern

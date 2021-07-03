@@ -10,7 +10,7 @@ public class RateLimiterTest {
 
     private static Log log = LogFactory.getLog(RateLimiterTest.class);
 
-    public static void main(String[]args) {
+    public static void main(String[] args) {
         log.info("-----------testBurstyRateLimiter---------");
         testBurstyRateLimiter();
 
@@ -21,9 +21,9 @@ public class RateLimiterTest {
     public static void testBurstyRateLimiter() {
         RateLimiter rateLimiter = RateLimiter.create(5);
 
-        for (int i=0; i<20; i++) {
+        for (int i = 0; i < 20; i++) {
             rateLimiter.acquire();
-            String info = String.format("%d*%d=%d",i,i, i*i);
+            String info = String.format("%d*%d=%d", i, i, i * i);
             log.info(info);
         }
 
@@ -33,9 +33,9 @@ public class RateLimiterTest {
         } catch (InterruptedException e) {
             // do nothing
         }
-        for (int i=0; i<20; i++) {
+        for (int i = 0; i < 20; i++) {
             rateLimiter2.acquire();
-            String info = String.format("second %d*%d=%d",i,i, i*i);
+            String info = String.format("second %d*%d=%d", i, i, i * i);
             log.info(info);
         }
     }
@@ -43,9 +43,9 @@ public class RateLimiterTest {
     public static void testWarmupRateLimiter() {
         RateLimiter rateLimiter = RateLimiter.create(5, 10L, TimeUnit.SECONDS);
 
-        for (int i=0; i<20; i++) {
+        for (int i = 0; i < 20; i++) {
             rateLimiter.acquire();
-            String info = String.format("%d*%d=%d",i,i, i*i);
+            String info = String.format("%d*%d=%d", i, i, i * i);
             log.info(info);
         }
 
@@ -55,9 +55,9 @@ public class RateLimiterTest {
         } catch (InterruptedException e) {
             // do nothing
         }
-        for (int i=0; i<20; i++) {
+        for (int i = 0; i < 20; i++) {
             rateLimiter2.acquire();
-            String info = String.format("second %d*%d=%d",i,i, i*i);
+            String info = String.format("second %d*%d=%d", i, i, i * i);
             log.info(info);
         }
     }

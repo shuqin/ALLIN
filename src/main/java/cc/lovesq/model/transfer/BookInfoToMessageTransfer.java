@@ -16,7 +16,7 @@ public class BookInfoToMessageTransfer {
     public static ProducerRecord transfer(BookInfo bookInfo) {
         String key = bookInfo.getOrder().getOrderNo();
         String value = JSON.toJSONString(bookInfo);
-        ProducerRecord producerRecord = new ProducerRecord(ORDER_EVENTS_TOPIC, 0, bookInfo.getOrder().getBookTime()*1000, key, value);
+        ProducerRecord producerRecord = new ProducerRecord(ORDER_EVENTS_TOPIC, 0, bookInfo.getOrder().getBookTime() * 1000, key, value);
         return producerRecord;
     }
 }

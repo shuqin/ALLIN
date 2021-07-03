@@ -11,22 +11,23 @@ import java.util.Map;
  */
 public interface Condition {
 
-  Condition and(Condition c);
-  Map expr();    // ES 查询对象
+    Condition and(Condition c);
 
-  default String json() {
-    return JSON.toJSONString(this);
-  }
+    Map expr();    // ES 查询对象
 
-  default Condition or(Condition c, Integer shouldMinimumMatch) {
-    List<Condition> shouldConditions = Lists.newArrayList(c, this);
-    return new CompositeShouldCondition(shouldConditions, shouldMinimumMatch);
-  }
+    default String json() {
+        return JSON.toJSONString(this);
+    }
 
-  default Condition or(List<Condition> conds, Integer shouldMinimumMatch) {
-    List<Condition> shouldConditions = Lists.newArrayList(this);
-    shouldConditions.addAll(conds);
-    return new CompositeShouldCondition(shouldConditions, shouldMinimumMatch);
-  }
+    default Condition or(Condition c, Integer shouldMinimumMatch) {
+        List<Condition> shouldConditions = Lists.newArrayList(c, this);
+        return new CompositeShouldCondition(shouldConditions, shouldMinimumMatch);
+    }
+
+    default Condition or(List<Condition> conds, Integer shouldMinimumMatch) {
+        List<Condition> shouldConditions = Lists.newArrayList(this);
+        shouldConditions.addAll(conds);
+        return new CompositeShouldCondition(shouldConditions, shouldMinimumMatch);
+    }
 
 }

@@ -22,7 +22,7 @@ public class ComponentExecutor {
      * 执行指定流程组件集，若任一组件要结束流程，则流程结束
      */
     public <I extends AbstractFlowContext> FlowResult execMayExit(I flowContext, List<FlowComponent> flowComponents) {
-        for (FlowComponent flowComp: flowComponents) {
+        for (FlowComponent flowComp : flowComponents) {
             if (!flowComp.needAccess(flowContext)) {
                 continue;
             }
@@ -52,11 +52,11 @@ public class ComponentExecutor {
     /**
      * 任意多个流程组件执行(提供更灵活的组件执行能力)
      * 任一组件不影响后续组件的执行(抛出异常除外)
-     *
+     * <p>
      * NOTE: 这些业务组件的参数是一样的
      */
     public <I extends AbstractFlowContext> FlowResult execBatch(I context, List<FlowComponent> components) {
-        for (FlowComponent c: components) {
+        for (FlowComponent c : components) {
             if (c.needAccess(context)) {
                 c.process(context);
             }

@@ -2,25 +2,25 @@ package zzz.study.patterns.decorator;
 
 /*
  * Copyright (c) 2001, 2005. Steven J. Metsker.
- * 
+ *
  * Steve Metsker makes no representations or warranties about
- * the fitness of this software for any particular purpose, 
+ * the fitness of this software for any particular purpose,
  * including the implied warranty of merchantability.
  *
  * Please use this software as you wish with the sole
  * restriction that you may not claim that you wrote it.
  */
 
-import java.awt.*;
-import javax.swing.*;
-
 import zzz.study.patterns.decorator.func.Function;
 import zzz.study.patterns.decorator.func.T;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Plots a curve given parametric functions x and y that are parameterized on
  * time t, where t goes 0 to 1 during the life of the curve.
- * 
+ *
  * @author Steven J. Metsker
  */
 public class FunPanel extends JPanel {
@@ -45,13 +45,13 @@ public class FunPanel extends JPanel {
     public FunPanel() {
         this(101);
     }
-    
+
     public FunPanel(int nPoint) {
         this.nPoint = nPoint;
         xArray = new int[nPoint];
         yArray = new int[nPoint];
     }
-    
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         double h = getHeight() - 1;
@@ -67,11 +67,9 @@ public class FunPanel extends JPanel {
 
     /**
      * Establish the functions to plot.
-     * 
-     * @param fx
-     *            the x function
-     * @param fy
-     *            the y function
+     *
+     * @param fx the x function
+     * @param fy the y function
      */
     public void setXY(Function fx, Function fy) {
         this.fx = fx;
@@ -85,7 +83,7 @@ public class FunPanel extends JPanel {
             double t = ((double) i) / (nPoint - 1);
             double dx = fx.f(t);
             double dy = fy.f(t);
-            
+
             if (i == 0 || dx > xMax)
                 xMax = dx;
             if (i == 0 || dx < xMin)

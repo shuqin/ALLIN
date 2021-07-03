@@ -15,39 +15,36 @@ import static cc.lovesq.exception.Errors.ServerError;
 @Component("orderDetailCollectorFactory")
 public class OrderDetailCollectorFactory implements ApplicationContextAware {
 
-  private static Logger logger = LoggerFactory.getLogger(OrderDetailCollectorFactory.class);
+    private static Logger logger = LoggerFactory.getLogger(OrderDetailCollectorFactory.class);
+    private static boolean hasInitialized = false;
+    private ApplicationContext applicationContext;
+    private Map<String, OrderDetailCollector> orderDetailCollectorMap;
 
-  private ApplicationContext applicationContext;
-
-  private Map<String, OrderDetailCollector> orderDetailCollectorMap;
-
-  private static boolean hasInitialized = false;
-
-  @PostConstruct
-  public void init() {
-    try {
-      if(!hasInitialized){
-        synchronized (OrderDetailCollectorFactory.class){
-          if(!hasInitialized) {
-            orderDetailCollectorMap = applicationContext.getBeansOfType(OrderDetailCollector.class);
-            logger.info("detailCollectorMap: {}", orderDetailCollectorMap);
-          }
+    @PostConstruct
+    public void init() {
+        try {
+            if (!hasInitialized) {
+                synchronized (OrderDetailCollectorFactory.class) {
+                    if (!hasInitialized) {
+                        orderDetailCollectorMap = applicationContext.getBeansOfType(OrderDetailCollector.class);
+                        logger.info("detailCollectorMap: {}", orderDetailCollectorMap);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            logger.error("failed to load order detail collector !");
+            throw new RuntimeException(ServerError.getMessage());
         }
-      }
-    } catch (Exception ex) {
-      logger.error("failed to load order detail collector !");
-      throw new RuntimeException(ServerError.getMessage());
+
     }
 
-  }
+    public OrderDetailCollector get(String name) {
+        return orderDetailCollectorMap.get(name);
+    }
 
-  public OrderDetailCollector get(String name) {
-    return orderDetailCollectorMap.get(name);
-  }
-
-  @Override
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-    this.applicationContext = applicationContext;
-  }
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 }
 

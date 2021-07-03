@@ -10,13 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 public class factorialCalc {
 
-    private static Logger logger = LoggerFactory.getLogger(factorialCalc.class);
-
     static Random random = new Random(System.currentTimeMillis());
+    private static Logger logger = LoggerFactory.getLogger(factorialCalc.class);
+    private static Cache<Integer, Long> cache = CacheBuilder.newBuilder().recordStats().build();
 
-    public static void main(String[]args) {
+    public static void main(String[] args) {
 
-        for (int i=1; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             int num = random.nextInt(15);
             long start = System.nanoTime();
             long facRec = fac(num);
@@ -29,7 +29,7 @@ public class factorialCalc {
             logger.info("facWithCache({})={}", num, facWithCache);
             logCacheInfo(cache);
 
-            logger.info("facRec cost: {}, facWithCache cost: {} us.", toMicros(end-start), toMicros(end2-start2));
+            logger.info("facRec cost: {}, facWithCache cost: {} us.", toMicros(end - start), toMicros(end2 - start2));
         }
     }
 
@@ -44,19 +44,17 @@ public class factorialCalc {
 
     public static long fac(int n) {
         if (n <= 1) return 1;
-        return n * fac(n-1);
+        return n * fac(n - 1);
     }
-
-    private static Cache<Integer, Long> cache = CacheBuilder.newBuilder().recordStats().build();
 
     public static long facWithCache(int n) {
         if (n <= 1) {
             cache.put(1, 1L);
             return 1L;
         }
-        Long facN_1 = cache.getIfPresent(n-1);
+        Long facN_1 = cache.getIfPresent(n - 1);
         if (facN_1 == null) {
-            facN_1 = facWithCache(n-1);
+            facN_1 = facWithCache(n - 1);
         }
         long facN = n * facN_1;
         cache.put(n, facN);

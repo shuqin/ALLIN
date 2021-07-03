@@ -19,20 +19,20 @@ public class BizEvent {
         return data;
     }
 
-    public String getBizEventType() {
-        return bizEventType;
-    }
-
-    public String getDetectType() {
-        return detectType;
-    }
-
     public void setData(DetectEventData data) {
         this.data = data;
     }
 
+    public String getBizEventType() {
+        return bizEventType;
+    }
+
     public void setBizEventType(String bizEventType) {
         this.bizEventType = bizEventType;
+    }
+
+    public String getDetectType() {
+        return detectType;
     }
 
     public void setDetectType(String detectType) {

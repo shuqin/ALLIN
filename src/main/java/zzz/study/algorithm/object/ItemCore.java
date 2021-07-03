@@ -1,20 +1,20 @@
 package zzz.study.algorithm.object;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
 public class ItemCore {
-  private String id;
-  private String num;
+    private String id;
+    private String num;
 
-  private Item item;
+    private Item item;
 
-  private ItemPrice itemPrice;
+    private ItemPrice itemPrice;
 
-  private List<ItemPriceChangeLog> itemPriceChangeLogs;
+    private List<ItemPriceChangeLog> itemPriceChangeLogs;
 
 }

@@ -31,7 +31,7 @@ class Expression {
     }
 
     static void main(args) {
-        def exp = new Expression(field: "id", op:"=", value:111)
+        def exp = new Expression(field: "id", op: "=", value: 111)
 
         // 动态访问属性
         println exp.getProperty("value")

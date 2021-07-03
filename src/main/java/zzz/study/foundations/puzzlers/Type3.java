@@ -1,4 +1,3 @@
-
 package zzz.study.foundations.puzzlers;
 
 public class Type3 {

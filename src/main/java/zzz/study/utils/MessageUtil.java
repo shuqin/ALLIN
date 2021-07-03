@@ -6,15 +6,15 @@ import java.util.Random;
 
 public class MessageUtil {
 
-  private static Random random = new Random(47);
+    private static Random random = new Random(47);
 
-  public static Message build() {
-    Message message = new Message();
-    message.setStatus(getRandInt());
-    return message;
-  }
+    public static Message build() {
+        Message message = new Message();
+        message.setStatus(getRandInt());
+        return message;
+    }
 
-  public static int getRandInt() {
-    return random.nextInt(10);
-  }
+    public static int getRandInt() {
+        return random.nextInt(10);
+    }
 }

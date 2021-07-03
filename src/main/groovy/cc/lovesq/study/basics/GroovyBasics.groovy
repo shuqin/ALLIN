@@ -20,7 +20,7 @@ class GroovyBasics {
 
         // dynamic definition
 
-        def (x,y,z) = [1,2,3]
+        def (x, y, z) = [1, 2, 3]
         println "($x,$y,$z)"
 
         def chameleon = 0
@@ -29,27 +29,27 @@ class GroovyBasics {
         chameleon = 'haha changed'
         println "now i am ${chameleon}"
 
-        chameleon = { a1, a2, op -> op(a1,a2) }
+        chameleon = { a1, a2, op -> op(a1, a2) }
         println "now i have changed to ${chameleon.getClass().name}"
-        println "power(2,10) = ${chameleon(2,10, {bg,p->Math.pow(bg,p)})}"
+        println "power(2,10) = ${chameleon(2, 10, { bg, p -> Math.pow(bg, p) })}"
 
         // dynamic function call
 
-        def anoList = [3,7,2,3,1,4,6,5,9,2,8,12,6,7,1]
+        def anoList = [3, 7, 2, 3, 1, 4, 6, 5, 9, 2, 8, 12, 6, 7, 1]
         ['unique', 'sort'].each {
             println "${it} list:" + anoList."${it}"()
         }
 
-        println funcWithClosure(5, {e -> e*e})
+        println funcWithClosure(5, { e -> e * e })
         println funcWithClosure(5) { e -> e * 2 }
 
-        println "isAllTrue(true,true): ${isAllTrue (true , true)}"
+        println "isAllTrue(true,true): ${isAllTrue(true, true)}"
         println "isAllTrue(true, false, true): ${isAllTrue(true, false, true)}"
         println "isAllTrue([true, false, true]): ${isAllTrue([true, false, true])}"
         println "isAllTrue([true, true, true]): ${isAllTrue([true, true, true])}"
-        println "isAllTrue([true, true, true], true,false): ${isAllTrue([true, true, true], true,false)}"
-        println "isAllTrue([true, true, false], true,true): ${isAllTrue([true, true, false], true,true)}"
-        println "isAllTrue([true, true, true], true,true): ${isAllTrue([true, true, true], true,true)}"
+        println "isAllTrue([true, true, true], true,false): ${isAllTrue([true, true, true], true, false)}"
+        println "isAllTrue([true, true, false], true,true): ${isAllTrue([true, true, false], true, true)}"
+        println "isAllTrue([true, true, true], true,true): ${isAllTrue([true, true, true], true, true)}"
 
         println "isAllTrue:"(true, false, true)
 
@@ -111,20 +111,20 @@ class GroovyBasics {
 
         // map
 
-        def map = ["me":["name": 'qin', "age": 28], "lover":["name": 'ni', "age": 25]]
+        def map = ["me": ["name": 'qin', "age": 28], "lover": ["name": 'ni', "age": 25]]
         map.each {
-            key, value -> println(key+"="+value)
+            key, value -> println(key + "=" + value)
         }
         println map['me']
         println map.lover
         println map.getOrDefault("nonexist", [:])
 
         println map.collect { it.value['name'] }
-        println map.findAll { it.value.age <=25 }
+        println map.findAll { it.value.age <= 25 }
 
         // list
 
-        def alist = [1,3,5,7,9]
+        def alist = [1, 3, 5, 7, 9]
         alist.each {
             println(it)
         }
@@ -148,22 +148,22 @@ class GroovyBasics {
         println '[' + alist.join(",") + ']'
 
         println alist.inject(1) { n1, n2 -> n1 * n2 }
-        println ([[1,2,4], [1,3,9], [1,4,16]].flatten())
-        println ([[[1,5,10], [1,6,12]], []].flatten())
+        println([[1, 2, 4], [1, 3, 9], [1, 4, 16]].flatten())
+        println([[[1, 5, 10], [1, 6, 12]], []].flatten())
 
         println "range: ${(1..10)}"
 
         (1..10).each { println(it) }
 
-        (1..10).groupBy { it % 3 == 0 } .each {
-            key, value -> println(key.toString()+"="+value)
+        (1..10).groupBy { it % 3 == 0 }.each {
+            key, value -> println(key.toString() + "=" + value)
         }
 
         // object
 
         def persons = [new Person(["name": 'qin', "age": 28, "address": new Address(["detail": "Hangzhou"])]), new Person(["name": 'ni', "age": 25])]
         println persons.collect { "${it.name} live in ${it.address?.getDetail()}" }
-        println persons.find { it.age >=28 }.name
+        println persons.find { it.age >= 28 }.name
 
         persons[0].class.declaredMethods.findAll {
             it.parameterCount == 0
@@ -233,7 +233,7 @@ class GroovyBasics {
         def common2 = { println it }
         def diff1 = { list -> list.unique() }
         def diff2 = { list -> list }
-        templateMethod([2,6,1,9,8,2,4,5], common1, diff1, diff2, common2)
+        templateMethod([2, 6, 1, 9, 8, 2, 4, 5], common1, diff1, diff2, common2)
 
     }
 
@@ -259,13 +259,15 @@ class GroovyBasics {
         return addInner
     }
 
-    def static "isAllTrue:"(List<Boolean> bList=[], boolean... bools) {
+    def static "isAllTrue:"(List<Boolean> bList = [], boolean ... bools) {
         isAllTrue(bList, bools)
     }
 
-    def static isAllTrue(List<Boolean> bList=[], boolean... bools) {
+    def static isAllTrue(List<Boolean> bList = [], boolean ... bools) {
         def anyContainFalse = bList?.contains(false)
-        if (anyContainFalse) { return false }
+        if (anyContainFalse) {
+            return false
+        }
         for (b in bools) {
             if (!b) {
                 return false

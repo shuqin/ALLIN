@@ -18,5 +18,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 public interface SingleWhiteRule extends WhiteRule {
 
     String getField();
+
     Condition getCondition();
 }

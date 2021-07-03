@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * 组件执行配置模型定义
- *
+ * <p>
  * 事件处理流程实例标识：
  * 1.  bizType + eventType + eventSourceType
  * 2.  eventFlowClassName
@@ -17,19 +17,29 @@ public class EventFlowExecutionModel extends ComponentsExecutionModel {
      */
     private List<String> bizTypes;
 
-    /** 事件类型，比如创建，更新等 */
+    /**
+     * 事件类型，比如创建，更新等
+     */
     private String eventType;
 
-    /** 事件流程处理的事件源类型，比如 agent上报事件， bizEvent事件 */
+    /**
+     * 事件流程处理的事件源类型，比如 agent上报事件， bizEvent事件
+     */
     private String eventSourceType;
 
-    /** 根据类名来选择事件处理流程实例 */
+    /**
+     * 根据类名来选择事件处理流程实例
+     */
     private String eventflowClassName;
 
-    /** eventflow 事件流程处理(不指定默认)  components 有序组件集执行 */
+    /**
+     * eventflow 事件流程处理(不指定默认)  components 有序组件集执行
+     */
     private ExecutionModel model = ExecutionModel.eventflow;
 
-    /** 原始传入事件处理流程的入口参数类型 */
+    /**
+     * 原始传入事件处理流程的入口参数类型
+     */
     private String originParamType;
 
 

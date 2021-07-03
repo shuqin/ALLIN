@@ -22,8 +22,7 @@ public class ExpressServiceDescStrategy implements ServiceDescStrategy {
         // 如果订单运费是 0 元，则为 免运费，否则 运费 $info 元
         if (order.getExpressFee().equals(0L)) {
             return config.getTpl().replace("$info", "免运费");
-        }
-        else {
+        } else {
             return config.getTpl().replace("$info", "运费" + order.getExpressFee().toString());
         }
     }
