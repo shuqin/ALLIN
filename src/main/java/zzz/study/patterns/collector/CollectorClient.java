@@ -23,7 +23,7 @@ public class CollectorClient {
         );
 
         List<DefaultReportOrderInfo> reportOrderInfos = assembleByOrderNo(orderInfos, orderItemInfos);
-        
+
     }
 
     private List<DefaultReportOrderInfo> assembleByOrderNo(List<OrderInfo> orderInfos, List<OrderItemInfo> orderItemInfos) {
