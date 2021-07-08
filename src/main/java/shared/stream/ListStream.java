@@ -76,4 +76,8 @@ public class ListStream<T> {
         return origin.stream().collect(Collectors.toMap(keyFunc, Function.identity(), (v1, v2) -> v1));
     }
 
+    public <K,V> Map<K, V> toMap(Function<T, K> keyFunc, Function<T,V> valueFunc) {
+        return origin.stream().collect(Collectors.toMap(keyFunc, valueFunc));
+    }
+
 }

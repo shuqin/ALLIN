@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultSchema": "virtualtable",
+  "schemas": [
+    {
+      "name": "virtualtable",
+      "type": "custom",
+      "factory": "sample.calcite.VirtualTableSchemaFactory",
+      "operand": {
+        "directory": "test"
+      }
+    }
+  ]
+}
