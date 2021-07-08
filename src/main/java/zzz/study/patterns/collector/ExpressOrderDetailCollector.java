@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 订单商品快递信息获取
+ */
 @Component("expressOrderDetailCollector")
 public class ExpressOrderDetailCollector implements OrderDetailCollector {
 

@@ -10,5 +10,11 @@ public class Assignment {
 
         Supplier<Integer> f = () -> 100;
         System.out.println(f.get());
+
+
     }
+
+
+    
+
 }

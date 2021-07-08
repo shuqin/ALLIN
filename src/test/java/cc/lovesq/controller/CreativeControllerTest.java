@@ -23,6 +23,10 @@ public class CreativeControllerTest {
         Assert.assertEquals(0, ((List) result.get("rows")).size());
         Assert.assertEquals(0, ((Integer) result.get("total")).intValue());
 
+        
     }
-
 }
+
+
+
+

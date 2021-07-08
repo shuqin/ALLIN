@@ -7,13 +7,6 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * 业务数据接口
- */
-interface IGetBizData<T> {
-    List<T> getData(List<String> keys);
-}
-
-/**
  * Created by shuqin on 17/6/23.
  */
 public class ConcurrentDataHandlerFrame {
@@ -70,10 +63,18 @@ public class ConcurrentDataHandlerFrame {
 }
 
 /**
+ * 业务数据接口
+ */
+interface IGetBizData<T> {
+    List<T> getData(List<String> keys);
+}
+
+/**
  * 获取业务数据具体实现
  */
 class GetTradeData implements IGetBizData<Integer> {
 
+    @Override
     public List<Integer> getData(List<String> keys) {
         List<Integer> result = new ArrayList<Integer>();
         for (String key : keys) {

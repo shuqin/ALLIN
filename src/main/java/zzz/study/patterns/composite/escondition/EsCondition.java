@@ -22,14 +22,17 @@ public class EsCondition implements Condition, Serializable {
             Op.range.name(), "range",
             Op.match.name(), "match"
     );
+
     /**
      * ES 字段名称
      */
     private String fieldName;
+
     /**
      * 匹配符
      */
     private Op op;
+
     /**
      * 要匹配的值,用于 eq, neq, range, in, match
      * <p>
