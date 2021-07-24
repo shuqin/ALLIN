@@ -118,29 +118,35 @@ public class MultiNestConditions {
     }
 
     public static void main(String[] args) {
+
+        OrderDetailResponse orderDetailResponse = new OrderDetailResponse();
+        orderDetailResponse.setOrderState(OrderState.TOPAY.getState());
+        orderDetailResponse.setOrderType(OrderType.GROUP.getValue());
+        orderDetailResponse.setRefundState(OrderRefundState.NORMAL.key());
+
         String value = ifThen(
             Arrays.asList(
-                new PredicatorWrapper(refundState -> (Integer) refundState == OrderRefundState.NORMAL.key(), 0),
-                new PredicatorWrapper(orderState -> (Integer)orderState == OrderState.TOPAY.getState(), 3),
-                new PredicatorWrapper(orderType -> (Integer)orderType == OrderType.GROUP.getValue(), 10)
+                new PredicatorWrapper<>(OrderDetailResponse::noRefund, orderDetailResponse),
+                new PredicatorWrapper<>(OrderDetailResponse::isToPay, orderDetailResponse),
+                new PredicatorWrapper<>(OrderDetailResponse::isGroupOrder, orderDetailResponse)
             ), "已成团，等待商家发货"
         );
         System.out.println(value);
 
-
+        orderDetailResponse.setOrderType(OrderType.HOTEL.getValue());
         String value2 = cascade(
             ifThen(
                     Arrays.asList(
-                            new PredicatorWrapper(refundState -> (Integer)refundState == OrderRefundState.NORMAL.key(), 0),
-                            new PredicatorWrapper(orderState -> (Integer)orderState == OrderState.TOPAY.getState(), 3),
-                            new PredicatorWrapper(orderType -> (Integer)orderType == OrderType.GROUP.getValue(), 35)
+                            new PredicatorWrapper<>(OrderDetailResponse::noRefund, orderDetailResponse),
+                            new PredicatorWrapper<>(OrderDetailResponse::isToPay, orderDetailResponse),
+                            new PredicatorWrapper<>(OrderDetailResponse::isGroupOrder, orderDetailResponse)
                     ), "已成团，等待商家发货"
             ),
             ifThen(
                     Arrays.asList(
-                            new PredicatorWrapper(refundState -> (Integer)refundState == OrderRefundState.NORMAL.key(), 0),
-                            new PredicatorWrapper(orderState -> (Integer)orderState == OrderState.TOPAY.getState(), 3),
-                            new PredicatorWrapper(orderType -> (Integer)orderType == OrderType.HOTEL.getValue(), 35)
+                            new PredicatorWrapper<>(OrderDetailResponse::noRefund, orderDetailResponse),
+                            new PredicatorWrapper<>(OrderDetailResponse::isToPay, orderDetailResponse),
+                            new PredicatorWrapper<>(OrderDetailResponse::isHotelOrder, orderDetailResponse)
                     ), "买家已付款，等待商家接单"
             )
         );
@@ -252,4 +258,20 @@ class OrderDetailResponse {
     Map tcExtra;
     boolean isVirtualOrder;
     boolean isVirtualTicket;
+
+    public boolean noRefund() {
+        return refundState == OrderRefundState.NORMAL.key();
+    }
+
+    public boolean isToPay() {
+        return orderState == OrderState.TOPAY.getState();
+    }
+
+    public boolean isGroupOrder() {
+        return orderType == OrderType.GROUP.getValue();
+    }
+
+    public boolean isHotelOrder() {
+        return orderType == OrderType.HOTEL.getValue();
+    }
 }
