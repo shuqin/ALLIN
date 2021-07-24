@@ -1,4 +1,4 @@
-package zzz.study.sql.sqlparser.calcite;
+package zzz.study.sql.calcite;
 
 import org.apache.calcite.schema.Schema;
 import org.apache.calcite.schema.SchemaFactory;

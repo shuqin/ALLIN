@@ -2,7 +2,7 @@ package zzz.study.patterns.wrapper.rules.condition;
 
 import com.alibaba.fastjson.JSON;
 import shared.utils.JsonPathUtil;
-import zzz.study.patterns.composite.whiterules.Op;
+import zzz.study.patterns.wrapper.rules.constants.Op;
 import zzz.study.patterns.wrapper.rules.matcher.RuleMatcher;
 
 import java.util.List;

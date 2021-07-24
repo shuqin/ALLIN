@@ -1,4 +1,4 @@
-package zzz.study.sql.sqlparser.calcite;
+package zzz.study.sql.calcite;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;

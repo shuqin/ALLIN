@@ -5,10 +5,8 @@
     {
       "name": "virtualtable",
       "type": "custom",
-      "factory": "sample.calcite.VirtualTableSchemaFactory",
-      "operand": {
-        "directory": "test"
-      }
+      "factory": "zzz.study.sql.calcite.VirtualTableSchemaFactory",
+      "operand": {}
     }
   ]
 }

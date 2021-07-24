@@ -1,6 +1,8 @@
 package zzz.study.foundations.iolearn;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RWTool {
 
@@ -88,6 +90,21 @@ public class RWTool {
             throw new RuntimeException(ex.getCause());
         }
 
+    }
+
+    public static List<String> getLines(String filename) {
+        try {
+            BufferedReader br = RWTool.getTextFileReader(filename);
+            List<String> lines = new ArrayList<>();
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                lines.add(line);
+            }
+            return lines;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex.getCause());
+        }
     }
 
 

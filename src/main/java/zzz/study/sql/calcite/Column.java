@@ -1,4 +1,4 @@
-package zzz.study.sql.sqlparser.calcite;
+package zzz.study.sql.calcite;
 
 /**
  * 虚表列
@@ -8,6 +8,8 @@ public class Column{
 
     private String name;
     private String type;
+
+    public Column() {}
 
     public Column(String name, String type) {
         this.name = name;
