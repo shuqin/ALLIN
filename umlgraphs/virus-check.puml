@@ -1,0 +1,66 @@
+@startuml
+
+start
+
+:agent上报事件
+tc_common_event;
+if (from=0x36000000
+    type=0x36000001) then (yes)
+    :网络事件;
+    stop
+elseif (from=0x07000000
+            type=0x70000302) then(yes)
+    :linux登录事件;
+    stop
+elseif (from=0x34000000
+        type=0x34000004) then(yes)
+    :windows登录事件;
+    stop
+else
+    :病毒检测
+    tc_event_virus;
+    :AgentMalwareEventSendor;
+    :满足一些条件，进入下述流程;
+    :任务不存在，进入下述流程;
+
+    :保存任务到 detect_virus_check_task_info;
+    if (白名单不匹配) then(yes)
+        :构建检测子任务;
+        :上传文件;
+        :更新子任务状态;
+        :更新病毒检测任务状态;
+
+        fork
+        :小红伞任务检测;
+        :小红伞检测任务调度;
+        :更新小红伞检测任务为完成;
+        fork again
+        :Tav任务检测;
+        :TAV检测任务调度;
+        :更新TAV检测任务为完成;
+        fork again
+        :Yara任务检测;
+        :Yara检测任务调度;
+        :更新Yara检测任务为完成;
+        end fork
+
+        if (所有检测子任务都结束) then(yes)
+           if (所有检测任务都通过) then(yes)
+               :加入白名单;
+           endif
+
+           if (已经上报过) then(yes)
+               :更新发现时间;
+               stop
+           else
+               :检查病毒查杀白名单;
+               :病毒数据入库;
+               :后续处理;
+        endif
+    endif
+
+endif
+
+stop
+
+@enduml

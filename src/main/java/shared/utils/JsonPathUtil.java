@@ -71,6 +71,18 @@ public class JsonPathUtil {
         }
     }
 
+    public static String readValByJsonPath(String json, String path) {
+        if (json == null || path == null) {
+            return null;
+        }
+        try {
+            Object val = JsonPath.read(json, path);
+            return val == null ? null : val.toString();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
     /**
      * 读取JSON字符串为MAP
      */
