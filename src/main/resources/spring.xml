@@ -12,4 +12,5 @@
     <import resource="spring-redisson.xml"/>
     <import resource="spring-threadpool.xml"/>
     <import resource="spring-redis.xml"/>
+    <import resource="spel.xml"/>
 </beans>

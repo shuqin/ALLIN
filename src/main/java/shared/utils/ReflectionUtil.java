@@ -17,6 +17,8 @@ public class ReflectionUtil {
             if (f.getName().equals(field)) {
                 try {
                     value = f.get(obj);
+                    f.setAccessible(false);
+                    return value;
                 } catch (IllegalAccessException e) {
                     // log
                 }
