@@ -2,7 +2,7 @@ package button
 
 import com.alibaba.fastjson.JSON
 import org.junit.Test
-import shared.conf.GlobalConfig
+import shared.config.GlobalConfig
 import shared.script.ScriptExecutor
 import spock.lang.Specification
 import spock.lang.Unroll

@@ -1,6 +1,6 @@
 package zzz.study.sql.calcite.functions;
 
-import shared.utils.JsonPathUtil;
+import shared.utils.JsonPathUtils;
 
 import java.util.regex.Pattern;
 
@@ -20,6 +20,6 @@ public class CalciteOperator {
 	}
 
 	public static String json_extract(String json, String path) {
-		return JsonPathUtil.readValUsingJsonPath(json, path);
+		return JsonPathUtils.readValUsingJsonPath(json, path);
 	}
 }

@@ -1,7 +1,7 @@
 package zzz.study.patterns.wrapper.rules.condition;
 
 import com.alibaba.fastjson.JSON;
-import shared.utils.JsonPathUtil;
+import shared.utils.JsonPathUtils;
 import zzz.study.patterns.wrapper.rules.constants.Op;
 import zzz.study.patterns.wrapper.rules.matcher.RuleMatcher;
 
@@ -38,7 +38,7 @@ public abstract class AbstractRuleCondition<T> implements RuleCondition<T> {
     public boolean match(T obj) {
 
         // 2、从obj中解析出对应field的值
-        Object fv = JsonPathUtil.readVal(JSON.toJSONString(obj), field);
+        Object fv = JsonPathUtils.readVal(JSON.toJSONString(obj), field);
         if (fv == null) {
             return false;
         }

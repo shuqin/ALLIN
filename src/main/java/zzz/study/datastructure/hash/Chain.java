@@ -1,6 +1,6 @@
 package zzz.study.datastructure.hash;
 
-import shared.utils.ArrayUtil;
+import shared.utils.ArrayUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +46,7 @@ public class Chain {
         while (scanner.hasNext()) {
             word = scanner.next();
             add(prefix, word);
-            ArrayUtil.shift(prefixWords, word);
+            ArrayUtils.shift(prefixWords, word);
             prefix = new Prefix(prefixWords);
         }
         add(prefix, NONWORD);
@@ -76,7 +76,7 @@ public class Chain {
             oStream.write(word.getBytes());
             oStream.write(((count % LINE_CHARS == 0) ? '\n' : ' '));
             count++;
-            ArrayUtil.shift(prefixWords, word);
+            ArrayUtils.shift(prefixWords, word);
             prefix = new Prefix(prefixWords);
         }
 

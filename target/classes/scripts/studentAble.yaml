@@ -1,0 +1,4 @@
+name: studentAble
+title: 特长
+script: |
+  stu.able

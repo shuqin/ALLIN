@@ -1,7 +1,7 @@
 package zzz.study.patterns.composite.expression;
 
 import lombok.Data;
-import shared.utils.MapUtil;
+import shared.utils.MapUtils;
 
 import java.util.Collection;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class BaseCondition implements Condition {
             if (valueMap == null || valueMap.size() == 0) {
                 return false;
             }
-            Object passedValue = MapUtil.readVal(valueMap, field);
+            Object passedValue = MapUtils.readVal(valueMap, field);
             switch (this.getOp()) {
                 case isnull:
                     return passedValue == null;

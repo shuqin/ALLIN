@@ -1,0 +1,31 @@
+version: 1.0
+flows:
+
+  - bizTypes:
+      - 'docker_bounce_shell'
+      - 'abnormal_login'
+    eventType: 'create'
+    eventSourceType: 'bizEvent'
+    eventflowClassName: 'cc.lovesq.eventflow.demo.DefaultEventFlow'
+    model: 'eventflow'
+    way: 'serial'
+    originParamType: 'cc.lovesq.eventflow.demo.DefaultEventData'
+    componentParamType: 'cc.lovesq.eventflow.demo.DefaultFlowContext'
+    components:
+      - 'notificationSender_common'
+      - 'defaultBigDataSender'
+      - 'cc.lovesq.eventflow.demo.components.DefaultBigDataSender'
+
+  - bizTypes:
+      - 'local_rights'
+      - 'docker_local_rights'
+    eventType: 'create'
+    eventSourceType: 'bizEvent'
+    eventflowClassName: 'cc.lovesq.eventflow.demo.DefaultEventFlow'
+    model: 'eventflow'
+    way: 'serial'
+    originParamType: 'cc.lovesq.eventflow.demo.DefaultEventData'
+    componentParamType: 'cc.lovesq.eventflow.demo.DefaultFlowContext'
+    components:
+      - 'notificationSender_common'
+      - 'defaultBigDataSender'

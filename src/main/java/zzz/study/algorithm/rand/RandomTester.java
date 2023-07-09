@@ -1,6 +1,6 @@
 package zzz.study.algorithm.rand;
 
-import shared.utils.MapUtil;
+import shared.utils.MapUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class RandomTester {
             map.put(result[i], count);
         }
 
-        MapUtil.printMap(map);
+        MapUtils.printMap(map);
     }
 
 }

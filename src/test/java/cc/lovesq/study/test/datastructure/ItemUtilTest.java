@@ -2,7 +2,7 @@ package cc.lovesq.study.test.datastructure;
 
 import cc.lovesq.CommonForTest;
 import org.junit.Test;
-import shared.utils.JsonPathUtil;
+import shared.utils.JsonPathUtils;
 import zzz.study.utils.ItemUtil;
 import zzz.study.utils.NewMapUtil;
 
@@ -53,7 +53,7 @@ public class ItemUtilTest extends CommonForTest {
 
     @Test
     public void testBuildItemIndexMapForNew() {
-        Map<String, Object> itemInfoMap = JsonPathUtil.readMap(newItemInfoStr);
+        Map<String, Object> itemInfoMap = JsonPathUtils.readMap(newItemInfoStr);
         Map<String, Map<String, String>> itemIndexMap = ItemUtil
                 .buildItemIndexMap(NewMapUtil.transMap(itemInfoMap));
 
@@ -98,7 +98,7 @@ public class ItemUtilTest extends CommonForTest {
 
     @Test
     public void testBuildFinalOrderItemMapForNew() {
-        Map<String, Object> itemInfoMap = JsonPathUtil.readMap(newItemInfoStr);
+        Map<String, Object> itemInfoMap = JsonPathUtils.readMap(newItemInfoStr);
         Map<String, Map<String, Object>> finalOrderItemMap = ItemUtil
                 .buildFinalOrderItemMap(NewMapUtil.transMap(itemInfoMap));
         System.out.println(finalOrderItemMap);

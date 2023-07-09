@@ -12,7 +12,7 @@ import org.apache.kafka.streams.kstream.Printed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import shared.utils.TimeUtil;
+import shared.utils.TimeUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.Properties;
@@ -51,11 +51,11 @@ public class KafkaMessageStream {
 
         new Thread(
                 () -> {
-                    TimeUtil.sleepInSecs(10);
+                    TimeUtils.sleepInSecs(10);
                     KafkaStreams streams = new KafkaStreams(streamBuilder.build(), properties);
                     streams.start();
                     logger.info("stream-start ...");
-                    TimeUtil.sleepInSecs(10);
+                    TimeUtils.sleepInSecs(10);
                     streams.close();
                 }
         ).start();

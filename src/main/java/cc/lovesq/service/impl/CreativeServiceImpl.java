@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import shared.utils.JsonUtil;
+import shared.utils.JsonUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -29,7 +29,7 @@ public class CreativeServiceImpl extends BaseServiceImpl<CreativeDO> implements 
 
         String creativeJson = jedisLocalClient.get(CREATIVE_KEY + creativeId);
         if (!StringUtils.isBlank(creativeJson)) {
-            return JsonUtil.toObject(creativeJson, CreativeDO.class);
+            return JsonUtils.toObject(creativeJson, CreativeDO.class);
         }
         CreativeDO c = creativeMapper.findByCreativeId(creativeId);
         jedisLocalClient.set(CREATIVE_KEY + creativeId, JSON.toJSONString(c));

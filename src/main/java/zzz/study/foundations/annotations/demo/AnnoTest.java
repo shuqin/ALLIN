@@ -10,8 +10,8 @@ public class AnnoTest {
         Method[] methods = Testable.class.getDeclaredMethods();
 
         for (Method m : methods) {
-            if (m.isAnnotationPresent(Test.class)) {
-                Test anno = m.getAnnotation(Test.class);
+            if (m.isAnnotationPresent(CustomizedTest.class)) {
+                CustomizedTest anno = m.getAnnotation(CustomizedTest.class);
                 System.out.println("Test(method: " + m.getName()
                         + "  id = " + anno.id()
                         + "  desc = " + anno.desc()

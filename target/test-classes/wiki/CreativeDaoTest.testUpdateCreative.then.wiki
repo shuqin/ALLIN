@@ -1,0 +1,4 @@
+|connect|
+|query|select creative_id, title, content, comment, submitter from creative where creative_id = 111|
+|creative_id|title|content|comment|submitter|
+|111|Better|Good idea for education and science|oh very good|qinshu|

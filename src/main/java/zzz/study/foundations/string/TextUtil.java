@@ -1,6 +1,6 @@
 package zzz.study.foundations.string;
 
-import shared.utils.MapUtil;
+import shared.utils.MapUtils;
 
 import java.io.*;
 import java.util.HashMap;
@@ -201,9 +201,9 @@ public class TextUtil {
                 System.setOut(pStream);
 
                 System.out.println("****************** 单词统计 *****************");
-                //! MapUtil.printMap(statisticWord(readText(new File("TextUtil.java"))));  // failed to read
+                //! MapUtils.printMap(statisticWord(readText(new File("TextUtil.java"))));  // failed to read
                 Map<String, Integer> wordsMap = statisticWord(readText(new File("./src/foundations/string/TextUtil.java")));
-                MapUtil.print(MapUtil.sortMap(wordsMap));
+                MapUtils.print(MapUtils.sortMap(wordsMap));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {

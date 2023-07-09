@@ -1,7 +1,7 @@
 package shared.script
 
 import org.junit.Test
-import shared.conf.GlobalConfig
+import shared.config.GlobalConfig
 import spock.lang.Specification
 
 class ScriptExecutorTest extends Specification {

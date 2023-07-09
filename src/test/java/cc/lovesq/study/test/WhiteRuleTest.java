@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.junit.Assert;
 import org.junit.Test;
-import shared.utils.JsonUtil;
+import shared.utils.JsonUtils;
 import zzz.study.patterns.composite.whiterules.*;
 
 import java.util.Arrays;
@@ -22,12 +22,12 @@ public class WhiteRuleTest {
         Person p = new Person("qin", 32);
         fwr.test(p);
 
-        String json = JsonUtil.objectToJson(fwr);
+        String json = JsonUtils.objectToJson(fwr);
 
-        FunctionWhiteRule fwr2 = JsonUtil.toObject(json, FunctionWhiteRule.class);
+        FunctionWhiteRule fwr2 = JsonUtils.toObject(json, FunctionWhiteRule.class);
         fwr2.test(p);
 
-        //FunctionWhiteRule fwr3 = GsonUtil.fromJson(json, FunctionWhiteRule.class);
+        //FunctionWhiteRule fwr3 = GsonUtils.fromJson(json, FunctionWhiteRule.class);
         //fwr3.test(p);
     }
 

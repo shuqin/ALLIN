@@ -1,10 +1,15 @@
 package zzz.study.foundations.iolearn;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RWTool {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RWTool.class);
 
     private RWTool() {
     }
@@ -104,6 +109,29 @@ public class RWTool {
             return lines;
         } catch (Exception ex) {
             throw new RuntimeException(ex.getCause());
+        }
+    }
+
+    public static byte[] readBytes(String filename) {
+
+        try (BufferedInputStream fis = getGeneralFileReader(filename)) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+
+            // 读取二进制文件内容并写入ByteArrayOutputStream
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                baos.write(buffer, 0, bytesRead);
+            }
+
+            // 将二进制文件内容存储在字节数组中
+            byte[] byteArray = baos.toByteArray();
+
+            // 打印字节数组内容（可选）
+            return byteArray;
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+            return null;
         }
     }
 

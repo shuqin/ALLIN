@@ -2,7 +2,7 @@ package zzz.study.codesmell;
 
 import com.google.common.collect.Lists;
 import org.apache.calcite.util.Pair;
-import shared.utils.JsonUtil;
+import shared.utils.JsonUtils;
 import zzz.study.patterns.collector.OrderInfo;
 
 import java.util.HashMap;
@@ -43,7 +43,7 @@ public class NestedLambda {
     private Optional<Map> getStudentInfo(OrderInfo orderInfo) {
         return Optional.ofNullable(orderInfo.getTcExtra())
                 .map(extra -> extra.get(EDU_STUDENT_INFO))
-                .map(studentInfoStr -> JsonUtil.readMap((String) studentInfoStr));
+                .map(studentInfoStr -> JsonUtils.readMap((String) studentInfoStr));
     }
 
     private Pair buildStuPair(Map studentInfo) {

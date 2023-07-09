@@ -1,0 +1,12 @@
+{
+  "version": "1.0",
+  "defaultSchema": "virtualtable",
+  "schemas": [
+    {
+      "name": "virtualtable",
+      "type": "custom",
+      "factory": "zzz.study.sql.calcite.VirtualTableSchemaFactory",
+      "operand": {}
+    }
+  ]
+}

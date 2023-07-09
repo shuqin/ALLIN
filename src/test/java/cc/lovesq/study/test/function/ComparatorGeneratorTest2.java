@@ -40,14 +40,14 @@ public class ComparatorGeneratorTest2 {
         System.out.println(sortedByVisitorCount);
 
         List<ConnBriefInfo> sortedByVisitorCountDesc = connBriefInfoList.stream()
-                .sorted(ComparatorGenerator2.getComparator(new Sort(Sort.Direction.DESC, "visitCount"), ConnBriefInfo.class))
+                .sorted(ComparatorGenerator2.getComparator(Sort.by(Sort.Direction.DESC, "visitCount"), ConnBriefInfo.class))
                 .collect(Collectors.toList());
 
         System.out.println(sortedByVisitorCountDesc);
 
 
         List<ConnBriefInfo> sortedByLastTime = connBriefInfoList.stream()
-                .sorted(ComparatorGenerator2.getComparator(new Sort(Sort.Direction.DESC, "lastTime"), ConnBriefInfo.class))
+                .sorted(ComparatorGenerator2.getComparator(Sort.by(Sort.Direction.DESC, "lastTime"), ConnBriefInfo.class))
                 .collect(Collectors.toList());
 
         System.out.println(sortedByLastTime);
@@ -57,7 +57,7 @@ public class ComparatorGeneratorTest2 {
                 new Student("lian", 27)
         );
 
-        List<Student> stuOrderByAge = students.stream().sorted(ComparatorGenerator2.getComparator(new Sort(Sort.Direction.DESC, "age"), Student.class))
+        List<Student> stuOrderByAge = students.stream().sorted(ComparatorGenerator2.getComparator(Sort.by(Sort.Direction.DESC, "age"), Student.class))
                 .collect(Collectors.toList());
 
         System.out.println(stuOrderByAge);

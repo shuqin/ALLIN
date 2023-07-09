@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="avoidingOversold" class="cc.lovesq.model.AvoidingOversold">
+        <constructor-arg name="goods" value="AlgorithmCourse:101"/>
+        <constructor-arg name="permits" value="100"/>
+    </bean>
+
+    <import resource="spring-redisson.xml"/>
+    <import resource="spring-threadpool.xml"/>
+    <import resource="spring-redis.xml"/>
+    <import resource="spel.xml"/>
+</beans>

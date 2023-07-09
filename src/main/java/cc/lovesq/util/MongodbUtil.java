@@ -2,7 +2,7 @@ package cc.lovesq.util;
 
 import cc.lovesq.repository.MongoRepository;
 import com.mongodb.Mongo;
-import org.springframework.data.authentication.UserCredentials;
+import com.mongodb.MongoClient;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
@@ -17,7 +17,7 @@ public class MongodbUtil {
     public static MongoRepository getInstance() {
         if (repository == null) {
             repository = new MongoRepository(
-                    new MongoTemplate(new Mongo(), "detect", new UserCredentials("test", "test")));
+                    new MongoTemplate(new MongoClient(), "detect"));
         }
         return repository;
     }

@@ -1,0 +1,7 @@
+|connect|
+|clean table|creative|
+|insert|creative|
+|creative_id|title|content|comment|submitter|
+|111|Good|Good idea for education|oh|qinshu|
+
+|commit|

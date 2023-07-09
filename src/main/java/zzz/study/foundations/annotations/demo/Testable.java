@@ -15,12 +15,12 @@ public class Testable {
         System.out.println("dispatch execute..");
     }
 
-    @Test(id = 1, desc = "global")
+    @CustomizedTest(id = 1, desc = "global")
     void testExecute() {
         execute();
     }
 
-    @Test(id = 2, desc = "local")
+    @CustomizedTest(id = 2, desc = "local")
     void testLocal() {
         execLocal();
     }

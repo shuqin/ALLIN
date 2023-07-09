@@ -1,6 +1,6 @@
 package zzz.study.datastructure.hash;
 
-import shared.utils.ArrayUtil;
+import shared.utils.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class Prefix {
             prefixList.add(prefix);
 
             for (String word : words) {
-                ArrayUtil.shift(prefixWords, word);
+                ArrayUtils.shift(prefixWords, word);
                 System.out.println(Arrays.toString(prefixWords));
                 prefixList.add(new Prefix(prefixWords));
             }

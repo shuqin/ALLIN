@@ -2,7 +2,7 @@ package cc.lovesq.result;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import shared.utils.GsonUtil;
+import shared.utils.GsonUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -44,7 +44,7 @@ public class JsonResult implements Serializable {
     }
 
     public <T> List<T> toListData(TypeToken<?> token) {
-        Gson gson = GsonUtil.getGson();
+        Gson gson = GsonUtils.getGson();
         String dataStr = gson.toJson(data);
         return gson.fromJson(dataStr, token.getType());
     }
@@ -55,7 +55,7 @@ public class JsonResult implements Serializable {
             if (clazz.equals(String.class)) {
                 return (T) data.get(0);
             }
-            Gson gson = GsonUtil.getGson();
+            Gson gson = GsonUtils.getGson();
             return gson.fromJson(gson.toJson(data.get(0)), clazz);
         }
         return null;

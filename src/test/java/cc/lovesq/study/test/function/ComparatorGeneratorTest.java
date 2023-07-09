@@ -33,20 +33,20 @@ public class ComparatorGeneratorTest {
         System.out.println(sortedByFirstTime);
 
         List<ConnBriefInfo> sortedByVisitorCount = connBriefInfoList.stream()
-                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(new Sort("visitCount")))
+                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(Sort.by("visitCount")))
                 .collect(Collectors.toList());
 
         System.out.println(sortedByVisitorCount);
 
         List<ConnBriefInfo> sortedByVisitorCountDesc = connBriefInfoList.stream()
-                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(new Sort(Sort.Direction.DESC, "visitCount")))
+                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(Sort.by(Sort.Direction.DESC, "visitCount")))
                 .collect(Collectors.toList());
 
         System.out.println(sortedByVisitorCountDesc);
 
 
         List<ConnBriefInfo> sortedByLastTime = connBriefInfoList.stream()
-                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(new Sort(Sort.Direction.DESC, "lastTime")))
+                .sorted((Comparator<? super ConnBriefInfo>) ComparatorGenerator.getComparator(Sort.by(Sort.Direction.DESC, "lastTime")))
                 .collect(Collectors.toList());
 
         System.out.println(sortedByLastTime);

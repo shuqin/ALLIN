@@ -3,7 +3,7 @@ package zzz.study.patterns.composite.whiterules;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import shared.utils.JsonUtil;
+import shared.utils.JsonUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,15 +40,15 @@ public interface WhiteRule extends Serializable {
         Op op = Op.getOp(jsonObject.getJSONObject(CONDITION).getString(OP));
         switch (op) {
             case eq:
-                return JsonUtil.toObject(jsonObject.toJSONString(), EqualsRule.class);
+                return JsonUtils.toObject(jsonObject.toJSONString(), EqualsRule.class);
             case neq:
-                return JsonUtil.toObject(jsonObject.toJSONString(), NotEqualsRule.class);
+                return JsonUtils.toObject(jsonObject.toJSONString(), NotEqualsRule.class);
             case in:
-                return JsonUtil.toObject(jsonObject.toJSONString(), InRule.class);
+                return JsonUtils.toObject(jsonObject.toJSONString(), InRule.class);
             case range:
-                return JsonUtil.toObject(jsonObject.toJSONString(), RangeRule.class);
+                return JsonUtils.toObject(jsonObject.toJSONString(), RangeRule.class);
             case match:
-                return JsonUtil.toObject(jsonObject.toJSONString(), MatchRule.class);
+                return JsonUtils.toObject(jsonObject.toJSONString(), MatchRule.class);
             default:
                 return null;
         }

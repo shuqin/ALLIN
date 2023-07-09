@@ -5,7 +5,7 @@ import zzz.study.foundations.sharingclasses.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-import static shared.utils.MapUtil.*;
+import static shared.utils.MapUtils.*;
 
 
 public class MapDemo {

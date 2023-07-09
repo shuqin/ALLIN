@@ -1,7 +1,7 @@
 package cc.lovesq.util;
 
 import cc.lovesq.config.*;
-import shared.utils.YamlUtil;
+import shared.utils.YamlUtils;
 import zzz.study.function.refactor.StreamUtil;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class ConfigUtil {
      * 通过 yml 文件加载对象模型
      */
     public static <T> T load(String ymlFilePath, Class<T> cls) {
-        return YamlUtil.load(ymlFilePath, cls);
+        return YamlUtils.load(ymlFilePath, cls);
     }
 
 }

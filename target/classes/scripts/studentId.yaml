@@ -1,0 +1,4 @@
+name: studentId
+title: 学生编号
+script: |
+  stu.studentId

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!-- 设置日志输出根目录 -->
+    <property name="log.dir" value="/tmp/logs"/>
+    <property name="encoding" value="UTF-8"/>
+    <property name="pattern"
+              value="%d{yyyy-MM-dd.HH:mm:ss} %-5level [%thread] %logger.%M:%L  %msg%n"/>
+
+    <!-- 控制台输出日志 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${pattern}</pattern>
+        </layout>
+    </appender>
+
+    <!-- 主日志 -->
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>info.log</File>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${log.dir}/info.log</file>
+        <prudent>false</prudent>
+        <encoder charset="UTF-8">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/info.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    <!-- 错误日志 -->
+    <appender name="ERROR_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>error.log</File>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <file>${log.dir}/error.log</file>
+        <prudent>false</prudent>
+        <encoder charset="UTF-8">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/error.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.jayway.jsonpath" level="INFO"/>
+    <root level="INFO">
+        <appender-ref ref="stdout"/>
+    </root>
+
+
+</configuration>
